@@ -163,58 +163,123 @@ main{position:relative;z-index:2}
 @keyframes scrollL{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @keyframes scrollR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 
-/* ---------- 05 playground — real 3D desk (Three.js) ---------- */
-.deskscene{position:relative;max-width:1100px;margin:0 auto;aspect-ratio:16/9;
-  border-radius:10px;overflow:hidden;background:radial-gradient(ellipse at 50% 30%,rgba(53,106,145,.1),transparent 70%)}
-#deskCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab}
+/* ---------- 05 playground — lamp-lit desk puzzle (Three.js) ----------
+   One accent here: the lamp's amber (--warm), matching the pre-dawn sky. */
+#play{--pa:var(--warm);--pa-rgb:255,201,139;--wood:#1C1410}
+.play-head .sub{max-width:52ch;margin-left:auto;margin-right:auto;text-wrap:balance}
+.play-time{color:var(--pa);margin-bottom:14px}
+.deskscene{position:relative;max-width:1100px;margin:0 auto;aspect-ratio:2/1;
+  border-radius:14px;overflow:hidden;isolation:isolate;
+  background:radial-gradient(ellipse 70% 60% at 32% 38%,rgba(var(--pa-rgb),.16),transparent 70%),
+             linear-gradient(180deg,rgba(20,14,12,.55),rgba(10,8,8,.8));
+  box-shadow:inset 0 0 0 1px rgba(var(--pa-rgb),.1),0 40px 80px -40px rgba(30,12,4,.9);
+  transition:background .9s var(--ease)}
+.deskscene.is-dark{background:radial-gradient(ellipse 30% 30% at 32% 40%,rgba(var(--pa-rgb),.07),transparent 70%),
+  linear-gradient(180deg,rgba(6,6,10,.75),rgba(4,4,6,.9))}
+#deskCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
 #deskCanvas.hoverable{cursor:pointer}
-#camFlash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;
-  transition:opacity .5s ease;z-index:4}
+#camFlash{position:absolute;inset:0;background:#fff4e6;opacity:0;pointer-events:none;
+  transition:opacity .5s ease;z-index:6}
 .desk-loading{position:absolute;inset:0;display:grid;place-items:center;font-size:.62rem;
   letter-spacing:.2em;text-transform:uppercase;color:var(--muted);transition:opacity .4s}
 .desk-loading.hide{opacity:0;pointer-events:none}
 
-.desk-reset{
-  position:absolute;top:10px;right:10px;display:flex;align-items:center;gap:7px;
-  font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2);
-  background:rgba(8,11,16,.6);border:1px solid var(--line-2);border-radius:20px;padding:7px 13px;
-  cursor:pointer;transition:.3s var(--ease);z-index:3;
-}
-.desk-reset:hover{border-color:var(--cyan);color:var(--text)}
+.desk-status{position:absolute;top:14px;left:14px;z-index:4;margin:0;display:flex;align-items:center;gap:9px;
+  font-size:.64rem;letter-spacing:.08em;color:var(--text);padding:8px 13px 8px 11px;border-radius:999px;
+  background:rgba(12,9,8,.66);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.desk-status i{width:7px;height:7px;border-radius:50%;background:var(--pa);box-shadow:0 0 0 0 rgba(var(--pa-rgb),.6);
+  animation:statusPing 2.2s var(--ease) infinite}
+.desk-status.done i{animation:none;background:#9FD6A4}
+@keyframes statusPing{0%{box-shadow:0 0 0 0 rgba(var(--pa-rgb),.55)}80%,100%{box-shadow:0 0 0 9px rgba(var(--pa-rgb),0)}}
+.desk-tools{position:absolute;top:14px;right:14px;z-index:4;display:flex;gap:8px}
+.desk-btn{display:inline-flex;align-items:center;gap:7px;font-size:.64rem;letter-spacing:.06em;color:var(--text-2);
+  background:rgba(12,9,8,.66);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);border-radius:999px;padding:8px 14px;
+  transition:color .25s var(--ease),box-shadow .25s var(--ease),transform .2s var(--ease),background .25s var(--ease)}
+.desk-btn:hover{color:var(--text);box-shadow:inset 0 0 0 1px rgba(var(--pa-rgb),.55)}
+.desk-btn:active{transform:scale(.97)}
+.desk-btn.solid{background:var(--pa);color:#1a110a;font-weight:600;box-shadow:none}
+.desk-btn.solid:hover{background:#ffd7a8;color:#1a110a}
+.desk-btn.ghost{background:transparent}
+.desk-btn[hidden]{display:none}
 
-/* label — hidden until its object is hovered, focused, or (mobile) active */
+.desk-toast{position:absolute;left:50%;bottom:16px;z-index:5;margin:0;max-width:min(92%,440px);
+  transform:translate(-50%,10px);opacity:0;pointer-events:none;text-align:center;
+  font-size:.74rem;line-height:1.45;color:var(--text);padding:10px 16px;border-radius:12px;
+  background:rgba(12,9,8,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  box-shadow:inset 0 0 0 1px rgba(var(--pa-rgb),.25);transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.desk-toast.show{opacity:1;transform:translate(-50%,0)}
+.desk-toast b{color:var(--pa);font-weight:600}
+
+/* label — follows its object; shown on hover, focus, or (touch) tap */
 .callout{
-  position:absolute;transform:translate(-50%,-96%);background:rgba(8,11,16,.88);
-  border:1px solid var(--line-2);border-radius:8px;padding:9px 13px;min-width:130px;
-  text-align:left;line-height:1.3;z-index:2;pointer-events:none;font:inherit;
-  opacity:0;transition:opacity .25s var(--ease),transform .2s linear;
+  position:absolute;left:0;top:0;background:rgba(12,9,8,.9);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);border-radius:10px;padding:9px 13px;
+  text-align:left;line-height:1.3;z-index:3;pointer-events:none;
+  opacity:0;transition:opacity .22s var(--ease);will-change:transform;
 }
 .callout::after{
-  content:"";position:absolute;left:50%;bottom:-5px;transform:translateX(-50%) rotate(45deg);
-  width:8px;height:8px;background:rgba(8,11,16,.88);border-right:1px solid var(--line-2);
-  border-bottom:1px solid var(--line-2);
+  content:"";position:absolute;left:var(--tip,50%);bottom:-4px;margin-left:-4px;transform:rotate(45deg);
+  width:8px;height:8px;background:rgba(12,9,8,.9);
 }
-.callout-t{font-size:.7rem;font-weight:600;color:var(--text);white-space:nowrap}
-.callout-s{font-size:.6rem;color:var(--text-2);margin-top:3px;white-space:nowrap}
-.callout.show{opacity:1;transform:translate(-50%,-100%)}
-/* keyboard-only fallback controls: invisible to the eye, real to a screen reader / Tab key */
+.callout-t{display:block;font-size:.7rem;font-weight:600;color:var(--text);white-space:nowrap}
+.callout-s{display:block;font-size:.62rem;color:var(--text-2);margin-top:3px;white-space:nowrap}
+.callout.show{opacity:1}
+.callout.found .callout-t::after{content:" ✓";color:var(--pa)}
+/* keyboard fallback controls: invisible until focused, then pinned over their object */
 .obj-key{
-  position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
-  border:0;background:none;
+  position:absolute;left:0;top:0;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0 0 0 0);border:0;background:none;
 }
-.obj-key:focus-visible{width:auto;height:auto;margin:0;padding:4px 8px;overflow:visible;
-  background:rgba(8,11,16,.9);border:1px solid var(--cyan);border-radius:6px;color:var(--text);
-  font-size:.6rem;z-index:5;transform:translate(-50%,-100%)}
+.obj-key:focus-visible{width:34px;height:34px;margin:-17px 0 0 -17px;clip:auto;overflow:visible;
+  border-radius:50%;box-shadow:0 0 0 2px var(--pa),0 0 0 6px rgba(var(--pa-rgb),.25);outline:none;z-index:5;
+  color:transparent}
 
-.desk-hint{text-align:center;margin-top:22px;font-size:.62rem;letter-spacing:.24em;
+/* ---- field notes ---- */
+.journal{max-width:1100px;margin:18px auto 0;display:grid;grid-template-columns:240px 1fr;gap:18px;
+  padding:22px;border-radius:14px;background:rgba(14,10,9,.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.journal-side{padding:4px 6px}
+.journal-count{margin:10px 0 22px;display:flex;align-items:baseline;gap:6px}
+.journal-count b{font-size:2.3rem;font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--text)}
+.journal-count span{font-size:.72rem;color:var(--muted)}
+.journal-lbl{font-size:.64rem;color:var(--text-2);margin:0 0 9px}
+.pass{display:flex;gap:7px}
+.pass span{width:38px;height:44px;border-radius:9px;display:grid;place-items:center;
+  font-size:1.05rem;font-weight:600;color:var(--pa);background:rgba(255,255,255,.03);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);transition:box-shadow .4s var(--ease),background .4s var(--ease)}
+.pass span:empty::before{content:"";width:12px;height:1px;background:var(--muted)}
+.pass span.got{background:rgba(var(--pa-rgb),.08);box-shadow:inset 0 0 0 1px rgba(var(--pa-rgb),.5);animation:slotIn .6s var(--ease)}
+@keyframes slotIn{0%{transform:translateY(-8px) scale(1.2);opacity:0}100%{transform:none;opacity:1}}
+.journal-help{font-size:.7rem;line-height:1.55;color:var(--muted);margin:12px 0 0;max-width:28ch}
+
+.notes{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:start}
+.note{position:relative;padding:14px 16px 15px;border-radius:10px;background:rgba(255,255,255,.025);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);transition:background .4s var(--ease),box-shadow .4s var(--ease)}
+.note-k{display:flex;justify-content:space-between;align-items:center;font-size:.6rem;letter-spacing:.14em;
   text-transform:uppercase;color:var(--muted)}
+.note-k em{font-style:normal;letter-spacing:0;font-size:.7rem;font-weight:600;color:var(--pa)}
+.note-t{font-size:.86rem;font-weight:600;color:var(--text);margin:8px 0 5px}
+.note-s{font-size:.72rem;line-height:1.6;color:var(--text-2);margin:0}
+.note.locked .note-t{color:var(--muted);font-weight:500}
+.note.locked .note-s{color:var(--muted);opacity:.7;font-style:italic}
+.note.fresh{background:rgba(var(--pa-rgb),.07);box-shadow:inset 0 0 0 1px rgba(var(--pa-rgb),.35);animation:noteIn .7s var(--ease)}
+@keyframes noteIn{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:none}}
 
-.chiprow{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;max-width:1100px;
-  margin:clamp(28px,4vw,40px) auto 0}
-.chip{border:1px solid var(--line-2);border-radius:8px;padding:14px;background:var(--bg-3)}
-.chip svg{width:16px;height:16px;stroke:var(--cyan);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.chip-t{font-size:.75rem;font-weight:600;color:var(--text);margin-top:10px}
-.chip-s{font-size:.66rem;color:var(--text-2);margin-top:3px;line-height:1.4}
+.finale{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,4vw,40px);align-items:center;
+  padding-top:20px;margin-top:4px;border-top:1px solid rgba(255,255,255,.07);animation:noteIn .8s var(--ease)}
+.finale[hidden]{display:none}
+.polaroid{margin:0;width:220px;padding:10px 10px 0;background:#F4EDE2;border-radius:4px;transform:rotate(-3deg);
+  box-shadow:0 24px 40px -18px rgba(20,8,2,.8);transition:transform .4s var(--ease)}
+.polaroid:hover{transform:rotate(0) scale(1.02)}
+.polaroid-img{aspect-ratio:4/3;background:#1a1411;display:grid;place-items:center;overflow:hidden}
+.polaroid-img img{width:100%;height:100%;object-fit:cover;display:block}
+.polaroid-img span{font-size:.62rem;color:#8a7a6a;text-align:center;padding:0 16px}
+.polaroid figcaption{font-size:.66rem;color:#5a4a3c;text-align:center;padding:10px 0 12px;font-style:italic}
+.finale-title{font-size:clamp(1.4rem,2.6vw,1.9rem);font-weight:600;letter-spacing:-.02em;margin:10px 0 10px;color:var(--text)}
+.finale .sub{max-width:52ch;font-size:.9rem}
+.finale-cta{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 
 /* ---------- 06 home ---------- */
 #home{text-align:center}
@@ -426,9 +491,10 @@ main{position:relative;z-index:2}
   .mrow{animation-duration:22s}
   .mrow.rev{animation-duration:19s}
   .gap{height:34vh}
-  .callout{display:none}
-  .callout.show{display:block}
-  .chiprow{grid-template-columns:repeat(2,1fr)}
+  .deskscene{aspect-ratio:4/3}
+  .journal{grid-template-columns:1fr;padding:18px}
+  .finale{grid-template-columns:1fr;justify-items:center;text-align:center}
+  .finale-cta{justify-content:center}
   .pns{grid-template-columns:1fr}
   .pns>div+div{padding:18px 0 4px;border-left:0;border-top:1px solid var(--line)}
   .case-timeline{grid-template-columns:1fr;gap:30px}
@@ -439,6 +505,11 @@ main{position:relative;z-index:2}
 }
 @media(max-width:520px){
   .hero-meta{font-size:.55rem;letter-spacing:.22em}
+  .deskscene{aspect-ratio:1/1}
+  .notes{grid-template-columns:1fr}
+  .desk-status{top:10px;left:10px;font-size:.58rem}
+  .desk-tools{top:auto;bottom:10px;right:10px}
+  .desk-toast{bottom:54px;font-size:.66rem;padding:8px 12px;max-width:86%}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
@@ -583,56 +654,76 @@ main{position:relative;z-index:2}
 <!-- ═════════ 05 PLAYGROUND ═════════ -->
 <section class="sec" id="play">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head play-head">
+      <p class="eyebrow play-time">4:30 AM · the desk</p>
       <h2 class="display h-sec">The road less travelled</h2>
-      <p class="sub">A small space for big curiosity. Click things on the desk.</p>
+      <p class="sub">It's dark in here. Find the light, then crack the laptop's password. Everything on this desk knows something about me.</p>
     </div>
 
-    <div class="deskscene" id="deskscene">
-      <button class="desk-reset" id="deskReset">↺ Reset desk</button>
+    <div class="deskscene is-dark" id="deskscene">
+      <p class="desk-status" id="deskStatus"><i></i><span>Step 1 · Find the light</span></p>
+      <div class="desk-tools">
+        <button class="desk-btn" id="deskHint">Need a hint?</button>
+        <button class="desk-btn" id="deskReset">↺ Reset</button>
+      </div>
       <p class="desk-loading" id="deskLoading">Setting up the desk…</p>
       <canvas id="deskCanvas" aria-hidden="true"></canvas>
       <div id="camFlash" aria-hidden="true"></div>
+      <p class="desk-toast" id="deskToast" role="status" aria-live="polite"></p>
 
-      <!-- keyboard-only fallback: Tab through these to reach every object -->
-      <button class="obj-key" id="cPlant" style="left:10%;top:56%">Plant — balance</button>
-      <button class="obj-key" id="cCamera" style="left:11%;top:86%">Camera — click to take a photo</button>
-      <button class="obj-key" id="cBooks" style="left:25%;top:74%">Books — learning</button>
-      <button class="obj-key" id="cLamp" style="left:29%;top:57%">Lamp — click to turn on the light</button>
-      <button class="obj-key" id="cNote" style="left:44%;top:72%">Notebook — click to turn the page</button>
-      <button class="obj-key" id="cLaptop" style="left:68%;top:34%">Laptop — where ideas take shape</button>
-      <button class="obj-key" id="cPhone" style="left:74%;top:74%">Phone — everyday curiosity</button>
-      <button class="obj-key" id="cCoffee" style="left:86%;top:76%">Coffee — fuel for deep work</button>
-      <button class="obj-key" id="cPhones" style="left:90%;top:36%">Headphones — music for focus</button>
-      <button class="obj-key" id="cSticky" style="left:95%;top:78%">Sticky notes — click for a thought</button>
+      <!-- keyboard fallback: Tab through these to reach every object -->
+      <button class="obj-key" id="cLamp">Lamp</button>
+      <button class="obj-key" id="cNote">Notebook</button>
+      <button class="obj-key" id="cBooks">Books</button>
+      <button class="obj-key" id="cSticky">Sticky notes</button>
+      <button class="obj-key" id="cCoffee">Coffee</button>
+      <button class="obj-key" id="cLaptop">Laptop</button>
+      <button class="obj-key" id="cPlant">Plant</button>
+      <button class="obj-key" id="cPhones">Headphones</button>
+      <button class="obj-key" id="cPhone">Phone</button>
+      <button class="obj-key" id="cCamera">Camera</button>
 
-      <div class="callout" id="lblPlant" style="left:10%;top:56%"><span class="callout-t">Plant</span><span class="callout-s">Balance.</span></div>
-      <div class="callout" id="lblCamera" style="left:11%;top:86%"><span class="callout-t">Camera</span><span class="callout-s">Click to take a photo</span></div>
-      <div class="callout" id="lblBooks" style="left:25%;top:74%"><span class="callout-t">Books</span><span class="callout-s">Learning.</span></div>
-      <div class="callout" id="lblLamp" style="left:29%;top:57%"><span class="callout-t">Lamp</span><span class="callout-s">Click to turn on the light</span></div>
-      <div class="callout" id="lblNote" style="left:44%;top:72%"><span class="callout-t">Notebook</span><span class="callout-s">Ideas, sketches, random thoughts</span></div>
-      <div class="callout" id="lblLaptop" style="left:68%;top:34%"><span class="callout-t">Laptop</span><span class="callout-s">Where ideas take shape</span></div>
-      <div class="callout" id="lblPhone" style="left:74%;top:74%"><span class="callout-t">Phone</span><span class="callout-s">Everyday curiosity</span></div>
-      <div class="callout" id="lblCoffee" style="left:86%;top:76%"><span class="callout-t">Coffee</span><span class="callout-s">Fuel for deep work.</span></div>
-      <div class="callout" id="lblPhones" style="left:90%;top:36%"><span class="callout-t">Headphones</span><span class="callout-s">Music for focus</span></div>
-      <div class="callout" id="lblSticky" style="left:95%;top:78%"><span class="callout-t">Sticky Notes</span><span class="callout-s">Click for a thought</span></div>
+      <!-- callouts are positioned from the 3D scene every frame -->
+      <div class="callout" id="lblLamp"><span class="callout-t">Lamp</span><span class="callout-s">Click to switch it on</span></div>
+      <div class="callout" id="lblNote"><span class="callout-t">Notebook</span><span class="callout-s">Open it</span></div>
+      <div class="callout" id="lblBooks"><span class="callout-t">Books</span><span class="callout-s">Something's tucked between them</span></div>
+      <div class="callout" id="lblSticky"><span class="callout-t">Sticky notes</span><span class="callout-s">Peel one off</span></div>
+      <div class="callout" id="lblCoffee"><span class="callout-t">Coffee</span><span class="callout-s">Finish the cup</span></div>
+      <div class="callout" id="lblLaptop"><span class="callout-t">Laptop</span><span class="callout-s">Locked · 4-letter password</span></div>
+      <div class="callout" id="lblPlant"><span class="callout-t">Plant</span><span class="callout-s">Give it a nudge</span></div>
+      <div class="callout" id="lblPhones"><span class="callout-t">Headphones</span><span class="callout-s">Put them on</span></div>
+      <div class="callout" id="lblPhone"><span class="callout-t">Phone</span><span class="callout-s">Unread messages</span></div>
+      <div class="callout" id="lblCamera"><span class="callout-t">Camera</span><span class="callout-s">Save it for last</span></div>
     </div>
 
-    <p class="desk-hint">Hover · Click · Explore</p>
-
-    <div class="chiprow">
-      <div class="chip"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8"/></svg>
-        <p class="chip-t">Product Design</p><p class="chip-s">Build useful, human-centred products.</p></div>
-      <div class="chip"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
-        <p class="chip-t">UX Research</p><p class="chip-s">Talking to users before designing.</p></div>
-      <div class="chip"><svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
-        <p class="chip-t">AI / ML UX</p><p class="chip-s">Designing for probabilistic products.</p></div>
-      <div class="chip"><svg viewBox="0 0 24 24"><rect x="2" y="9" width="20" height="10" rx="2"/><path d="M6 13h2M11 13h2M16 13h2"/></svg>
-        <p class="chip-t">Django / Backend</p><p class="chip-s">Building the product, not just the picture.</p></div>
-      <div class="chip"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-6 4 4 5-8"/></svg>
-        <p class="chip-t">Data Visualisation</p><p class="chip-s">Making complexity readable.</p></div>
-      <div class="chip"><svg viewBox="0 0 24 24"><path d="M12 2v6M12 16v6M2 12h6M16 12h6"/><circle cx="12" cy="12" r="3"/></svg>
-        <p class="chip-t">Prototyping</p><p class="chip-s">Build fast, test faster.</p></div>
+    <!-- REPLACE: the note copy lives in NOTES inside the playground script -->
+    <div class="journal" id="journal">
+      <div class="journal-side">
+        <p class="eyebrow">Field notes</p>
+        <p class="journal-count"><b id="noteCount">0</b><span>/7 found</span></p>
+        <p class="journal-lbl">Laptop password</p>
+        <div class="pass" id="pass" aria-label="Password letters found">
+          <span data-slot="0"></span><span data-slot="1"></span><span data-slot="2"></span><span data-slot="3"></span>
+        </div>
+        <p class="journal-help" id="journalHelp">Four objects are hiding one letter each.</p>
+      </div>
+      <ol class="notes" id="notes"></ol>
+      <div class="finale" id="finale" hidden>
+        <figure class="polaroid" id="polaroid">
+          <div class="polaroid-img" id="polaroidImg"><span>Click the camera on the desk</span></div>
+          <figcaption>4:30 AM · you found me</figcaption>
+        </figure>
+        <div class="finale-copy">
+          <p class="eyebrow">Unlocked</p>
+          <h3 class="finale-title">Hi, I'm Shanmugam.</h3>
+          <p class="sub">Self-taught product designer. I start with the user, keep things simple, read everything and build what I design. You just met most of me.</p>
+          <div class="finale-cta">
+            <a class="desk-btn solid" href="#works">See the work →</a>
+            <a class="desk-btn" href="#home">Say hello</a>
+            <a class="desk-btn ghost" id="polaroidSave" download="shanmugam-desk.png" hidden>Save the photo</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1133,452 +1224,700 @@ const jrn=(function(){
   return function(){};
 })();
 
-/* ═══════ PLAYGROUND — a real 3D desk (Three.js) ═══════ */
+/* ═══════ PLAYGROUND — lamp-lit desk puzzle (Three.js) ═══════
+   Flow: switch the lamp on → find the 4 password letters hidden in
+   objects (U·S·E·R) → laptop unlocks → camera takes a souvenir photo. */
 (function(){
   const container=document.getElementById("deskscene");
   const canvas=document.getElementById("deskCanvas");
   const loading=document.getElementById("deskLoading");
   if(!container||!canvas) return;
-  if(typeof THREE==="undefined"){ if(loading) loading.textContent="The desk couldn't load — try the list below."; return; }
+  if(typeof THREE==="undefined"){ if(loading) loading.textContent="The desk couldn't load. Refresh to try again."; return; }
 
+  const $=id=>document.getElementById(id);
+  const statusEl=$("deskStatus"), toastEl=$("deskToast"), notesEl=$("notes"), countEl=$("noteCount");
+  const passEl=$("pass"), helpEl=$("journalHelp"), finaleEl=$("finale");
+  const AMBER="#FFC98B";
+
+  /* ---- content — REPLACE: make these notes yours ---- */
+  const NOTES=[
+    {id:"cNote",   obj:"Notebook",     letter:"U", slot:0, t:"Users before pixels", s:"Every project starts on a notebook page: who is it for, what's the problem, what's the context.", hint:"Something on the desk has pages. Open it."},
+    {id:"cSticky", obj:"Sticky notes", letter:"S", slot:1, t:"Simple survives", s:"Most of design is deleting. These sticky notes are the ideas that made it through.", hint:"Small, square, far right. Peel one off."},
+    {id:"cCoffee", obj:"Coffee",       letter:"E", slot:2, t:"Engineer, too", s:"I build what I design, Django and backend included. Usually around the third cup.", hint:"Something's written on the bottom of a cup."},
+    {id:"cBooks",  obj:"Books",        letter:"R", slot:3, t:"Read everything", s:"100% self-taught. Books, docs and a lot of broken builds did the teaching.", hint:"Look between the books in the stack."},
+    {id:"cPlant",  obj:"Plant",        t:"Growing slowly", s:"School, then college (2020–24), now designing AI and data products at Chadura Tech.", hint:"Something green wants a nudge."},
+    {id:"cPhones", obj:"Headphones",   t:"Focus mode", s:"Headphones on means deep work: flows, systems, interaction. Don't take it personally.", hint:"Something for your ears, back right."},
+    {id:"cPhone",  obj:"Phone",        t:"Everyday curiosity", s:"Half my camera roll is screenshots of apps that did something really well, or really badly.", hint:"Someone left you a message."}
+  ];
+  const LAPTOP_LINES=["Hi, I'm Shanmugam.","Product designer · AI · Data","One more thing: grab the camera."];
+  const PHONE_LINES=["3 new messages","“Talk to users today.”","“Ship it. Learn. Improve.”"];
+  const NOTE_BY_ID={}; NOTES.forEach(n=>NOTE_BY_ID[n.id]=n);
+  const LETTER_IDS=NOTES.filter(n=>n.letter).map(n=>n.id);
+
+  const state={lampOn:false,found:new Set(),unlocked:false,typing:false,photo:false,laptopLine:0,phoneLine:-1,phonesOn:false};
+
+  /* ---- renderer / camera ---- */
   const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
   renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
   const scene=new THREE.Scene();
-  const camera=new THREE.PerspectiveCamera(36,1,.1,100);
-  camera.position.set(0,6.4,9.4);
-  camera.lookAt(0,.6,0);
-  const baseCamPos=camera.position.clone();
-
+  const camera=new THREE.PerspectiveCamera(34,1,.1,100);
+  const LOOK=new THREE.Vector3(0,.2,.3);
+  const CAM_OFF=new THREE.Vector3(0,6.6,9.2);
+  const DESK_W=14.4, DESK_D=6.8;
+  const corners=[[-1,-1],[1,-1],[-1,1],[1,1]].map(([sx,sz])=>new THREE.Vector3(sx*DESK_W/2,0,sz*DESK_D/2));
+  const basePos=new THREE.Vector3();
+  // view offset: centres the desk vertically and, on narrow screens, pans it sideways
+  const view={w:1,h:1,cy:0,pan:0,panMax:0,narrow:false};
+  function applyView(){
+    view.pan=Math.max(-view.panMax,Math.min(view.panMax,view.pan));
+    camera.setViewOffset(view.w,view.h,view.pan*view.w/2,-view.cy*view.h/2,view.w,view.h);
+  }
+  function fitCamera(){
+    // back the camera off until the desk fits: whole width on wide screens, about half on phones (drag to see the rest)
+    const v=new THREE.Vector3(), xLim=view.narrow?1.75:.95;
+    let xExt=0, minY=0, maxY=0;
+    camera.clearViewOffset();
+    for(let f=.6;f<3;f+=.02){
+      camera.position.copy(LOOK).addScaledVector(CAM_OFF,f);
+      camera.lookAt(LOOK); camera.updateMatrixWorld(); camera.updateProjectionMatrix();
+      xExt=0; minY=9; maxY=-9;
+      corners.forEach(c=>{ v.copy(c).project(camera); xExt=Math.max(xExt,Math.abs(v.x)); minY=Math.min(minY,v.y); maxY=Math.max(maxY,v.y); });
+      if(xExt<=xLim&&(maxY-minY)/2<=.84) break;
+    }
+    basePos.copy(camera.position);
+    view.cy=(minY+maxY)/2;
+    view.panMax=Math.max(0,xExt-.94);
+    if(!view.narrow) view.pan=0; else if(!view.touched){ v.set(-3.6,.8,-.85).project(camera); view.pan=v.x; } // start on the lamp
+    applyView();
+  }
   function resize(){
     const r=container.getBoundingClientRect();
     if(r.width<10) return;
     renderer.setSize(r.width,r.height,false);
     camera.aspect=r.width/Math.max(r.height,1);
-    camera.updateProjectionMatrix();
+    view.w=r.width; view.h=r.height; view.narrow=r.width<640;
+    fitCamera();
   }
   window.addEventListener("resize",resize);
   resize();
 
-  // lighting — ambient fill + a cool key light + the lamp's warm practical
-  const amb=new THREE.AmbientLight(0x2a3a4d,.75);
-  scene.add(amb);
-  const key=new THREE.DirectionalLight(0x9fd8ff,.4);
-  key.position.set(2,9,5);
-  scene.add(key);
-  const lampLight=new THREE.PointLight(0xffc98b,0,9,2);
-  lampLight.position.set(-2.6,2.1,-.8);
-  scene.add(lampLight);
+  /* ---- light: dark room until the lamp comes on ---- */
+  const hemi=new THREE.HemisphereLight(0xffd9b3,0x140c0a,.12); scene.add(hemi);
+  const key=new THREE.DirectionalLight(0xffe4c8,.04); key.position.set(4,9,6); scene.add(key);
+  const LAMP_HEAD=new THREE.Vector3(-3.6,1.62,-1.95);
+  const lampLight=new THREE.PointLight(0xffc98b,0,16,2); lampLight.position.copy(LAMP_HEAD).add(new THREE.Vector3(0,-.2,.2)); scene.add(lampLight);
 
-  // materials
-  const darkMat=()=>new THREE.MeshStandardMaterial({color:0x141c28,roughness:.88,metalness:.04});
-  const cyanLine=()=>new THREE.LineBasicMaterial({color:0x8bdfff,transparent:true,opacity:.6});
-  const violetLine=()=>new THREE.LineBasicMaterial({color:0x7669b8,transparent:true,opacity:.6});
-  function edged(mesh,lineMat){ mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry),lineMat||cyanLine())); return mesh; }
-  function block(w,h,d,mat){ return edged(new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat||darkMat())); }
-  function cyl(rt,rb,h,seg,mat){ return edged(new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,seg||10),mat||darkMat())); }
-
-  // a soft round sprite used for steam
-  const steamTex=(function(){
-    const c=document.createElement("canvas"); c.width=c.height=64;
-    const ctx=c.getContext("2d");
-    const g=ctx.createRadialGradient(32,32,0,32,32,32);
-    g.addColorStop(0,"rgba(139,223,255,.55)"); g.addColorStop(1,"rgba(139,223,255,0)");
-    ctx.fillStyle=g; ctx.fillRect(0,0,64,64);
-    return new THREE.CanvasTexture(c);
-  })();
-  function textTexture(text,size){
-    const c=document.createElement("canvas"); c.width=256; c.height=96;
-    const ctx=c.getContext("2d");
-    ctx.clearRect(0,0,256,96);
-    ctx.fillStyle="rgba(139,223,255,.95)";
-    ctx.font=(size||26)+"px 'Plus Jakarta Sans',sans-serif";
-    ctx.textBaseline="middle";
-    ctx.fillText(text,6,48);
-    const tex=new THREE.CanvasTexture(c); tex.needsUpdate=true;
-    return tex;
+  /* ---- materials + helpers ---- */
+  const lineMat=new THREE.LineBasicMaterial({color:0xffc98b,transparent:true,opacity:.22});
+  const mat=(color,rough)=>new THREE.MeshStandardMaterial({color,roughness:rough==null?.8:rough,metalness:.02});
+  function edged(mesh){ mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry,30),lineMat)); return mesh; }
+  function block(w,h,d,m){ return edged(new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m||mat(0x2d2521))); }
+  function cyl(rt,rb,h,seg,m){ return edged(new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,seg||16),m||mat(0x2d2521))); }
+  function canvasTex(w,h,draw){
+    const c=document.createElement("canvas"); c.width=w; c.height=h;
+    const ctx=c.getContext("2d"); const tex=new THREE.CanvasTexture(c);
+    const api={tex,draw(fn){ ctx.clearRect(0,0,w,h); fn(ctx,w,h); tex.needsUpdate=true; }};
+    if(draw) api.draw(draw);
+    return api;
   }
+  const FONT="'Plus Jakarta Sans',sans-serif";
+  const shadowTex=canvasTex(128,128,(ctx)=>{
+    const g=ctx.createRadialGradient(64,64,0,64,64,64);
+    g.addColorStop(0,"rgba(0,0,0,.75)"); g.addColorStop(.55,"rgba(0,0,0,.35)"); g.addColorStop(1,"rgba(0,0,0,0)");
+    ctx.fillStyle=g; ctx.fillRect(0,0,128,128);
+  }).tex;
+  const glowTex=canvasTex(128,128,(ctx)=>{
+    const g=ctx.createRadialGradient(64,64,0,64,64,64);
+    g.addColorStop(0,"rgba(255,214,160,.9)"); g.addColorStop(.35,"rgba(255,190,120,.35)"); g.addColorStop(1,"rgba(255,180,110,0)");
+    ctx.fillStyle=g; ctx.fillRect(0,0,128,128);
+  }).tex;
 
-  const objects={};      // id -> {group, hit, hover:bool, active:bool}
-  const hitMeshes=[];
-  const DESK={minX:-7.8,maxX:7.8,minZ:-3.4,maxZ:3.4};
-  function register(id,group,pos,hitSize){
-    group.position.set(pos[0],pos[1],pos[2]);
-    group.userData.baseScale=group.scale.x||1;
-    scene.add(group);
-    const hit=new THREE.Mesh(new THREE.BoxGeometry(hitSize[0],hitSize[1],hitSize[2]),new THREE.MeshBasicMaterial({visible:false}));
-    hit.position.set(pos[0],pos[1]+hitSize[1]/2,pos[2]);
-    hit.userData.id=id;
-    scene.add(hit); hitMeshes.push(hit);
-    objects[id]={group,hit,hover:false,active:false,origPos:[pos[0],pos[1],pos[2]],hitY:pos[1]+hitSize[1]/2};
-  }
-
-  /* ---- plant ---- */
+  /* ---- the desk itself ---- */
   (function(){
-    const potMat=new THREE.MeshStandardMaterial({color:0xC97B4A,roughness:.8});
-    const leafMat=new THREE.MeshStandardMaterial({color:0x5FBF7A,roughness:.7});
+    const top=block(DESK_W,.32,DESK_D,mat(0x2a1d16,.72)); top.position.y=-.16; scene.add(top);
+    // wood grain: faint strips across the top
+    const grain=canvasTex(512,256,(ctx,w,h)=>{
+      for(let i=0;i<46;i++){ ctx.strokeStyle=`rgba(255,210,170,${.012+Math.random()*.03})`; ctx.lineWidth=1+Math.random()*2;
+        const y=Math.random()*h; ctx.beginPath(); ctx.moveTo(0,y);
+        ctx.bezierCurveTo(w*.3,y+(Math.random()-.5)*14,w*.7,y+(Math.random()-.5)*14,w,y+(Math.random()-.5)*8); ctx.stroke(); }
+    });
+    const g=new THREE.Mesh(new THREE.PlaneGeometry(DESK_W,DESK_D),new THREE.MeshBasicMaterial({map:grain.tex,transparent:true,depthWrite:false}));
+    g.rotation.x=-Math.PI/2; g.position.y=.002; scene.add(g);
+  })();
+
+  const unlit=[]; // MeshBasic surfaces (paper) that ignore lights: dimmed by hand in the dark
+  /* ---- object registry ---- */
+  const objects={}, hitMeshes=[];
+  function register(id,group,pos,hit){
+    group.position.set(pos[0],0,pos[1]);
+    scene.add(group);
+    const sh=new THREE.Mesh(new THREE.PlaneGeometry(hit[0]*1.25,hit[2]*1.25),new THREE.MeshBasicMaterial({map:shadowTex,transparent:true,depthWrite:false,opacity:.55}));
+    sh.rotation.x=-Math.PI/2; sh.position.set(pos[0],.006,pos[1]); scene.add(sh);
+    const hm=new THREE.Mesh(new THREE.BoxGeometry(hit[0],hit[1],hit[2]),new THREE.MeshBasicMaterial({visible:false}));
+    hm.position.set(pos[0],hit[1]/2,pos[1]); hm.userData.id=id; scene.add(hm); hitMeshes.push(hm);
+    objects[id]={id,group,anchor:new THREE.Vector3(pos[0],hit[1]+.12,pos[1]),hover:false,focus:false};
+    return objects[id];
+  }
+
+  /* lamp — back left, the only thing glowing at the start */
+  (function(){
+    const g=new THREE.Group(), brass=mat(0x6b5a45,.5);
+    const base=cyl(.34,.4,.12,20,brass); base.position.y=.06; g.add(base);
+    const arm1=cyl(.035,.035,1.2,8,brass); arm1.position.set(0,.66,-.12); arm1.rotation.x=-.2; g.add(arm1);
+    const arm2=cyl(.03,.03,.95,8,brass); arm2.position.set(0,1.38,-.62); arm2.rotation.x=-1.05; g.add(arm2);
+    const shade=edged(new THREE.Mesh(new THREE.ConeGeometry(.38,.46,20,1,true),new THREE.MeshStandardMaterial({color:0xD9A864,roughness:.6,side:THREE.DoubleSide})));
+    shade.position.set(0,1.72,-1.1); shade.rotation.x=Math.PI+.35; g.add(shade);
+    const bulb=new THREE.Mesh(new THREE.SphereGeometry(.13,14,14),new THREE.MeshBasicMaterial({color:0xffd9a8,transparent:true,opacity:.35}));
+    bulb.position.set(0,1.56,-1.02); g.add(bulb);
+    const halo=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,transparent:true,opacity:.2,depthWrite:false,blending:THREE.AdditiveBlending}));
+    halo.position.copy(bulb.position); halo.scale.set(1.3,1.3,1); g.add(halo);
+    // warm pool of light on the desk
+    const pool=new THREE.Mesh(new THREE.PlaneGeometry(7,5),new THREE.MeshBasicMaterial({map:glowTex,transparent:true,opacity:0,depthWrite:false,blending:THREE.AdditiveBlending}));
+    pool.rotation.x=-Math.PI/2; pool.position.set(.6,.01,.2); g.add(pool);
+    const o=register("cLamp",g,[-3.6,-.85],[1.3,2.1,1.6]);
+    Object.assign(o,{bulb,halo,pool,shade});
+  })();
+
+  /* plant — back left corner */
+  (function(){
     const g=new THREE.Group();
-    const pot=block(.7,.5,.7,potMat); pot.position.y=.25; g.add(pot);
-    const stem=cyl(.03,.03,.55,6); stem.position.y=.78; g.add(stem);
-    const leafDefs=[[-.5,0,.35],[.45,.25,.15],[0,-.2,.5]];
-    const leaves=new THREE.Group();
-    leafDefs.forEach(([dx,dz,h])=>{
-      const leaf=cyl(.005,.09,h,6,leafMat);
-      leaf.position.set(dx*.6,1.05+h/2,dz*.6);
-      leaf.rotation.z=dx*1.1; leaf.rotation.x=-dz*.9;
+    const pot=cyl(.36,.28,.55,18,mat(0xB0694A,.85)); pot.position.y=.28; g.add(pot);
+    const soil=new THREE.Mesh(new THREE.CircleGeometry(.33,18),mat(0x2a1a12)); soil.rotation.x=-Math.PI/2; soil.position.y=.54; g.add(soil);
+    const leaves=new THREE.Group(); leaves.position.y=.54;
+    const leafMat=mat(0x7E9E76,.7);
+    [[0,.9,.1,0],[-.35,.7,.35,.5],[.38,.75,-.3,-.5],[.1,.6,.4,1.1],[-.2,.8,-.35,-1]].forEach(([x,h,z,r])=>{
+      const leaf=edged(new THREE.Mesh(new THREE.SphereGeometry(.2,8,6),leafMat));
+      leaf.scale.set(.55,h*1.2,.25); leaf.position.set(x*.6,h*.5,z*.6); leaf.rotation.set(z*.8,r,-x*1.2);
       leaves.add(leaf);
     });
     g.add(leaves);
-    register("cPlant",g,[-7.0,0,-.5],[1.6,1.8,1.6]);
-    objects.cPlant.leaves=leaves;
+    const o=register("cPlant",g,[-6.0,-1.7],[1.1,1.7,1.1]);
+    o.leaves=leaves;
   })();
 
-  /* ---- camera ---- */
+  /* camera — front left */
   (function(){
     const g=new THREE.Group();
-    const body=block(.9,.55,.55); body.position.y=.4; g.add(body);
-    const lens=cyl(.28,.28,.35,16); lens.rotation.x=Math.PI/2; lens.position.set(0,.42,.4); g.add(lens);
-    const ring=new THREE.Mesh(new THREE.TorusGeometry(.3,.02,8,24),new THREE.MeshBasicMaterial({color:0x8bdfff,transparent:true,opacity:0}));
-    ring.rotation.x=Math.PI/2; ring.position.set(0,.42,.45); g.add(ring);
-    const bump=block(.22,.12,.12); bump.position.set(0,.75,-.05); g.add(bump);
-    register("cCamera",g,[-6.0,0,2.6],[1.4,1.1,1.3]);
-    objects.cCamera.ring=ring;
+    const body=block(.95,.58,.5,mat(0x38302b)); body.position.y=.29; g.add(body);
+    const grip=block(.95,.08,.52,mat(0x5a4636)); grip.position.y=.3; g.add(grip);
+    const lens=cyl(.23,.25,.34,20,mat(0x1c1714,.4)); lens.rotation.x=Math.PI/2; lens.position.set(.05,.3,.4); g.add(lens);
+    const glass=new THREE.Mesh(new THREE.CircleGeometry(.16,20),new THREE.MeshBasicMaterial({color:0x3a2e28})); glass.position.set(.05,.3,.575); g.add(glass);
+    const btn=cyl(.07,.07,.06,10,mat(0xC98A4E)); btn.position.set(-.3,.61,0); g.add(btn);
+    g.rotation.y=.35;
+    const o=register("cCamera",g,[-6.1,1.7],[1.2,.9,1.1]);
+    Object.assign(o,{glass,btn});
   })();
 
-  /* ---- books ---- */
+  /* books — front left, one hides a bookmark */
   (function(){
-    const g=new THREE.Group();
-    const colors=[0xE85D5D,0x4FA8E0,0xF2C14E];
-    const spines=[];
-    for(let i=0;i<3;i++){
-      const b=block(1.3,.16,.55,new THREE.MeshStandardMaterial({color:colors[i],roughness:.9}));
-      b.position.y=.08+i*.17; g.add(b); spines.push(b);
-    }
-    register("cBooks",g,[-4.0,0,1.6],[1.7,.7,.9]);
-    objects.cBooks.top=spines[2];
-    objects.cBooks.topBaseY=spines[2].position.y;
+    const g=new THREE.Group(), colors=[0x8E4E3C,0x4E6470,0xC49A55];
+    const books=colors.map((c,i)=>{ const b=block(1.4-i*.1,.18,.95-i*.04,mat(c,.9)); b.position.y=.09+i*.19; b.rotation.y=(i-1)*.08; g.add(b); return b; });
+    const pages=new THREE.Mesh(new THREE.BoxGeometry(1.2,.12,.03),mat(0xEDE3D1)); pages.position.set(0,.47,.47); g.add(pages);
+    const o=register("cBooks",g,[-3.9,1.6],[1.6,.9,1.2]);
+    Object.assign(o,{top:books[2],topY:books[2].position.y});
   })();
 
-  /* ---- lamp ---- */
+  /* notebook — front centre */
+  const noteTex=canvasTex(320,220);
+  function drawNote(open){
+    noteTex.draw((ctx,w,h)=>{
+      ctx.fillStyle="#EFE6D6"; ctx.fillRect(0,0,w,h);
+      ctx.strokeStyle="rgba(120,90,60,.18)"; ctx.lineWidth=1;
+      for(let y=34;y<h;y+=24){ ctx.beginPath(); ctx.moveTo(14,y); ctx.lineTo(w-14,y); ctx.stroke(); }
+      ctx.fillStyle="#4a3526"; ctx.textBaseline="alphabetic";
+      if(!open){ ctx.font="italic 20px Georgia,serif"; ctx.fillText("ideas, sketches…",22,54); ctx.fillText("~~~  ~~ ~~~~",22,102); return; }
+      ctx.font="italic 21px Georgia,serif";
+      ["who is it for?","what's the problem?","what's the context?"].forEach((t,i)=>ctx.fillText(t,22,54+i*48));
+      ctx.strokeStyle="#B8612F"; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(w-58,h-54,30,0,Math.PI*2); ctx.stroke();
+      ctx.fillStyle="#B8612F"; ctx.font="bold 36px "+FONT; ctx.textAlign="center"; ctx.fillText("U",w-58,h-41); ctx.textAlign="left";
+    });
+  }
+  drawNote(false);
   (function(){
     const g=new THREE.Group();
-    const base=cyl(.22,.26,.1,16); base.position.y=.05; g.add(base);
-    const arm=cyl(.03,.03,1.5,6); arm.position.set(0,.9,-.3); arm.rotation.x=.35; g.add(arm);
-    const shade=new THREE.Mesh(new THREE.ConeGeometry(.32,.4,16,1,true),new THREE.MeshStandardMaterial({color:0xE8A33D,roughness:.7,side:THREE.DoubleSide}));
-    shade.position.set(0,1.7,-.85); shade.rotation.x=Math.PI; g.add(edged(shade));
-    const bulb=new THREE.Mesh(new THREE.SphereGeometry(.12,12,12),new THREE.MeshBasicMaterial({color:0xffc98b,transparent:true,opacity:0}));
-    bulb.position.set(0,1.55,-.85); g.add(bulb);
-    register("cLamp",g,[-2.6,0,-.8],[1.4,2.1,1.4]);
-    objects.cLamp.bulb=bulb;
-  })();
-
-  /* ---- notebook ---- */
-  (function(){
-    const g=new THREE.Group();
-    const base=block(1.6,.06,1.1,new THREE.MeshStandardMaterial({color:0xD8B98A,roughness:.85})); base.position.y=.03; g.add(base);
-    const page=new THREE.Mesh(new THREE.PlaneGeometry(1.4,.9),new THREE.MeshBasicMaterial({map:textTexture("· · ·"),transparent:true}));
+    const cover=block(1.7,.06,1.2,mat(0x3B2C22,.9)); cover.position.y=.03; g.add(cover);
+    const page=new THREE.Mesh(new THREE.PlaneGeometry(1.56,1.07),new THREE.MeshBasicMaterial({map:noteTex.tex}));
     page.rotation.x=-Math.PI/2; page.position.y=.065; g.add(page);
-    register("cNote",g,[-.6,0,1.8],[1.8,.5,1.4]);
-    objects.cNote.page=page;
-    objects.cNote.pageIdx=-1;
+    const pen=cyl(.03,.03,1.1,8,mat(0xC98A4E,.4)); pen.rotation.z=Math.PI/2; pen.rotation.y=.5; pen.position.set(.35,.08,.72); g.add(pen);
+    g.rotation.y=-.12;
+    const o=register("cNote",g,[-1.1,1.55],[1.8,.4,1.4]);
+    o.page=page; unlit.push(page.material);
   })();
 
-  /* ---- laptop ---- */
+  /* laptop — back centre, locked with a 4-letter password */
+  const screenTex=canvasTex(512,300);
+  function drawScreen(typed){
+    screenTex.draw((ctx,w,h)=>{
+      const bg=ctx.createLinearGradient(0,0,0,h); bg.addColorStop(0,"#1d1511"); bg.addColorStop(1,"#120d0a");
+      ctx.fillStyle=bg; ctx.fillRect(0,0,w,h);
+      ctx.textAlign="center"; ctx.textBaseline="middle";
+      if(state.unlocked&&!state.typing){
+        ctx.fillStyle="rgba(255,201,139,.5)"; ctx.font="500 18px "+FONT; ctx.fillText("● unlocked",w/2,58);
+        ctx.fillStyle="#F5EDE3"; ctx.font="600 36px "+FONT; ctx.fillText(LAPTOP_LINES[state.laptopLine],w/2,h/2+8);
+        return;
+      }
+      ctx.fillStyle="rgba(245,237,227,.55)"; ctx.font="500 19px "+FONT; ctx.fillText(state.typing?"Checking…":"Locked · enter password",w/2,70);
+      const letters=typed!=null?typed:"";
+      for(let i=0;i<4;i++){
+        const x=w/2-138+i*92, y=h/2+22;
+        ctx.strokeStyle=letters[i]?AMBER:"rgba(245,237,227,.22)"; ctx.lineWidth=3;
+        ctx.beginPath(); ctx.roundRect?ctx.roundRect(x-36,y-40,72,80,12):ctx.rect(x-36,y-40,72,80); ctx.stroke();
+        if(letters[i]){ ctx.fillStyle=AMBER; ctx.font="600 44px "+FONT; ctx.fillText(letters[i],x,y+3); }
+      }
+    });
+  }
+  function foundWord(){ return NOTES.filter(n=>n.letter).map(n=>state.found.has(n.id)?n.letter:" ").join(""); }
+  (function(){
+    const g=new THREE.Group(), alu=mat(0x3d3733,.45);
+    const base=block(2.1,.09,1.4,alu); base.position.y=.045; g.add(base);
+    const kb=new THREE.Mesh(new THREE.PlaneGeometry(1.8,.7),mat(0x221d1a)); kb.rotation.x=-Math.PI/2; kb.position.set(0,.092,-.12); g.add(kb);
+    const lid=new THREE.Group(); lid.position.set(0,.09,-.7); lid.rotation.x=-.28; g.add(lid);
+    const back=block(2.1,1.3,.06,alu); back.position.y=.65; lid.add(back);
+    const screen=new THREE.Mesh(new THREE.PlaneGeometry(1.92,1.13),new THREE.MeshBasicMaterial({map:screenTex.tex,transparent:true,opacity:.06}));
+    screen.position.set(0,.66,.035); lid.add(screen);
+    const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,transparent:true,opacity:0,depthWrite:false,blending:THREE.AdditiveBlending}));
+    glow.position.set(0,.7,.6); glow.scale.set(3.4,2.2,1); lid.add(glow);
+    const o=register("cLaptop",g,[1.3,-1.45],[2.3,1.7,1.7]);
+    Object.assign(o,{screen,glow});
+  })();
+  drawScreen("");
+
+  /* phone — front centre-right */
+  const phoneTex=canvasTex(160,300);
+  function drawPhone(){
+    phoneTex.draw((ctx,w,h)=>{
+      ctx.fillStyle="#15100d"; ctx.fillRect(0,0,w,h);
+      if(state.phoneLine<0) return;
+      ctx.fillStyle="rgba(245,237,227,.5)"; ctx.font="500 13px "+FONT; ctx.textAlign="center"; ctx.fillText("4:30",w/2,34);
+      ctx.fillStyle="rgba(255,201,139,.14)"; ctx.fillRect(12,110,w-24,74);
+      ctx.fillStyle="#F5EDE3"; ctx.font="600 14px "+FONT;
+      wrap(ctx,PHONE_LINES[state.phoneLine],w/2,138,w-40,18);
+    });
+  }
+  function wrap(ctx,text,x,y,max,lh){
+    const words=text.split(" "); let line="", yy=y;
+    words.forEach(wd=>{ const t=line?line+" "+wd:wd; if(ctx.measureText(t).width>max&&line){ ctx.fillText(line,x,yy); line=wd; yy+=lh; } else line=t; });
+    ctx.fillText(line,x,yy);
+  }
+  drawPhone();
   (function(){
     const g=new THREE.Group();
-    const base=block(1.8,.08,1.2); base.position.y=.04; g.add(base);
-    const screen=block(1.8,1.1,.06);
-    screen.position.set(0,.62,-.58); screen.rotation.x=-.22; g.add(screen);
-    const glow=new THREE.Mesh(new THREE.PlaneGeometry(1.55,.85),new THREE.MeshBasicMaterial({map:textTexture("Design a kinder tomorrow.",22),transparent:true,opacity:0}));
-    glow.position.set(0,.62,-.55); glow.rotation.x=-.22; g.add(glow);
-    register("cLaptop",g,[1.8,0,-2.0],[2.1,1.7,1.6]);
-    objects.cLaptop.glow=glow;
-    objects.cLaptop.lineIdx=-1;
+    const body=block(.52,.05,1.02,mat(0x1e1a18,.35)); body.position.y=.025; g.add(body);
+    const screen=new THREE.Mesh(new THREE.PlaneGeometry(.46,.94),new THREE.MeshBasicMaterial({map:phoneTex.tex,transparent:true,opacity:0}));
+    screen.rotation.x=-Math.PI/2; screen.position.y=.052; g.add(screen);
+    g.rotation.y=.22;
+    const o=register("cPhone",g,[1.9,1.75],[1.0,.35,1.3]);
+    o.screen=screen;
   })();
 
-  /* ---- phone ---- */
+  /* coffee — front right, writing on the bottom */
+  const steamTex=canvasTex(64,64,(ctx)=>{
+    const g=ctx.createRadialGradient(32,32,0,32,32,32);
+    g.addColorStop(0,"rgba(255,236,214,.5)"); g.addColorStop(1,"rgba(255,236,214,0)");
+    ctx.fillStyle=g; ctx.fillRect(0,0,64,64);
+  }).tex;
   (function(){
-    const g=new THREE.Group();
-    const body=block(.5,.06,1.0);
-    body.position.y=.03; body.rotation.z=-.12; g.add(body);
-    const glow=new THREE.Mesh(new THREE.PlaneGeometry(.42,.88),new THREE.MeshBasicMaterial({map:textTexture("···",30),transparent:true,opacity:0}));
-    glow.rotation.x=-Math.PI/2; glow.position.y=.07; glow.rotation.z=-.12; g.add(glow);
-    register("cPhone",g,[3.4,0,1.6],[1.1,.4,1.4]);
-    objects.cPhone.glow=glow;
-    objects.cPhone.screenIdx=-1;
-  })();
-
-  /* ---- coffee ---- */
-  (function(){
-    const g=new THREE.Group();
-    const cupMat=new THREE.MeshStandardMaterial({color:0xC9703F,roughness:.6});
-    const cup=cyl(.32,.26,.42,16,cupMat); cup.position.y=.21; g.add(cup);
-    const handle=new THREE.Mesh(new THREE.TorusGeometry(.14,.03,8,16,Math.PI*1.3),cupMat);
-    handle.position.set(.36,.24,0); handle.rotation.y=Math.PI/2; g.add(edged(handle));
+    const g=new THREE.Group(), mug=new THREE.Group(), cream=mat(0xE6DACA,.55);
+    const cup=cyl(.32,.27,.56,20,cream); cup.position.y=.28; mug.add(cup);
+    const coffee=new THREE.Mesh(new THREE.CircleGeometry(.29,20),mat(0x3a2215,.3)); coffee.rotation.x=-Math.PI/2; coffee.position.y=.5; mug.add(coffee);
+    const handle=edged(new THREE.Mesh(new THREE.TorusGeometry(.15,.035,8,16,Math.PI*1.2),cream));
+    handle.position.set(.36,.3,0); handle.rotation.z=-Math.PI*.6; mug.add(handle);
+    g.add(mug);
     const steam=new THREE.Group();
     for(let i=0;i<3;i++){
       const s=new THREE.Sprite(new THREE.SpriteMaterial({map:steamTex,transparent:true,opacity:0,depthWrite:false}));
-      s.scale.set(.22,.32,1); s.position.set((i-1)*.08,.5,0); s.userData.phase=i*1.3;
-      steam.add(s);
+      s.scale.set(.25,.35,1); s.position.set((i-1)*.09,.65,0); s.userData.phase=i*1.05; steam.add(s);
     }
     g.add(steam);
-    register("cCoffee",g,[5.0,0,1.8],[1.1,1.2,1.1]);
-    objects.cCoffee.steam=steam;
+    const o=register("cCoffee",g,[4.2,1.25],[1.0,1.0,1.0]);
+    Object.assign(o,{mug,steam});
   })();
 
-  /* ---- headphones ---- */
+  /* headphones — back right */
   (function(){
-    const g=new THREE.Group();
-    const hpMat=new THREE.MeshStandardMaterial({color:0x6C5B9E,roughness:.7});
-    const band=new THREE.Mesh(new THREE.TorusGeometry(.55,.035,8,24,Math.PI),hpMat);
-    band.position.y=1.05; band.rotation.z=Math.PI; g.add(edged(band,violetLine()));
-    const cupL=cyl(.22,.22,.14,14,hpMat); cupL.rotation.z=Math.PI/2; cupL.position.set(-.55,.75,0); g.add(cupL);
-    const cupR=cupL.clone(true); cupR.position.x=.55; g.add(cupR);
+    const g=new THREE.Group(), hp=mat(0x3f3834,.55), pad=mat(0x6b5140,.8);
+    const band=edged(new THREE.Mesh(new THREE.TorusGeometry(.55,.045,8,28,Math.PI),hp));
+    band.position.y=.36; band.rotation.x=-Math.PI/2+.1; g.add(band);
+    [-1,1].forEach(s=>{ const c=cyl(.25,.25,.16,18,pad); c.position.set(s*.55,.14,0); g.add(c); });
     const bars=new THREE.Group();
-    for(let i=0;i<4;i++){
-      const b=new THREE.Mesh(new THREE.BoxGeometry(.05,.01,.05),new THREE.MeshBasicMaterial({color:0x8bdfff,transparent:true,opacity:0}));
-      b.position.set(-.09+i*.06,.6,.24); bars.add(b);
+    for(let i=0;i<5;i++){
+      const b=new THREE.Mesh(new THREE.BoxGeometry(.07,.01,.07),new THREE.MeshBasicMaterial({color:0xffc98b,transparent:true,opacity:0}));
+      b.position.set(-.16+i*.08,.24,.45); bars.add(b);
     }
     g.add(bars);
-    register("cPhones",g,[6.2,0,-1.6],[1.6,1.4,1.2]);
-    objects.cPhones.bars=bars;
-    objects.cPhones.on=false;
+    g.rotation.y=-.35;
+    const o=register("cPhones",g,[4.7,-1.5],[1.6,.8,1.3]);
+    o.bars=bars;
   })();
 
-  /* ---- sticky notes ---- */
+  /* sticky notes — front right corner */
+  const stickyTex=canvasTex(160,160);
+  function drawSticky(found){
+    stickyTex.draw((ctx,w,h)=>{
+      ctx.fillStyle="#F2D98A"; ctx.fillRect(0,0,w,h);
+      ctx.fillStyle="#5a4420";
+      if(!found){ ctx.font="italic 19px Georgia,serif"; ctx.fillText("to do:",16,36); ctx.fillText("– delete",16,72); ctx.fillText("   more",16,100); return; }
+      ctx.font="italic 18px Georgia,serif"; ctx.fillText("keep it",16,34);
+      ctx.fillStyle="#B8612F"; ctx.font="bold 74px "+FONT; ctx.textAlign="center"; ctx.fillText("S",w/2,122); ctx.textAlign="left";
+      ctx.font="italic 16px Georgia,serif"; ctx.fillStyle="#5a4420"; ctx.fillText("imple",w/2+24,122);
+    });
+  }
+  drawSticky(false);
   (function(){
     const g=new THREE.Group();
-    const colors=[0xfff2c4,0xffe6b0];
-    for(let i=0;i<2;i++){
-      const n=block(.55,.02,.55,new THREE.MeshStandardMaterial({color:colors[i],roughness:.9}));
-      n.position.set(i*.06,.02+i*.03,i*.05); n.rotation.y=(i?1:-1)*.12;
-      g.add(n);
-    }
-    register("cSticky",g,[7.2,0,1.4],[1.0,.4,1.0]);
+    const under=block(.62,.03,.62,mat(0xE8B96A,.9)); under.position.y=.015; under.rotation.y=.2; g.add(under);
+    const topNote=new THREE.Group(); topNote.position.y=.04; topNote.rotation.y=-.1; g.add(topNote);
+    const tn=block(.62,.02,.62,mat(0xF2D98A,.9)); topNote.add(tn);
+    const face=new THREE.Mesh(new THREE.PlaneGeometry(.6,.6),new THREE.MeshBasicMaterial({map:stickyTex.tex}));
+    face.rotation.x=-Math.PI/2; face.position.y=.012; topNote.add(face); unlit.push(face.material);
+    const o=register("cSticky",g,[6.0,1.85],[.9,.35,.9]);
+    o.topNote=topNote;
   })();
 
-  resize();
+  /* ---- small tween runner (no extra library) ---- */
+  const tweens=[];
+  function tween(dur,fn,done){ if(RM){ fn(1); if(done) done(); return; } tweens.push({dur,fn,done,t0:performance.now()}); }
+  const bump=p=>Math.sin(p*Math.PI);
 
-  /* ---- interaction handlers (shared by pointer + keyboard) ---- */
-  const LINES=["Ideas.","Flow.","Interface.","System."];
-  const PH_TXT=["Home.","Profile.","Cards."];
-  const NB_TXT=["USER / PROBLEM / CONTEXT","FLOW / SYSTEM / INTERACTION","SIMPLE / USEFUL / HUMAN"];
-  const COFFEE=["Fuel for deep work.","Third cup today.","Debugging fuel."];
-  const THOUGHTS=["Make it simple.","Most of design is deleting.","Make it useful before beautiful.","Ship it. Learn. Improve."];
-  let lampOn=false;
+  function floatLetter(id,ch){
+    const o=objects[id];
+    const t=canvasTex(128,128,(ctx)=>{
+      ctx.fillStyle="rgba(24,16,12,.85)"; ctx.beginPath(); ctx.arc(64,64,56,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle=AMBER; ctx.lineWidth=4; ctx.stroke();
+      ctx.fillStyle=AMBER; ctx.font="700 62px "+FONT; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(ch,64,68);
+    });
+    const s=new THREE.Sprite(new THREE.SpriteMaterial({map:t.tex,transparent:true,depthTest:false,opacity:0}));
+    s.scale.set(.8,.8,1); s.position.copy(o.anchor); scene.add(s);
+    const y0=o.anchor.y;
+    const end=()=>{ scene.remove(s); t.tex.dispose(); s.material.dispose(); };
+    if(RM){ s.material.opacity=1; s.position.y=y0+.8; setTimeout(end,1400); return; }
+    tween(1700,p=>{ s.position.y=y0+.2+p*1.3; s.material.opacity=p<.15?p/.15:p>.7?1-(p-.7)/.3:1; },end);
+  }
+
+  /* ---- UI: toast, status, notes ---- */
+  let toastTimer=0;
+  function toast(html,ms){
+    toastEl.innerHTML=html; toastEl.classList.add("show");
+    clearTimeout(toastTimer); toastTimer=setTimeout(()=>toastEl.classList.remove("show"),ms||3200);
+  }
+  function lettersFound(){ return LETTER_IDS.filter(id=>state.found.has(id)).length; }
+  function updateStatus(){
+    let txt, done=false;
+    if(!state.lampOn) txt=state.found.size?"It's dark · switch the lamp back on":"Step 1 · Find the light";
+    else if(!state.unlocked) txt=`Step 2 · Find the password · ${lettersFound()}/4 letters`;
+    else if(!state.photo) txt="Step 3 · Take a photo with the camera";
+    else { txt=`Desk complete · ${state.found.size}/${NOTES.length} notes`; done=true; }
+    statusEl.querySelector("span").textContent=txt;
+    statusEl.classList.toggle("done",done);
+    container.classList.toggle("is-dark",!state.lampOn);
+  }
+  function renderNotes(fresh){
+    notesEl.innerHTML=NOTES.map((n,i)=>{
+      const got=state.found.has(n.id);
+      const num=String(i+1).padStart(2,"0");
+      return `<li class="note${got?"":" locked"}${n.id===fresh?" fresh":""}">`+
+        `<div class="note-k"><span>${num} · ${got?n.obj:(n.letter?"Letter":"Bonus")}</span>${n.letter?`<em>${got?n.letter:"?"}</em>`:""}</div>`+
+        `<p class="note-t">${got?n.t:"Not found yet"}</p><p class="note-s">${got?n.s:n.hint}</p></li>`;
+    }).join("");
+    countEl.textContent=state.found.size;
+    passEl.querySelectorAll("span").forEach(sp=>{
+      const n=NOTES.find(x=>x.slot===+sp.dataset.slot), got=state.found.has(n.id);
+      if(got&&!sp.textContent) sp.classList.add("got");
+      sp.textContent=got?n.letter:""; if(!got) sp.classList.remove("got");
+    });
+    const left=4-lettersFound();
+    helpEl.textContent=state.unlocked?"Password accepted. The laptop has something to say."
+      :left===4?"Four objects are hiding one letter each."
+      :left===0?"That's all four. Watch the laptop."
+      :`${left} letter${left>1?"s":""} still hiding on the desk.`;
+  }
+  function discover(id){
+    if(state.found.has(id)) return false;
+    state.found.add(id);
+    const n=NOTE_BY_ID[id];
+    const lbl=$("lbl"+id.slice(1));
+    if(lbl){ lbl.classList.add("found"); lbl.querySelector(".callout-s").textContent=n.t; }
+    renderNotes(id);
+    if(n.letter){
+      floatLetter(id,n.letter);
+      const left=4-lettersFound();
+      toast(`Found the letter <b>${n.letter}</b>. ${n.t}.`+(left?` ${left} to go.`:" That's the full password."));
+      if(!left) setTimeout(unlockLaptop,1100);
+    } else toast(`Bonus note: <b>${n.t}</b>.`);
+    updateStatus();
+    return true;
+  }
+
+  /* ---- the puzzle ---- */
+  function unlockLaptop(){
+    if(state.unlocked||state.typing) return;
+    state.typing=true; updateStatus();
+    const word="USER"; let i=0;
+    const step=()=>{
+      i++; drawScreen(word.slice(0,i));
+      if(i<4){ setTimeout(step,RM?0:260); return; }
+      setTimeout(()=>{
+        state.typing=false; state.unlocked=true; state.laptopLine=0; drawScreen();
+        const lbl=$("lblLaptop"); lbl.classList.add("found"); lbl.querySelector(".callout-s").textContent="Unlocked · click it";
+        renderNotes(); updateStatus();
+        finaleEl.hidden=false;
+        $("lblCamera").querySelector(".callout-s").textContent="Take the photo";
+        toast("Password <b>USER</b> accepted. Now take a photo with the camera.",4200);
+      },RM?0:520);
+    };
+    drawScreen(""); setTimeout(step,RM?0:300);
+  }
+  function takePhoto(){
+    const flash=$("camFlash");
+    tween(260,p=>{ objects.cCamera.btn.position.y=.61-bump(p)*.04; });
+    flash.style.opacity=".9"; setTimeout(()=>{ flash.style.opacity="0"; },110);
+    if(!state.unlocked){ toast("Nice shot. Keep the camera for the end, though."); return; }
+    // grab the frame straight after a render, before the browser clears the buffer
+    renderer.render(scene,camera);
+    let url=""; try{ url=canvas.toDataURL("image/jpeg",.9); }catch(e){}
+    if(url){
+      $("polaroidImg").innerHTML=`<img src="${url}" alt="A photo of the lamp-lit desk: laptop, notebook, books, coffee and plant">`;
+      const save=$("polaroidSave"); save.href=url; save.hidden=false;
+    }
+    const first=!state.photo; state.photo=true; updateStatus();
+    if(first){ toast("Got it. Your photo is in the field notes below.",3800); finaleEl.scrollIntoView({behavior:RM?"auto":"smooth",block:"nearest"}); }
+  }
 
   const ACTIONS={
     cLamp(){
-      lampOn=!lampOn;
-      amb.intensity=lampOn?1.05:.75;
-    },
-    cPlant(){ tweenWobble(objects.cPlant.leaves); },
-    cBooks(){ tweenBookShift(objects.cBooks); },
-    cCamera(){
-      tweenPulse(objects.cCamera.ring,.5);
-      setTimeout(()=>{
-        const flash=document.getElementById("camFlash");
-        flash.style.opacity=".85"; setTimeout(()=>{flash.style.opacity="0";},90);
-      },160);
+      state.lampOn=!state.lampOn;
+      tween(260,p=>{ objects.cLamp.shade.scale.setScalar(1-bump(p)*.1); });
+      updateStatus();
+      if(state.lampOn&&!state.found.size) toast("Much better. The laptop is locked. Its password is hidden around the desk."+(view.panMax?" Drag sideways to see all of it.":""),4600);
     },
     cNote(){
       const o=objects.cNote;
-      tweenFlip(o.page,()=>{
-        o.pageIdx=(o.pageIdx+1)%NB_TXT.length;
-        o.page.material.map=textTexture(NB_TXT[o.pageIdx],17);
-        o.page.material.needsUpdate=true;
-      });
+      tween(460,p=>{ o.page.scale.x=Math.abs(Math.cos(p*Math.PI)); if(p>.5&&!o.flipped){ o.flipped=true; drawNote(true); } },()=>{ o.page.scale.x=1; });
+      if(RM) drawNote(true);
+      if(!discover("cNote")) toast("Who, what, why. Every project starts on this page.");
     },
-    cLaptop(){
-      const o=objects.cLaptop;
-      o.lineIdx=(o.lineIdx+1)%LINES.length;
-      o.glow.material.map=textTexture(LINES[o.lineIdx],28);
-      o.glow.material.needsUpdate=true;
-    },
-    cPhone(){
-      const o=objects.cPhone;
-      o.screenIdx=(o.screenIdx+1)%PH_TXT.length;
-      o.glow.material.map=textTexture(PH_TXT[o.screenIdx],30);
-      o.glow.material.needsUpdate=true;
-    },
-    cCoffee(){
-      const sub=document.querySelector("#lblCoffee .callout-s");
-      cCoffeeIdx=(cCoffeeIdx+1)%COFFEE.length;
-      sub.textContent=COFFEE[cCoffeeIdx];
-    },
-    cPhones(){
-      const o=objects.cPhones;
-      o.on=!o.on;
-      o.bars.children.forEach(b=>{ b.material.opacity=o.on?1:0; });
+    cBooks(){
+      const o=objects.cBooks;
+      tween(700,p=>{ const e=bump(p); o.top.position.x=e*.45; o.top.position.y=o.topY+e*.12; o.top.rotation.z=-e*.1; },()=>{ o.top.position.set(0,o.topY,0); o.top.rotation.z=0; });
+      if(!discover("cBooks")) toast("Mostly design, some psychology, one very used Django book.");
     },
     cSticky(){
-      const sub=document.querySelector("#lblSticky .callout-s");
-      cStickyIdx=(cStickyIdx+1)%THOUGHTS.length;
-      sub.textContent=THOUGHTS[cStickyIdx];
-      tweenSquash(objects.cSticky.group);
-    }
+      const o=objects.cSticky;
+      tween(560,p=>{ const e=bump(p); o.topNote.position.y=.04+e*.28; o.topNote.rotation.x=-e*.5; },()=>{ o.topNote.position.y=.04; o.topNote.rotation.x=0; });
+      drawSticky(true);
+      if(!discover("cSticky")) toast("Make it simple. Then make it simpler.");
+    },
+    cCoffee(){
+      const o=objects.cCoffee;
+      tween(900,p=>{ const e=bump(p); o.mug.rotation.z=e*.55; o.mug.position.y=e*.35; });
+      if(!discover("cCoffee")) toast("Still warm. Probably the third cup.");
+    },
+    cLaptop(){
+      if(state.typing) return;
+      if(!state.unlocked){
+        const n=lettersFound();
+        tween(360,p=>{ objects.cLaptop.group.position.x=1.3+Math.sin(p*Math.PI*6)*.05*(1-p); });
+        toast(n===4?"Unlocking…":`Locked. The password has 4 letters, and you've found ${n}.`);
+        if(n===4) unlockLaptop();
+        return;
+      }
+      state.laptopLine=(state.laptopLine+1)%LAPTOP_LINES.length; drawScreen();
+    },
+    cPlant(){
+      const l=objects.cPlant.leaves;
+      tween(1000,p=>{ l.rotation.z=Math.sin(p*Math.PI*3)*.18*(1-p); l.rotation.x=Math.sin(p*Math.PI*2)*.08*(1-p); });
+      if(!discover("cPlant")) toast("Still growing. So am I.");
+    },
+    cPhones(){
+      state.phonesOn=!state.phonesOn;
+      if(!discover("cPhones")) toast(state.phonesOn?"Focus mode on.":"Focus mode off.");
+    },
+    cPhone(){
+      state.phoneLine=(state.phoneLine+1)%PHONE_LINES.length; drawPhone();
+      tween(300,p=>{ objects.cPhone.group.position.y=bump(p)*.08; });
+      discover("cPhone");
+    },
+    cCamera(){ takePhoto(); }
   };
-  let cCoffeeIdx=0, cStickyIdx=0;
-
-  // small manual tweens (no extra library)
-  const tweens=[];
-  function addTween(fn,dur,onDone){ tweens.push({fn,dur,t0:performance.now(),onDone}); }
-  function tweenWobble(g){
-    if(RM) return;
-    addTween(p=>{ g.rotation.z=Math.sin(p*Math.PI*3)*.22*(1-p); },900);
-  }
-  function tweenBookShift(o){
-    if(RM) return;
-    const base=o.topBaseY;
-    addTween(p=>{ const e=Math.sin(p*Math.PI); o.top.position.y=base+e*.16; o.top.rotation.z=-e*.12; },500,()=>{o.top.position.y=base;o.top.rotation.z=0;});
-  }
-  function tweenPulse(mesh,peak){
-    if(RM){ return; }
-    addTween(p=>{ mesh.material.opacity=Math.sin(p*Math.PI)*peak; mesh.scale.setScalar(1+p*.4); },400,()=>{mesh.material.opacity=0;mesh.scale.setScalar(1);});
-  }
-  function tweenFlip(mesh,mid){
-    if(RM){ mid(); return; }
-    addTween(p=>{ mesh.scale.x=Math.abs(Math.cos(p*Math.PI)); if(p>.48&&p<.52) mid(); },420,()=>{mesh.scale.x=1;});
-  }
-  function tweenSquash(g){
-    if(RM) return;
-    addTween(p=>{ const e=Math.sin(p*Math.PI); g.scale.set(1-e*.12,1+e*.08,1-e*.12); },380,()=>g.scale.set(1,1,1));
+  function act(id){
+    if(!ACTIONS[id]) return;
+    if(!state.lampOn&&id!=="cLamp"){
+      toast("Too dark to see that. Find the light first.");
+      return;
+    }
+    ACTIONS[id]();
   }
 
-  /* ---- pointer hover / click via raycasting ---- */
-  const ray=new THREE.Raycaster(), mouse=new THREE.Vector2();
-  let hoveredId=null;
+  /* ---- hints ---- */
+  $("deskHint").addEventListener("click",()=>{
+    let h;
+    if(!state.lampOn) h="The lamp at the back is still glowing a little. Click it.";
+    else if(!state.unlocked){ const n=NOTES.find(x=>x.letter&&!state.found.has(x.id)); h=n?n.hint:"All four letters found. Click the laptop."; }
+    else if(!state.photo) h="The camera is on the front left. Take the shot.";
+    else { const n=NOTES.find(x=>!state.found.has(x.id)); h=n?"Bonus: "+n.hint:"You found everything. Thanks for playing."; }
+    toast(h,4200);
+  });
+
+  /* ---- hover / labels ---- */
+  let hoveredId=null, tapTimer=0;
+  const labels={};
+  Object.keys(objects).forEach(id=>{ labels[id]=$("lbl"+id.slice(1)); });
+  function labelOn(id){ const o=objects[id]; return !!(id===hoveredId||o.focus||o.tap); }
   function setHover(id){
     if(id===hoveredId) return;
-    if(hoveredId){ const o=objects[hoveredId]; if(o&&!o.active) hideLabel(hoveredId); }
     hoveredId=id;
-    if(id){ showLabel(id); canvas.classList.add("hoverable"); }
-    else canvas.classList.remove("hoverable");
+    canvas.classList.toggle("hoverable",!!id);
   }
-  function showLabel(id){ const l=document.getElementById("lbl"+id.slice(1)); if(l) l.classList.add("show"); }
-  function hideLabel(id){ const l=document.getElementById("lbl"+id.slice(1)); if(l) l.classList.remove("show"); }
-
-  function pickAt(clientX,clientY){
+  const ndc=new THREE.Vector2(), ray=new THREE.Raycaster();
+  function pickAt(x,y){
     const r=canvas.getBoundingClientRect();
-    mouse.x=((clientX-r.left)/r.width)*2-1;
-    mouse.y=-((clientY-r.top)/r.height)*2+1;
-    ray.setFromCamera(mouse,camera);
+    ndc.set(((x-r.left)/r.width)*2-1,-((y-r.top)/r.height)*2+1);
+    ray.setFromCamera(ndc,camera);
     const hits=ray.intersectObjects(hitMeshes);
     return hits.length?hits[0].object.userData.id:null;
   }
-
-  if(!isTouch){
-    canvas.addEventListener("mousemove",e=>setHover(pickAt(e.clientX,e.clientY)));
-    canvas.addEventListener("mouseleave",()=>setHover(null));
-    canvas.addEventListener("click",e=>{
-      const id=pickAt(e.clientX,e.clientY);
-      if(id&&ACTIONS[id]) ACTIONS[id]();
-    });
-  } else {
-    canvas.addEventListener("touchstart",e=>{
-      const t=e.touches[0]; const id=pickAt(t.clientX,t.clientY);
-      if(!id) return;
-      Object.keys(objects).forEach(k=>{ objects[k].active=false; hideLabel(k); });
-      objects[id].active=true; showLabel(id);
-      if(ACTIONS[id]) ACTIONS[id]();
-    },{passive:true});
-  }
-
-  /* ---- keyboard fallback parity: same actions, same labels ---- */
-  Object.keys(ACTIONS).forEach(id=>{
-    const btn=document.getElementById(id);
-    if(!btn) return;
-    btn.addEventListener("focus",()=>{ objects[id].hover=true; showLabel(id); });
-    btn.addEventListener("blur",()=>{ objects[id].hover=false; if(!objects[id].active) hideLabel(id); });
-    btn.addEventListener("click",()=>ACTIONS[id]());
+  let drag=null, dragged=false;
+  canvas.addEventListener("pointerdown",e=>{ dragged=false; if(view.narrow) drag={x:e.clientX,pan:view.pan}; });
+  window.addEventListener("pointerup",()=>{ drag=null; });
+  canvas.addEventListener("pointercancel",()=>{ drag=null; });
+  canvas.addEventListener("pointermove",e=>{
+    if(drag){
+      const dx=e.clientX-drag.x;
+      if(Math.abs(dx)>6){ dragged=true; view.touched=true; }
+      if(dragged){ view.pan=drag.pan-dx/(view.w/2); applyView(); }
+      return;
+    }
+    if(e.pointerType==="mouse") setHover(pickAt(e.clientX,e.clientY));
+  });
+  canvas.addEventListener("pointerleave",()=>setHover(null));
+  canvas.addEventListener("click",e=>{
+    if(dragged){ dragged=false; return; }
+    const id=pickAt(e.clientX,e.clientY);
+    if(!id) return;
+    if(isTouch||e.pointerType==="touch"){
+      Object.values(objects).forEach(o=>o.tap=false);
+      objects[id].tap=true; clearTimeout(tapTimer);
+      tapTimer=setTimeout(()=>{ objects[id].tap=false; },2600);
+    }
+    act(id);
+  });
+  Object.keys(objects).forEach(id=>{
+    const btn=$(id); if(!btn) return;
+    btn.addEventListener("focus",()=>{ objects[id].focus=true; });
+    btn.addEventListener("blur",()=>{ objects[id].focus=false; });
+    btn.addEventListener("click",()=>act(id));
   });
 
   /* ---- reset ---- */
-  document.getElementById("deskReset").addEventListener("click",()=>{
-    lampOn=false; amb.intensity=.75;
-    objects.cLaptop.lineIdx=-1; objects.cLaptop.glow.material.map=textTexture("Design a kinder tomorrow.",22); objects.cLaptop.glow.material.needsUpdate=true;
-    objects.cPhone.screenIdx=-1; objects.cPhone.glow.material.opacity=0;
-    objects.cNote.pageIdx=-1; objects.cNote.page.material.map=textTexture("· · ·"); objects.cNote.page.material.needsUpdate=true;
-    cCoffeeIdx=0; document.querySelector("#lblCoffee .callout-s").textContent=COFFEE[0];
-    cStickyIdx=0; document.querySelector("#lblSticky .callout-s").textContent="Click for a thought";
-    objects.cPhones.on=false; objects.cPhones.bars.children.forEach(b=>b.material.opacity=0);
-    Object.keys(objects).forEach(k=>{ objects[k].active=false; hideLabel(k); });
-    setHover(null);
+  $("deskReset").addEventListener("click",()=>{
+    Object.assign(state,{lampOn:false,unlocked:false,typing:false,photo:false,laptopLine:0,phoneLine:-1,phonesOn:false});
+    state.found.clear();
+    objects.cNote.flipped=false; drawNote(false); drawSticky(false); drawScreen(""); drawPhone();
+    const SUBS={cLamp:"Click to switch it on",cNote:"Open it",cBooks:"Something's tucked between them",cSticky:"Peel one off",cCoffee:"Finish the cup",
+      cLaptop:"Locked · 4-letter password",cPlant:"Give it a nudge",cPhones:"Put them on",cPhone:"Unread messages",cCamera:"Save it for last"};
+    Object.keys(labels).forEach(id=>{ labels[id].classList.remove("found"); labels[id].querySelector(".callout-s").textContent=SUBS[id]; });
+    finaleEl.hidden=true;
+    $("polaroidImg").innerHTML="<span>Click the camera on the desk</span>";
+    const save=$("polaroidSave"); save.hidden=true; save.removeAttribute("href");
+    view.touched=false; fitCamera();
+    renderNotes(); updateStatus(); toastEl.classList.remove("show");
   });
 
-  /* ---- render loop ---- */
-  const clock=new THREE.Clock();
-  function animate(){
-    requestAnimationFrame(animate);
-    const dt=clock.getDelta(), now=performance.now();
-
-    // hover/focus scale response
-    Object.keys(objects).forEach(id=>{
-      const o=objects[id];
-      const isOn=(id===hoveredId)||o.active||o.hover;
-      const target=isOn?1.06:1;
-      o.group.scale.lerp(new THREE.Vector3(target,target,target),RM?1:.18);
-    });
-
-    // lamp glow + light
-    const lb=objects.cLamp.bulb;
-    lb.material.opacity+= ((lampOn?1:0)-lb.material.opacity)*.12;
-    lampLight.intensity+= ((lampOn?1.5:0)-lampLight.intensity)*.12;
-
-    // laptop / phone screen wake on hover
-    ["cLaptop","cPhone"].forEach(id=>{
-      const o=objects[id], on=(id===hoveredId)||o.active||o.hover||(id==="cLaptop"?objects.cLaptop.lineIdx>=0:objects.cPhone.screenIdx>=0);
-      const g=id==="cLaptop"?o.glow:o.glow;
-      g.material.opacity+=((on?.9:0)-g.material.opacity)*.15;
-    });
-
-    // steam on coffee hover/active
-    const cOn=objects.cCoffee, steamOn=(hoveredId==="cCoffee")||cOn.active||cOn.hover;
-    cOn.steam.children.forEach(s=>{
-      if(!steamOn){ s.material.opacity=0; return; }
-      const t=(now/1000+s.userData.phase)%3.2/3.2;
-      s.position.y=.5+t*.7;
-      s.material.opacity=Math.sin(t*Math.PI)*.5;
-      s.scale.setScalar(.22+t*.18);
-    });
-
-    // headphone equaliser pulse
-    if(objects.cPhones.on&&!RM){
-      objects.cPhones.bars.children.forEach((b,i)=>{
-        const h=.06+Math.abs(Math.sin(now/220+i*1.4))*.22;
-        b.scale.y=h/.01; b.position.y=.6+ (h-.01)/2;
-      });
-    }
-
-    // sticky top-note lift on hover
-    const sOn=objects.cSticky, sHover=(hoveredId==="cSticky")||sOn.active||sOn.hover;
-    sOn.group.children[1].position.y+= (((sHover?.06:0)+.05)-sOn.group.children[1].position.y)*.2;
-
-    // run manual tweens
-    for(let i=tweens.length-1;i>=0;i--){
-      const tw=tweens[i], p=Math.min(1,(now-tw.t0)/tw.dur);
-      tw.fn(p);
-      if(p>=1){ if(tw.onDone) tw.onDone(); tweens.splice(i,1); }
-    }
-
-    // subtle camera parallax
-    if(!isTouch&&!RM){
-      camera.position.x+= (mouseParX-camera.position.x)*.03;
-      camera.position.y+= (baseCamPos.y+mouseParY-camera.position.y)*.03;
-      camera.lookAt(0,.6,0);
-    }
-
-    renderer.render(scene,camera);
-  }
-  let mouseParX=baseCamPos.x, mouseParY=0;
+  /* ---- render loop (paused while the desk is off screen) ---- */
+  let visible=true;
+  if("IntersectionObserver" in window) new IntersectionObserver(es=>{ visible=es[0].isIntersecting; },{rootMargin:"120px"}).observe(container);
+  let parX=0, parY=0;
   if(!isTouch){
     container.addEventListener("mousemove",e=>{
       const r=container.getBoundingClientRect();
-      const px=(e.clientX-r.left)/r.width-.5, py=(e.clientY-r.top)/r.height-.5;
-      mouseParX=baseCamPos.x+px*1.1; mouseParY=-py*.6;
+      parX=((e.clientX-r.left)/r.width-.5); parY=((e.clientY-r.top)/r.height-.5);
     });
-    container.addEventListener("mouseleave",()=>{ mouseParX=baseCamPos.x; mouseParY=0; });
+    container.addEventListener("mouseleave",()=>{ parX=0; parY=0; });
+  }
+  const tmp=new THREE.Vector3(), scaleTo=new THREE.Vector3();
+  const ease=(cur,to,k)=>cur+(to-cur)*(RM?1:k);
+  function animate(){
+    requestAnimationFrame(animate);
+    if(!visible) return;
+    const now=performance.now(), lit=state.lampOn;
+
+    // lighting follows the lamp
+    hemi.intensity=ease(hemi.intensity,lit?.62:.12,.08);
+    key.intensity=ease(key.intensity,lit?.32:.04,.08);
+    lampLight.intensity=ease(lampLight.intensity,lit?2.4:0,.08);
+    const L=objects.cLamp;
+    const idle=RM?.35:.28+Math.sin(now/700)*.12; // a faint pulse while it's dark: the first hint
+    L.bulb.material.opacity=ease(L.bulb.material.opacity,lit?1:idle,.12);
+    L.halo.material.opacity=ease(L.halo.material.opacity,lit?.85:idle*.6,.12);
+    L.halo.scale.setScalar(lit?2.2:1.3);
+    L.pool.material.opacity=ease(L.pool.material.opacity,lit?.16:0,.06);
+    lineMat.opacity=ease(lineMat.opacity,lit?.22:.06,.08);
+    const pk=ease(unlit[0].color.r,lit?1:.16,.08); unlit.forEach(m=>m.color.setScalar(pk));
+
+    // screens
+    const S=objects.cLaptop;
+    S.screen.material.opacity=ease(S.screen.material.opacity,lit?1:.06,.1);
+    S.glow.material.opacity=ease(S.glow.material.opacity,lit?(state.unlocked?.32:.16):0,.08);
+    const P=objects.cPhone;
+    P.screen.material.opacity=ease(P.screen.material.opacity,lit&&state.phoneLine>=0?1:0,.12);
+
+    // hover lift
+    Object.values(objects).forEach(o=>{
+      const on=labelOn(o.id), s=on?1.05:1;
+      o.group.scale.lerp(scaleTo.set(s,s,s),RM?1:.18);
+    });
+
+    // steam once the lamp is on
+    objects.cCoffee.steam.children.forEach(s=>{
+      if(!lit||RM){ s.material.opacity=0; return; }
+      const t=((now/1000+s.userData.phase)%3.1)/3.1;
+      s.position.y=.65+t*.8; s.material.opacity=Math.sin(t*Math.PI)*.35; s.scale.set(.22+t*.2,.3+t*.25,1);
+    });
+
+    // headphone equaliser
+    objects.cPhones.bars.children.forEach((b,i)=>{
+      const on=state.phonesOn&&lit;
+      b.material.opacity=ease(b.material.opacity,on?1:0,.15);
+      const h=on&&!RM?.05+Math.abs(Math.sin(now/200+i*1.3))*.26:.05;
+      b.scale.y=h/.01; b.position.y=.24+h/2;
+    });
+
+    // tweens
+    for(let i=tweens.length-1;i>=0;i--){
+      const tw=tweens[i], p=Math.min(1,(now-tw.t0)/tw.dur);
+      tw.fn(p); if(p>=1){ tweens.splice(i,1); if(tw.done) tw.done(); }
+    }
+
+    // gentle parallax
+    if(!isTouch&&!RM){
+      tmp.copy(basePos).add(new THREE.Vector3(parX*1.2,-parY*.5,0));
+      camera.position.lerp(tmp,.04); camera.lookAt(LOOK);
+    }
+
+    renderer.render(scene,camera);
+
+    // pin labels + keyboard targets to their objects
+    const r=container.getBoundingClientRect();
+    Object.values(objects).forEach(o=>{
+      tmp.copy(o.anchor).project(camera);
+      const x=(tmp.x*.5+.5)*r.width, y=(-tmp.y*.5+.5)*r.height;
+      const lbl=labels[o.id], on=labelOn(o.id);
+      if(lbl){
+        lbl.classList.toggle("show",on);
+        if(on){
+          const w=lbl.offsetWidth, h=lbl.offsetHeight;
+          const lx=Math.max(8,Math.min(r.width-w-8,x-w/2)), ly=Math.max(8,y-h-12);
+          lbl.style.transform=`translate(${lx}px,${ly}px)`;
+          lbl.style.setProperty("--tip",(x-lx)+"px");
+        }
+      }
+      const btn=$(o.id);
+      if(btn&&o.focus){ tmp.copy(o.anchor); tmp.y*=.5; tmp.project(camera); btn.style.transform=`translate(${(tmp.x*.5+.5)*r.width}px,${(-tmp.y*.5+.5)*r.height}px)`; }
+    });
   }
 
+  renderNotes(); updateStatus();
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>{ drawNote(state.found.has("cNote")); drawSticky(state.found.has("cSticky")); drawScreen(state.unlocked?undefined:""); drawPhone(); });
   if(loading) requestAnimationFrame(()=>loading.classList.add("hide"));
   animate();
 })();
