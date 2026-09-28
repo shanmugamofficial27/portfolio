@@ -113,12 +113,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
   font-size:.8rem;font-weight:600;letter-spacing:.04em;font-variant-numeric:tabular-nums;color:var(--text);white-space:nowrap}
 .clock svg{width:16px;height:16px;display:block;overflow:visible}
 .clock-ap{color:var(--muted);font-weight:500;margin-left:-4px}
-.nav-cv{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 18px;border-radius:999px;
-  background:var(--text);color:#0A0E14;font-size:.82rem;font-weight:600;
-  transition:background .3s var(--ease),transform .25s var(--ease),box-shadow .3s}
-.nav-cv:hover{background:var(--cyan);box-shadow:0 10px 24px -12px rgba(139,223,255,.8)}
+.nav-cv{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.08);background:rgba(8,11,20,.46);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  color:var(--text);font-size:.84rem;font-weight:500;
+  transition:border-color .3s var(--ease),background .3s var(--ease),color .3s,transform .25s var(--ease)}
+.nav-cv:hover{border-color:rgba(139,223,255,.35);background:rgba(139,223,255,.09);color:#fff}
 .nav-cv:active{transform:scale(.97)}
-.nav-cv i{font-style:normal;transition:transform .3s var(--ease)}
+.nav-cv i{font-style:normal;color:var(--cyan);transition:transform .3s var(--ease)}
 .nav-cv:hover i{transform:translateY(2px)}
 .burger{display:none;width:40px;height:40px;border-radius:50%;position:relative;z-index:2;
   border:1px solid rgba(255,255,255,.08);background:rgba(8,11,20,.46);
@@ -139,26 +141,32 @@ main{position:relative;z-index:2}
 
 /* ---------- 01 hero ---------- */
 #start{justify-content:center;text-align:center;min-height:100svh}
-.hero-title{font-size:clamp(2.4rem,7vw,5rem);letter-spacing:-.025em;line-height:1.04;margin-top:22px}
-.hero-title span{display:block}
-.hero-hi{position:relative;display:inline-flex;align-items:center;min-height:2em;margin:0;padding:4px 12px;
-  border-radius:999px;font-size:.95rem;font-weight:500;color:var(--text-2);letter-spacing:.01em;
-  cursor:pointer;user-select:none;transition:background .3s var(--ease)}
-.hero-hi:hover{background:rgba(255,255,255,.04)}
-.hi-text{white-space:pre}
-.hi-text b{font-weight:600;color:var(--text)}
-.hi-text em{font-style:normal;color:var(--cyan)}
-.hi-caret{display:inline-block;width:2px;height:1.1em;margin-left:3px;border-radius:1px;background:var(--cyan);
-  box-shadow:0 0 8px var(--cyan);animation:caret 1s steps(1) infinite}
-@keyframes caret{50%{opacity:0}}
-.hero-hi.typing .hi-caret{animation:none}
-/* stopped: caret goes out, a small pause mark appears on hover */
-.hero-hi.stopped .hi-caret{opacity:0;animation:none;width:0;margin:0}
-.hi-state{position:absolute;left:100%;top:50%;margin-left:4px;transform:translateY(-50%);font-size:.66rem;
+.hero-title{font-size:clamp(2rem,4.6vw,3.5rem);letter-spacing:-.025em;line-height:1.08;margin-top:18px}
+.hero-title>span{display:block}
+/* words rise out of a mask, one after another */
+.hero-title .w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .02em .08em;margin-bottom:-.08em}
+.hero-title .w>i{display:inline-block;font-style:normal;transform:translateY(105%);filter:blur(6px);opacity:0;
+  animation:wordUp .9s var(--ease) forwards;animation-delay:calc(.35s + var(--wi)*70ms)}
+@keyframes wordUp{to{transform:none;filter:none;opacity:1}}
+/* "simple." resolves out of scrambled characters — complex settling into simple */
+.hero-title .w.simple>i{background:linear-gradient(100deg,var(--cyan),#DDF5FF 70%);-webkit-background-clip:text;
+  background-clip:text;color:transparent}
+
+/* name: a streetlight glow keeps drifting across it; click stops it */
+.hero-hi{position:relative;display:inline-flex;align-items:center;gap:.35em;margin:0;padding:6px 14px;border-radius:999px;
+  font-size:.95rem;font-weight:500;color:var(--text-2);cursor:pointer;user-select:none;
+  border:1px solid transparent;transition:background .3s var(--ease),border-color .3s}
+.hero-hi:hover{background:rgba(255,255,255,.04);border-color:var(--line)}
+.hi-name{font-weight:600;color:var(--text);
+  background:linear-gradient(100deg,var(--text) 0%,var(--text) 38%,var(--cyan) 47%,#FFE3BD 53%,var(--text) 62%,var(--text) 100%);
+  background-size:260% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:namePass 3.6s linear infinite}
+@keyframes namePass{from{background-position:100% 0}to{background-position:0 0}}
+.hero-hi.stopped .hi-name{animation:none;background:none;-webkit-text-fill-color:var(--text)}
+.hi-state{position:absolute;left:100%;top:50%;margin-left:6px;transform:translateY(-50%);font-size:.64rem;
   letter-spacing:.14em;text-transform:uppercase;color:var(--muted);opacity:0;transition:opacity .3s;white-space:nowrap}
 .hero-hi:hover .hi-state,.hero-hi:focus-visible .hi-state{opacity:1}
 .hero-lede{margin:24px auto 0;font-size:clamp(1.05rem,1.9vw,1.25rem);line-height:1.6;color:var(--text-2);max-width:46ch}
-.hero-poem{margin:10px 0 0;font-size:1rem;color:var(--muted);font-style:italic}
 .scroll-hint{position:absolute;left:0;right:0;bottom:44px;display:flex;flex-direction:column;
   align-items:center;gap:12px;transition:opacity .6s var(--ease)}
 .mouse{width:19px;height:30px;border:1px solid var(--line-2);border-radius:11px;position:relative}
@@ -629,7 +637,8 @@ main{position:relative;z-index:2}
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
   .mouse i{display:none}
-  .hi-caret{display:none}
+  .hi-name{animation:none;background:none;-webkit-text-fill-color:var(--text)}
+  .hero-title .w>i{animation:none;transform:none;filter:none;opacity:1}
   .pcard{opacity:1!important;transform:none!important}
   .rv-on .rv,.rv-on .sec.out-up .rv{opacity:1!important;transform:none!important}
 }
@@ -678,10 +687,9 @@ main{position:relative;z-index:2}
 <section class="sec" id="start">
   <div class="wrap">
     <p class="hero-hi" id="heroHi" role="button" tabindex="0" aria-pressed="false"
-       aria-label="Hi, I'm Shanmugam. Click to stop the animation."><span class="hi-text" id="hiText" aria-hidden="true">Hi, I'm <b>Shanmugam</b>.</span><span class="hi-caret" aria-hidden="true"></span><span class="hi-state" id="hiState" aria-hidden="true"></span></p>
-    <h1 class="display hero-title"><span>I design complex products</span><span>that feel simple.</span></h1>
+       aria-label="Hi, I'm Shanmugam. Click to stop the animation.">Hi, I'm <span class="hi-name">Shanmugam</span><span class="hi-state" id="hiState" aria-hidden="true"></span></p>
+    <h1 class="display hero-title" id="heroTitle" aria-label="I design complex products that feel simple."><span>I design complex products</span><span>that feel simple.</span></h1>
     <p class="hero-lede">Product designer at Chadura Tech, working across healthcare, SaaS, fintech and, increasingly, AI.</p>
-    <p class="hero-poem">Let's see where this goes.</p>
     <div class="hero-cta">
       <a class="hero-btn" href="#works" data-cursor="Go">Start the walk <i aria-hidden="true">→</i></a>
       <a class="hero-link" href="resume.pdf" target="_blank" rel="noopener">Resume ↓</a>
@@ -1424,61 +1432,40 @@ function mountMedia(root){
 }
 mountMedia(document);
 
-/* ═══════ HERO GREETING — typed lines on a loop; click (or Enter) stops / restarts it ═══════ */
+/* ═══════ HERO — name glow (click to stop) + headline words rise, "simple." unscrambles ═══════ */
 (function(){
-  const el=document.getElementById("heroHi"),out=document.getElementById("hiText"),state=document.getElementById("hiState");
-  if(!el||!out) return;
-  // each line is a list of [text, style]: "" plain, "b" bright, "em" accent
-  const LINES=[
-    [["Hi, I'm ",""],["Shanmugam","b"],[".",""]],
-    [["Engineer by degree, ",""],["designer","em"],[" by choice.",""]],
-    [["Curious about ",""],["people","b"],[" and ",""],["AI","em"],[".",""]],
-    [["Turning ",""],["complex","b"],[" into ",""],["clear","em"],[".",""]]
-  ];
-  const len=l=>l.reduce((n,[t])=>n+t.length,0);
-  function render(line,n){
-    let h="",left=n;
-    for(const [t,c] of line){
-      if(left<=0) break;
-      const part=esc(t.slice(0,left)); left-=t.length;
-      h+=c?`<${c}>${part}</${c}>`:part;
-    }
-    out.innerHTML=h;
+  const hi=document.getElementById("heroHi"),state=document.getElementById("hiState");
+  if(hi){
+    let stopped=RM;
+    const set=()=>{ hi.classList.toggle("stopped",stopped); hi.setAttribute("aria-pressed",stopped?"true":"false");
+      if(state) state.textContent=stopped?"▶ play":"❚❚ stop"; };
+    set();
+    hi.addEventListener("click",()=>{ stopped=!stopped; set(); });
+    hi.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); hi.click(); } });
   }
-  let li=0,n=len(LINES[0]),dir=0,timer=0,stopped=RM;
-  const TYPE=58,DEL=26,HOLD=2300,GAP=380;
-  function step(){
-    const line=LINES[li],L=len(line);
-    if(dir===0){ el.classList.remove("typing"); dir=-1; timer=setTimeout(step,HOLD); return; }       // hold the full line
-    el.classList.add("typing");
-    if(dir<0){                                                                                        // delete
-      n--; render(line,n);
-      if(n<=0){ dir=1; li=(li+1)%LINES.length; timer=setTimeout(step,GAP); return; }
-      timer=setTimeout(step,DEL); return;
-    }
-    n++; render(LINES[li],n);                                                                          // type
-    if(n>=len(LINES[li])){ dir=0; }
-    timer=setTimeout(step,TYPE+(Math.random()*40-20));
-  }
-  function setState(){
-    el.classList.toggle("stopped",stopped);
-    el.setAttribute("aria-pressed",stopped?"true":"false");
-    if(state) state.textContent=stopped?"▶ play":"❚❚ stop";
-  }
-  function stop(){
-    stopped=true; clearTimeout(timer); el.classList.remove("typing");
-    render(LINES[li],len(LINES[li])); n=len(LINES[li]); dir=0;   // finish the current line so it reads cleanly
-    setState();
-  }
-  function start(){
-    stopped=false; setState(); clearTimeout(timer); dir=0; timer=setTimeout(step,600);
-  }
-  render(LINES[0],n); setState();
-  if(!RM) timer=setTimeout(step,1400);
-  el.addEventListener("click",()=>stopped?start():stop());
-  el.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); el.click(); } });
-  // no point typing while nobody can see it
-  document.addEventListener("visibilitychange",()=>{ if(document.hidden){ clearTimeout(timer); } else if(!stopped){ clearTimeout(timer); timer=setTimeout(step,400); } });
+  const h1=document.getElementById("heroTitle");
+  if(!h1) return;
+  let wi=0;
+  h1.querySelectorAll(":scope > span").forEach(line=>{
+    line.setAttribute("aria-hidden","true");
+    line.innerHTML=line.textContent.trim().split(/\s+/).map(w=>
+      `<span class="w${w==="simple."?" simple":""}"><i style="--wi:${wi++}">${esc(w)}</i></span>`).join(" ");
+  });
+  const word=h1.querySelector(".w.simple>i");
+  if(!word||RM) return;
+  const FINAL=word.textContent,POOL="#%&*+=?/<>[]{}01xz";
+  word.style.display="inline-block";word.style.minWidth=word.offsetWidth+"px";
+  const scramble=()=>[...FINAL].map(c=>c==="."?c:POOL[(Math.random()*POOL.length)|0]).join("");
+  word.textContent=scramble();                       // it rises in scrambled…
+  const startAt=(.35+(wi-1)*.07+.55)*1000;           // …and resolves once it has risen into place
+  setTimeout(()=>{
+    const t0=performance.now(),DUR=950;
+    (function frame(now){
+      const p=Math.min(1,(now-t0)/DUR);
+      word.textContent=[...FINAL].map((c,i)=>(i/FINAL.length<p||c===".")?c:POOL[(Math.random()*POOL.length)|0]).join("");
+      if(p<1) requestAnimationFrame(frame); else { word.textContent=FINAL; word.style.minWidth=""; }
+    })(t0);
+  },startAt);
 })();
 
 /* ═══════ CONNECT — one-click email copy ═══════ */
