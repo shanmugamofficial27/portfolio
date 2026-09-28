@@ -48,18 +48,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
 .h-sec{font-size:clamp(1.85rem,3.8vw,2.7rem)}
 .sub{color:var(--text-2);font-size:1.05rem;line-height:1.75;margin:0}
 
-/* ---------- time stamps: "11:00 PM · the long stretch" ---------- */
-.stamp{display:inline-flex;align-items:baseline;gap:.7em;margin:0 0 18px;font-size:.74rem;font-weight:500;
-  letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
-.stamp-t{display:inline-flex;color:var(--cyan);letter-spacing:.06em;font-variant-numeric:tabular-nums;font-weight:600}
-.stamp-t>i{display:inline-block;overflow:hidden;font-style:normal;height:1.25em;line-height:1.25em;vertical-align:bottom}
-.stamp-t>i>b{display:block;font-weight:inherit;transform:translateY(105%);
-  transition:transform .7s var(--ease) calc(var(--d,0)*45ms)}
-.stamp-sep{color:var(--line-2);letter-spacing:0}
-.rv-on .sec.in .stamp-t>i>b,.stamp-t.on>i>b{transform:none}
-html:not(.rv-on) .stamp-t>i>b{transform:none}
-
-/* ---------- section arrival: stamp → heading → content ---------- */
+/* ---------- section arrival: heading → content ---------- */
 .rv-on .rv{opacity:0;transform:translateY(22px);
   transition:opacity .75s var(--ease) calc(var(--rv,0)*110ms),transform .75s var(--ease) calc(var(--rv,0)*110ms)}
 .rv-on .sec.in .rv{opacity:1;transform:none}
@@ -89,7 +78,7 @@ html:not(.rv-on) .stamp-t>i>b{transform:none}
 /* ---------- nav ---------- */
 .nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;
   justify-content:space-between;padding:22px clamp(18px,4vw,46px);transition:background .5s var(--ease)}
-.nav.solid{background:linear-gradient(to bottom,rgba(3,5,7,.94),rgba(3,5,7,0))}
+.nav.solid{background:linear-gradient(to bottom,rgba(3,5,7,.96) 55%,rgba(3,5,7,0))}
 .brand b{font-weight:400;font-size:.8rem;letter-spacing:.28em}
 .brand span{display:block;font-size:.62rem;letter-spacing:.26em;color:var(--muted);text-transform:uppercase;margin-top:5px}
 .nav-links{display:flex;align-items:center;gap:clamp(12px,2vw,30px)}
@@ -136,7 +125,13 @@ main{position:relative;z-index:2}
 #start{justify-content:center;text-align:center;min-height:100svh}
 .hero-title{font-size:clamp(2.4rem,7vw,5rem);letter-spacing:-.025em;line-height:1.04;margin-top:22px}
 .hero-title span{display:block}
-.hero-meta{margin-top:28px;font-size:.72rem;letter-spacing:.28em;color:var(--muted);text-transform:uppercase}
+.hero-meta{margin-top:40px;font-size:.72rem;letter-spacing:.22em;color:var(--muted);text-transform:uppercase}
+.hero-status{display:inline-flex;align-items:center;gap:10px;margin:0;padding:7px 15px 7px 12px;border-radius:999px;
+  border:1px solid var(--line-2);background:rgba(5,7,12,.38);font-size:.8rem;color:var(--text-2)}
+.hero-status i{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:pulse 2.4s var(--ease) infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(139,223,255,.55)}70%,100%{box-shadow:0 0 0 9px rgba(139,223,255,0)}}
+.hero-lede{margin:24px auto 0;font-size:clamp(1.05rem,1.9vw,1.3rem);line-height:1.6;color:var(--text-2);max-width:40ch}
+.hero-poem{margin:10px 0 0;font-size:1rem;color:var(--muted);font-style:italic}
 .scroll-hint{position:absolute;left:0;right:0;bottom:44px;display:flex;flex-direction:column;
   align-items:center;gap:12px;transition:opacity .6s var(--ease)}
 .mouse{width:19px;height:30px;border:1px solid var(--line-2);border-radius:11px;position:relative}
@@ -233,7 +228,6 @@ main{position:relative;z-index:2}
    One accent here: the lamp's amber (--warm), matching the pre-dawn sky. */
 #play{--pa:var(--warm);--pa-rgb:255,201,139;--wood:#1C1410}
 .play-head .sub{max-width:52ch;margin-left:auto;margin-right:auto;text-wrap:balance}
-#play .stamp-t{color:var(--pa)}
 .deskscene{position:relative;max-width:1100px;margin:0 auto;aspect-ratio:2/1;
   border-radius:14px;overflow:hidden;isolation:isolate;
   background:radial-gradient(ellipse 70% 60% at 32% 38%,rgba(var(--pa-rgb),.16),transparent 70%),
@@ -347,33 +341,69 @@ main{position:relative;z-index:2}
 .finale .sub{max-width:52ch;font-size:.9rem}
 .finale-cta{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 
-/* ---------- 06 home ---------- */
+/* ---------- 02 about ---------- */
+.about{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,84px);
+  align-items:center;max-width:1040px}
+.about-photo{max-width:400px;width:100%;justify-self:end}
+.about-photo .ph-frame{box-shadow:0 30px 60px -30px rgba(0,0,0,.7)}
+/* a streetlight passes over the portrait once as the section arrives */
+.about-photo .ph-frame::after{content:"";position:absolute;inset:-20% -60%;pointer-events:none;z-index:1;
+  background:linear-gradient(100deg,transparent 35%,rgba(255,201,139,.16) 48%,rgba(255,201,139,.05) 56%,transparent 66%);
+  transform:translateX(-70%);opacity:0}
+.rv-on #about.in .about-photo .ph-frame::after{animation:lamp 2.6s var(--ease) .5s both}
+@keyframes lamp{0%{transform:translateX(-70%);opacity:0}20%{opacity:1}100%{transform:translateX(70%);opacity:0}}
+.about-copy .h-sec{margin-top:14px}
+.about-bio{margin:20px 0 0;font-size:1.06rem;line-height:1.8;color:var(--text-2);max-width:58ch}
+.about-bio:first-of-type{color:var(--text)}
+.principles{list-style:none;margin:34px 0 0;padding:0;display:grid;border-top:1px solid var(--line)}
+.principles li{display:grid;grid-template-columns:minmax(0,13rem) minmax(0,1fr);gap:18px;padding:16px 0;
+  border-bottom:1px solid var(--line);align-items:baseline}
+.principles b{font-weight:600;font-size:1rem;color:var(--text)}
+.principles span{font-size:.95rem;line-height:1.6;color:var(--text-2)}
+
+/* ---------- 07 connect ---------- */
 #home{text-align:center}
 #home .wrap{
   background:rgba(5,7,12,.42);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border-radius:16px;padding:clamp(36px,6vw,64px) clamp(18px,5vw,40px);
   border:1px solid rgba(255,255,255,.08);
 }
-.home-title{font-size:clamp(2.2rem,5.4vw,3.8rem)}
-#home .stamp-t{color:var(--warm)}
-.links{display:grid;gap:2px;max-width:320px;margin:44px auto 0}
+.home-title{font-size:clamp(2.2rem,5.4vw,3.8rem);margin-top:18px}
+.home-poem{margin:14px 0 0;font-size:1.05rem;color:var(--text-2);font-style:italic}
+.home-sub{margin:26px auto 0;max-width:52ch;font-size:1.02rem;line-height:1.75;color:var(--text-2)}
+.mail{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;margin:38px auto 0}
+.mail-addr{font-size:clamp(1rem,2.4vw,1.35rem);font-weight:600;color:var(--text);padding:14px 22px;border-radius:999px;
+  border:1px solid rgba(255,201,139,.35);background:rgba(255,201,139,.07);transition:border-color .3s,background .3s;
+  overflow-wrap:anywhere}
+.mail-addr:hover{border-color:var(--warm);background:rgba(255,201,139,.13)}
+.mail-copy{min-width:92px;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line-2);
+  font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2);transition:.3s var(--ease)}
+.mail-copy:hover{color:var(--text);border-color:var(--text-2)}
+.mail-copy.done{color:#0A0E14;background:var(--warm);border-color:var(--warm)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.links{display:grid;gap:2px;max-width:320px;margin:26px auto 0}
 .link{display:flex;align-items:center;justify-content:space-between;padding:15px 4px;
-  border-bottom:1px solid var(--line);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+  border-bottom:1px solid var(--line);font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;
   color:var(--text-2);transition:.35s var(--ease)}
 .link:hover{color:var(--text);border-color:rgba(255,201,139,.5)}
 .link i{font-style:normal;color:var(--warm);transition:transform .4s var(--ease)}
 .link:hover i{transform:translateX(5px)}
 .route{margin:70px auto 0;max-width:560px}
 .route svg{width:100%;height:44px;overflow:visible}
-.route-lbls{display:flex;justify-content:space-between;margin-top:12px;font-size:.52rem;
-  letter-spacing:.16em;color:var(--text-2);text-transform:uppercase}
+.route-lbls{display:flex;justify-content:space-between;margin:12px -14px 0;font-size:.62rem;
+  letter-spacing:.12em;color:var(--text-2);text-transform:uppercase}
+.route-lbls a{padding:8px 4px;min-width:28px;text-align:center;transition:color .3s}
+.route-lbls a:hover{color:var(--warm)}
 .foot{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
   padding:32px clamp(18px,5vw,56px);border-top:1px solid var(--line);position:relative;z-index:2;
   font-size:.62rem;letter-spacing:.16em;color:var(--text-2);text-transform:uppercase;
   background:rgba(5,7,12,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
+.again{display:inline-flex;align-items:center;gap:12px;transition:color .35s}
+.again small{font-size:inherit;color:var(--muted);letter-spacing:.12em}
 .totop{width:34px;height:34px;border:1px solid var(--line-2);border-radius:50%;display:grid;
   place-items:center;transition:.35s}
-.totop:hover{border-color:var(--cyan);color:var(--cyan)}
+.again:hover{color:var(--cyan)}
+.again:hover .totop{border-color:var(--cyan);color:var(--cyan);transform:translateY(-2px)}
 
 /* ---------- case study ---------- */
 #case{position:fixed;inset:0;z-index:60;overflow-y:auto;--case-accent:var(--cyan);--case-rgb:139,223,255;
@@ -571,6 +601,10 @@ main{position:relative;z-index:2}
   .ctl-step{padding-top:0;padding-left:44px}
   .ctl-num{left:0;top:0}
   .foot{justify-content:center;text-align:center}
+  .about{grid-template-columns:1fr}
+  .about-photo{justify-self:center;max-width:300px}
+  .principles li{grid-template-columns:1fr;gap:4px}
+  .route-lbls{font-size:.55rem;letter-spacing:.06em;margin:12px -8px 0}
 }
 @media(max-width:520px){
   .hero-meta{font-size:.55rem;letter-spacing:.22em}
@@ -583,9 +617,9 @@ main{position:relative;z-index:2}
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
   .mouse i{display:none}
+  .hero-status i{animation:none}
   .pcard{opacity:1!important;transform:none!important}
   .rv-on .rv,.rv-on .sec.out-up .rv{opacity:1!important;transform:none!important}
-  .stamp-t>i>b{transform:none!important}
 }
 </style>
 </head>
@@ -601,11 +635,12 @@ main{position:relative;z-index:2}
   <div class="nav-end">
     <nav class="nav-links" id="navlinks" aria-label="Sections">
       <a href="#start"><i>01</i><em>Start</em></a>
-      <a href="#works"><i>02</i><em>Work</em></a>
-      <a href="#skills"><i>03</i><em>Skills</em></a>
-      <a href="#journey"><i>04</i><em>Journey</em></a>
-      <a href="#play"><i>05</i><em>Desk</em></a>
-      <a href="#home"><i>06</i><em>Connect</em></a>
+      <a href="#about"><i>02</i><em>About</em></a>
+      <a href="#works"><i>03</i><em>Work</em></a>
+      <a href="#skills"><i>04</i><em>Skills</em></a>
+      <a href="#journey"><i>05</i><em>Journey</em></a>
+      <a href="#play"><i>06</i><em>Desk</em></a>
+      <a href="#home"><i>07</i><em>Connect</em></a>
       <!-- REPLACE: drop resume.pdf into the project folder -->
       <a class="nav-cv" href="resume.pdf" target="_blank" rel="noopener"><em>Resume</em></a>
     </nav>
@@ -629,22 +664,42 @@ main{position:relative;z-index:2}
 <!-- ═════════ 01 START ═════════ -->
 <section class="sec" id="start">
   <div class="wrap">
-    <p class="stamp" data-time="8:00 PM"><span class="stamp-t">8:00 PM</span><span class="stamp-sep">·</span><span>setting out</span></p>
-    <p class="eyebrow">Product Designer</p>
-    <h1 class="display hero-title"><span>Let's see</span><span>where this goes.</span></h1>
-    <p class="hero-meta">AI &nbsp;·&nbsp; Data &nbsp;·&nbsp; Product &nbsp;·&nbsp; UX</p>
+    <p class="hero-status"><i aria-hidden="true"></i>Open to product design roles</p>
+    <h1 class="display hero-title"><span>I design complex products</span><span>that feel simple.</span></h1>
+    <p class="hero-lede">Healthcare, SaaS, fintech and, increasingly, AI.</p>
+    <p class="hero-poem">Let's see where this goes.</p>
     <div class="hero-cta">
-      <a class="hero-btn" href="#works" data-cursor="Go">See my work <i aria-hidden="true">→</i></a>
-      <a class="hero-link" href="#play">or come play at my desk</a>
+      <a class="hero-btn" href="#about" data-cursor="Go">Start the walk <i aria-hidden="true">→</i></a>
+      <a class="hero-link" href="resume.pdf" target="_blank" rel="noopener">Resume ↓</a>
     </div>
+    <p class="hero-meta">Product Designer &nbsp;·&nbsp; Chadura Tech &nbsp;·&nbsp; Bengaluru / Remote</p>
   </div>
-  <div class="scroll-hint" id="hint"><div class="mouse"><i></i></div><small>Scroll to travel</small></div>
+  <div class="scroll-hint" id="hint"><div class="mouse"><i></i></div><small>Scroll to walk</small></div>
 </section>
 
-<!-- ═════════ 02 WORKS ═════════ -->
+<!-- ═════════ 02 ABOUT ═════════ -->
+<section class="sec" id="about">
+  <div class="wrap about">
+    <!-- REPLACE: set data-src to a real portrait (4:5) -->
+    <figure class="ph about-photo" data-type="image" data-ratio="4:5" data-label="Portrait of Shanmugam"></figure>
+    <div class="about-copy">
+      <p class="eyebrow">About</p>
+      <h2 class="display h-sec">Who's walking with you</h2>
+      <p class="about-bio">I'm a product designer who's drawn to problems that aren't easy to understand at first. I studied electronics engineering, taught myself design, and for the last two years at Chadura Tech I've designed across genomics, enterprise SaaS and fintech.</p>
+      <p class="about-bio">I'm curious about people, technology and especially AI, and I like understanding the user and the business before I touch a screen. I prefer minimal interfaces and thoughtful systems, where the right thing feels obvious.</p>
+      <ul class="principles">
+        <li><b>Users before pixels</b><span>Who it's for and what's in their way, before any screen.</span></li>
+        <li><b>Simple survives</b><span>Most of design is deciding what to leave out.</span></li>
+        <li><b>Structure before surface</b><span>Information architecture and flows first, then the interface.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 03 WORKS ═════════ -->
 <section class="sec" id="works">
   <div class="wrap">
-    <div class="sec-head"><p class="stamp" data-time="11:00 PM"><span class="stamp-t">11:00 PM</span><span class="stamp-sep">·</span><span>the long stretch</span></p><h2 class="display h-sec">Selected work</h2></div>
+    <div class="sec-head"><h2 class="display h-sec">Selected work</h2></div>
     <div class="card-grid">
 
       <!-- REPLACE: background-image url with real Genix screenshot -->
@@ -693,7 +748,7 @@ main{position:relative;z-index:2}
 <!-- ═════════ 03 SKILLS ═════════ -->
 <section class="sec" id="skills">
   <div class="wrap">
-    <div class="sec-head"><p class="stamp" data-time="2:00 AM"><span class="stamp-t">2:00 AM</span><span class="stamp-sep">·</span><span>what I carry</span></p><h2 class="display h-sec">What I carry with me</h2></div>
+    <div class="sec-head"><h2 class="display h-sec">What I carry with me</h2></div>
 
     <div class="stats" id="stats">
       <div class="stat"><div class="stat-num" data-to="3">0</div><div class="stat-lbl">Products shipped</div></div>
@@ -710,7 +765,7 @@ main{position:relative;z-index:2}
 <!-- ═════════ 04 JOURNEY ═════════ -->
 <section class="sec" id="journey">
   <div class="wrap">
-    <div class="sec-head"><p class="stamp" data-time="3:30 AM"><span class="stamp-t">3:30 AM</span><span class="stamp-sep">·</span><span>where I came from</span></p><h2 class="display h-sec">Where I came from</h2></div>
+    <div class="sec-head"><h2 class="display h-sec">Where I came from</h2></div>
 
     <div class="timeline" id="timeline">
 
@@ -746,7 +801,6 @@ main{position:relative;z-index:2}
 <section class="sec" id="play">
   <div class="wrap">
     <div class="sec-head play-head">
-      <p class="stamp" data-time="4:30 AM"><span class="stamp-t">4:30 AM</span><span class="stamp-sep">·</span><span>the desk</span></p>
       <h2 class="display h-sec">The road less travelled</h2>
       <p class="sub">It's dark in here. Find the light, then crack the laptop's password. Everything on this desk knows something about me.</p>
     </div>
@@ -822,37 +876,41 @@ main{position:relative;z-index:2}
 <!-- ═════════ 06 HOME ═════════ -->
 <section class="sec" id="home">
   <div class="wrap">
-    <p class="stamp" data-time="6:48 AM"><span class="stamp-t">6:48 AM</span><span class="stamp-sep">·</span><span>sunrise</span></p>
+    <p class="eyebrow">You made it · sunrise</p>
     <h2 class="display home-title">Where do we<br>go from here?</h2>
-    <p class="sub" style="margin-top:18px">Maybe the next road is ours.</p>
+    <p class="home-poem">Maybe the next road is ours.</p>
+    <p class="home-sub">I'm looking for Product Designer roles at product companies working on AI, healthcare, SaaS or data-driven products. Based in Bengaluru, open to remote.</p>
 
-    <!-- REPLACE: real email, LinkedIn, resume and GitHub links -->
-    <div class="links">
-      <a class="link" href="mailto:hello@example.com" data-cursor="Open">Email <i>→</i></a>
-      <a class="link" href="#" data-cursor="Open">LinkedIn <i>→</i></a>
-      <a class="link" href="#" data-cursor="Open">Resume <i>→</i></a>
-      <a class="link" href="#" data-cursor="Open">GitHub <i>→</i></a>
+    <div class="mail">
+      <a class="mail-addr" href="mailto:shanmugamofficial27@gmail.com" data-cursor="Write">shanmugamofficial27@gmail.com</a>
+      <button class="mail-copy" id="mailCopy" type="button" aria-label="Copy email address">Copy</button>
+      <span class="sr-only" id="mailCopyMsg" role="status" aria-live="polite"></span>
     </div>
 
-    <div class="route" aria-hidden="true">
-      <svg viewBox="0 0 560 34" id="routemap">
+    <div class="links">
+      <a class="link" href="https://www.linkedin.com/in/shanmugam-v-/" target="_blank" rel="noopener" data-cursor="Open">LinkedIn <i>↗</i></a>
+      <!-- REPLACE: drop resume.pdf into the project folder -->
+      <a class="link" href="resume.pdf" target="_blank" rel="noopener" data-cursor="Open">Resume <i>↓</i></a>
+    </div>
+
+    <nav class="route" aria-label="Every stop on the walk">
+      <svg viewBox="0 0 560 34" id="routemap" aria-hidden="true">
         <path id="routedraw" d="M8 26 C120 26, 140 10, 280 10 S440 26, 552 12" fill="none" stroke="url(#rg)" stroke-width="1"/>
         <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0" stop-color="#8BDFFF"/><stop offset=".72" stop-color="#7669B8"/><stop offset="1" stop-color="#FFC98B"/>
         </linearGradient></defs>
         <g id="routedots"></g>
       </svg>
-      <div class="route-lbls"><span>Start</span><span>Work</span><span>Skills</span><span>Journey</span><span>Play</span><span>Home</span></div>
-    </div>
+      <div class="route-lbls"><a href="#start">Start</a><a href="#about">About</a><a href="#works">Work</a><a href="#skills">Skills</a><a href="#journey">Journey</a><a href="#play">Desk</a><a href="#home">Connect</a></div>
+    </nav>
   </div>
 </section>
 
 </main>
 
 <footer class="foot">
-  <div>V Shanmugam · Product Designer</div>
-  <a class="totop" href="#start" aria-label="Start again">↑</a>
-  <div>Start again ↗</div>
+  <div>V Shanmugam · Product Designer · Bengaluru</div>
+  <a class="again" href="#start" data-cursor="Rewind"><span class="totop" aria-hidden="true">↑</span>Start again <small>back to 8:00 PM</small></a>
 </footer>
 
 <div id="case" role="dialog" aria-modal="true" aria-labelledby="casetitle">
@@ -895,6 +953,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const ANCHORS=[
   // 8:00 PM dusk → 11:00 PM night → 2:00 AM deep night → 4:30 AM pre-dawn → 6:00 AM dawn → 7:00 AM sunrise
   {id:"start",    skyA:"#0A0F2E", skyB:"#33305C", fog:"#242348", light:"#8BA8FF", glow:.30, horizon:.575, density:.85, dark:.06},
+  {id:"about",   skyA:"#080C26", skyB:"#1E2448", fog:"#161A38", light:"#8FB4FF", glow:.30, horizon:.59,  density:.70, dark:.04},
   {id:"works",   skyA:"#05081A", skyB:"#0B1A34", fog:"#0A1526", light:"#8BDFFF", glow:.30, horizon:.60,  density:.55, dark:.02},
   {id:"skills",   skyA:"#03040F", skyB:"#0E1030", fog:"#0C0E2A", light:"#9AA8FF", glow:.32, horizon:.585, density:.80, dark:.12},
   {id:"journey",  skyA:"#0B0D22", skyB:"#33344C", fog:"#2A2B42", light:"#C9B7FF", glow:.32, horizon:.565, density:.78, dark:.10},
@@ -1215,7 +1274,7 @@ if(!isTouch&&!RM){
 }
 
 /* ═══════ CHROME ═══════ */
-const SEC=["start","works","skills","journey","play","home"];
+const SEC=["start","about","works","skills","journey","play","home"];
 const navAs=[...document.querySelectorAll("#navlinks a")];
 const mfill=document.querySelector(".mprog i");
 const hint=document.getElementById("hint");
@@ -1235,7 +1294,7 @@ window.addEventListener("scroll",chrome,{passive:true});chrome();
 
 /* ═══════ NIGHT CLOCK — 8:00 PM at the top, 7:00 AM at the bottom ═══════
    Each section has a fixed time; the clock walks between them as you scroll. */
-const TIMES=[["start",0],["works",180],["skills",360],["journey",450],["play",510],["home",648]]; // minutes after 8:00 PM
+const TIMES=[["start",0],["about",90],["works",180],["skills",360],["journey",450],["play",510],["home",648]]; // minutes after 8:00 PM
 const END_MIN=660;
 const clockT=document.getElementById("clockT"),clockAp=document.getElementById("clockAp"),
       clockEl=document.getElementById("clock"),clockBite=document.getElementById("clockBite"),
@@ -1244,8 +1303,8 @@ let clockKeys=[],clockFrozen=null,lastClock="";
 function buildClock(){
   const vh=window.innerHeight,max=document.documentElement.scrollHeight-vh;
   clockKeys=TIMES.map(([id,m])=>{
-    // the clock shows a section's time exactly when that section's stamp reaches mid-screen
-    const sec=document.getElementById(id),el=sec&&(sec.querySelector(".stamp")||sec);
+    // the clock shows a section's time exactly when that section's heading reaches mid-screen
+    const sec=document.getElementById(id),el=sec&&(sec.querySelector("h1,h2")||sec);
     return [el?clamp(el.getBoundingClientRect().top+window.scrollY-vh*.5,0,max):0,m];
   });
   clockKeys[0][0]=0;
@@ -1287,14 +1346,8 @@ window.addEventListener("resize",()=>{buildClock();clock();});
 window.addEventListener("load",()=>{buildClock();clock();});
 buildClock();clock();
 
-/* ═══════ ARRIVAL — each section arrives in order: stamp → heading → content ═══════ */
+/* ═══════ ARRIVAL — each section arrives in order: heading → content ═══════ */
 (function(){
-  // split each stamp's time into rolling digits
-  document.querySelectorAll(".stamp-t").forEach(el=>{
-    const txt=el.textContent;
-    el.setAttribute("aria-label",txt);
-    el.innerHTML=[...txt].map((c,i)=>`<i aria-hidden="true"><b style="--d:${i}">${c===" "?"&nbsp;":c}</b></i>`).join("");
-  });
   if(!("IntersectionObserver" in window)) return;
   const secs=[...document.querySelectorAll("main > .sec")];
   secs.forEach(sec=>{
@@ -1364,6 +1417,27 @@ function mountMedia(root){
   }
 }
 mountMedia(document);
+
+/* ═══════ CONNECT — one-click email copy ═══════ */
+(function(){
+  const btn=document.getElementById("mailCopy"),msg=document.getElementById("mailCopyMsg");
+  if(!btn) return;
+  const ADDR="shanmugamofficial27@gmail.com";
+  let t=0;
+  btn.addEventListener("click",async()=>{
+    let ok=false;
+    try{ await navigator.clipboard.writeText(ADDR); ok=true; }
+    catch(e){
+      const ta=document.createElement("textarea");ta.value=ADDR;ta.setAttribute("readonly","");
+      ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();
+      try{ ok=document.execCommand("copy"); }catch(_){}
+      ta.remove();
+    }
+    btn.textContent=ok?"Copied ✓":"Press Ctrl+C";btn.classList.toggle("done",ok);
+    msg.textContent=ok?"Email address copied":"";
+    clearTimeout(t);t=setTimeout(()=>{btn.textContent="Copy";btn.classList.remove("done");msg.textContent="";},2200);
+  });
+})();
 
 const burger=document.getElementById("burger");
 burger.addEventListener("click",()=>{
@@ -2152,11 +2226,12 @@ const jrn=(function(){
   if(!path)return;
   const L=path.getTotalLength();
   path.style.strokeDasharray=L;path.style.strokeDashoffset=L;
-  for(let i=0;i<6;i++){
-    const p=path.getPointAtLength(L*(i/5));
+  const N=7;
+  for(let i=0;i<N;i++){
+    const p=path.getPointAtLength(L*(i/(N-1)));
     const c=document.createElementNS("http://www.w3.org/2000/svg","circle");
     c.setAttribute("cx",p.x);c.setAttribute("cy",p.y);c.setAttribute("r","2.4");
-    c.setAttribute("fill",i===5?"#FFC98B":"#8BDFFF");c.setAttribute("opacity","0");
+    c.setAttribute("fill",i===N-1?"#FFC98B":"#8BDFFF");c.setAttribute("opacity","0");
     dots.appendChild(c);
   }
   const obs=new IntersectionObserver(es=>{
