@@ -17,7 +17,7 @@
 <style>
 :root{
   --bg:#0A0E14; --bg-2:#0D131B; --bg-3:#141C28; --surface:#141C28;
-  --text:#F5F7F6; --text-2:#B7C0C9; --muted:#7C8896;
+  --text:#F5F7F6; --text-2:#BEC7D0; --muted:#8E9AA8;
   --cyan:#8BDFFF; --blue:#356A91; --violet:#7669B8; --warm:#FFC98B;
   --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.16);
   --ease:cubic-bezier(.22,.61,.36,1);
@@ -42,10 +42,48 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
 
 /* ---------- type ---------- */
-.eyebrow{font-size:.7rem;letter-spacing:.32em;text-transform:uppercase;color:var(--text-2);font-weight:500;margin:0}
-.display{font-weight:600;line-height:1.15;letter-spacing:.05em;text-transform:uppercase;margin:0}
-.h-sec{font-size:clamp(1.5rem,3vw,2.1rem)}
-.sub{color:var(--text-2);font-size:.98rem;line-height:1.75;margin:0}
+.eyebrow{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--text-2);font-weight:500;margin:0}
+/* headings: sentence case — uppercase is kept for small labels only */
+.display{font-weight:600;line-height:1.12;letter-spacing:-.015em;margin:0;text-wrap:balance}
+.h-sec{font-size:clamp(1.85rem,3.8vw,2.7rem)}
+.sub{color:var(--text-2);font-size:1.05rem;line-height:1.75;margin:0}
+
+/* ---------- time stamps: "11:00 PM · the long stretch" ---------- */
+.stamp{display:inline-flex;align-items:baseline;gap:.7em;margin:0 0 18px;font-size:.74rem;font-weight:500;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.stamp-t{display:inline-flex;color:var(--cyan);letter-spacing:.06em;font-variant-numeric:tabular-nums;font-weight:600}
+.stamp-t>i{display:inline-block;overflow:hidden;font-style:normal;height:1.25em;line-height:1.25em;vertical-align:bottom}
+.stamp-t>i>b{display:block;font-weight:inherit;transform:translateY(105%);
+  transition:transform .7s var(--ease) calc(var(--d,0)*45ms)}
+.stamp-sep{color:var(--line-2);letter-spacing:0}
+.rv-on .sec.in .stamp-t>i>b,.stamp-t.on>i>b{transform:none}
+html:not(.rv-on) .stamp-t>i>b{transform:none}
+
+/* ---------- section arrival: stamp → heading → content ---------- */
+.rv-on .rv{opacity:0;transform:translateY(22px);
+  transition:opacity .75s var(--ease) calc(var(--rv,0)*110ms),transform .75s var(--ease) calc(var(--rv,0)*110ms)}
+.rv-on .sec.in .rv{opacity:1;transform:none}
+.rv-on .sec.out-up .rv{opacity:0;transform:translateY(-14px);transition-duration:.4s;transition-delay:0s}
+
+/* ---------- media placeholder: IMAGE / GIF / VIDEO ---------- */
+.ph{margin:0}
+.ph-frame{position:relative;aspect-ratio:var(--ar,16/10);border-radius:10px;overflow:hidden;
+  border:1px solid var(--line-2);display:grid;place-items:center;
+  background:radial-gradient(ellipse 80% 70% at 30% 20%,rgba(139,223,255,.07),transparent 70%),
+             linear-gradient(155deg,var(--bg-3),var(--bg-2))}
+.ph[data-ratio="9:19"]{--ar:9/19}.ph[data-ratio="1:1"]{--ar:1/1}.ph[data-ratio="4:5"]{--ar:4/5}.ph[data-ratio="16:9"]{--ar:16/9}
+.ph-frame>img,.ph-frame>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.ph-tag{position:absolute;top:10px;left:10px;z-index:2;font-size:.6rem;font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--text);padding:4px 8px;border-radius:4px;
+  background:rgba(5,7,12,.62);border:1px solid var(--line-2)}
+.ph-label{font-size:.8rem;letter-spacing:.04em;color:var(--muted);text-align:center;padding:0 18px}
+.ph.has-media .ph-label{display:none}
+.ph-play{position:absolute;inset:0;margin:auto;z-index:2;width:52px;height:52px;border-radius:50%;
+  background:rgba(5,7,12,.6);border:1px solid var(--line-2);color:var(--text);font-size:.9rem;
+  display:grid;place-items:center;transition:transform .3s var(--ease),opacity .3s}
+.ph-play:hover{transform:scale(1.08)}
+.ph.playing .ph-play{opacity:0;pointer-events:none}
+.ph figcaption{margin-top:12px;font-size:.9rem;line-height:1.6;color:var(--text-2)}
 .meta{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-2);margin:0}
 
 /* ---------- nav ---------- */
@@ -53,16 +91,29 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
   justify-content:space-between;padding:22px clamp(18px,4vw,46px);transition:background .5s var(--ease)}
 .nav.solid{background:linear-gradient(to bottom,rgba(3,5,7,.94),rgba(3,5,7,0))}
 .brand b{font-weight:400;font-size:.8rem;letter-spacing:.28em}
-.brand span{display:block;font-size:.54rem;letter-spacing:.3em;color:var(--muted);text-transform:uppercase;margin-top:4px}
-.nav-links{display:flex;gap:clamp(12px,2vw,30px)}
+.brand span{display:block;font-size:.62rem;letter-spacing:.26em;color:var(--muted);text-transform:uppercase;margin-top:5px}
+.nav-links{display:flex;align-items:center;gap:clamp(12px,2vw,30px)}
 .nav-links a{position:relative;text-align:center;padding:4px 2px}
-.nav-links i{display:block;font-style:normal;font-size:.54rem;color:var(--muted);letter-spacing:.16em}
-.nav-links em{display:block;font-style:normal;font-size:.62rem;letter-spacing:.2em;
+.nav-links i{display:block;font-style:normal;font-size:.62rem;color:var(--muted);letter-spacing:.16em}
+.nav-links em{display:block;font-style:normal;font-size:.74rem;letter-spacing:.16em;
   text-transform:uppercase;color:var(--muted);transition:color .35s}
 .nav-links a:hover em,.nav-links a[aria-current="true"] em{color:var(--text)}
 .nav-links a::after{content:"";position:absolute;left:50%;bottom:-5px;width:0;height:1px;
   background:var(--cyan);transition:width .35s var(--ease),left .35s var(--ease)}
 .nav-links a[aria-current="true"]::after{width:18px;left:calc(50% - 9px)}
+.nav-links a.nav-cv{border:1px solid var(--line-2);border-radius:999px;padding:9px 16px;margin-left:4px;
+  transition:border-color .3s,background .3s}
+.nav-links a.nav-cv em{color:var(--text)}
+.nav-links a.nav-cv:hover{border-color:var(--cyan);background:rgba(139,223,255,.08)}
+.nav-links a.nav-cv::after{display:none}
+
+/* clock chip — the night's time, driven by scroll */
+.nav-end{display:flex;align-items:center;gap:clamp(14px,2.4vw,34px)}
+.clock{display:inline-flex;align-items:center;gap:9px;padding:7px 13px 7px 10px;border-radius:999px;
+  border:1px solid var(--line);background:rgba(5,7,12,.42);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  font-size:.74rem;font-weight:600;letter-spacing:.06em;font-variant-numeric:tabular-nums;color:var(--text);white-space:nowrap}
+.clock svg{width:16px;height:16px;display:block;overflow:visible}
+.clock-ap{color:var(--muted);font-weight:500;margin-left:-4px}
 .burger{display:none;width:32px;height:32px;position:relative;z-index:2}
 .burger span{position:absolute;left:6px;right:6px;height:1px;background:var(--text);transition:.3s var(--ease)}
 .burger span:nth-child(1){top:13px}.burger span:nth-child(2){top:19px}
@@ -83,26 +134,26 @@ main{position:relative;z-index:2}
 
 /* ---------- 01 hero ---------- */
 #start{justify-content:center;text-align:center;min-height:100svh}
-.hero-title{font-size:clamp(2rem,6.2vw,4.3rem);letter-spacing:.13em;margin-top:24px}
+.hero-title{font-size:clamp(2.4rem,7vw,5rem);letter-spacing:-.025em;line-height:1.04;margin-top:22px}
 .hero-title span{display:block}
-.hero-meta{margin-top:28px;font-size:.6rem;letter-spacing:.34em;color:var(--muted);text-transform:uppercase}
+.hero-meta{margin-top:28px;font-size:.72rem;letter-spacing:.28em;color:var(--muted);text-transform:uppercase}
 .scroll-hint{position:absolute;left:0;right:0;bottom:44px;display:flex;flex-direction:column;
   align-items:center;gap:12px;transition:opacity .6s var(--ease)}
 .mouse{width:19px;height:30px;border:1px solid var(--line-2);border-radius:11px;position:relative}
 .mouse i{position:absolute;left:50%;top:6px;width:2px;height:5px;margin-left:-1px;border-radius:2px;
   background:var(--cyan);animation:drop 2.2s var(--ease) infinite}
 @keyframes drop{0%,100%{transform:translateY(0);opacity:0}30%{opacity:1}70%{transform:translateY(10px);opacity:0}}
-.scroll-hint small{font-size:.55rem;letter-spacing:.34em;color:var(--muted);text-transform:uppercase}
+.scroll-hint small{font-size:.64rem;letter-spacing:.34em;color:var(--muted);text-transform:uppercase}
 .hero-cta{margin-top:44px;display:flex;flex-direction:column;align-items:center;gap:16px}
 .hero-btn{display:inline-flex;align-items:center;gap:12px;padding:15px 26px 15px 28px;border-radius:999px;
-  background:var(--text);color:#0A0E14;font-size:.66rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  background:var(--text);color:#0A0E14;font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
   box-shadow:0 18px 40px -18px rgba(139,223,255,.55);
   transition:background .3s var(--ease),transform .25s var(--ease),box-shadow .3s var(--ease)}
 .hero-btn i{font-style:normal;letter-spacing:0;transition:transform .3s var(--ease)}
 .hero-btn:hover{background:var(--cyan);box-shadow:0 22px 44px -16px rgba(139,223,255,.7)}
 .hero-btn:hover i{transform:translateX(4px)}
 .hero-btn:active{transform:scale(.97)}
-.hero-link{font-size:.72rem;color:var(--text-2);padding:4px 2px;background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;
+.hero-link{font-size:.92rem;color:var(--text-2);padding:4px 2px;background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;
   transition:color .3s var(--ease),background-size .35s var(--ease)}
 .hero-link:hover{color:var(--text);background-size:100% 1px}
 @media(max-height:620px){.scroll-hint{display:none}.hero-cta{margin-top:30px}}
@@ -126,12 +177,12 @@ main{position:relative;z-index:2}
 .pcard:hover .pcard-media{transform:scale(1.06)}
 .pcard-body{padding:18px 20px 20px}
 .pcard-top{display:flex;align-items:center;justify-content:space-between}
-.pcard-title{font-size:1rem;font-weight:400;letter-spacing:.08em;text-transform:uppercase;margin:0}
+.pcard-title{font-size:1.2rem;font-weight:600;letter-spacing:-.01em;margin:0}
 .pcard-arrow{color:var(--cyan);font-size:.9rem;transition:transform .35s var(--ease)}
 .pcard:hover .pcard-arrow{transform:translateX(4px)}
-.pcard-meta{font-size:.72rem;color:var(--text-2);margin:8px 0 12px}
+.pcard-meta{font-size:.9rem;color:var(--text-2);margin:8px 0 14px}
 .pcard-tags{display:flex;gap:8px;flex-wrap:wrap}
-.pcard-tags span{font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+.pcard-tags span{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
   border:1px solid var(--line-2);border-radius:20px;padding:4px 10px;transition:.3s}
 .pcard:hover .pcard-tags span{border-color:rgba(139,223,255,.4);color:var(--text-2)}
 
@@ -145,8 +196,8 @@ main{position:relative;z-index:2}
 .tstop-dot{position:absolute;left:0;top:4px;width:11px;height:11px;border-radius:50%;
   background:var(--cyan);box-shadow:0 0 0 5px var(--bg),0 0 18px rgba(139,223,255,.7)}
 .tstop-era{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin:0 0 6px}
-.tstop-title{font-size:1.05rem;font-weight:600;letter-spacing:.01em;margin:0 0 10px}
-.tstop-l{font-size:.9rem;line-height:1.7;color:var(--text-2);margin:0;max-width:36ch}
+.tstop-title{font-size:1.2rem;font-weight:600;letter-spacing:-.01em;margin:0 0 10px}
+.tstop-l{font-size:1rem;line-height:1.7;color:var(--text-2);margin:0;max-width:36ch}
 .tstop-art{
   margin-top:18px;aspect-ratio:16/10;border-radius:6px;background:var(--surface) center/cover no-repeat;
   border:1px solid var(--line-2);display:grid;place-items:center;color:var(--muted);
@@ -182,7 +233,7 @@ main{position:relative;z-index:2}
    One accent here: the lamp's amber (--warm), matching the pre-dawn sky. */
 #play{--pa:var(--warm);--pa-rgb:255,201,139;--wood:#1C1410}
 .play-head .sub{max-width:52ch;margin-left:auto;margin-right:auto;text-wrap:balance}
-.play-time{color:var(--pa);margin-bottom:14px}
+#play .stamp-t{color:var(--pa)}
 .deskscene{position:relative;max-width:1100px;margin:0 auto;aspect-ratio:2/1;
   border-radius:14px;overflow:hidden;isolation:isolate;
   background:radial-gradient(ellipse 70% 60% at 32% 38%,rgba(var(--pa-rgb),.16),transparent 70%),
@@ -303,7 +354,8 @@ main{position:relative;z-index:2}
   border-radius:16px;padding:clamp(36px,6vw,64px) clamp(18px,5vw,40px);
   border:1px solid rgba(255,255,255,.08);
 }
-.home-title{font-size:clamp(1.6rem,4.2vw,2.9rem)}
+.home-title{font-size:clamp(2.2rem,5.4vw,3.8rem)}
+#home .stamp-t{color:var(--warm)}
 .links{display:grid;gap:2px;max-width:320px;margin:44px auto 0}
 .link{display:flex;align-items:center;justify-content:space-between;padding:15px 4px;
   border-bottom:1px solid var(--line);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
@@ -359,7 +411,7 @@ main{position:relative;z-index:2}
 @keyframes caseUp{to{opacity:1;transform:none}}
 .case-hero .eyebrow{color:var(--case-accent)}
 .case-hero h1{font-size:clamp(1.9rem,4.8vw,3.2rem);font-weight:600;letter-spacing:.02em;
-  text-transform:uppercase;line-height:1.14;margin:18px 0 0}
+  letter-spacing:-.015em;line-height:1.12;margin:18px 0 0}
 .case-hero p{max-width:56ch;margin:20px auto 0;font-size:1rem;line-height:1.85;color:var(--text-2)}
 
 .case-stats{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(24px,5vw,54px);
@@ -493,8 +545,10 @@ main{position:relative;z-index:2}
   .nav-links{position:fixed;inset:0;background:rgba(3,5,7,.98);flex-direction:column;
     justify-content:center;align-items:center;gap:24px;opacity:0;visibility:hidden;transition:.4s var(--ease)}
   body.menu .nav-links{opacity:1;visibility:visible}
-  .nav-links em{font-size:.88rem}
+  .nav-links em{font-size:.95rem}
+  .nav-links a.nav-cv{margin:8px 0 0;padding:12px 26px}
   .burger{display:block}
+  .clock{padding:6px 11px 6px 9px;font-size:.7rem}
   .cursor{display:none}
   .sec{padding-left:clamp(18px,5vw,56px);padding-right:clamp(18px,5vw,56px)}
   .sec{min-height:auto;padding-top:92px;padding-bottom:92px}
@@ -530,6 +584,8 @@ main{position:relative;z-index:2}
   *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
   .mouse i{display:none}
   .pcard{opacity:1!important;transform:none!important}
+  .rv-on .rv,.rv-on .sec.out-up .rv{opacity:1!important;transform:none!important}
+  .stamp-t>i>b{transform:none!important}
 }
 </style>
 </head>
@@ -542,15 +598,30 @@ main{position:relative;z-index:2}
 
 <header class="nav" id="nav">
   <a class="brand" href="#start"><b>V SHANMUGAM</b><span>Product Designer</span></a>
-  <nav class="nav-links" id="navlinks" aria-label="Journey">
-    <a href="#start"><i>01</i><em>Start</em></a>
-    <a href="#works"><i>02</i><em>Works</em></a>
-    <a href="#skills"><i>03</i><em>Skills</em></a>
-    <a href="#journey"><i>04</i><em>Journey</em></a>
-    <a href="#play"><i>05</i><em>Play</em></a>
-    <a href="#home"><i>06</i><em>Connect</em></a>
-  </nav>
-  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+  <div class="nav-end">
+    <nav class="nav-links" id="navlinks" aria-label="Sections">
+      <a href="#start"><i>01</i><em>Start</em></a>
+      <a href="#works"><i>02</i><em>Work</em></a>
+      <a href="#skills"><i>03</i><em>Skills</em></a>
+      <a href="#journey"><i>04</i><em>Journey</em></a>
+      <a href="#play"><i>05</i><em>Desk</em></a>
+      <a href="#home"><i>06</i><em>Connect</em></a>
+      <!-- REPLACE: drop resume.pdf into the project folder -->
+      <a class="nav-cv" href="resume.pdf" target="_blank" rel="noopener"><em>Resume</em></a>
+    </nav>
+    <!-- the night's time: 8:00 PM at the top of the page, 7:00 AM at the bottom -->
+    <div class="clock" id="clock" aria-hidden="true">
+      <svg viewBox="0 0 16 16">
+        <defs><mask id="clockMask"><rect x="-4" y="-4" width="24" height="24" fill="#fff"/><circle id="clockBite" cx="11" cy="5" r="6" fill="#000"/></mask></defs>
+        <g id="clockRays" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity="0">
+          <path d="M8 .6v1.6M8 13.8v1.6M.6 8h1.6M13.8 8h1.6M2.8 2.8l1.1 1.1M12.1 12.1l1.1 1.1M2.8 13.2l1.1-1.1M12.1 3.9l1.1-1.1"/>
+        </g>
+        <circle id="clockOrb" cx="8" cy="8" r="5.2" fill="currentColor" mask="url(#clockMask)"/>
+      </svg>
+      <span id="clockT">8:00</span><span class="clock-ap" id="clockAp">PM</span>
+    </div>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+  </div>
 </header>
 
 <main>
@@ -558,6 +629,7 @@ main{position:relative;z-index:2}
 <!-- ═════════ 01 START ═════════ -->
 <section class="sec" id="start">
   <div class="wrap">
+    <p class="stamp" data-time="8:00 PM"><span class="stamp-t">8:00 PM</span><span class="stamp-sep">·</span><span>setting out</span></p>
     <p class="eyebrow">Product Designer</p>
     <h1 class="display hero-title"><span>Let's see</span><span>where this goes.</span></h1>
     <p class="hero-meta">AI &nbsp;·&nbsp; Data &nbsp;·&nbsp; Product &nbsp;·&nbsp; UX</p>
@@ -572,7 +644,7 @@ main{position:relative;z-index:2}
 <!-- ═════════ 02 WORKS ═════════ -->
 <section class="sec" id="works">
   <div class="wrap">
-    <div class="sec-head"><h2 class="display h-sec">Selected work</h2></div>
+    <div class="sec-head"><p class="stamp" data-time="11:00 PM"><span class="stamp-t">11:00 PM</span><span class="stamp-sep">·</span><span>the long stretch</span></p><h2 class="display h-sec">Selected work</h2></div>
     <div class="card-grid">
 
       <!-- REPLACE: background-image url with real Genix screenshot -->
@@ -621,7 +693,7 @@ main{position:relative;z-index:2}
 <!-- ═════════ 03 SKILLS ═════════ -->
 <section class="sec" id="skills">
   <div class="wrap">
-    <div class="sec-head"><h2 class="display h-sec">What I carry with me</h2></div>
+    <div class="sec-head"><p class="stamp" data-time="2:00 AM"><span class="stamp-t">2:00 AM</span><span class="stamp-sep">·</span><span>what I carry</span></p><h2 class="display h-sec">What I carry with me</h2></div>
 
     <div class="stats" id="stats">
       <div class="stat"><div class="stat-num" data-to="3">0</div><div class="stat-lbl">Products shipped</div></div>
@@ -638,7 +710,7 @@ main{position:relative;z-index:2}
 <!-- ═════════ 04 JOURNEY ═════════ -->
 <section class="sec" id="journey">
   <div class="wrap">
-    <div class="sec-head"><h2 class="display h-sec">Where I came from</h2></div>
+    <div class="sec-head"><p class="stamp" data-time="3:30 AM"><span class="stamp-t">3:30 AM</span><span class="stamp-sep">·</span><span>where I came from</span></p><h2 class="display h-sec">Where I came from</h2></div>
 
     <div class="timeline" id="timeline">
 
@@ -674,7 +746,7 @@ main{position:relative;z-index:2}
 <section class="sec" id="play">
   <div class="wrap">
     <div class="sec-head play-head">
-      <p class="eyebrow play-time">4:30 AM · the desk</p>
+      <p class="stamp" data-time="4:30 AM"><span class="stamp-t">4:30 AM</span><span class="stamp-sep">·</span><span>the desk</span></p>
       <h2 class="display h-sec">The road less travelled</h2>
       <p class="sub">It's dark in here. Find the light, then crack the laptop's password. Everything on this desk knows something about me.</p>
     </div>
@@ -750,8 +822,8 @@ main{position:relative;z-index:2}
 <!-- ═════════ 06 HOME ═════════ -->
 <section class="sec" id="home">
   <div class="wrap">
-    <p class="eyebrow">You made it.</p>
-    <h2 class="display home-title" style="margin-top:22px">Where do we<br>go from here?</h2>
+    <p class="stamp" data-time="6:48 AM"><span class="stamp-t">6:48 AM</span><span class="stamp-sep">·</span><span>sunrise</span></p>
+    <h2 class="display home-title">Where do we<br>go from here?</h2>
     <p class="sub" style="margin-top:18px">Maybe the next road is ours.</p>
 
     <!-- REPLACE: real email, LinkedIn, resume and GitHub links -->
@@ -815,6 +887,7 @@ const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const isTouch=matchMedia("(hover: none)").matches;
 const lerp=(a,b,t)=>a+(b-a)*t;
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
 /* ═══════ ATMOSPHERE ═══════
    Anchored to real section positions so the lighting always lines up
@@ -822,7 +895,7 @@ const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 const ANCHORS=[
   // 8:00 PM dusk → 11:00 PM night → 2:00 AM deep night → 4:30 AM pre-dawn → 6:00 AM dawn → 7:00 AM sunrise
   {id:"start",    skyA:"#0A0F2E", skyB:"#33305C", fog:"#242348", light:"#8BA8FF", glow:.30, horizon:.575, density:.85, dark:.06},
-  {id:"p-genix",  skyA:"#05081A", skyB:"#0B1A34", fog:"#0A1526", light:"#8BDFFF", glow:.30, horizon:.60,  density:.55, dark:.02},
+  {id:"works",   skyA:"#05081A", skyB:"#0B1A34", fog:"#0A1526", light:"#8BDFFF", glow:.30, horizon:.60,  density:.55, dark:.02},
   {id:"skills",   skyA:"#03040F", skyB:"#0E1030", fog:"#0C0E2A", light:"#9AA8FF", glow:.32, horizon:.585, density:.80, dark:.12},
   {id:"journey",  skyA:"#0B0D22", skyB:"#33344C", fog:"#2A2B42", light:"#C9B7FF", glow:.32, horizon:.565, density:.78, dark:.10},
   {id:"play",     skyA:"#241633", skyB:"#C96B52", fog:"#5C3040", light:"#FFB37A", glow:.55, horizon:.575, density:.50, dark:.04},
@@ -1159,6 +1232,138 @@ function chrome(){
   if(hint) hint.style.opacity=clamp(1-window.scrollY/240,0,1);
 }
 window.addEventListener("scroll",chrome,{passive:true});chrome();
+
+/* ═══════ NIGHT CLOCK — 8:00 PM at the top, 7:00 AM at the bottom ═══════
+   Each section has a fixed time; the clock walks between them as you scroll. */
+const TIMES=[["start",0],["works",180],["skills",360],["journey",450],["play",510],["home",648]]; // minutes after 8:00 PM
+const END_MIN=660;
+const clockT=document.getElementById("clockT"),clockAp=document.getElementById("clockAp"),
+      clockEl=document.getElementById("clock"),clockBite=document.getElementById("clockBite"),
+      clockRays=document.getElementById("clockRays");
+let clockKeys=[],clockFrozen=null,lastClock="";
+function buildClock(){
+  const vh=window.innerHeight,max=document.documentElement.scrollHeight-vh;
+  clockKeys=TIMES.map(([id,m])=>{
+    // the clock shows a section's time exactly when that section's stamp reaches mid-screen
+    const sec=document.getElementById(id),el=sec&&(sec.querySelector(".stamp")||sec);
+    return [el?clamp(el.getBoundingClientRect().top+window.scrollY-vh*.5,0,max):0,m];
+  });
+  clockKeys[0][0]=0;
+  // hold each section's time while it is being read; the clock runs in the travel between sections
+  const held=[];
+  clockKeys.forEach(([y,m],i)=>{
+    held.push([y,m]);
+    const nx=clockKeys[i+1];
+    if(nx) held.push([Math.max(y,nx[0]-vh*.55),m]);
+    else held.push([Math.max(y,max-140),m]); // sunrise holds, then the last few pixels tick to 7:00
+  });
+  held.push([Math.max(max,held[held.length-1][0]+1),END_MIN]);
+  clockKeys=held;
+}
+function minutesAt(y){
+  const k=clockKeys;if(!k.length)return 0;
+  if(y<=k[0][0])return k[0][1];
+  for(let i=1;i<k.length;i++){
+    if(y<=k[i][0]){const t=(y-k[i-1][0])/((k[i][0]-k[i-1][0])||1);return lerp(k[i-1][1],k[i][1],t);}
+  }
+  return END_MIN;
+}
+function fmtTime(min){
+  const tot=(20*60+Math.round(min))%(24*60),h24=Math.floor(tot/60),m=tot%60;
+  return [((h24+11)%12+1)+":"+String(m).padStart(2,"0"),h24<12?"AM":"PM"];
+}
+function paintClock(min){
+  const [t,ap]=fmtTime(min),key=t+ap;
+  if(key!==lastClock){ clockT.textContent=t; clockAp.textContent=ap; lastClock=key; }
+  const p=clamp(min/END_MIN,0,1);
+  // moon → sun: the shadow slides off the orb, rays appear near dawn
+  clockBite.setAttribute("cx",(11+Math.pow(p,1.6)*14).toFixed(2));
+  clockRays.setAttribute("opacity",clamp((p-.82)/.18,0,1).toFixed(2));
+  clockEl.style.color=mixc("#C9D6FF","#FFC98B",clamp((p-.55)/.45,0,1));
+}
+function clock(){ if(clockFrozen===null) paintClock(minutesAt(window.scrollY)); }
+window.addEventListener("scroll",clock,{passive:true});
+window.addEventListener("resize",()=>{buildClock();clock();});
+window.addEventListener("load",()=>{buildClock();clock();});
+buildClock();clock();
+
+/* ═══════ ARRIVAL — each section arrives in order: stamp → heading → content ═══════ */
+(function(){
+  // split each stamp's time into rolling digits
+  document.querySelectorAll(".stamp-t").forEach(el=>{
+    const txt=el.textContent;
+    el.setAttribute("aria-label",txt);
+    el.innerHTML=[...txt].map((c,i)=>`<i aria-hidden="true"><b style="--d:${i}">${c===" "?"&nbsp;":c}</b></i>`).join("");
+  });
+  if(!("IntersectionObserver" in window)) return;
+  const secs=[...document.querySelectorAll("main > .sec")];
+  secs.forEach(sec=>{
+    const wrap=sec.querySelector(".wrap");if(!wrap)return;
+    const items=[...wrap.querySelectorAll(":scope > .sec-head > *, :scope > :not(.sec-head)")];
+    items.forEach((el,i)=>{ el.classList.add("rv"); el.style.setProperty("--rv",Math.min(i,6)); });
+  });
+  const obs=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      const s=e.target;
+      if(e.isIntersecting){ s.classList.add("in"); s.classList.remove("out-up"); }
+      else if(e.boundingClientRect.top<0){ s.classList.remove("in"); s.classList.add("out-up"); }
+      else s.classList.remove("in","out-up");
+    });
+  },{rootMargin:"-10% 0px -10% 0px"});
+  secs.forEach(s=>obs.observe(s));
+  document.documentElement.classList.add("rv-on");
+})();
+
+/* ═══════ MEDIA — placeholders that become IMAGE / GIF / VIDEO when data-src is set ═══════
+   <figure class="ph" data-type="gif" data-ratio="16:10" data-src="" data-poster="" data-label="…">
+   GIFs and videos load only near the viewport and play only while visible. */
+function mountMedia(root){
+  const figs=[...(root||document).querySelectorAll(".ph:not([data-mounted])")];
+  if(!figs.length) return;
+  const near=("IntersectionObserver" in window)?new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){ loadMedia(e.target); near.unobserve(e.target); } });
+  },{rootMargin:"300px"}):null;
+  const vis=("IntersectionObserver" in window)?new IntersectionObserver(es=>{
+    es.forEach(e=>{ const v=e.target.querySelector("video"); if(!v||e.target.dataset.manual)return;
+      if(e.isIntersecting){ v.play().catch(()=>{}); e.target.classList.add("playing"); }
+      else { v.pause(); e.target.classList.remove("playing"); } });
+  },{threshold:.35}):null;
+  figs.forEach(f=>{
+    f.dataset.mounted="1";
+    const type=(f.dataset.type||"image").toLowerCase();
+    let frame=f.querySelector(".ph-frame");
+    if(!frame){ frame=document.createElement("div"); frame.className="ph-frame"; f.prepend(frame); }
+    if(!frame.querySelector(".ph-tag")) frame.insertAdjacentHTML("afterbegin",`<span class="ph-tag">${esc(type)}</span>`);
+    if(!frame.querySelector(".ph-label")) frame.insertAdjacentHTML("beforeend",`<span class="ph-label">${esc(f.dataset.label||"")}</span>`);
+    if(f.dataset.label&&!f.getAttribute("aria-label")) f.setAttribute("aria-label",type+": "+f.dataset.label);
+    if(!f.dataset.src) return;
+    if(near) near.observe(f); else loadMedia(f);
+    if(type==="video"&&vis&&!RM) vis.observe(f);
+  });
+  function loadMedia(f){
+    const type=(f.dataset.type||"image").toLowerCase(),frame=f.querySelector(".ph-frame"),alt=f.dataset.label||"";
+    if(type==="video"){
+      const v=document.createElement("video");
+      v.muted=true;v.loop=true;v.playsInline=true;v.preload="metadata";v.src=f.dataset.src;
+      if(f.dataset.poster) v.poster=f.dataset.poster;
+      v.setAttribute("aria-label",alt);frame.prepend(v);
+      if(RM) addPlay(f,()=>{ f.dataset.manual="1"; if(v.paused){v.play();f.classList.add("playing");} else {v.pause();f.classList.remove("playing");} });
+    }else if(type==="gif"&&RM&&f.dataset.poster){
+      // reduced motion: show a still, play the GIF only on request
+      const img=new Image();img.alt=alt;img.src=f.dataset.poster;frame.prepend(img);
+      addPlay(f,()=>{ img.src=f.dataset.src; f.classList.add("playing"); });
+    }else{
+      const img=new Image();img.alt=alt;img.decoding="async";img.src=f.dataset.src;frame.prepend(img);
+    }
+    f.classList.add("has-media");
+  }
+  function addPlay(f,fn){
+    const b=document.createElement("button");b.className="ph-play";b.type="button";
+    b.setAttribute("aria-label","Play "+(f.dataset.label||"media"));b.textContent="▶";
+    b.addEventListener("click",fn);f.querySelector(".ph-frame").appendChild(b);
+  }
+}
+mountMedia(document);
 
 const burger=document.getElementById("burger");
 burger.addEventListener("click",()=>{
@@ -2173,7 +2378,6 @@ const CASE_ACCENTS={genix:"#8BDFFF",bilcostro:"#9C8CFF",finance:"#FFC98B"};
 const caseEl=document.getElementById("case"),caseBody=document.getElementById("casebody"),
       caseKick=document.getElementById("casekicker");
 let lastY=0,lastFocus=null;
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
 function renderCase(k){
   const c=CASES[k];if(!c)return false;
