@@ -7,7 +7,6 @@
 <meta name="description" content="Product designer working across AI, data and complex products.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="shortcut icon" href="images/logo2.png">
-
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <!-- ============================================================
@@ -245,38 +244,160 @@ main{position:relative;z-index:2}
 .totop:hover{border-color:var(--cyan);color:var(--cyan)}
 
 /* ---------- case study ---------- */
-#case{position:fixed;inset:0;z-index:60;background:rgba(3,5,7,.985);overflow-y:auto;
+#case{position:fixed;inset:0;z-index:60;overflow-y:auto;--case-accent:var(--cyan);--case-rgb:139,223,255;
+  background:#0A0E16;
   opacity:0;visibility:hidden;transform:scale(.99);
   transition:opacity .5s var(--ease),transform .5s var(--ease),visibility .5s}
 #case.open{opacity:1;visibility:visible;transform:none}
+#case[data-theme="bilcostro"]{--case-accent:#9C8CFF;--case-rgb:156,140,255}
+#case[data-theme="finance"]{--case-accent:#FFC98B;--case-rgb:255,201,139}
+#caseCanvas{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+
+.case-rail{position:fixed;left:22px;top:50%;transform:translateY(-50%);width:2px;height:120px;
+  background:var(--line-2);z-index:3;border-radius:2px;overflow:hidden}
+.case-rail i{display:block;width:100%;height:0;background:var(--case-accent);
+  box-shadow:0 0 10px var(--case-accent);transition:height .15s linear}
+@media(max-width:1100px){.case-rail{display:none}}
+
 .case-bar{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;
-  padding:18px clamp(18px,5vw,50px);background:linear-gradient(to bottom,rgba(3,5,7,.97),rgba(3,5,7,.8));
-  border-bottom:1px solid var(--line)}
-.back{display:inline-flex;align-items:center;gap:11px;font-size:.58rem;letter-spacing:.24em;
-  text-transform:uppercase;color:var(--muted);transition:color .35s}
+  padding:18px clamp(18px,5vw,50px);background:linear-gradient(to bottom,rgba(5,7,12,.85),rgba(5,7,12,.4));
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.back{display:inline-flex;align-items:center;gap:11px;font-size:.66rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--text-2);transition:color .35s}
 .back:hover{color:var(--text)}
-.case-in{max-width:820px;margin:0 auto;padding:clamp(36px,7vw,74px) clamp(18px,5vw,36px) 110px}
-.case-in h1{font-size:clamp(1.6rem,4.2vw,2.7rem);font-weight:300;letter-spacing:.1em;
-  text-transform:uppercase;line-height:1.16;margin:18px 0 0}
-.case-in h2{font-size:.6rem;font-weight:400;letter-spacing:.32em;text-transform:uppercase;
-  color:var(--cyan);margin:56px 0 16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
-.case-in p{font-size:.88rem;line-height:1.95;color:var(--text-2);max-width:66ch;margin:0 0 16px}
-.todo{display:block;border-left:1px solid rgba(118,105,184,.6);background:rgba(118,105,184,.05);
-  padding:13px 16px;font-size:.72rem;line-height:1.8;color:#9c92d8;margin:0 0 16px}
-.slot{border:1px dashed var(--line-2);border-radius:4px;min-height:210px;display:grid;place-items:center;
-  color:var(--muted);font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;margin:0 0 20px;padding:20px}
+
+.case-hero{max-width:820px;margin:clamp(28px,6vw,52px) auto 0;text-align:center;
+  background:rgba(5,7,12,.42);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-radius:16px;border:1px solid rgba(255,255,255,.08);
+  padding:clamp(36px,6vw,64px) clamp(20px,5vw,44px)}
+.case-hero .eyebrow,.case-hero p,.case-hero h1,.case-stats{opacity:0;transform:translateY(14px);
+  animation:caseUp .7s var(--ease) forwards}
+.case-hero .eyebrow{animation-delay:.05s}
+.case-hero h1{animation-delay:.16s}
+.case-hero p{animation-delay:.27s}
+.case-stats{animation-delay:.38s}
+@keyframes caseUp{to{opacity:1;transform:none}}
+.case-hero .eyebrow{color:var(--case-accent)}
+.case-hero h1{font-size:clamp(1.9rem,4.8vw,3.2rem);font-weight:600;letter-spacing:.02em;
+  text-transform:uppercase;line-height:1.14;margin:18px 0 0}
+.case-hero p{max-width:56ch;margin:20px auto 0;font-size:1rem;line-height:1.85;color:var(--text-2)}
+
+.case-stats{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(24px,5vw,54px);
+  margin:clamp(30px,5vw,44px) auto 0}
+.case-stat-l{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.case-stat-v{font-size:.86rem;font-weight:600;color:var(--text);margin-top:4px}
+
+.case-hero-media{
+  max-width:900px;margin:clamp(32px,6vw,56px) auto 0;aspect-ratio:16/9;border-radius:10px;
+  background:var(--bg-3) center/cover no-repeat;border:1px solid var(--line-2);
+  display:grid;place-items:center;color:var(--muted);font-size:.62rem;letter-spacing:.14em;
+  text-transform:uppercase;overflow:hidden;box-shadow:0 24px 50px -20px rgba(0,0,0,.6);
+  opacity:0;transform:translateY(18px);animation:caseUp .8s var(--ease) .48s forwards;
+}
+
+.case-in{max-width:760px;margin:clamp(28px,6vw,48px) auto 0;padding:clamp(28px,6vw,48px) clamp(20px,5vw,40px) 60px;
+  background:rgba(8,11,16,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-radius:16px;border:1px solid rgba(255,255,255,.07);margin-bottom:0}
+.case-sec{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.case-sec.in{opacity:1;transform:none}
+.case-in h2{font-size:.72rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--case-accent);margin:clamp(48px,8vw,72px) 0 18px;padding-bottom:13px;border-bottom:1px solid var(--line)}
+.case-sec:first-child h2{margin-top:0}
+.case-in p{font-size:.98rem;line-height:1.85;color:var(--text-2);max-width:66ch;margin:0 0 16px}
+.lede{display:block;font-size:1.05rem;line-height:1.8;color:var(--text);margin:0 0 18px}
+.pns{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:26px 0 0;border-top:1px solid var(--line)}
+.pns>div{padding:22px 26px 4px 0}
+.pns>div+div{padding:22px 0 4px 26px;border-left:1px solid var(--line)}
+.pns b{display:block;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--case-accent);margin-bottom:10px}
+.pns p{font-size:.92rem;line-height:1.75;color:var(--text-2);margin:0}
+.role-pick{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 20px}
+.slot{
+  border:1px solid var(--line-2);border-radius:8px;min-height:240px;display:grid;place-items:center;
+  background:linear-gradient(160deg,var(--bg-3),var(--bg-2));
+  color:var(--muted);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;margin:0 0 22px;padding:20px;
+  transition:border-color .3s}
+.case-sec:hover .slot{border-color:rgba(255,255,255,.2)}
 .flow{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin:0 0 20px}
-.flow-step{border:1px solid var(--line-2);border-radius:4px;padding:11px 15px;font-size:.55rem;
-  letter-spacing:.16em;text-transform:uppercase;color:var(--text-2)}
-.flow-step.hi{border-color:var(--cyan);color:var(--text)}
-.users{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 20px}
-.dec-step{border-left:1px solid var(--line-2);padding:0 0 24px 20px;position:relative}
+.flow-step{border:1px solid var(--line-2);border-radius:20px;padding:10px 18px;font-size:.66rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--text-2);transition:.3s}
+.flow-step.hi{border-color:var(--case-accent);color:var(--text);box-shadow:0 0 14px color-mix(in srgb,var(--case-accent) 40%,transparent)}
+.users{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 20px}
+.dec-step{border-left:1px solid var(--line-2);padding:0 0 26px 22px;position:relative}
 .dec-step:last-child{border-color:transparent;padding-bottom:0}
 .dec-step::before{content:"";position:absolute;left:-4px;top:5px;width:7px;height:7px;border-radius:50%;background:var(--muted)}
-.dec-step:last-child::before{background:var(--cyan);box-shadow:0 0 12px rgba(139,223,255,.7)}
-.dec-step b{display:block;font-size:.55rem;letter-spacing:.24em;text-transform:uppercase;
-  color:var(--muted);font-weight:400;margin-bottom:6px}
-.dec-step span{font-size:.84rem;line-height:1.8;color:var(--text-2)}
+.dec-step:last-child::before{background:var(--case-accent);box-shadow:0 0 12px var(--case-accent)}
+.dec-step b{display:block;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--case-accent);font-weight:600;margin-bottom:7px}
+.dec-step span{font-size:.92rem;line-height:1.8;color:var(--text-2)}
+.upick{border:1px solid var(--line-2);border-radius:20px;padding:9px 17px;font-size:.66rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--text-2);background:none;cursor:pointer;transition:.3s}
+.upick.hi{border-color:var(--case-accent);color:var(--text);background:rgba(255,255,255,.05)}
+
+.case-timeline{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin:0 0 6px}
+.case-timeline::before{content:"";position:absolute;left:0;right:0;top:13px;height:1px;background:var(--line-2)}
+.ctl-step{position:relative;padding-top:34px;opacity:.55;transition:opacity .4s var(--ease)}
+.ctl-step.active{opacity:1}
+.ctl-num{position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;
+  border:1px solid var(--case-accent);color:var(--case-accent);font-size:.6rem;font-weight:700;
+  display:grid;place-items:center;background:#0e131b;transition:box-shadow .4s var(--ease)}
+.ctl-step.active .ctl-num{box-shadow:0 0 0 4px rgba(255,255,255,.04),0 0 16px var(--case-accent)}
+
+.gal-item{cursor:pointer}
+.lightbox{position:fixed;inset:0;z-index:70;background:rgba(4,6,10,.92);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;
+  transition:opacity .35s var(--ease),visibility .35s}
+.lightbox.open{opacity:1;visibility:visible}
+.lb-inner{max-width:min(760px,88vw);text-align:center}
+.lb-media{aspect-ratio:16/10;border-radius:10px;background:linear-gradient(155deg,var(--bg-3),var(--bg-2));
+  border:1px solid var(--line-2);display:grid;place-items:center}
+.lb-media .gal-play{width:56px;height:56px;font-size:1.1rem}
+.lb-label{margin-top:16px;font-size:.85rem;color:var(--text-2)}
+.lb-nav{display:flex;align-items:center;justify-content:center;gap:26px;margin-top:18px}
+.lb-arrow{width:38px;height:38px;border:1px solid var(--line-2);border-radius:50%;color:var(--text-2);
+  display:grid;place-items:center;cursor:pointer;transition:.3s}
+.lb-arrow:hover{border-color:var(--case-accent);color:var(--case-accent)}
+.lb-close{position:absolute;top:22px;right:26px;color:var(--text-2);font-size:1.3rem;cursor:pointer;transition:.3s}
+.lb-close:hover{color:var(--text)}
+.ctl-step b{display:block;font-size:.86rem;font-weight:600;color:var(--text);margin-bottom:6px}
+.ctl-step span{font-size:.82rem;line-height:1.7;color:var(--text-2)}
+.dec-stack{margin-top:26px}
+
+.case-gallery{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:4px 4px 8px;margin:0 -4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.case-gallery::-webkit-scrollbar{display:none}
+.gal-item{flex:0 0 auto;width:min(260px,70vw);scroll-snap-align:center}
+.gal-media{aspect-ratio:4/3;border-radius:8px;background:linear-gradient(155deg,var(--bg-3),var(--bg-2));
+  border:1px solid var(--line-2);display:grid;place-items:center;transition:border-color .3s}
+.gal-item:hover .gal-media{border-color:rgba(255,255,255,.22)}
+.gal-play{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.06);
+  border:1px solid var(--line-2);display:grid;place-items:center;color:var(--case-accent);font-size:.8rem;
+  transition:transform .3s var(--ease)}
+.gal-item:hover .gal-play{transform:scale(1.12)}
+.gal-label{font-size:.7rem;color:var(--text-2);margin-top:10px;text-align:center}
+.gal-dots{display:flex;justify-content:center;gap:7px;margin-top:4px}
+.gal-dots i{width:6px;height:6px;border-radius:50%;background:var(--line-2);transition:.3s}
+.gal-dots i.on{background:var(--case-accent);box-shadow:0 0 8px var(--case-accent)}
+
+.case-quote{text-align:center;padding:6px 0}
+.cq-mark{font-size:3rem;color:var(--case-accent);opacity:.4;line-height:1;display:block;font-family:Georgia,serif}
+.case-quote p{font-size:1.15rem;line-height:1.7;font-style:italic;color:var(--text);max-width:56ch;margin:6px auto 14px}
+.case-quote cite{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-style:normal}
+
+.case-impact{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(28px,6vw,58px);text-align:center}
+.cimp-v{font-size:clamp(1.9rem,5vw,2.7rem);font-weight:700;color:var(--case-accent);font-variant-numeric:tabular-nums}
+.cimp-l{font-size:.7rem;letter-spacing:.04em;color:var(--text-2);margin-top:8px;max-width:17ch;line-height:1.4}
+
+.case-next{
+  max-width:760px;margin:clamp(50px,8vw,80px) auto 0;padding:clamp(18px,5vw,36px) clamp(18px,5vw,36px);
+  border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:20px;
+  background:rgba(5,7,12,.42);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-radius:12px;
+}
+.case-next-l{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.case-next-t{font-size:1.1rem;font-weight:600;margin-top:6px;transition:color .3s}
+.case-next:hover .case-next-t{color:var(--case-accent)}
+.case-next-arrow{font-size:1.2rem;color:var(--case-accent);transition:transform .35s var(--ease)}
+.case-next:hover .case-next-arrow{transform:translateX(6px)}
 
 /* ---------- cursor ---------- */
 .cursor{position:fixed;top:0;left:0;z-index:80;pointer-events:none;width:6px;height:6px;
@@ -308,6 +429,12 @@ main{position:relative;z-index:2}
   .callout{display:none}
   .callout.show{display:block}
   .chiprow{grid-template-columns:repeat(2,1fr)}
+  .pns{grid-template-columns:1fr}
+  .pns>div+div{padding:18px 0 4px;border-left:0;border-top:1px solid var(--line)}
+  .case-timeline{grid-template-columns:1fr;gap:30px}
+  .case-timeline::before{left:13px;right:auto;top:0;bottom:0;width:1px;height:auto}
+  .ctl-step{padding-top:0;padding-left:44px}
+  .ctl-num{left:0;top:0}
   .foot{justify-content:center;text-align:center}
 }
 @media(max-width:520px){
@@ -547,11 +674,25 @@ main{position:relative;z-index:2}
 </footer>
 
 <div id="case" role="dialog" aria-modal="true" aria-labelledby="casetitle">
+  <canvas id="caseCanvas" aria-hidden="true"></canvas>
+  <div class="case-rail" aria-hidden="true"><i id="caseRailFill"></i></div>
   <div class="case-bar">
-    <button class="back" id="caseback"><i style="font-style:normal;color:var(--cyan)">←</i> Back to journey</button>
+    <button class="back" id="caseback"><i style="font-style:normal;color:var(--case-accent)">←</i> Back to journey</button>
     <span class="eyebrow" id="casekicker"></span>
   </div>
-  <div class="case-in" id="casebody"></div>
+  <div id="casebody"></div>
+</div>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Gallery preview">
+  <span class="lb-close" id="lbClose">✕</span>
+  <div class="lb-inner">
+    <div class="lb-media" id="lbMedia"></div>
+    <p class="lb-label" id="lbLabel"></p>
+    <div class="lb-nav">
+      <span class="lb-arrow" id="lbPrev">←</span>
+      <span class="lb-arrow" id="lbNext">→</span>
+    </div>
+  </div>
 </div>
 
 <div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
@@ -1485,36 +1626,192 @@ if(!isTouch){
   });
 }
 
+/* ═══════ CASE BACKGROUND — layered aurora + particle constellation + scan sweep ═══════ */
+const startCaseBg=(function(){
+  const cv=document.getElementById("caseCanvas");if(!cv) return function(){};
+  const ctx=cv.getContext("2d");
+  let W=0,H=0,DPR=1,raf=null,mx=0,my=0,t0=performance.now();
+  const blobs=[0,1,2,3,4].map(i=>({speed:.35+Math.random()*.3,r:.2+Math.random()*.5,size:.22+Math.random()*.17,phase:i*1.7,spin:(i%2?1:-1)*(.15+Math.random()*.1)}));
+  const N=isTouch?26:46;
+  const nodes=Array.from({length:N},()=>({
+    x:Math.random(),y:Math.random(),vx:(Math.random()-.5)*.00012,vy:(Math.random()-.5)*.00012,r:1+Math.random()*1.6
+  }));
+  function resize(){
+    DPR=Math.min(window.devicePixelRatio||1,2);
+    W=cv.clientWidth;H=cv.clientHeight;
+    if(W<10||H<10) return;
+    cv.width=W*DPR;cv.height=H*DPR;
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+  }
+  window.addEventListener("resize",resize);
+  if(!isTouch) window.addEventListener("mousemove",e=>{
+    mx=(e.clientX/window.innerWidth-.5); my=(e.clientY/window.innerHeight-.5);
+  },{passive:true});
+
+  function draw(now){
+    const el=document.getElementById("case");
+    if(!el||!el.classList.contains("open")){ raf=null; return; }
+    if(W<10) resize();
+    if(W<10){ raf=requestAnimationFrame(draw); return; }
+    const t=now-t0;
+    const rgb=getComputedStyle(el).getPropertyValue("--case-rgb").trim()||"139,223,255";
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="#0A0E16"; ctx.fillRect(0,0,W,H);
+
+    // layered, slowly rotating aurora blobs
+    const cx=W/2+mx*44, cy=H*.34+my*30;
+    blobs.forEach(b=>{
+      const ang=RM?b.phase:t*.00007*b.speed*b.spin+b.phase;
+      const x=cx+Math.cos(ang)*W*b.r*.5;
+      const y=cy+Math.sin(ang*1.3)*H*b.r*.32;
+      const r=Math.min(W,H)*b.size;
+      const g=ctx.createRadialGradient(x,y,0,x,y,r);
+      g.addColorStop(0,`rgba(${rgb},.14)`); g.addColorStop(1,`rgba(${rgb},0)`);
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,6.283); ctx.fill();
+    });
+
+    // drifting particle constellation, mouse-reactive links
+    if(!RM){
+      const mxp=(.5+mx)*W, myp=(.5+my)*H;
+      nodes.forEach(n=>{
+        n.x+=n.vx*(1+t*0); n.y+=n.vy;
+        if(n.x<0||n.x>1) n.vx*=-1;
+        if(n.y<0||n.y>1) n.vy*=-1;
+      });
+      ctx.lineWidth=1;
+      for(let i=0;i<nodes.length;i++){
+        const a=nodes[i], ax=a.x*W, ay=a.y*H;
+        const dm=Math.hypot(ax-mxp,ay-myp);
+        for(let j=i+1;j<nodes.length;j++){
+          const b=nodes[j], bx=b.x*W, by=b.y*H;
+          const d=Math.hypot(ax-bx,ay-by), max=Math.min(W,H)*.14;
+          if(d<max){
+            ctx.strokeStyle=`rgba(${rgb},${(1-d/max)*.14})`;
+            ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by); ctx.stroke();
+          }
+        }
+        const near=dm<Math.min(W,H)*.22;
+        ctx.fillStyle=`rgba(${rgb},${near?.85:.35})`;
+        ctx.beginPath(); ctx.arc(ax,ay,a.r*(near?1.6:1),0,6.283); ctx.fill();
+        if(near){
+          ctx.strokeStyle=`rgba(${rgb},${(1-dm/(Math.min(W,H)*.22))*.22})`;
+          ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(mxp,myp); ctx.stroke();
+        }
+      }
+    }
+
+    // a slow diagonal light sweep, repeating every ~9s
+    const sw=(t%9000)/9000;
+    if(sw<.5){
+      const sp=sw/.5, x=-W*.3+sp*W*1.6;
+      const g2=ctx.createLinearGradient(x-W*.18,0,x+W*.18,H);
+      g2.addColorStop(0,`rgba(${rgb},0)`); g2.addColorStop(.5,`rgba(${rgb},.05)`); g2.addColorStop(1,`rgba(${rgb},0)`);
+      ctx.fillStyle=g2; ctx.fillRect(0,0,W,H);
+    }
+
+    raf=requestAnimationFrame(draw);
+  }
+  return function start(){ if(!raf){ t0=performance.now(); resize(); raf=requestAnimationFrame(draw); } };
+})();
+
+/* ═══════ GALLERY LIGHTBOX ═══════ */
+const lb=document.getElementById("lightbox"),lbMedia=document.getElementById("lbMedia"),
+      lbLabel=document.getElementById("lbLabel");
+let lbItems=[],lbIndex=0;
+function lbRender(){
+  const [type,label]=lbItems[lbIndex];
+  lbMedia.innerHTML=type==="video"?'<span class="gal-play">▶</span>':"";
+  lbLabel.textContent=label;
+}
+function lightboxOpen(items,i){
+  lbItems=items;lbIndex=i;lbRender();
+  lb.classList.add("open");
+}
+function lightboxClose(){ lb.classList.remove("open"); }
+document.getElementById("lbClose").addEventListener("click",lightboxClose);
+document.getElementById("lbNext").addEventListener("click",()=>{ lbIndex=(lbIndex+1)%lbItems.length; lbRender(); });
+document.getElementById("lbPrev").addEventListener("click",()=>{ lbIndex=(lbIndex-1+lbItems.length)%lbItems.length; lbRender(); });
+lb.addEventListener("click",e=>{ if(e.target===lb) lightboxClose(); });
+document.addEventListener("keydown",e=>{
+  if(!lb.classList.contains("open")) return;
+  if(e.key==="Escape") lightboxClose();
+  if(e.key==="ArrowRight") document.getElementById("lbNext").click();
+  if(e.key==="ArrowLeft") document.getElementById("lbPrev").click();
+});
+
 /* ═══════ CASE STUDIES ═══════ */
 const CASES={
-  genix:{kicker:"Project 01",meta:"AI · DNA · Precision health",title:"From idea to product.",
-    intro:"Designed from the ground up across web and mobile, through different users, changing requirements and an unfamiliar domain.",
+  genix:{kicker:"Project 01",meta:"AI · Genomics · Precision health",title:"Making genomics usable.",
+    intro:"A precision-health platform that turns complex DNA data into clear decisions for four very different users.",
+    role:"Sole designer + Django developer",timeline:"2023 — Ongoing",tools:"Figma · Django · React",
+    hero:"genix-cover.png",next:"bilcostro",nextTitle:"Bilcostro",
+    overview:{
+      recruiter:"I own Genix.ai end to end at Chadura Tech: research, UX, UI, design system and the Django backend. One platform, four user types, shipped across web and mobile.",
+      designer:"Genomic data is dense, high-stakes and unfamiliar. The job was to make each user see only what they need, in the order they need it, without losing clinical accuracy.",
+      engineer:"Designed and built alongside the Django backend, so the interface reflects what the data model can actually deliver, and the reports come from a real report engine."
+    },
+    problem:"Genomic results are hard to read. Patients, doctors, wellness teams and labs all touch the same data, but each needs a different slice of it.",
+    solution:"One product with role-based journeys. Same data underneath, a different, focused path for each user on top.",
+    approach:[
+      ["Understand","Learn the domain: variants, reports, lab workflow, and who signs off on what."],
+      ["Define","Map four user journeys from one shared data model. Decide what each role sees first."],
+      ["Design","Build screens, flows and a component system, then test them against real report data."],
+      ["Ship","Build and hand off with the Django backend, then iterate from live use."]
+    ],
+    gallery:[["image","Patient dashboard"],["video","Onboarding flow"],["image","Clinical report view"],["image","Variant workspace"]],
+    quote:{text:"Make it useful before beautiful.",by:"The rule I design by"},
+    impact:[["500","+","Screens designed across three products"],["4","","User types on one platform"],["1","","Designer, from research to build"]],
+    reflection:"Owning both design and backend meant I never designed something the data couldn't support. The trade-off is scope: next time I would bring in user research earlier and more often.",
     users:["Patient","Doctor","Wellness","Lab"],
     flows:{Patient:["DNA","AI","Recommendation"],Doctor:["Record","Risk markers","Clinical note"],
       Wellness:["Profile","AI","Guidance"],Lab:["Sample","QC","Release"]},
-    decision:[["Assumption","What you originally believed about the entry experience."],
-      ["Observation","What people actually did."],["Decision","The call you made, and what it cost."],
-      ["Design","What came out of it."]],
-    body:[["Problem","One paragraph on the real problem — the job that wasn't getting done."],
-      ["Users","Four user types, one product. The flows below show how their routes differ."],
-      ["Decision","The section hiring managers read hardest. Show a choice with a real alternative."],
-      ["Design","The screens, at a size people can read."],
-      ["Outcome","What shipped and what changed. No invented numbers."]]},
-  bilcostro:{kicker:"Project 02",meta:"Enterprise · Cost management · Data",title:"Making complexity understandable.",
-    intro:"An enterprise cost product built around dense data: dashboards, cost structures, hierarchy.",
-    body:[["Problem","What made the existing experience hard — volume, hierarchy, or trust in the numbers."],
-      ["Users","Who relies on this and what they're accountable for."],
-      ["Decision","One real decision about hierarchy, with the option you rejected."],
-      ["Design","Dashboard, filters, drill-down."],
-      ["Outcome","What changed for the people using it."]]},
-  finance:{kicker:"Project 03",meta:"Mobile · Finance · Data",title:"Making numbers easier to understand.",
-    intro:"A personal finance app designed to stay calm rather than alarming.",
-    body:[["Problem","Why spending data is hard to read on a small screen."],
-      ["Users","Who this was for."],
-      ["Decision","One decision about what to hide by default."],
-      ["Design","The mobile screens."],
-      ["Outcome","What people did differently."]]}
+    decision:[["Assumption","One dashboard could serve everyone."],
+      ["Observation","Each role scanned for a different thing first."],["Decision","Separate journeys per role, shared data and components."],
+      ["Result","Simpler screens, and one system to maintain."]]},
+  bilcostro:{kicker:"Project 02",meta:"Enterprise · Cost management · Data",title:"Making cost data clear.",
+    intro:"An enterprise cost-management product where dense numbers had to stay trustworthy and fast to read.",
+    role:"Product designer",timeline:"2022 — 2023",tools:"Figma · Design systems",
+    hero:"bilcostro-cover.png",next:"finance",nextTitle:"Moolago",
+    overview:{
+      recruiter:"Designed the dashboards and cost-structure views for an enterprise SaaS, and built the design system that kept them consistent.",
+      designer:"Cost data is layered: totals, categories, line items. The design goal was a clear hierarchy so people trust the number and can drill into why.",
+      engineer:"Worked from the real cost hierarchy, so drill-down and filters map directly to how the data is structured."
+    },
+    problem:"Cost data comes in volume and in layers. Without a clear hierarchy, people cannot tell where a number comes from or whether to trust it.",
+    solution:"A dashboard that leads with the total, then lets people drill down level by level, with filters that stay out of the way.",
+    approach:[
+      ["Understand","Learn who reviews costs and what they are accountable for."],
+      ["Define","Choose the hierarchy: what shows first, what hides one click deeper."],
+      ["Design","Dashboard, filters and drill-down, built on a reusable component set."],
+      ["Ship","Roll out and refine as the team used it daily."]
+    ],
+    gallery:[["image","Cost dashboard"],["image","Drill-down view"],["video","Filter interaction"],["image","Report export"]],
+    quote:{text:"Show the total first. Explain it second.",by:"The rule for dense data"},
+    impact:[["3","","Levels: total, category, line item"],["1","","Design system behind every view"],["1","","Designer, working with the team daily"]],
+    reflection:"Density is not the enemy; unclear hierarchy is. Next time I would test the drill-down paths with users before locking the structure."},
+  finance:{kicker:"Project 03",meta:"Mobile · Fintech · AI",title:"Making money feel calm.",
+    intro:"An AI-powered personal finance app designed to inform without alarming.",
+    role:"Product designer",timeline:"2023",tools:"Figma · Prototyping",
+    hero:"moolago-cover.png",next:"genix",nextTitle:"Genix AI",
+    overview:{
+      recruiter:"Designed Moolago, an AI-powered finance app, from first flow to polished mobile screens, with a focus on clarity and restraint.",
+      designer:"Spending data is stressful on a small screen. The design goal was to show what matters, hide the rest by default, and never shout.",
+      engineer:"Kept the UI simple enough that every number on screen maps to one clear source, which keeps the app fast and easy to reason about."
+    },
+    problem:"Most finance apps put every number on screen and lean on red alerts. On a phone that turns a simple check-in into stress.",
+    solution:"A calm home screen that leads with one clear picture, keeps detail one tap away, and uses AI to explain rather than alarm.",
+    approach:[
+      ["Understand","See how people actually check their money: when, how often, how much detail."],
+      ["Define","Decide what to hide by default so the home screen stays quiet."],
+      ["Design","Mobile flows and screens with a calm palette and clear hierarchy."],
+      ["Ship","Prototype, test the flows, refine before hand-off."]
+    ],
+    gallery:[["image","Home overview"],["image","Category breakdown"],["video","Budget check-in flow"],["image","Monthly summary"]],
+    quote:{text:"Calm is a feature.",by:"The rule for money screens"},
+    impact:[["1","","Clear picture on the home screen"],["3","","Taps or fewer to any detail"],["0","","Alarm-red numbers by default"]],
+    reflection:"Restraint is the hardest part of finance UI. Next time I would test the AI explanations early, because tone matters as much as layout."}
 };
+const CASE_ACCENTS={genix:"#8BDFFF",bilcostro:"#9C8CFF",finance:"#FFC98B"};
 const caseEl=document.getElementById("case"),caseBody=document.getElementById("casebody"),
       caseKick=document.getElementById("casekicker");
 let lastY=0,lastFocus=null;
@@ -1522,22 +1819,97 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 
 function renderCase(k){
   const c=CASES[k];if(!c)return false;
-  let h=`<p class="eyebrow">${esc(c.meta)}</p><h1 id="casetitle">${esc(c.title)}</h1>`+
-        `<p style="margin-top:24px">${esc(c.intro)}</p>`;
-  c.body.forEach(([head,text])=>{
-    h+=`<h2>${esc(head)}</h2><p class="todo">${esc(text)}</p>`;
-    if(k==="genix"&&head==="Users"){
-      h+=`<div class="users" id="userpick">`+
-         c.users.map((u,i)=>`<button class="fm${i===0?" hi":""}" data-user="${esc(u)}" style="font-size:.55rem;letter-spacing:.2em">${esc(u)}</button>`).join("")+
-         `</div><div class="flow" id="userflow"></div>`+
-         `<p style="color:var(--text);letter-spacing:.14em;text-transform:uppercase;font-size:.78rem">One product. Different journeys.</p>`;
-    }
-    if(k==="genix"&&head==="Decision"){
-      h+=c.decision.map(([b,s])=>`<div class="dec-step"><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join("");
-    }
-    if(head==="Design"||head==="Problem") h+=`<div class="slot">Drop a real screen here</div>`;
-  });
+
+  let h=`<div class="case-hero">
+    <p class="eyebrow">${esc(c.meta)}</p>
+    <h1 id="casetitle">${esc(c.title)}</h1>
+    <p>${esc(c.intro)}</p>
+    <div class="case-stats">
+      <div><p class="case-stat-l">Role</p><p class="case-stat-v">${esc(c.role)}</p></div>
+      <div><p class="case-stat-l">Timeline</p><p class="case-stat-v">${esc(c.timeline)}</p></div>
+      <div><p class="case-stat-l">Tools</p><p class="case-stat-v">${esc(c.tools)}</p></div>
+    </div>
+  </div>
+  <!-- REPLACE: background-image url with a real cover shot -->
+  <div class="case-hero-media" style="background-image:url('${esc(c.hero)}')"></div>
+  <div class="case-in">
+
+    <div class="case-sec">
+      <h2>Overview</h2>
+      <div class="role-pick" id="rolepick">
+        <button class="upick hi" data-role="recruiter">Recruiter</button>
+        <button class="upick" data-role="designer">Designer</button>
+        <button class="upick" data-role="engineer">Engineer</button>
+      </div>
+      <p class="lede" id="overviewText">${esc(c.overview.recruiter)}</p>
+      <div class="pns">
+        <div><b>The problem</b><p>${esc(c.problem)}</p></div>
+        <div><b>The answer</b><p>${esc(c.solution)}</p></div>
+      </div>
+    </div>
+
+    <div class="case-sec">
+      <h2>Approach</h2>
+      <div class="case-timeline">`+
+      c.approach.map(([t,d],i)=>`<div class="ctl-step"><span class="ctl-num">0${i+1}</span><b>${esc(t)}</b><span>${esc(d)}</span></div>`).join("")+
+      `</div>
+    </div>`;
+
+  if(k==="genix"){
+    h+=`<div class="case-sec">
+      <h2>Four users, one product</h2>
+      <p class="lede">Each role scans for something different first. So each gets its own path, on shared data.</p>
+      <div class="users" id="userpick">`+
+         c.users.map((u,i)=>`<button class="upick${i===0?" hi":""}" data-user="${esc(u)}">${esc(u)}</button>`).join("")+
+         `</div><div class="flow" id="userflow"></div>
+      <div class="dec-stack">`+
+         c.decision.map(([b,s])=>`<div class="dec-step"><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join("")+
+      `</div>
+    </div>`;
+  }
+
+  h+=`<div class="case-sec">
+      <h2>Key screens</h2>
+      <div class="case-gallery" id="gal-${k}">`+
+      c.gallery.map(([type,label],i)=>`
+        <div class="gal-item" data-i="${i}">
+          <div class="gal-media">${type==="video"?'<span class="gal-play">▶</span>':""}</div>
+          <p class="gal-label">${esc(label)}</p>
+        </div>`).join("")+
+      `</div>
+      <div class="gal-dots"></div>
+    </div>
+
+    <div class="case-sec">
+      <blockquote class="case-quote">
+        <span class="cq-mark">“</span>
+        <p>${esc(c.quote.text)}</p>
+        <cite>${esc(c.quote.by)}</cite>
+      </blockquote>
+    </div>
+
+    <div class="case-sec">
+      <h2>Impact</h2>
+      <div class="case-impact">`+
+      c.impact.map(([to,suf,label])=>`
+        <div class="cimp"><div class="cimp-v" data-to="${esc(to)}" data-suf="${esc(suf)}">0${suf}</div><div class="cimp-l">${esc(label)}</div></div>`).join("")+
+      `</div>
+    </div>
+
+    <div class="case-sec">
+      <h2>Reflection</h2>
+      <p class="lede">${esc(c.reflection)}</p>
+    </div>
+
+  </div>
+  <a class="case-next" href="#/work/${esc(c.next)}">
+    <div><p class="case-next-l">Next project</p><p class="case-next-t">${esc(c.nextTitle)}</p></div>
+    <span class="case-next-arrow">→</span>
+  </a>`;
+
+  caseEl.dataset.theme=k;
   caseBody.innerHTML=h;caseKick.textContent=c.kicker;
+
   if(k==="genix"){
     const pick=document.getElementById("userpick"),flow=document.getElementById("userflow");
     const show=u=>{flow.innerHTML=(c.flows[u]||[]).map((s,i)=>
@@ -1549,23 +1921,101 @@ function renderCase(k){
       b.classList.add("hi");show(b.dataset.user);
     });
   }
+
+  // gallery — click-through carousel with dots
+  const gal=document.getElementById("gal-"+k);
+  if(gal){
+    const items=[...gal.querySelectorAll(".gal-item")];
+    const dotsWrap=gal.parentElement.querySelector(".gal-dots");
+    const dots=items.map((_,i)=>{const d=document.createElement("i");if(i===0)d.classList.add("on");dotsWrap.appendChild(d);return d;});
+    function sync(){
+      const c2=gal.scrollLeft+gal.clientWidth/2;
+      let best=0,bd=Infinity;
+      items.forEach((it,i)=>{const d=Math.abs((it.offsetLeft+it.offsetWidth/2)-c2);if(d<bd){bd=d;best=i;}});
+      dots.forEach((d,i)=>d.classList.toggle("on",i===best));
+    }
+    gal.addEventListener("scroll",sync,{passive:true});
+    dots.forEach((d,i)=>d.addEventListener("click",()=>{
+      gal.scrollTo({left:items[i].offsetLeft-(gal.clientWidth-items[i].offsetWidth)/2,behavior:"smooth"});
+    }));
+    items.forEach((it,i)=>it.addEventListener("click",()=>lightboxOpen(c.gallery,i)));
+  }
+
+  // approach timeline — highlight the step currently in view
+  const steps=[...caseBody.querySelectorAll(".ctl-step")];
+  const stepObs=new IntersectionObserver(es=>{
+    es.forEach(e=>e.target.classList.toggle("active",e.isIntersecting));
+  },{threshold:.5,root:caseEl});
+  steps.forEach(s=>stepObs.observe(s));
+
+  // overview — read as recruiter / designer / engineer
+  const rolePick=document.getElementById("rolepick"),ovText=document.getElementById("overviewText");
+  if(rolePick&&ovText){
+    rolePick.addEventListener("click",e=>{
+      const b=e.target.closest("[data-role]");if(!b)return;
+      rolePick.querySelectorAll("button").forEach(x=>x.classList.remove("hi"));
+      b.classList.add("hi");
+      ovText.style.opacity="0";
+      setTimeout(()=>{ovText.textContent=c.overview[b.dataset.role];ovText.style.opacity="1";},160);
+    });
+    ovText.style.transition="opacity .2s";
+  }
+
+  // impact — count up when scrolled into view
+  const impNums=caseBody.querySelectorAll(".cimp-v");
+  const impObs=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(!e.isIntersecting) return;
+      impObs.unobserve(e.target);
+      const el=e.target,to=parseFloat(el.dataset.to)||0,suf=el.dataset.suf||"";
+      if(RM){ el.textContent=el.dataset.to+suf; return; }
+      const dur=1100,t0=performance.now();
+      function step(now){
+        const p=clamp((now-t0)/dur,0,1),e2=1-Math.pow(1-p,3);
+        el.textContent=(Number.isInteger(to)?Math.round(to*e2):(to*e2).toFixed(1))+suf;
+        if(p<1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  },{threshold:.6});
+  impNums.forEach(n=>impObs.observe(n));
+
+  caseBody.querySelectorAll(".case-sec").forEach(el=>secObserver.observe(el));
   return true;
 }
+const secObserver=new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); secObserver.unobserve(e.target); } });
+},{threshold:.15,rootMargin:"0px 0px -8% 0px"});
+const railFill=document.getElementById("caseRailFill");
+caseEl.addEventListener("scroll",()=>{
+  const max=caseEl.scrollHeight-caseEl.clientHeight;
+  const p=max>0?clamp(caseEl.scrollTop/max,0,1):0;
+  if(railFill) railFill.style.height=(p*100)+"%";
+},{passive:true});
 function openCase(k,push){
   if(!renderCase(k))return;
   lastY=window.scrollY;lastFocus=document.activeElement;
   caseEl.classList.add("open");document.body.classList.add("locked");
   caseEl.scrollTop=0;document.getElementById("caseback").focus();
-  if(push!==false&&location.hash!=="#/work/"+k) history.pushState({case:k},"","#/work/"+k);
+  if(railFill) railFill.style.height="0%";
+  startCaseBg();
+  if(push!==false&&location.hash!=="#/work/"+k){
+    try{ history.pushState({case:k},"","#/work/"+k); }catch(e){}
+  }
 }
 function closeCase(push){
   caseEl.classList.remove("open");document.body.classList.remove("locked");
   window.scrollTo(0,lastY);
   if(lastFocus)try{lastFocus.focus();}catch(e){}
-  if(push!==false) history.pushState({},"","#works");
+  if(push!==false){
+    try{ history.pushState({},"","#works"); }catch(e){}
+  }
 }
-document.querySelectorAll('a[href^="#/work/"]').forEach(a=>{
-  a.addEventListener("click",e=>{e.preventDefault();openCase(a.getAttribute("href").split("/").pop(),true);});
+document.addEventListener("click",e=>{
+  const a=e.target.closest('a[href^="#/work/"]');
+  if(!a) return;
+  e.preventDefault();
+  openCase(a.getAttribute("href").split("/").pop(),true);
 });
 document.querySelectorAll(".pcard").forEach(c=>{
   c.addEventListener("click",()=>openCase(c.dataset.case,true));
@@ -1573,9 +2023,11 @@ document.querySelectorAll(".pcard").forEach(c=>{
 document.getElementById("caseback").addEventListener("click",()=>closeCase(true));
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&caseEl.classList.contains("open"))closeCase(true);});
 function route(){
-  const m=/^#\/work\/([a-z]+)$/.exec(location.hash||"");
-  if(m&&CASES[m[1]]) openCase(m[1],false);
-  else if(caseEl.classList.contains("open")) closeCase(false);
+  try{
+    const m=/^#\/work\/([a-z]+)$/.exec(location.hash||"");
+    if(m&&CASES[m[1]]) openCase(m[1],false);
+    else if(caseEl.classList.contains("open")) closeCase(false);
+  }catch(e){}
 }
 window.addEventListener("popstate",()=>route());
 route();
