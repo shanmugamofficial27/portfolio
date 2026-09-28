@@ -79,8 +79,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
 .nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;
   justify-content:space-between;padding:22px clamp(18px,4vw,46px);transition:background .5s var(--ease)}
 .nav.solid{background:linear-gradient(to bottom,rgba(3,5,7,.96) 55%,rgba(3,5,7,0))}
-.brand b{font-weight:400;font-size:.8rem;letter-spacing:.28em}
-.brand span{display:block;font-size:.62rem;letter-spacing:.26em;color:var(--muted);text-transform:uppercase;margin-top:5px}
+.brand{display:block;width:40px;height:40px;border-radius:10px;transition:transform .35s var(--ease),filter .35s}
+.brand img{display:block;width:100%;height:100%}
+.brand:hover{transform:rotate(-6deg) scale(1.06);filter:drop-shadow(0 0 12px rgba(139,223,255,.45))}
 .nav-links{display:flex;align-items:center;gap:clamp(12px,2vw,30px)}
 .nav-links a{position:relative;text-align:center;padding:4px 2px}
 .nav-links i{display:block;font-style:normal;font-size:.62rem;color:var(--muted);letter-spacing:.16em}
@@ -125,12 +126,13 @@ main{position:relative;z-index:2}
 #start{justify-content:center;text-align:center;min-height:100svh}
 .hero-title{font-size:clamp(2.4rem,7vw,5rem);letter-spacing:-.025em;line-height:1.04;margin-top:22px}
 .hero-title span{display:block}
-.hero-meta{margin-top:40px;font-size:.72rem;letter-spacing:.22em;color:var(--muted);text-transform:uppercase}
-.hero-status{display:inline-flex;align-items:center;gap:10px;margin:0;padding:7px 15px 7px 12px;border-radius:999px;
-  border:1px solid var(--line-2);background:rgba(5,7,12,.38);font-size:.8rem;color:var(--text-2)}
-.hero-status i{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:pulse 2.4s var(--ease) infinite}
+.hero-meta{margin:40px 0 0;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px 26px;
+  font-size:.72rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
+.hero-hi{margin:0;font-size:clamp(1.05rem,2vw,1.3rem);font-weight:500;color:var(--cyan);letter-spacing:.01em}
+.hero-open{display:inline-flex;align-items:center;gap:9px;color:var(--text-2)}
+.hero-open i{width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:pulse 2.4s var(--ease) infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(139,223,255,.55)}70%,100%{box-shadow:0 0 0 9px rgba(139,223,255,0)}}
-.hero-lede{margin:24px auto 0;font-size:clamp(1.05rem,1.9vw,1.3rem);line-height:1.6;color:var(--text-2);max-width:40ch}
+.hero-lede{margin:24px auto 0;font-size:clamp(1.05rem,1.9vw,1.25rem);line-height:1.6;color:var(--text-2);max-width:46ch}
 .hero-poem{margin:10px 0 0;font-size:1rem;color:var(--muted);font-style:italic}
 .scroll-hint{position:absolute;left:0;right:0;bottom:44px;display:flex;flex-direction:column;
   align-items:center;gap:12px;transition:opacity .6s var(--ease)}
@@ -341,27 +343,7 @@ main{position:relative;z-index:2}
 .finale .sub{max-width:52ch;font-size:.9rem}
 .finale-cta{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 
-/* ---------- 02 about ---------- */
-.about{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,84px);
-  align-items:center;max-width:1040px}
-.about-photo{max-width:400px;width:100%;justify-self:end}
-.about-photo .ph-frame{box-shadow:0 30px 60px -30px rgba(0,0,0,.7)}
-/* a streetlight passes over the portrait once as the section arrives */
-.about-photo .ph-frame::after{content:"";position:absolute;inset:-20% -60%;pointer-events:none;z-index:1;
-  background:linear-gradient(100deg,transparent 35%,rgba(255,201,139,.16) 48%,rgba(255,201,139,.05) 56%,transparent 66%);
-  transform:translateX(-70%);opacity:0}
-.rv-on #about.in .about-photo .ph-frame::after{animation:lamp 2.6s var(--ease) .5s both}
-@keyframes lamp{0%{transform:translateX(-70%);opacity:0}20%{opacity:1}100%{transform:translateX(70%);opacity:0}}
-.about-copy .h-sec{margin-top:14px}
-.about-bio{margin:20px 0 0;font-size:1.06rem;line-height:1.8;color:var(--text-2);max-width:58ch}
-.about-bio:first-of-type{color:var(--text)}
-.principles{list-style:none;margin:34px 0 0;padding:0;display:grid;border-top:1px solid var(--line)}
-.principles li{display:grid;grid-template-columns:minmax(0,13rem) minmax(0,1fr);gap:18px;padding:16px 0;
-  border-bottom:1px solid var(--line);align-items:baseline}
-.principles b{font-weight:600;font-size:1rem;color:var(--text)}
-.principles span{font-size:.95rem;line-height:1.6;color:var(--text-2)}
-
-/* ---------- 07 connect ---------- */
+/* ---------- 06 connect ---------- */
 #home{text-align:center}
 #home .wrap{
   background:rgba(5,7,12,.42);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
@@ -601,9 +583,6 @@ main{position:relative;z-index:2}
   .ctl-step{padding-top:0;padding-left:44px}
   .ctl-num{left:0;top:0}
   .foot{justify-content:center;text-align:center}
-  .about{grid-template-columns:1fr}
-  .about-photo{justify-self:center;max-width:300px}
-  .principles li{grid-template-columns:1fr;gap:4px}
   .route-lbls{font-size:.55rem;letter-spacing:.06em;margin:12px -8px 0}
 }
 @media(max-width:520px){
@@ -617,7 +596,7 @@ main{position:relative;z-index:2}
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
   .mouse i{display:none}
-  .hero-status i{animation:none}
+  .hero-open i{animation:none}
   .pcard{opacity:1!important;transform:none!important}
   .rv-on .rv,.rv-on .sec.out-up .rv{opacity:1!important;transform:none!important}
 }
@@ -631,16 +610,15 @@ main{position:relative;z-index:2}
 <div class="mprog" aria-hidden="true"><i></i></div>
 
 <header class="nav" id="nav">
-  <a class="brand" href="#start"><b>V SHANMUGAM</b><span>Product Designer</span></a>
+  <a class="brand" href="#start" aria-label="V Shanmugam, back to start"><img src="images/logo-mark.png" alt="" width="40" height="40"></a>
   <div class="nav-end">
     <nav class="nav-links" id="navlinks" aria-label="Sections">
       <a href="#start"><i>01</i><em>Start</em></a>
-      <a href="#about"><i>02</i><em>About</em></a>
-      <a href="#works"><i>03</i><em>Work</em></a>
-      <a href="#skills"><i>04</i><em>Skills</em></a>
-      <a href="#journey"><i>05</i><em>Journey</em></a>
-      <a href="#play"><i>06</i><em>Desk</em></a>
-      <a href="#home"><i>07</i><em>Connect</em></a>
+      <a href="#works"><i>02</i><em>Work</em></a>
+      <a href="#skills"><i>03</i><em>Skills</em></a>
+      <a href="#journey"><i>04</i><em>Journey</em></a>
+      <a href="#play"><i>05</i><em>Desk</em></a>
+      <a href="#home"><i>06</i><em>Connect</em></a>
       <!-- REPLACE: drop resume.pdf into the project folder -->
       <a class="nav-cv" href="resume.pdf" target="_blank" rel="noopener"><em>Resume</em></a>
     </nav>
@@ -664,39 +642,20 @@ main{position:relative;z-index:2}
 <!-- ═════════ 01 START ═════════ -->
 <section class="sec" id="start">
   <div class="wrap">
-    <p class="hero-status"><i aria-hidden="true"></i>Open to product design roles</p>
+    <p class="hero-hi">Hi, I'm Shanmugam.</p>
     <h1 class="display hero-title"><span>I design complex products</span><span>that feel simple.</span></h1>
-    <p class="hero-lede">Healthcare, SaaS, fintech and, increasingly, AI.</p>
+    <p class="hero-lede">Product designer at Chadura Tech, working across healthcare, SaaS, fintech and, increasingly, AI.</p>
     <p class="hero-poem">Let's see where this goes.</p>
     <div class="hero-cta">
-      <a class="hero-btn" href="#about" data-cursor="Go">Start the walk <i aria-hidden="true">→</i></a>
+      <a class="hero-btn" href="#works" data-cursor="Go">Start the walk <i aria-hidden="true">→</i></a>
       <a class="hero-link" href="resume.pdf" target="_blank" rel="noopener">Resume ↓</a>
     </div>
-    <p class="hero-meta">Product Designer &nbsp;·&nbsp; Chadura Tech &nbsp;·&nbsp; Bengaluru / Remote</p>
+    <p class="hero-meta"><span>Bengaluru / Remote</span><span class="hero-open"><i aria-hidden="true"></i>Open to product design roles</span></p>
   </div>
   <div class="scroll-hint" id="hint"><div class="mouse"><i></i></div><small>Scroll to walk</small></div>
 </section>
 
-<!-- ═════════ 02 ABOUT ═════════ -->
-<section class="sec" id="about">
-  <div class="wrap about">
-    <!-- REPLACE: set data-src to a real portrait (4:5) -->
-    <figure class="ph about-photo" data-type="image" data-ratio="4:5" data-label="Portrait of Shanmugam"></figure>
-    <div class="about-copy">
-      <p class="eyebrow">About</p>
-      <h2 class="display h-sec">Who's walking with you</h2>
-      <p class="about-bio">I'm a product designer who's drawn to problems that aren't easy to understand at first. I studied electronics engineering, taught myself design, and for the last two years at Chadura Tech I've designed across genomics, enterprise SaaS and fintech.</p>
-      <p class="about-bio">I'm curious about people, technology and especially AI, and I like understanding the user and the business before I touch a screen. I prefer minimal interfaces and thoughtful systems, where the right thing feels obvious.</p>
-      <ul class="principles">
-        <li><b>Users before pixels</b><span>Who it's for and what's in their way, before any screen.</span></li>
-        <li><b>Simple survives</b><span>Most of design is deciding what to leave out.</span></li>
-        <li><b>Structure before surface</b><span>Information architecture and flows first, then the interface.</span></li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ═════════ 03 WORKS ═════════ -->
+<!-- ═════════ 02 WORKS ═════════ -->
 <section class="sec" id="works">
   <div class="wrap">
     <div class="sec-head"><h2 class="display h-sec">Selected work</h2></div>
@@ -901,7 +860,7 @@ main{position:relative;z-index:2}
         </linearGradient></defs>
         <g id="routedots"></g>
       </svg>
-      <div class="route-lbls"><a href="#start">Start</a><a href="#about">About</a><a href="#works">Work</a><a href="#skills">Skills</a><a href="#journey">Journey</a><a href="#play">Desk</a><a href="#home">Connect</a></div>
+      <div class="route-lbls"><a href="#start">Start</a><a href="#works">Work</a><a href="#skills">Skills</a><a href="#journey">Journey</a><a href="#play">Desk</a><a href="#home">Connect</a></div>
     </nav>
   </div>
 </section>
@@ -953,7 +912,6 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const ANCHORS=[
   // 8:00 PM dusk → 11:00 PM night → 2:00 AM deep night → 4:30 AM pre-dawn → 6:00 AM dawn → 7:00 AM sunrise
   {id:"start",    skyA:"#0A0F2E", skyB:"#33305C", fog:"#242348", light:"#8BA8FF", glow:.30, horizon:.575, density:.85, dark:.06},
-  {id:"about",   skyA:"#080C26", skyB:"#1E2448", fog:"#161A38", light:"#8FB4FF", glow:.30, horizon:.59,  density:.70, dark:.04},
   {id:"works",   skyA:"#05081A", skyB:"#0B1A34", fog:"#0A1526", light:"#8BDFFF", glow:.30, horizon:.60,  density:.55, dark:.02},
   {id:"skills",   skyA:"#03040F", skyB:"#0E1030", fog:"#0C0E2A", light:"#9AA8FF", glow:.32, horizon:.585, density:.80, dark:.12},
   {id:"journey",  skyA:"#0B0D22", skyB:"#33344C", fog:"#2A2B42", light:"#C9B7FF", glow:.32, horizon:.565, density:.78, dark:.10},
@@ -1274,7 +1232,7 @@ if(!isTouch&&!RM){
 }
 
 /* ═══════ CHROME ═══════ */
-const SEC=["start","about","works","skills","journey","play","home"];
+const SEC=["start","works","skills","journey","play","home"];
 const navAs=[...document.querySelectorAll("#navlinks a")];
 const mfill=document.querySelector(".mprog i");
 const hint=document.getElementById("hint");
@@ -1294,7 +1252,7 @@ window.addEventListener("scroll",chrome,{passive:true});chrome();
 
 /* ═══════ NIGHT CLOCK — 8:00 PM at the top, 7:00 AM at the bottom ═══════
    Each section has a fixed time; the clock walks between them as you scroll. */
-const TIMES=[["start",0],["about",90],["works",180],["skills",360],["journey",450],["play",510],["home",648]]; // minutes after 8:00 PM
+const TIMES=[["start",0],["works",180],["skills",360],["journey",450],["play",510],["home",648]]; // minutes after 8:00 PM
 const END_MIN=660;
 const clockT=document.getElementById("clockT"),clockAp=document.getElementById("clockAp"),
       clockEl=document.getElementById("clock"),clockBite=document.getElementById("clockBite"),
@@ -2226,7 +2184,7 @@ const jrn=(function(){
   if(!path)return;
   const L=path.getTotalLength();
   path.style.strokeDasharray=L;path.style.strokeDashoffset=L;
-  const N=7;
+  const N=6;
   for(let i=0;i<N;i++){
     const p=path.getPointAtLength(L*(i/(N-1)));
     const c=document.createElementNS("http://www.w3.org/2000/svg","circle");
