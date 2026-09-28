@@ -411,27 +411,29 @@ main{position:relative;z-index:2}
 .again:hover{color:var(--cyan)}
 .again:hover .totop{border-color:var(--cyan);color:var(--cyan);transform:translateY(-2px)}
 
-/* ---------- case study ---------- */
+/* ---------- case study — an editorial story, no boxes ---------- */
 #case{position:fixed;inset:0;z-index:60;overflow-y:auto;--case-accent:var(--cyan);--case-rgb:139,223,255;
-  background:#0A0E16;opacity:0;visibility:hidden;transform:scale(.99);
+  background:#07090F;opacity:0;visibility:hidden;transform:scale(.99);
   transition:opacity .5s var(--ease),transform .5s var(--ease),visibility .5s}
 #case.open{opacity:1;visibility:visible;transform:none}
 #case[data-theme="billcostro"]{--case-accent:#9C8CFF;--case-rgb:156,140,255}
 #case[data-theme="moolago"]{--case-accent:#FFC98B;--case-rgb:255,201,139}
-#caseCanvas{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+/* one quiet light above the page, in the project's colour */
+.case-glow{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 42% at 50% -8%,rgba(var(--case-rgb),.16),transparent 70%),
+             radial-gradient(ellipse 50% 30% at 50% 108%,rgba(var(--case-rgb),.05),transparent 70%)}
+#casebody{position:relative;z-index:1}
 
-/* reading progress: a small road line on the left */
 .case-rail{position:fixed;left:24px;top:50%;transform:translateY(-50%);width:2px;height:140px;
-  background:var(--line-2);z-index:3;border-radius:2px;overflow:hidden}
-.case-rail i{display:block;width:100%;height:0;background:var(--case-accent);box-shadow:0 0 10px var(--case-accent);transition:height .15s linear}
+  background:rgba(255,255,255,.08);z-index:3;border-radius:2px;overflow:hidden}
+.case-rail i{display:block;width:100%;height:0;background:var(--case-accent);transition:height .15s linear}
 @media(max-width:1100px){.case-rail{display:none}}
 
-.case-bar{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:16px;
-  padding:14px clamp(16px,4vw,40px);background:linear-gradient(to bottom,rgba(5,7,12,.9),rgba(5,7,12,.55));
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.case-bar{position:sticky;top:0;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px clamp(16px,4vw,40px);background:rgba(7,9,15,.78);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.05)}
 .back{display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 16px;border-radius:999px;
-  border:1px solid rgba(255,255,255,.08);background:rgba(8,11,20,.5);font-size:.84rem;font-weight:500;color:var(--text-2);
-  transition:color .3s,border-color .3s}
+  border:1px solid rgba(255,255,255,.08);font-size:.84rem;font-weight:500;color:var(--text-2);transition:color .3s,border-color .3s}
 .back i{font-style:normal;color:var(--case-accent);transition:transform .3s var(--ease)}
 .back:hover{color:var(--text);border-color:rgba(255,255,255,.18)}
 .back:hover i{transform:translateX(-3px)}
@@ -439,115 +441,98 @@ main{position:relative;z-index:2}
 .case-time b{font-weight:600;color:var(--text);font-variant-numeric:tabular-nums}
 .case-time svg{width:14px;height:14px;color:#C9D6FF}
 
-.case-wrap{max-width:860px;margin:0 auto;padding:0 clamp(16px,4vw,32px) 90px}
-.case-hero{margin:clamp(34px,7vw,70px) auto 0;text-align:center}
-.case-hero>*{opacity:0;transform:translateY(14px);animation:caseUp .7s var(--ease) forwards}
-.case-hero>*:nth-child(2){animation-delay:.08s}.case-hero>*:nth-child(3){animation-delay:.16s}
-.case-hero>*:nth-child(4){animation-delay:.24s}.case-hero>*:nth-child(5){animation-delay:.32s}
+.cs{max-width:720px;margin:0 auto;padding:0 clamp(18px,5vw,24px)}
+.cs-wide{max-width:980px;margin-left:auto;margin-right:auto;padding:0 clamp(18px,5vw,24px)}
+
+/* hero */
+.cs-hero{padding-top:clamp(48px,10vw,110px)}
+.cs-hero>*{opacity:0;transform:translateY(14px);animation:caseUp .8s var(--ease) forwards}
+.cs-hero>*:nth-child(2){animation-delay:.08s}.cs-hero>*:nth-child(3){animation-delay:.16s}.cs-hero>*:nth-child(4){animation-delay:.24s}
 @keyframes caseUp{to{opacity:1;transform:none}}
-.case-meta{margin:0;font-size:.72rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--case-accent)}
-.case-hero h1{font-size:clamp(2rem,5vw,3.3rem);font-weight:600;letter-spacing:-.025em;line-height:1.08;margin:16px 0 0;text-wrap:balance}
-.case-out{max-width:54ch;margin:18px auto 0;font-size:1.1rem;line-height:1.7;color:var(--text-2)}
-.case-status{display:inline-flex;align-items:center;gap:9px;margin:22px 0 0;padding:7px 14px;border-radius:999px;
-  border:1px solid var(--line-2);font-size:.82rem;color:var(--text-2)}
-.case-status i{width:6px;height:6px;border-radius:50%;background:var(--case-accent);box-shadow:0 0 10px var(--case-accent)}
-.case-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:clamp(30px,5vw,44px) 0 0;
-  border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:left}
-.case-facts>div{padding:16px 16px 16px 0}
-.case-facts>div+div{padding-left:16px;border-left:1px solid var(--line)}
-.case-facts dt{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-.case-facts dd{margin:6px 0 0;font-size:.9rem;line-height:1.5;color:var(--text)}
-.case-cover{margin:clamp(28px,5vw,44px) 0 0;opacity:0;transform:translateY(18px);animation:caseUp .8s var(--ease) .4s forwards}
-.case-cover .ph-frame{border-radius:14px;box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+.cs-kick{margin:0;font-size:.8rem;font-weight:500;color:var(--case-accent)}
+.cs-hero h1{margin:14px 0 0;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:600;letter-spacing:-.03em;line-height:1.04;text-wrap:balance}
+.cs-line{margin:22px 0 0;font-size:clamp(1.05rem,2vw,1.22rem);line-height:1.65;color:var(--text-2);max-width:58ch}
+.cs-meta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin:clamp(34px,6vw,52px) 0 0;
+  padding-top:18px;border-top:1px solid rgba(255,255,255,.08)}
+.cs-meta dt{font-size:.74rem;color:var(--muted)}
+.cs-meta dd{margin:5px 0 0;font-size:.9rem;line-height:1.5;color:var(--text)}
+.cs-cover{margin-top:clamp(36px,6vw,56px);opacity:0;transform:translateY(18px);animation:caseUp .9s var(--ease) .35s forwards}
+.cs-cover .ph-frame{border-radius:16px;box-shadow:0 40px 80px -40px rgba(0,0,0,.9)}
 
-.case-in{margin-top:clamp(34px,6vw,56px);padding:clamp(26px,5vw,48px) clamp(20px,5vw,44px) clamp(30px,5vw,48px);
-  background:rgba(8,11,16,.84);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border-radius:18px;border:1px solid rgba(255,255,255,.07)}
-.case-sec{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
-.case-sec.in{opacity:1;transform:none}
-.case-sec+.case-sec{margin-top:clamp(48px,8vw,72px)}
-.case-in h2{margin:0 0 18px;padding-bottom:12px;border-bottom:1px solid var(--line);font-size:.74rem;font-weight:600;
-  letter-spacing:.2em;text-transform:uppercase;color:var(--case-accent)}
-.case-in p{font-size:1rem;line-height:1.85;color:var(--text-2);max-width:66ch;margin:0 0 16px}
-.case-in .lede{font-size:1.08rem;line-height:1.8;color:var(--text)}
+/* chapters */
+.ch{margin-top:clamp(80px,13vw,140px);opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.ch.in{opacity:1;transform:none}
+.ch-n{display:flex;align-items:center;gap:14px;margin:0 0 18px;font-size:.78rem;font-weight:600;
+  color:var(--case-accent);font-variant-numeric:tabular-nums}
+.ch-n::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(var(--case-rgb),.35),transparent)}
+.ch h2{margin:0;font-size:clamp(1.6rem,3.6vw,2.3rem);font-weight:600;letter-spacing:-.02em;line-height:1.15;text-wrap:balance}
+.ch p{margin:20px 0 0;font-size:1.06rem;line-height:1.8;color:var(--text-2);max-width:62ch}
+.ch-media{margin-top:36px}
 
-/* TL;DR + reading lens */
-.lens{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:0 0 22px}
-.lens-l{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-right:6px}
-.chip{min-height:38px;padding:0 16px;border-radius:999px;border:1px solid var(--line-2);font-size:.84rem;font-weight:500;
-  color:var(--text-2);transition:color .3s,border-color .3s,background .3s}
-.chip:hover{color:var(--text);border-color:rgba(255,255,255,.3)}
-.chip[aria-pressed="true"]{color:var(--text);border-color:var(--case-accent);background:rgba(var(--case-rgb),.1)}
-.lens-text{transition:opacity .2s}
-.tldr{list-style:none;margin:22px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.tldr li{padding:18px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
-.tldr b{display:block;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--case-accent);margin-bottom:8px}
-.tldr span{font-size:.92rem;line-height:1.65;color:var(--text-2)}
+.cs-q{margin:36px 0 0;padding-left:22px;border-left:2px solid var(--case-accent);
+  font-size:clamp(1.25rem,2.6vw,1.6rem);line-height:1.45;font-weight:500;letter-spacing:-.01em;color:var(--text);text-wrap:balance}
 
-/* the question the project had to answer */
-.case-q{margin:26px 0 0;padding:22px 24px;border-left:2px solid var(--case-accent);border-radius:0 12px 12px 0;
-  background:rgba(var(--case-rgb),.06);font-size:1.18rem;line-height:1.6;font-weight:500;color:var(--text)}
+/* layers: a numbered path that lights up as you read down it */
+.layers{list-style:none;margin:36px 0 0;padding:0;position:relative}
+.layers::before{content:"";position:absolute;left:15px;top:8px;bottom:8px;width:1px;background:rgba(255,255,255,.08)}
+.layers li{position:relative;display:grid;grid-template-columns:32px minmax(0,1fr);gap:18px;padding:0 0 26px}
+.layers li:last-child{padding-bottom:0}
+.layers .dot{position:relative;z-index:1;width:31px;height:31px;border-radius:50%;display:grid;place-items:center;
+  font-size:.7rem;font-weight:600;color:var(--muted);background:#07090F;border:1px solid rgba(255,255,255,.1);
+  transition:color .5s,border-color .5s,box-shadow .5s}
+.layers b{display:block;padding-top:5px;font-size:1.06rem;font-weight:600;color:var(--text-2);transition:color .5s}
+.layers span{display:block;margin-top:4px;font-size:.98rem;line-height:1.65;color:var(--muted);transition:color .5s}
+.layers li.lit .dot{color:var(--case-accent);border-color:rgba(var(--case-rgb),.6);box-shadow:0 0 16px -2px rgba(var(--case-rgb),.55)}
+.layers li.lit b{color:var(--text)}
+.layers li.lit span{color:var(--text-2)}
 
-/* pickers: roles, views */
-.picker{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 18px}
-.pick-cap{margin:12px 0 0;font-size:.92rem;color:var(--text-2)}
-.fw{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 18px}
-.fw>div{padding:14px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
-.fw b{display:block;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--case-accent);margin-bottom:6px}
-.fw span{font-size:.86rem;line-height:1.55;color:var(--text-2)}
+/* chain: the rule every screen follows */
+.chain{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:30px 0 0;
+  font-size:clamp(1.15rem,2.4vw,1.45rem);font-weight:600;letter-spacing:-.01em;color:var(--text)}
+.chain i{font-style:normal;font-weight:400;color:var(--case-accent)}
 
-/* interactive framework strip: click a step, see that layer */
-.strip{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:4px 0 18px}
-.strip-step{display:inline-flex;align-items:center;gap:8px;min-height:38px;padding:0 14px;border-radius:999px;
-  border:1px solid var(--line-2);font-size:.82rem;font-weight:500;color:var(--text-2);transition:.3s var(--ease)}
-.strip-step span{font-size:.66rem;color:var(--muted);font-variant-numeric:tabular-nums}
-.strip-step:hover{color:var(--text);border-color:rgba(255,255,255,.3)}
-.strip-step[aria-pressed="true"]{color:var(--text);border-color:var(--case-accent);background:rgba(var(--case-rgb),.1);
-  box-shadow:0 0 16px -4px rgba(var(--case-rgb),.6)}
-.strip-step[aria-pressed="true"] span{color:var(--case-accent)}
-.strip-view{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:22px;align-items:center}
-.strip-view .strip-d b{display:block;font-size:1.1rem;font-weight:600;color:var(--text);margin-bottom:6px}
-.strip-view .strip-d p{margin:0}
-.strip-d{transition:opacity .2s}
+/* explorer: a list on the left, the live view on the right */
+.explore{display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr);gap:clamp(20px,4vw,44px);align-items:start;margin-top:36px}
+.ex-list{list-style:none;margin:0;padding:0;border-top:1px solid rgba(255,255,255,.07)}
+.ex-list button{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:46px;padding:0 4px 0 14px;
+  border-bottom:1px solid rgba(255,255,255,.07);text-align:left;font-size:.95rem;color:var(--muted);position:relative;
+  transition:color .3s,padding .35s var(--ease)}
+.ex-list button::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:2px;border-radius:2px;
+  background:var(--case-accent);transform:scaleY(0);transition:transform .35s var(--ease)}
+.ex-list button::after{content:"→";font-size:.85rem;color:var(--case-accent);opacity:0;transform:translateX(-6px);transition:.35s var(--ease)}
+.ex-list button:hover{color:var(--text)}
+.ex-list button[aria-pressed="true"]{color:var(--text);padding-left:18px}
+.ex-list button[aria-pressed="true"]::before{transform:none}
+.ex-list button[aria-pressed="true"]::after{opacity:1;transform:none}
+.ex-view{transition:opacity .25s}
+.ex-view.swap{opacity:0}
+.ex-cap{margin:14px 0 0;font-size:.92rem;color:var(--muted)}
+.ex-cap b{color:var(--text);font-weight:600}
 
-/* key decision: the chain */
-.chain{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:20px 0 0}
-.chain span{padding:10px 16px;border-radius:10px;border:1px solid rgba(var(--case-rgb),.35);background:rgba(var(--case-rgb),.07);
-  font-size:.9rem;font-weight:500;color:var(--text)}
-.chain i{font-style:normal;color:var(--case-accent)}
-
-/* phone-sized steps (permission flow) */
-.phones{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-.phones .ph figcaption{font-size:.84rem}
-.phones .ph figcaption b{display:block;color:var(--text);font-weight:600;margin-bottom:2px}
-
-/* key screens */
-.screens{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+/* screens */
+.screens{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:36px}
 .screens.tall{grid-template-columns:repeat(4,minmax(0,1fr))}
-.screens .ph{cursor:zoom-in}
-.screens .ph-frame{transition:border-color .3s,transform .4s var(--ease)}
-.screens .ph:hover .ph-frame{border-color:rgba(var(--case-rgb),.45);transform:translateY(-2px)}
-.screens .ph figcaption{font-size:.86rem}
+.screens .ph,.phones .ph{cursor:zoom-in}
+.screens .ph-frame,.phones .ph-frame{transition:border-color .3s,transform .4s var(--ease)}
+.screens .ph:hover .ph-frame,.phones .ph:hover .ph-frame{border-color:rgba(var(--case-rgb),.45);transform:translateY(-2px)}
+.screens .ph figcaption,.phones .ph figcaption{font-size:.88rem;color:var(--muted)}
+.phones{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:36px}
+.phones figcaption b{display:block;margin-bottom:2px;color:var(--text);font-weight:600}
 
-.team{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px;padding:0;list-style:none}
-.team li{padding:7px 13px;border-radius:999px;border:1px solid var(--line-2);font-size:.84rem;color:var(--text-2)}
-.outcome{list-style:none;margin:0;padding:0;display:grid;gap:0;border-top:1px solid var(--line)}
-.outcome li{display:flex;gap:14px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line);font-size:1rem;color:var(--text)}
-.outcome li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--case-accent);
-  box-shadow:0 0 10px var(--case-accent);transform:translateY(-2px)}
-.case-quote{margin:0;padding:6px 0;text-align:center}
-.case-quote p{font-size:1.2rem;line-height:1.7;font-style:italic;color:var(--text);max-width:56ch;margin:0 auto 12px}
-.case-quote cite{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-style:normal}
+.cs-end p+p{margin-top:14px}
+.cs-reflect{margin:34px 0 0;font-size:clamp(1.15rem,2.4vw,1.4rem);line-height:1.55;font-weight:500;font-style:italic;color:var(--text);max-width:52ch}
+.case-quote{margin:40px 0 0}
+.case-quote p{font-size:1.2rem;line-height:1.7;font-style:italic;color:var(--text);margin:0 0 10px}
+.case-quote cite{font-size:.82rem;color:var(--muted);font-style:normal}
 
-.case-next{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:clamp(24px,4vw,36px) 0 0;
-  padding:clamp(20px,4vw,30px);border-radius:16px;border:1px solid rgba(255,255,255,.07);background:rgba(8,11,16,.7);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:border-color .35s}
-.case-next:hover{border-color:rgba(255,255,255,.18)}
-.case-next-l{margin:0;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-.case-next-t{margin:6px 0 0;font-size:1.3rem;font-weight:600;transition:color .3s}
-.case-next:hover .case-next-t{color:var(--next-acc,var(--case-accent))}
-.case-next-arrow{font-size:1.3rem;color:var(--next-acc,var(--case-accent));transition:transform .35s var(--ease)}
-.case-next:hover .case-next-arrow{transform:translateX(6px)}
+/* next stop */
+.cs-next{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin:clamp(90px,14vw,150px) 0 0;
+  padding:clamp(28px,5vw,44px) 0 clamp(40px,7vw,70px);border-top:1px solid rgba(255,255,255,.08)}
+.cs-next-l{margin:0;font-size:.8rem;color:var(--muted)}
+.cs-next-t{margin:8px 0 0;font-size:clamp(1.8rem,5vw,3rem);font-weight:600;letter-spacing:-.03em;line-height:1;transition:color .35s}
+.cs-next:hover .cs-next-t{color:var(--next-acc)}
+.cs-next-arrow{font-size:clamp(1.6rem,4vw,2.4rem);color:var(--next-acc);transition:transform .4s var(--ease)}
+.cs-next:hover .cs-next-arrow{transform:translateX(8px)}
 
 /* lightbox */
 .lightbox{position:fixed;inset:0;z-index:70;background:rgba(4,6,10,.92);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
@@ -609,12 +594,14 @@ main{position:relative;z-index:2}
   .finale-cta{justify-content:center}
   .mile{grid-template-columns:1fr;gap:18px}
   .mile-body{padding:0 4px 6px}
-  .case-facts{grid-template-columns:1fr 1fr}
-  .case-facts>div:nth-child(3){padding-left:0;border-left:0}
-  .case-facts>div:nth-child(n+3){border-top:1px solid var(--line)}
-  .tldr{grid-template-columns:1fr}
-  .fw{grid-template-columns:1fr 1fr}
-  .strip-view{grid-template-columns:1fr}
+  .cs-meta{grid-template-columns:1fr 1fr;row-gap:22px}
+  .explore{grid-template-columns:1fr;gap:18px}
+  .ex-list{display:flex;gap:6px;overflow-x:auto;border:0;padding-bottom:4px;scrollbar-width:none}
+  .ex-list::-webkit-scrollbar{display:none}
+  .ex-list li{flex:none}
+  .ex-list button{min-height:40px;padding:0 14px;border:1px solid rgba(255,255,255,.1);border-radius:999px;white-space:nowrap}
+  .ex-list button::before,.ex-list button::after{display:none}
+  .ex-list button[aria-pressed="true"]{padding-left:14px;border-color:var(--case-accent);background:rgba(var(--case-rgb),.1)}
   .phones{grid-template-columns:repeat(4,minmax(150px,1fr));overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}
   .phones .ph{scroll-snap-align:start}
   .screens.tall{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -910,7 +897,7 @@ main{position:relative;z-index:2}
 </footer>
 
 <div id="case" role="dialog" aria-modal="true" aria-labelledby="casetitle">
-  <canvas id="caseCanvas" aria-hidden="true"></canvas>
+  <div class="case-glow" aria-hidden="true"></div>
   <div class="case-rail" aria-hidden="true"><i id="caseRailFill"></i></div>
   <div class="case-bar">
     <button class="back" id="caseback" type="button"><i aria-hidden="true">←</i> Back to the road</button>
@@ -2286,94 +2273,6 @@ if(!isTouch){
   });
 }
 
-/* ═══════ CASE BACKGROUND — layered aurora + particle constellation + scan sweep ═══════ */
-const startCaseBg=(function(){
-  const cv=document.getElementById("caseCanvas");if(!cv) return function(){};
-  const ctx=cv.getContext("2d");
-  let W=0,H=0,DPR=1,raf=null,mx=0,my=0,t0=performance.now();
-  const blobs=[0,1,2,3,4].map(i=>({speed:.35+Math.random()*.3,r:.2+Math.random()*.5,size:.22+Math.random()*.17,phase:i*1.7,spin:(i%2?1:-1)*(.15+Math.random()*.1)}));
-  const N=isTouch?26:46;
-  const nodes=Array.from({length:N},()=>({
-    x:Math.random(),y:Math.random(),vx:(Math.random()-.5)*.00012,vy:(Math.random()-.5)*.00012,r:1+Math.random()*1.6
-  }));
-  function resize(){
-    DPR=Math.min(window.devicePixelRatio||1,2);
-    W=cv.clientWidth;H=cv.clientHeight;
-    if(W<10||H<10) return;
-    cv.width=W*DPR;cv.height=H*DPR;
-    ctx.setTransform(DPR,0,0,DPR,0,0);
-  }
-  window.addEventListener("resize",resize);
-  if(!isTouch) window.addEventListener("mousemove",e=>{
-    mx=(e.clientX/window.innerWidth-.5); my=(e.clientY/window.innerHeight-.5);
-  },{passive:true});
-
-  function draw(now){
-    const el=document.getElementById("case");
-    if(!el||!el.classList.contains("open")){ raf=null; return; }
-    if(W<10) resize();
-    if(W<10){ raf=requestAnimationFrame(draw); return; }
-    const t=now-t0;
-    const rgb=getComputedStyle(el).getPropertyValue("--case-rgb").trim()||"139,223,255";
-    ctx.clearRect(0,0,W,H);
-    ctx.fillStyle="#0A0E16"; ctx.fillRect(0,0,W,H);
-
-    // layered, slowly rotating aurora blobs
-    const cx=W/2+mx*44, cy=H*.34+my*30;
-    blobs.forEach(b=>{
-      const ang=RM?b.phase:t*.00007*b.speed*b.spin+b.phase;
-      const x=cx+Math.cos(ang)*W*b.r*.5;
-      const y=cy+Math.sin(ang*1.3)*H*b.r*.32;
-      const r=Math.min(W,H)*b.size;
-      const g=ctx.createRadialGradient(x,y,0,x,y,r);
-      g.addColorStop(0,`rgba(${rgb},.14)`); g.addColorStop(1,`rgba(${rgb},0)`);
-      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,6.283); ctx.fill();
-    });
-
-    // drifting particle constellation, mouse-reactive links
-    if(!RM){
-      const mxp=(.5+mx)*W, myp=(.5+my)*H;
-      nodes.forEach(n=>{
-        n.x+=n.vx*(1+t*0); n.y+=n.vy;
-        if(n.x<0||n.x>1) n.vx*=-1;
-        if(n.y<0||n.y>1) n.vy*=-1;
-      });
-      ctx.lineWidth=1;
-      for(let i=0;i<nodes.length;i++){
-        const a=nodes[i], ax=a.x*W, ay=a.y*H;
-        const dm=Math.hypot(ax-mxp,ay-myp);
-        for(let j=i+1;j<nodes.length;j++){
-          const b=nodes[j], bx=b.x*W, by=b.y*H;
-          const d=Math.hypot(ax-bx,ay-by), max=Math.min(W,H)*.14;
-          if(d<max){
-            ctx.strokeStyle=`rgba(${rgb},${(1-d/max)*.14})`;
-            ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by); ctx.stroke();
-          }
-        }
-        const near=dm<Math.min(W,H)*.22;
-        ctx.fillStyle=`rgba(${rgb},${near?.85:.35})`;
-        ctx.beginPath(); ctx.arc(ax,ay,a.r*(near?1.6:1),0,6.283); ctx.fill();
-        if(near){
-          ctx.strokeStyle=`rgba(${rgb},${(1-dm/(Math.min(W,H)*.22))*.22})`;
-          ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(mxp,myp); ctx.stroke();
-        }
-      }
-    }
-
-    // a slow diagonal light sweep, repeating every ~9s
-    const sw=(t%9000)/9000;
-    if(sw<.5){
-      const sp=sw/.5, x=-W*.3+sp*W*1.6;
-      const g2=ctx.createLinearGradient(x-W*.18,0,x+W*.18,H);
-      g2.addColorStop(0,`rgba(${rgb},0)`); g2.addColorStop(.5,`rgba(${rgb},.05)`); g2.addColorStop(1,`rgba(${rgb},0)`);
-      ctx.fillStyle=g2; ctx.fillRect(0,0,W,H);
-    }
-
-    raf=requestAnimationFrame(draw);
-  }
-  return function start(){ if(!raf){ t0=performance.now(); resize(); raf=requestAnimationFrame(draw); } };
-})();
-
 /* ═══════ SCREEN LIGHTBOX — a bigger look at any key screen ═══════ */
 const lb=document.getElementById("lightbox"),lbMedia=document.getElementById("lbMedia"),
       lbLabel=document.getElementById("lbLabel"),lbCount=document.getElementById("lbCount");
@@ -2401,140 +2300,116 @@ document.addEventListener("keydown",e=>{
 },true);
 
 /* ═══════ CASE STUDIES — content ═══════
-   Everything here is verified with Shanmugam. Search "REPLACE" for what still needs real content:
-   media (set src on any item), Billcostro role names, Moolago permission-flow decisions, reflections. */
+   Only facts Shanmugam has confirmed. Search "REPLACE" for what still needs real material:
+   media (add src to any item), Billcostro role names, Moolago permission-flow decisions, reflections. */
 const CASES={
   genix:{
-    name:"Genix.ai",mile:"Mile 01",minute:184,
-    meta:"Healthcare · Genomics · AI",
+    name:"Genix.ai",minute:184,kick:"Genix.ai · Healthcare · Genomics · AI",
     title:"Making genomics make sense.",
-    line:"A genomics and health product designed from scratch, for six very different kinds of users.",
-    status:"Shipped · Live · In active development",
-    facts:[["Role","Primary product designer"],["Company","Chadura Tech · Sept 2024 – present"],
-           ["Team","Founder, developers, marketing, bioinformaticians"],["Platforms","Web platform · Website · Mobile app"]],
-    cover:{type:"gif",ratio:"16:9",label:"Genix.ai · product walkthrough"},                       // REPLACE: src
-    tldr:[["Problem","Complex genomic and health data, used by patients, clinicians, genetic counsellors, bioinformaticians, administrators and hospitals, each needing something different."],
-          ["What I did","Designed the product from scratch: information architecture, user flows, interaction patterns, interface and design system."],
-          ["Result","A complete product experience across a web platform, a website and a mobile app, now live and actively developed."]],
-    lens:{
-      recruiter:"I was the primary designer on Genix.ai at Chadura Tech, taking it from a product requirement to a complete experience across web, website and mobile, working directly with the founder, developers, marketing and bioinformaticians.",
-      designer:"The core problem was hierarchy. Genomic and health information looks equally important when everything is shown at once. I used information hierarchy, progressive disclosure and reusable patterns so each user sees what matters first, what it means, and what to do next.",
-      developer:"I worked closely with the frontend and backend developers, including workflows in the Django admin panel, so the designs matched what the product could support. Reusable patterns kept handoff consistent across web and mobile."},
-    context:"Genix is a precision-health platform built at Chadura Tech. It started as an idea and a set of product requirements involving genomic, healthcare, wellness and AI experiences, and grew to include wellness tracking, AI assistance and behavioural experiences.",
-    problem:"Genomic and healthcare information is dense and high-stakes, and the same product serves people with very different needs and levels of expertise. When every piece of information has equal weight, nobody can tell what matters or what to do next.",
-    question:"How do you make dense genomic data clear for a patient and precise for a clinician, in the same product?",
-    roles:{title:"Six users, one product",
-      lede:"Each kind of user needs a different slice of the same information. Pick one.",
-      list:["Patient","Clinician","Genetic counsellor","Bioinformatician","Administrator","Hospital"]},     // REPLACE: src per role view
-    strip:{title:"From idea to ecosystem",
-      lede:"Genix wasn't a redesign. It was designed from scratch, one layer at a time.",
-      steps:[["Idea","A product requirement involving genomic, healthcare, wellness and AI experiences."],
-             ["Information architecture","Structuring what exists, and where it lives, for six kinds of users."],
-             ["User flows","The paths each user takes through the product."],
-             ["Interaction patterns","Progressive disclosure: detail appears when it's needed, not before."],
-             ["Interface","Screens that lead with what matters."],
-             ["Design system","Reusable components shared across web and mobile."],
-             ["Product ecosystem","A web platform, a website and a mobile app, working as one."]]},
-    decision:{text:"Instead of presenting every piece of information with equal importance, I built each screen around a clear hierarchy and progressive disclosure, with reusable patterns so the same logic carried across the product.",
-      chain:["What matters","What it means","What to do next"]},
-    screens:{tall:false,list:[                                                                     // REPLACE: src + a caption for each
-      {type:"image",ratio:"16:10",label:"Web platform"},{type:"gif",ratio:"16:10",label:"A key user flow"},
-      {type:"image",ratio:"16:10",label:"Website"},{type:"image",ratio:"16:10",label:"Design system components"}]},
-    phones:{title:"Mobile app",lede:"The same hierarchy, on a smaller screen.",list:[                 // REPLACE: src
-      {type:"image",ratio:"9:19",label:"Mobile · screen 1"},{type:"image",ratio:"9:19",label:"Mobile · screen 2"},
-      {type:"image",ratio:"9:19",label:"Mobile · screen 3"},{type:"image",ratio:"9:19",label:"Mobile · screen 4"}]},
-    team:["Founder","Frontend developer","Backend developer","Marketing","Bioinformaticians","Technical & product stakeholders"],
-    teamText:"I was the primary designer, working day to day with the founder and the development team, and alongside bioinformaticians and technical stakeholders on a domain where accuracy matters.",
-    outcome:["Designed from scratch into a complete product experience","A web platform, a website and a mobile app","Live, and still being actively developed"],
+    line:"Designed from scratch at Chadura Tech: a precision-health product used by patients, clinicians, genetic counsellors, bioinformaticians, administrators and hospitals.",
+    meta:[["Role","Primary product designer"],["Team","Founder, frontend & backend developers, marketing, bioinformaticians"],
+          ["Platforms","Web platform, website, mobile app"],["Status","Shipped · live · in active development"]],
+    cover:{type:"gif",ratio:"16:9",label:"Genix.ai · product walkthrough"},                                    // REPLACE: src
+    chapters:[
+      {h:"Six kinds of users, one dense set of data.",
+       p:["Genix works with genomic and healthcare information: dense, high-stakes and unfamiliar to most people. The same product has to serve a patient reading their own results and a bioinformatician checking the detail.",
+          "And it kept growing, into wellness tracking, AI assistance and behavioural experiences."],
+       q:"How do you make the same data clear for a patient and precise for a clinician?"},
+      {h:"Nothing to redesign. Everything to design.",
+       p:["There was no existing product to improve. Genix started as an idea and a set of requirements, so I designed it in layers, each one resting on the one before."],
+       layers:[["Idea","Requirements spanning genomics, healthcare, wellness and AI."],
+               ["Information architecture","What exists, and where it lives, for six kinds of users."],
+               ["User flows","The path each user takes through the product."],
+               ["Interaction patterns","Progressive disclosure: detail appears when it's needed, not before."],
+               ["Interface","Screens that lead with what matters."],
+               ["Design system","Reusable components, shared across web and mobile."],
+               ["Product ecosystem","A web platform, a website and a mobile app, working as one."]]},
+      {h:"Not everything deserves equal weight.",
+       p:["Showing every value with the same importance leaves people to work out for themselves what matters. Instead, each screen is built around a clear hierarchy, in the same order:"],
+       chain:["What matters","What it means","What to do next"],
+       p2:["Progressive disclosure keeps the deeper detail one step away for the people who need it, and reusable patterns carry the same logic across the whole product."]},
+      {h:"One product, six ways in.",
+       p:["Each user needs a different slice of the same information. Choose one to see their view."],
+       explore:{items:["Patient","Clinician","Genetic counsellor","Bioinformatician","Administrator","Hospital"],   // REPLACE: src per view
+                label:x=>"Genix · "+x+" view",cap:x=>`What a <b>${x.toLowerCase()}</b> sees first.`}},
+      {h:"The work.",
+       screens:{list:[{type:"image",ratio:"16:10",label:"Web platform"},{type:"gif",ratio:"16:10",label:"A key user flow"},   // REPLACE: src + caption
+                      {type:"image",ratio:"16:10",label:"Website"},{type:"image",ratio:"16:10",label:"Design system components"}]},
+       phones:[{type:"image",ratio:"9:19",label:"Mobile app · 1"},{type:"image",ratio:"9:19",label:"Mobile app · 2"},
+               {type:"image",ratio:"9:19",label:"Mobile app · 3"},{type:"image",ratio:"9:19",label:"Mobile app · 4"}]}],
+    end:["Genix grew from a set of requirements into a complete product experience: a web platform, a website and a mobile app. It's live, and still being actively developed.",
+         "I was the primary designer, working day to day with the founder, frontend and backend developers, marketing and bioinformaticians, including workflows in the Django admin panel."],
     reflection:"The hardest part of Genix wasn't adding features. It was deciding, screen by screen, what each user should see first.",   // REPLACE: in your own words
-    testimonial:null,                                                                              // REPLACE: {text,by} once someone gives you a real quote
+    testimonial:null,                                                                                           // REPLACE: {text,by} once you have a real quote
     next:"billcostro"},
 
   billcostro:{
-    name:"Billcostro",mile:"Mile 02",minute:200,
-    meta:"Enterprise SaaS · Cost management",
+    name:"Billcostro",minute:200,kick:"Billcostro · Enterprise SaaS · Cost management",
     title:"One product, nine ways to use it.",
-    line:"An enterprise cost-management platform where nine user roles share one product, each with its own workflow.",
-    status:"Fully functional · Web + mobile",
-    facts:[["Role","Primary and only designer"],["Company","Chadura Tech · Sept 2024 – present"],
-           ["Team","Founder, frontend & backend developers, marketing"],["Platforms","Web · Mobile"]],
-    cover:{type:"gif",ratio:"16:9",label:"Billcostro · request to approval"},                     // REPLACE: src
-    tldr:[["Problem","Requests, approvals, expenses, reimbursements, assets and financial activity, across nine roles whose workflows change with role and hierarchy."],
-          ["What I did","Designed the end-to-end product experience, structuring every screen around context, status, decision and action."],
-          ["Result","A fully functional platform on web and mobile that brings many roles and financial workflows into one structured system."]],
-    lens:{
-      recruiter:"I was the only designer on Billcostro, designing the end-to-end experience for a fully functional enterprise cost-management platform across web and mobile, working with the founder, developers and marketing.",
-      designer:"Nine roles, different hierarchies, different workflows. The challenge was keeping it one coherent product, where every screen answers the same questions in the same order: what is this, where does it stand, what needs deciding, and what can I do.",
-      developer:"Workflow states and permissions change by role and hierarchy, so I made the states, and the actions each role can take in each state, explicit in the design, which gave the developers a clear structure to build against."},
-    context:"Billcostro is an enterprise cost-management platform built at Chadura Tech. It covers requests, approvals, expenses, reimbursements, assets and financial activity for organisations.",
-    problem:"Workflows change according to each user's role and hierarchy. Without a shared structure, every role ends up with a slightly different product, and nobody can tell at a glance where something stands or what they need to do next.",
-    question:"How do you create one coherent product when different users need different workflows, permissions, information and actions?",
-    views:{title:"Same request, nine views",
-      lede:"One request moves through the product. Pick a role to see what changes for them.",
-      roles:["Role 1","Role 2","Role 3","Role 4","Role 5","Role 6","Role 7","Role 8","Role 9"],       // REPLACE: the 9 real role names
-      fw:[["Context","What the request is, and who raised it"],["Status","Where it stands in the workflow"],
-          ["Decision","What this role needs to decide"],["Action","What this role can do next"]]},
-    strip:{title:"Context → status → decision → action",
-      lede:"The order every screen follows, whichever role is looking at it.",
-      steps:[["Context","What is this request, and where did it come from?"],
-             ["Status","Where does it stand, and who is it waiting on?"],
-             ["Decision","What does this role need to decide?"],
-             ["Action","What can they do next, right from here?"]]},
-    decision:{text:"I focused on making complex workflows easier to navigate by improving information hierarchy, workflow states and dashboard visibility, and by tightening the relationship between context, status and action.",
-      chain:["One product","9 roles","Different hierarchies","Different workflows"]},
-    screens:{tall:false,list:[                                                                     // REPLACE: src + a caption for each
-      {type:"image",ratio:"16:10",label:"Dashboard"},{type:"gif",ratio:"16:10",label:"Request and approval flow"},
-      {type:"image",ratio:"16:10",label:"Expenses and reimbursements"},{type:"image",ratio:"16:10",label:"Assets"}]},
-    phones:{title:"Mobile",lede:"Approvals and requests, on the move.",list:[                         // REPLACE: src
-      {type:"image",ratio:"9:19",label:"Mobile · screen 1"},{type:"image",ratio:"9:19",label:"Mobile · screen 2"},
-      {type:"image",ratio:"9:19",label:"Mobile · screen 3"},{type:"image",ratio:"9:19",label:"Mobile · screen 4"}]},
-    team:["Founder","Frontend developer","Backend developer","Marketing"],
-    teamText:"I was the primary and only designer, working closely with the founder, the frontend and backend developers, and marketing.",
-    outcome:["End-to-end product experience, designed by one designer","Nine user roles brought into one structured system","Fully functional on web and mobile"],
+    line:"An enterprise cost-management platform at Chadura Tech, where requests, approvals, expenses, reimbursements and assets move between nine user roles.",
+    meta:[["Role","Primary and only designer"],["Team","Founder, frontend & backend developers, marketing"],
+          ["Platforms","Web, mobile"],["Status","Fully functional"]],
+    cover:{type:"gif",ratio:"16:9",label:"Billcostro · request to approval"},                                   // REPLACE: src
+    chapters:[
+      {h:"Nine roles. Nine versions of the same request.",
+       p:["In Billcostro, the workflow changes with who you are and where you sit in the hierarchy. The person raising a request and the person approving it touch the same item, but need different information and can take different actions.",
+          "Multiply that across requests, approvals, expenses, reimbursements, assets and financial activity, and nine roles, and it becomes easy to end up with nine different products."],
+       q:"How do you keep one coherent product when every role needs different workflows, permissions, information and actions?"},
+      {h:"Every screen answers four questions, in the same order.",
+       p:["Rather than designing nine products, I gave every screen the same structure, whichever role is looking at it."],
+       layers:[["Context","What is this, and where did it come from?"],
+               ["Status","Where does it stand, and who is it waiting on?"],
+               ["Decision","What do I need to decide?"],
+               ["Action","What can I do next, right here?"]]},
+      {h:"Make the state of things obvious.",
+       p:["Complex workflows get easier when you can see where everything stands. I focused on information hierarchy, clear workflow states and dashboard visibility, and on keeping context, status and action together, so nobody has to go looking for what to do next."],
+       chain:["One product","9 roles","Different hierarchies","Different workflows"]},
+      {h:"Same request, nine views.",
+       p:["One request moves through the product. Choose a role to see it from their side."],
+       explore:{items:["Role 1","Role 2","Role 3","Role 4","Role 5","Role 6","Role 7","Role 8","Role 9"],          // REPLACE: the 9 real role names
+                label:x=>"The request, as "+x+" sees it",cap:x=>`The request from <b>${x}</b>'s side.`}},
+      {h:"The work.",
+       screens:{list:[{type:"image",ratio:"16:10",label:"Dashboard"},{type:"gif",ratio:"16:10",label:"Request and approval flow"},   // REPLACE: src + caption
+                      {type:"image",ratio:"16:10",label:"Expenses and reimbursements"},{type:"image",ratio:"16:10",label:"Assets"}]},
+       phones:[{type:"image",ratio:"9:19",label:"Mobile · 1"},{type:"image",ratio:"9:19",label:"Mobile · 2"},
+               {type:"image",ratio:"9:19",label:"Mobile · 3"},{type:"image",ratio:"9:19",label:"Mobile · 4"}]}],
+    end:["Billcostro is a fully functional platform on web and mobile, bringing nine roles and their financial workflows into one structured system.",
+         "I was its only designer, working closely with the founder, the frontend and backend developers, and marketing."],
     reflection:"In enterprise products, the number of screens isn't the hard part. Keeping nine different workflows feeling like one product is.",   // REPLACE: in your own words
     testimonial:null,
     next:"moolago"},
 
   moolago:{
-    name:"Moolago",mile:"Mile 03",minute:216,
-    meta:"Fintech · Mobile · AI",
+    name:"Moolago",minute:216,kick:"Moolago · Fintech · Mobile · AI",
     title:"Asking for trust before asking for data.",
-    line:"A personal-finance app that turns transaction SMS messages into one connected journey, from spending to a saving plan.",
-    status:"Mobile application",
-    facts:[["Role","Product designer, mobile app"],["Company","Chadura Tech · Sept 2024 – present"],
-           ["Team","Product and development team"],["Platform","Mobile app"]],
-    cover:{type:"gif",ratio:"16:9",label:"Moolago · SMS to saving plan"},                          // REPLACE: src
-    tldr:[["Problem","To track spending automatically, the app has to read transaction SMS messages: sensitive financial information."],
-          ["What I did","Designed the SMS permission flow, and structured the app around the user's financial journey instead of separate features."],
-          ["Result","A connected mobile experience, from capturing a transaction to AI guidance and a saving plan."]],
-    lens:{
-      recruiter:"I was the product designer for the Moolago mobile app, including the SMS permission flow and the connected journey from transactions to saving plans, working with the product and development team.",
-      designer:"Two problems: earning trust before asking for sensitive access, and connecting tracking, budgeting, AI guidance and saving so they feel like one journey rather than four features.",
-      developer:"The journey follows the data. Each stage builds on the one before it: a transaction from an SMS becomes an expense, expenses become a pattern, and the pattern feeds the budget, the AI guidance and the saving plan."},
-    context:"Moolago is a mobile personal-finance app. It uses transaction information from SMS messages to help people track expenses, understand their spending, manage budgets, get AI guidance and create saving plans.",
-    problem:"The app's value depends on reading SMS messages, which is exactly the kind of access people are most careful about. And tracking, budgeting, AI guidance and saving can easily feel like separate tools stacked into one app.",
-    question:"How do you ask for access to sensitive financial information without breaking the user's trust?",
-    phones:{title:"The permission flow",lede:"The first real conversation the app has with a new user.",list:[   // REPLACE: src + the decision behind each step
-      {type:"gif",ratio:"9:19",label:"Permission · step 1",cap:"<b>Step 1</b>Add the decision behind this step."},
-      {type:"image",ratio:"9:19",label:"Permission · step 2",cap:"<b>Step 2</b>Add the decision behind this step."},
-      {type:"image",ratio:"9:19",label:"Permission · step 3",cap:"<b>Step 3</b>Add the decision behind this step."},
-      {type:"image",ratio:"9:19",label:"Permission · step 4",cap:"<b>Step 4</b>Add the decision behind this step."}]},
-    strip:{title:"One journey, not four features",
-      lede:"Every screen sits somewhere on the same path.",
-      steps:[["Transaction","Captured from the SMS the bank already sends."],
-             ["Expense","The transaction becomes an expense the user can see."],
-             ["Pattern","Expenses add up to a picture of how money is spent."],
-             ["Budget","That picture helps set and track a budget."],
-             ["AI guidance","AI helps explain the spending and what to do about it."],
-             ["Saving plan","The journey ends in a plan for saving."]]},
-    decision:{text:"I structured the experience around the user's financial journey rather than treating expense tracking, budgeting, AI guidance and saving as separate features.",
-      chain:["Transaction","Expense","Pattern","Budget","AI guidance","Saving plan"]},
-    screens:{tall:true,list:[                                                                      // REPLACE: src + a caption for each
-      {type:"image",ratio:"9:19",label:"Home"},{type:"image",ratio:"9:19",label:"Spending patterns"},
-      {type:"image",ratio:"9:19",label:"Budget"},{type:"gif",ratio:"9:19",label:"AI guidance"}]},
-    team:["Product team","Development team"],
-    teamText:"I was the product designer for the mobile app, collaborating with the product and development team.",
-    outcome:["An SMS permission flow designed around trust","One connected journey, from transaction to saving plan","A mobile experience shaped around how people actually use their money"],
+    line:"A personal-finance app that reads the transaction messages your bank already sends, and turns them into one journey from spending to saving.",
+    meta:[["Role","Product designer, mobile app"],["Team","Product and development team"],
+          ["Platform","Mobile app"],["Status","Mobile application"]],
+    cover:{type:"gif",ratio:"16:9",label:"Moolago · SMS to saving plan"},                                       // REPLACE: src
+    chapters:[
+      {h:"The whole product depends on one permission.",
+       p:["Moolago tracks spending automatically by reading transaction SMS messages. That's what makes it effortless, and it's also exactly the kind of access people are most careful about.",
+          "If that first permission moment fails, nothing after it gets a chance."],
+       q:"How do you ask for access to sensitive financial information without breaking the user's trust?"},
+      {h:"The permission flow.",
+       p:["The first real conversation the app has with a new user."],
+       phones:[{type:"gif",ratio:"9:19",label:"Permission · step 1",cap:"<b>Step 1</b>Add the decision behind this step."},   // REPLACE: src + decision
+               {type:"image",ratio:"9:19",label:"Permission · step 2",cap:"<b>Step 2</b>Add the decision behind this step."},
+               {type:"image",ratio:"9:19",label:"Permission · step 3",cap:"<b>Step 3</b>Add the decision behind this step."},
+               {type:"image",ratio:"9:19",label:"Permission · step 4",cap:"<b>Step 4</b>Add the decision behind this step."}]},
+      {h:"One journey, not four features.",
+       p:["Expense tracking, budgeting, AI guidance and saving could easily have been four separate tabs. I structured them as one path instead, where each stage builds on the one before."],
+       layers:[["Transaction","Captured from the SMS the bank already sends."],
+               ["Expense","The transaction becomes an expense you can see."],
+               ["Pattern","Expenses add up to a picture of how money is spent."],
+               ["Budget","That picture helps set and track a budget."],
+               ["AI guidance","AI helps explain the spending, and what to do about it."],
+               ["Saving plan","The journey ends in a plan for saving."]]},
+      {h:"The work.",
+       screens:{tall:true,list:[{type:"image",ratio:"9:19",label:"Home"},{type:"image",ratio:"9:19",label:"Spending patterns"},   // REPLACE: src + caption
+                                {type:"image",ratio:"9:19",label:"Budget"},{type:"gif",ratio:"9:19",label:"AI guidance"}]}}],
+    end:["Moolago's mobile experience follows one connected journey: from capturing a transaction through SMS, to understanding spending, tracking a budget, getting AI guidance and planning savings.",
+         "I designed it as the product designer for the mobile app, with the product and development team."],
     reflection:"In finance, trust is part of the interface. The permission screen is as much a design problem as any dashboard.",   // REPLACE: in your own words
     testimonial:null,
     next:"genix"}
@@ -2549,171 +2424,85 @@ const MOON='<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor
 function renderCase(k){
   const c=CASES[k];if(!c)return false;
   const nx=CASES[c.next];
-  const media=(m,cls)=>phHTML(m).replace('class="ph"',`class="ph${cls?" "+cls:""}"`);
   const [t,ap]=fmtTime(c.minute);
   caseTime.innerHTML=`${MOON}<b>${t} ${ap}</b><span>· stopped at ${esc(c.name)}</span>`;
+  const paras=a=>(a||[]).map(x=>`<p>${esc(x)}</p>`).join("");
+  const zoomable=(list,g)=>list.map((m,i)=>phHTML(m).replace('<figure class="ph"',`<figure class="ph" tabindex="0" role="button" data-g="${g}" data-i="${i}"`)).join("");
+  const galleries=[];
 
-  let h=`<div class="case-wrap">
-  <header class="case-hero">
-    <p class="case-meta">${esc(c.mile)} · ${esc(c.meta)}</p>
+  let h=`<header class="cs cs-hero">
+    <p class="cs-kick">${esc(c.kick)}</p>
     <h1 id="casetitle">${esc(c.title)}</h1>
-    <p class="case-out">${esc(c.line)}</p>
-    <p class="case-status"><i aria-hidden="true"></i>${esc(c.status)}</p>
-    <dl class="case-facts">${c.facts.map(([a,b])=>`<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join("")}</dl>
+    <p class="cs-line">${esc(c.line)}</p>
+    <dl class="cs-meta">${c.meta.map(([a,b])=>`<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join("")}</dl>
   </header>
-  ${media(c.cover,"case-cover")}
-  <div class="case-in">
+  <div class="cs-wide cs-cover">${phHTML(c.cover)}</div>`;
 
-    <section class="case-sec">
-      <h2>In short</h2>
-      <div class="lens" role="group" aria-label="Reading as">
-        <span class="lens-l">Reading as</span>
-        <button class="chip" type="button" data-lens="recruiter" aria-pressed="true">Recruiter</button>
-        <button class="chip" type="button" data-lens="designer" aria-pressed="false">Designer</button>
-        <button class="chip" type="button" data-lens="developer" aria-pressed="false">Developer</button>
-      </div>
-      <p class="lede lens-text" id="lensText" aria-live="polite">${esc(c.lens.recruiter)}</p>
-      <ul class="tldr">${c.tldr.map(([a,b])=>`<li><b>${esc(a)}</b><span>${esc(b)}</span></li>`).join("")}</ul>
+  c.chapters.forEach((ch,n)=>{
+    const wide=ch.screens||ch.phones||ch.explore;
+    h+=`<section class="ch ${wide?"cs-wide":"cs"}">
+      <p class="ch-n">${String(n+1).padStart(2,"0")}</p>
+      <h2>${esc(ch.h)}</h2>
+      ${wide?`<div style="max-width:62ch">${paras(ch.p)}</div>`:paras(ch.p)}`;
+    if(ch.q) h+=`<p class="cs-q">${esc(ch.q)}</p>`;
+    if(ch.layers) h+=`<ol class="layers">${ch.layers.map(([a,b],i)=>
+      `<li><span class="dot">${String(i+1).padStart(2,"0")}</span><div><b>${esc(a)}</b><span>${esc(b)}</span></div></li>`).join("")}</ol>`;
+    if(ch.chain) h+=`<p class="chain">${ch.chain.map((x,i)=>(i?`<i aria-hidden="true">→</i>`:"")+`<span>${esc(x)}</span>`).join("")}</p>`;
+    if(ch.p2) h+=paras(ch.p2);
+    if(ch.explore){
+      const e=ch.explore,first=e.items[0];
+      h+=`<div class="explore" data-ex="${n}">
+        <ul class="ex-list" role="group" aria-label="Choose a view">${e.items.map((x,i)=>
+          `<li><button type="button" data-i="${i}" aria-pressed="${i===0}">${esc(x)}</button></li>`).join("")}</ul>
+        <div><div class="ex-view">${phHTML({type:"image",ratio:"16:10",label:e.label(first)})}</div>
+        <p class="ex-cap">${e.cap(esc(first))}</p></div>
+      </div>`;
+    }
+    if(ch.screens){ galleries.push(ch.screens.list); h+=`<div class="screens${ch.screens.tall?" tall":""}">${zoomable(ch.screens.list,galleries.length-1)}</div>`; }
+    if(ch.phones){ galleries.push(ch.phones); h+=`<div class="phones">${zoomable(ch.phones,galleries.length-1)}</div>`; }
+    h+=`</section>`;
+  });
+
+  h+=`<section class="ch cs cs-end">
+      <p class="ch-n">${String(c.chapters.length+1).padStart(2,"0")}</p>
+      <h2>Where it is now.</h2>
+      ${paras(c.end)}
+      ${c.testimonial?`<blockquote class="case-quote"><p>“${esc(c.testimonial.text)}”</p><cite>${esc(c.testimonial.by)}</cite></blockquote>`:""}
+      <p class="cs-reflect">${esc(c.reflection)}</p>
     </section>
-
-    <section class="case-sec">
-      <h2>Context</h2>
-      <p>${esc(c.context)}</p>
-    </section>
-
-    <section class="case-sec">
-      <h2>The problem</h2>
-      <p>${esc(c.problem)}</p>
-      <p class="case-q">${esc(c.question)}</p>
-    </section>`;
-
-  if(c.roles){
-    h+=`<section class="case-sec">
-      <h2>${esc(c.roles.title)}</h2>
-      <p>${esc(c.roles.lede)}</p>
-      <div class="picker" id="rolePick" role="group" aria-label="Choose a user">${c.roles.list.map((r,i)=>
-        `<button class="chip" type="button" data-i="${i}" aria-pressed="${i===0}">${esc(r)}</button>`).join("")}</div>
-      <div id="roleView">${media({type:"image",ratio:"16:10",label:"Genix · "+c.roles.list[0]+" view"})}</div>
-      <p class="pick-cap" id="roleCap">What a ${esc(c.roles.list[0].toLowerCase())} needs to see first.</p>
-    </section>`;
-  }
-  if(c.views){
-    h+=`<section class="case-sec">
-      <h2>${esc(c.views.title)}</h2>
-      <p>${esc(c.views.lede)}</p>
-      <div class="picker" id="viewPick" role="group" aria-label="Choose a role">${c.views.roles.map((r,i)=>
-        `<button class="chip" type="button" data-i="${i}" aria-pressed="${i===0}">${esc(r)}</button>`).join("")}</div>
-      <div class="fw">${c.views.fw.map(([a,b])=>`<div><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join("")}</div>
-      <div id="viewView">${media({type:"image",ratio:"16:10",label:"The request, as "+c.views.roles[0]+" sees it"})}</div>
-    </section>`;
-  }
-  if(c.phones&&k==="moolago"){
-    h+=`<section class="case-sec">
-      <h2>${esc(c.phones.title)}</h2>
-      <p>${esc(c.phones.lede)}</p>
-      <div class="phones">${c.phones.list.map(m=>phHTML(m)).join("")}</div>
-    </section>`;
-  }
-
-  h+=`<section class="case-sec">
-      <h2>${esc(c.strip.title)}</h2>
-      <p>${esc(c.strip.lede)}</p>
-      <div class="strip" id="strip" role="group" aria-label="${esc(c.strip.title)}">${c.strip.steps.map(([s2],i)=>
-        `<button class="strip-step" type="button" data-i="${i}" aria-pressed="${i===0}"><span>0${i+1}</span>${esc(s2)}</button>`).join("")}</div>
-      <div class="strip-view">
-        <div class="strip-d" id="stripD"><b>${esc(c.strip.steps[0][0])}</b><p>${esc(c.strip.steps[0][1])}</p></div>
-        <div id="stripM">${media({type:"image",ratio:"16:10",label:c.name+" · "+c.strip.steps[0][0]})}</div>
-      </div>
-    </section>
-
-    <section class="case-sec">
-      <h2>Key decision</h2>
-      <p class="lede">${esc(c.decision.text)}</p>
-      <div class="chain">${c.decision.chain.map((x,i)=>(i?`<i aria-hidden="true">→</i>`:"")+`<span>${esc(x)}</span>`).join("")}</div>
-    </section>
-
-    <section class="case-sec">
-      <h2>Key screens</h2>
-      <div class="screens${c.screens.tall?" tall":""}" id="screens">${c.screens.list.map((m,i)=>
-        phHTML(m).replace('<figure class="ph"',`<figure class="ph" tabindex="0" role="button" data-i="${i}"`)).join("")}</div>
-    </section>`;
-
-  if(c.phones&&k!=="moolago"){
-    h+=`<section class="case-sec">
-      <h2>${esc(c.phones.title)}</h2>
-      <p>${esc(c.phones.lede)}</p>
-      <div class="phones">${c.phones.list.map(m=>phHTML(m)).join("")}</div>
-    </section>`;
-  }
-
-  h+=`<section class="case-sec">
-      <h2>Who I worked with</h2>
-      <ul class="team">${c.team.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
-      <p>${esc(c.teamText)}</p>
-    </section>
-
-    <section class="case-sec">
-      <h2>Outcome</h2>
-      <ul class="outcome">${c.outcome.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
-    </section>`;
-  if(c.testimonial){
-    h+=`<section class="case-sec"><blockquote class="case-quote"><p>“${esc(c.testimonial.text)}”</p><cite>${esc(c.testimonial.by)}</cite></blockquote></section>`;
-  }
-  h+=`<section class="case-sec">
-      <h2>Reflection</h2>
-      <p class="lede">${esc(c.reflection)}</p>
-    </section>
-
-  </div>
-  <a class="case-next" href="#/work/${esc(c.next)}" style="--next-acc:${CASE_ACC[c.next]}">
-    <div><p class="case-next-l">Next stop · ${esc(fmtTime(nx.minute).join(" "))}</p><p class="case-next-t">${esc(nx.name)}</p></div>
-    <span class="case-next-arrow" aria-hidden="true">→</span>
-  </a>
-  </div>`;
+    <div class="cs">
+      <a class="cs-next" href="#/work/${esc(c.next)}" style="--next-acc:${CASE_ACC[c.next]}">
+        <div><p class="cs-next-l">Next stop · ${esc(fmtTime(nx.minute).join(" "))}</p><p class="cs-next-t">${esc(nx.name)}</p></div>
+        <span class="cs-next-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>`;
 
   caseEl.dataset.theme=k;
   caseBody.innerHTML=h;
   mountMedia(caseBody);
 
-  // generic single-choice picker
-  function picker(id,fn){
-    const g=document.getElementById(id);if(!g)return;
-    g.addEventListener("click",e=>{
-      const b=e.target.closest("button[data-i]");if(!b)return;
-      g.querySelectorAll("button[data-i]").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
-      fn(+b.dataset.i);
+  // explorer: pick an item, the view cross-fades
+  caseBody.querySelectorAll(".explore").forEach(ex=>{
+    const e=c.chapters[+ex.dataset.ex].explore,view=ex.querySelector(".ex-view"),cap=ex.querySelector(".ex-cap");
+    ex.querySelector(".ex-list").addEventListener("click",ev=>{
+      const b=ev.target.closest("button[data-i]");if(!b||b.getAttribute("aria-pressed")==="true")return;
+      ex.querySelectorAll(".ex-list button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
+      const x=e.items[+b.dataset.i];
+      view.classList.add("swap");
+      setTimeout(()=>{ view.innerHTML=phHTML({type:"image",ratio:"16:10",label:e.label(x)}); mountMedia(view);
+        cap.innerHTML=e.cap(esc(x)); view.classList.remove("swap"); },RM?0:220);
     });
-  }
-  const swap=(id,m)=>{ const el=document.getElementById(id); el.innerHTML=media(m); mountMedia(el); };
+  });
+  // layers light up as they pass the middle of the screen
+  const lit=new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting) en.target.classList.add("lit"); }),
+    {root:caseEl,rootMargin:"0px 0px -45% 0px",threshold:0});
+  caseBody.querySelectorAll(".layers li").forEach(li=>lit.observe(li));
+  // any screen opens larger
+  const openAt=f=>lightboxOpen(galleries[+f.dataset.g],+f.dataset.i);
+  caseBody.onclick=ev=>{const f=ev.target.closest(".ph[data-g]");if(f)openAt(f);};
+  caseBody.onkeydown=ev=>{const f=ev.target.closest(".ph[data-g]");if(f&&(ev.key==="Enter"||ev.key===" ")){ev.preventDefault();openAt(f);}};
 
-  // reading lens
-  const lensT=document.getElementById("lensText");
-  caseBody.querySelector(".lens").addEventListener("click",e=>{
-    const b=e.target.closest("[data-lens]");if(!b)return;
-    caseBody.querySelectorAll("[data-lens]").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
-    lensT.style.opacity="0";
-    setTimeout(()=>{lensT.textContent=c.lens[b.dataset.lens];lensT.style.opacity="1";},RM?0:170);
-  });
-  if(c.roles) picker("rolePick",i=>{
-    const r=c.roles.list[i];
-    swap("roleView",{type:"image",ratio:"16:10",label:"Genix · "+r+" view"});
-    document.getElementById("roleCap").textContent="What a "+r.toLowerCase()+" needs to see first.";
-  });
-  if(c.views) picker("viewPick",i=>swap("viewView",{type:"image",ratio:"16:10",label:"The request, as "+c.views.roles[i]+" sees it"}));
-  const stripD=document.getElementById("stripD");
-  picker("strip",i=>{
-    const [a,b]=c.strip.steps[i];
-    stripD.style.opacity="0";
-    setTimeout(()=>{stripD.innerHTML=`<b>${esc(a)}</b><p>${esc(b)}</p>`;stripD.style.opacity="1";},RM?0:150);
-    swap("stripM",{type:"image",ratio:"16:10",label:c.name+" · "+a});
-  });
-  // key screens open larger
-  const scr=document.getElementById("screens");
-  const openAt=el=>lightboxOpen(c.screens.list,+el.dataset.i);
-  scr.addEventListener("click",e=>{const f=e.target.closest(".ph[data-i]");if(f)openAt(f);});
-  scr.addEventListener("keydown",e=>{const f=e.target.closest(".ph[data-i]");if(f&&(e.key==="Enter"||e.key===" ")){e.preventDefault();openAt(f);}});
-
-  caseBody.querySelectorAll(".case-sec").forEach(el=>secObserver.observe(el));
+  caseBody.querySelectorAll(".ch").forEach(el=>secObserver.observe(el));
   return true;
 }
 const secObserver=new IntersectionObserver(es=>{
@@ -2732,7 +2521,6 @@ function openCase(k,push){
   caseEl.scrollTop=0;document.getElementById("caseback").focus();
   clockFrozen=CASES[k].minute;paintClock(clockFrozen);
   if(railFill) railFill.style.height="0%";
-  startCaseBg();
   if(push!==false&&location.hash!=="#/work/"+k){
     try{ history.pushState({case:k},"","#/work/"+k); }catch(e){}
   }
