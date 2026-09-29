@@ -193,15 +193,15 @@ main{position:relative;z-index:2}
 .hero-btn:hover{background:var(--cyan);box-shadow:0 22px 44px -16px rgba(139,223,255,.7)}
 .hero-btn:hover i{transform:translateX(4px)}
 .hero-btn:active{transform:scale(.97)}
-.hero-hello{display:inline-flex;align-items:center;gap:9px;font-size:.92rem;font-weight:500;color:var(--text-2);padding:6px 2px;
-  background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:color .3s,background-size .35s var(--ease)}
-.hero-hello:hover{color:var(--text);background-size:100% 1px}
-.hero-hello i{width:7px;height:7px;border-radius:50%;background:#9FD6A4;animation:availPing 2.4s var(--ease) infinite}
-.hero-me{display:inline-flex;align-items:center;gap:10px}
-.hi-avatar{width:34px;height:34px;border-radius:50%;flex:none;display:grid;place-items:center;overflow:hidden;
-  font-size:.9rem;font-weight:700;color:#0A0E14;background:linear-gradient(135deg,#C9D6FF,#8BDFFF);
-  box-shadow:0 0 0 2px rgba(10,14,20,.8),0 0 0 3px rgba(139,223,255,.35)}
-.hi-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+/* second CTA: same pill shape as the first, glass like the nav; the hand waves on hover */
+.hero-hello{display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:999px;font-size:.95rem;font-weight:600;color:var(--text);
+  background:rgba(8,11,20,.46);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);
+  transition:box-shadow .3s var(--ease),background .3s var(--ease),transform .25s var(--ease)}
+.hero-hello .ph{font-size:1.15em;color:var(--warm);transform-origin:70% 80%}
+.hero-hello:hover{background:rgba(255,201,139,.1);box-shadow:inset 0 0 0 1px rgba(255,201,139,.5)}
+.hero-hello:hover .ph,.hero-hello:focus-visible .ph{animation:wave 1s var(--ease)}
+.hero-hello:active{transform:scale(.97)}
+@keyframes wave{0%,100%{transform:rotate(0)}20%{transform:rotate(18deg)}40%{transform:rotate(-10deg)}60%{transform:rotate(14deg)}80%{transform:rotate(-4deg)}}
 @media(max-height:620px){.hero-cta{margin-top:30px}}
 
 /* ---------- 02 works — one row per project, like mile markers on the road ---------- */
@@ -671,7 +671,7 @@ main{position:relative;z-index:2}
   .hi-name{animation:none;background:none;-webkit-text-fill-color:var(--text)}
   .hero-title .w>i{animation:none;transform:none;filter:none;opacity:1}
   .rv-on .rv,.rv-on .sec.out-up .rv{opacity:1!important;transform:none!important}
-  .dawn{transition:none}.avail i,.hero-hello i{animation:none}
+  .dawn{transition:none}.avail i,.hero-hello .ph{animation:none}
 }
 </style>
 </head>
@@ -718,17 +718,13 @@ main{position:relative;z-index:2}
 <!-- ═════════ 01 START ═════════ -->
 <section class="sec" id="start">
   <div class="wrap">
-    <div class="hero-me">
-      <!-- REPLACE: set data-src to a square photo of you (e.g. images/me.jpg); until then the initial shows -->
-      <span class="hi-avatar" id="hiAvatar" data-src="" aria-hidden="true">S</span>
-      <p class="hero-hi" id="heroHi" role="button" tabindex="0" aria-pressed="false"
-         aria-label="Hi, I'm Shanmugam. Click to stop the animation.">Hi, I'm <span class="hi-name">Shanmugam</span></p>
-    </div>
+    <p class="hero-hi" id="heroHi" role="button" tabindex="0" aria-pressed="false"
+       aria-label="Hi, I'm Shanmugam. Click to stop the animation.">Hi, I'm <span class="hi-name">Shanmugam</span></p>
     <h1 class="display hero-title" id="heroTitle" aria-label="I design complex products that feel simple."><span>I design complex products</span><span>that feel simple.</span></h1>
     <p class="hero-lede">Product designer at Chadura Tech. Two years, three products across healthcare, SaaS and fintech, and increasingly AI.</p>
     <div class="hero-cta">
       <a class="hero-btn" href="#works">See my work <i aria-hidden="true">→</i></a>
-      <a class="hero-hello" href="#home"><i aria-hidden="true"></i>Open to work · say hello</a>
+      <a class="hero-hello" href="#home"><i class="ph ph-hand-waving" aria-hidden="true"></i>Say hello</a>
     </div>
   </div>
 </section>
@@ -1451,13 +1447,6 @@ function mountMedia(root){
   }
 }
 mountMedia(document);
-
-/* ═══════ HERO AVATAR — swaps the initial for a photo when data-src is set ═══════ */
-(function(){
-  const a=document.getElementById("hiAvatar");
-  if(!a||!a.dataset.src) return;
-  const img=new Image();img.alt="";img.onload=()=>{ a.textContent=""; a.appendChild(img); };img.src=a.dataset.src;
-})();
 
 /* ═══════ HERO — name glow (click to stop) + headline words rise, "simple." unscrambles ═══════ */
 (function(){
