@@ -210,59 +210,19 @@ main{position:relative;z-index:2}
 .mile-cta i{font-style:normal;color:var(--acc);transition:transform .35s var(--ease)}
 .mile:hover .mile-cta i{transform:translateX(5px)}
 
-/* ---------- 03 skills — each one a small diagram that plays in view, and again on hover ---------- */
-.glyphs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(26px,4vw,44px) clamp(18px,3vw,36px);max-width:900px;margin:0 auto}
-.gl{text-align:center;outline:none;cursor:default}
-.gl svg{display:block;width:100%;max-width:170px;height:auto;margin:0 auto 14px;overflow:visible;
-  --line:rgba(201,214,255,.22);--hi:#8BDFFF}
-.gl h3{margin:0;font-size:1rem;font-weight:600;letter-spacing:-.01em;color:var(--text)}
-.gl p{margin:5px 0 0;font-size:.86rem;color:var(--muted);transition:color .4s}
-.gl:hover p,.gl:focus-visible p{color:var(--text-2)}
-.gl:focus-visible svg{filter:drop-shadow(0 0 8px rgba(139,223,255,.4))}
-/* shared drawing */
-.gl path,.gl rect.frame,.gl rect.vault{fill:none;stroke:var(--line);stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
-.gl [pathLength]{stroke-dasharray:1;stroke-dashoffset:1}
-.gl.play [pathLength]{animation:glDraw .7s var(--ease) var(--d,0s) forwards}
-@keyframes glDraw{to{stroke-dashoffset:0}}
-.gl circle{fill:rgba(201,214,255,.35)}
-/* 1 workflows */
-.g-flow .main{stroke:var(--hi);stroke-width:1.8}
-.g-flow .runner{fill:var(--hi);opacity:0;filter:drop-shadow(0 0 5px var(--hi))}
-.gl.play .g-flow .runner{animation:glRun 1.1s var(--ease) .75s forwards}
-@keyframes glRun{0%{opacity:0;transform:translateX(0)}20%{opacity:1}100%{opacity:1;transform:translateX(38px)}}
-/* 2 hierarchy */
-.g-rank rect{fill:rgba(201,214,255,.18);transform-box:fill-box;transform-origin:left center;transform:scaleX(.62)}
-.gl.play .g-rank rect{animation:glRank .8s var(--ease) var(--d) forwards}
-.gl.play .g-rank rect.top{animation-name:glRankTop}
-@keyframes glRank{to{transform:scaleX(var(--to))}}
-@keyframes glRankTop{to{transform:scaleX(1);fill:#8BDFFF}}
-/* 3 zero to product */
-.g-build .frame{stroke-dasharray:4 5}
-.g-build .layer{fill:rgba(201,214,255,.2);opacity:0;transform:translateY(-12px)}
-.gl.play .g-build .layer{animation:glLayer .55s var(--ease) var(--d) forwards}
-.gl.play .g-build .layer.top{animation-name:glLayerTop}
-@keyframes glLayer{to{opacity:1;transform:none}}
-@keyframes glLayerTop{to{opacity:1;transform:none;fill:#8BDFFF}}
-/* 4 trust */
-.g-trust .vault{stroke:rgba(201,214,255,.4)}
-.g-trust .ok{stroke:var(--hi);stroke-width:1.8}
-.g-trust .core{fill:rgba(201,214,255,.25);transform-box:fill-box;transform-origin:center}
-.gl.play .g-trust .core{animation:glCore .5s var(--ease) var(--d) forwards}
-@keyframes glCore{50%{transform:scale(1.5)}to{fill:#FFC98B;transform:scale(1);filter:drop-shadow(0 0 6px #FFC98B)}}
-/* 5 ai */
-.g-ai .answer{fill:rgba(201,214,255,.25);transform-box:fill-box;transform-origin:center}
-.gl.play .g-ai .answer{animation:glAnswer 1.4s var(--ease) var(--d) forwards}
-@keyframes glAnswer{30%{fill:#8BDFFF;transform:scale(1.6)}60%{transform:scale(1)}80%{transform:scale(1.25)}
-  to{fill:#8BDFFF;transform:scale(1);filter:drop-shadow(0 0 6px #8BDFFF)}}
-/* 6 testing */
-.g-test circle{fill:none;stroke:var(--line);stroke-width:1.6;vector-effect:non-scaling-stroke;transition:fill .4s,stroke .4s}
-.g-test path{stroke:var(--hi);stroke-width:1.8}
-.gl.play .g-test g path{animation:glDraw .45s var(--ease) var(--d) forwards}
-.gl.play .g-test g circle{animation:glTick .45s var(--ease) var(--d) forwards}
-@keyframes glTick{to{stroke:rgba(139,223,255,.55);fill:rgba(139,223,255,.08)}}
-
-.tools{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:clamp(34px,5vw,52px) auto 0;max-width:720px}
-.tools span{padding:6px 13px;border-radius:999px;border:1px solid rgba(255,255,255,.1);font-size:.82rem;color:var(--text-2)}
+/* ---------- 03 skills — words in the dark, lit by a drifting headlight ---------- */
+.beam-field{position:relative;max-width:900px;margin:0 auto;text-align:center;isolation:isolate}
+/* the light itself: a soft warm-white pool, behind the words */
+.beam{position:absolute;z-index:-1;left:0;top:0;width:clamp(260px,40vw,420px);height:clamp(180px,26vw,280px);
+  border-radius:50%;pointer-events:none;will-change:transform;
+  background:radial-gradient(closest-side,rgba(255,236,204,.16),rgba(139,223,255,.07) 55%,transparent);filter:blur(6px)}
+.bgroup+.bgroup{margin-top:clamp(22px,3.4vw,34px)}
+.blabel{margin:0 0 10px;font-size:.78rem;font-weight:500;color:var(--muted)}
+.bwords{display:flex;flex-wrap:wrap;justify-content:center;gap:6px clamp(16px,2.4vw,30px);margin:0}
+.bwords span{--g:0;font-size:clamp(1.05rem,2vw,1.4rem);font-weight:600;letter-spacing:-.015em;line-height:1.35;
+  color:color-mix(in srgb,#FFF4E2 calc(var(--g)*100%),rgba(201,214,255,.42));
+  text-shadow:0 0 calc(var(--g)*18px) rgba(255,214,160,calc(var(--g)*.55))}
+.tools-g .bwords span{font-size:clamp(.9rem,1.5vw,1.05rem);font-weight:500}
 
 /* ---------- 04 journey — a short road with lamp posts ---------- */
 .trip{position:relative;max-width:980px;margin:0 auto;aspect-ratio:1000/240}
@@ -636,7 +596,7 @@ main{position:relative;z-index:2}
   .sec{padding-left:clamp(18px,5vw,56px);padding-right:clamp(18px,5vw,56px)}
   .sec{min-height:auto;padding-top:92px;padding-bottom:92px}
   #start{min-height:100svh;padding-top:0}
-  .glyphs{grid-template-columns:1fr 1fr}
+  .bwords{gap:4px 14px}
   .trip{aspect-ratio:1000/420}
   .lamp{width:64px}
   .lamp-t{font-size:.7rem}
@@ -669,9 +629,7 @@ main{position:relative;z-index:2}
   .desk-status{top:10px;left:10px;font-size:.58rem}
   .desk-tools{top:auto;bottom:10px;right:10px}
   .desk-toast{bottom:54px;font-size:.66rem;padding:8px 12px;max-width:86%}
-  .gl svg{max-width:130px;margin-bottom:10px}
-  .gl h3{font-size:.92rem}
-  .gl p{font-size:.8rem}
+  .beam{width:260px;height:200px}
   .screens{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){
@@ -786,85 +744,23 @@ main{position:relative;z-index:2}
   </div>
 </section>
 
-<!-- ═════════ 03 SKILLS — each skill shown as a small moving diagram ═════════ -->
+<!-- ═════════ 03 SKILLS — every skill in the dark; a headlight drifts across and lights what it passes ═════════ -->
 <section class="sec" id="skills">
   <div class="wrap">
     <div class="sec-head">
       <h2 class="display h-sec">What I bring to a team</h2>
     </div>
-    <div class="glyphs" id="glyphs">
-
-      <div class="gl" tabindex="0">
-        <!-- many paths merge into one flow -->
-        <svg viewBox="0 0 120 80" aria-hidden="true" class="g-flow">
-          <path pathLength="1" style="--d:0s" d="M12 16 C40 16 44 40 70 40"/>
-          <path pathLength="1" style="--d:.12s" d="M12 40 L70 40"/>
-          <path pathLength="1" style="--d:.24s" d="M12 64 C40 64 44 40 70 40"/>
-          <path pathLength="1" class="main" style="--d:.6s" d="M70 40 L108 40"/>
-          <circle cx="12" cy="16" r="3"/><circle cx="12" cy="40" r="3"/><circle cx="12" cy="64" r="3"/>
-          <circle class="runner" cx="70" cy="40" r="4"/>
-        </svg>
-        <h3>Complex workflows</h3><p>Many paths, one flow.</p>
-      </div>
-
-      <div class="gl" tabindex="0">
-        <!-- equal weight settles into a clear order -->
-        <svg viewBox="0 0 120 80" aria-hidden="true" class="g-rank">
-          <rect x="16" y="18" width="88" height="8" rx="4" style="--to:1;--d:.1s" class="top"/>
-          <rect x="16" y="36" width="88" height="8" rx="4" style="--to:.6;--d:.2s"/>
-          <rect x="16" y="54" width="88" height="8" rx="4" style="--to:.34;--d:.3s"/>
-        </svg>
-        <h3>Clear hierarchy</h3><p>What matters, first.</p>
-      </div>
-
-      <div class="gl" tabindex="0">
-        <!-- an empty frame fills, layer by layer -->
-        <svg viewBox="0 0 120 80" aria-hidden="true" class="g-build">
-          <rect class="frame" x="24" y="10" width="72" height="60" rx="8"/>
-          <rect class="layer" x="34" y="50" width="52" height="10" rx="3" style="--d:.15s"/>
-          <rect class="layer" x="34" y="36" width="52" height="10" rx="3" style="--d:.35s"/>
-          <rect class="layer top" x="34" y="22" width="52" height="10" rx="3" style="--d:.55s"/>
-        </svg>
-        <h3>Zero to product</h3><p>Built layer by layer.</p>
-      </div>
-
-      <div class="gl" tabindex="0">
-        <!-- a request reaches a safe place, and only then goes through -->
-        <svg viewBox="0 0 120 80" aria-hidden="true" class="g-trust">
-          <path pathLength="1" class="req" style="--d:0s" d="M10 40 L42 40"/>
-          <rect pathLength="1" class="vault" style="--d:.25s" x="42" y="20" width="36" height="40" rx="11"/>
-          <circle class="core" cx="60" cy="40" r="5" style="--d:.75s"/>
-          <path pathLength="1" class="ok" style="--d:.95s" d="M78 40 L110 40"/>
-        </svg>
-        <h3>Trust by design</h3><p>Earned, not assumed.</p>
-      </div>
-
-      <div class="gl" tabindex="0">
-        <!-- signals connect and one answer lights up -->
-        <svg viewBox="0 0 120 80" aria-hidden="true" class="g-ai">
-          <path pathLength="1" style="--d:.1s" d="M18 40 L44 20 L74 30 L102 40"/>
-          <path pathLength="1" style="--d:.25s" d="M18 40 L44 60 L74 54 L102 40"/>
-          <path pathLength="1" style="--d:.4s" d="M44 20 L44 60 M74 30 L74 54"/>
-          <circle cx="18" cy="40" r="3"/><circle cx="44" cy="20" r="3"/><circle cx="44" cy="60" r="3"/>
-          <circle cx="74" cy="30" r="3"/><circle cx="74" cy="54" r="3"/>
-          <circle class="answer" cx="102" cy="40" r="5" style="--d:.8s"/>
-        </svg>
-        <h3>AI experiences</h3><p>Explain, don't just predict.</p>
-      </div>
-
-      <div class="gl" tabindex="0">
-        <!-- each step gets checked before it ships -->
-        <svg viewBox="0 0 120 80" aria-hidden="true" class="g-test">
-          <g style="--d:.1s"><circle cx="24" cy="40" r="10"/><path pathLength="1" d="M19 40 L23 44 L29 36"/></g>
-          <g style="--d:.3s"><circle cx="48" cy="40" r="10"/><path pathLength="1" d="M43 40 L47 44 L53 36"/></g>
-          <g style="--d:.5s"><circle cx="72" cy="40" r="10"/><path pathLength="1" d="M67 40 L71 44 L77 36"/></g>
-          <g style="--d:.7s"><circle cx="96" cy="40" r="10"/><path pathLength="1" d="M91 40 L95 44 L101 36"/></g>
-        </svg>
-        <h3>Tested before handoff</h3><p>Checked with real users.</p>
-      </div>
-
+    <div class="beam-field" id="beamField">
+      <div class="beam" id="beam" aria-hidden="true"></div>
+      <div class="bgroup"><p class="blabel">Understand</p>
+        <p class="bwords"><span>User research</span><span>Usability testing</span><span>Information architecture</span><span>User flows</span></p></div>
+      <div class="bgroup"><p class="blabel">Design</p>
+        <p class="bwords"><span>Wireframing</span><span>Interaction design</span><span>Visual design</span><span>Typography</span><span>High-fidelity prototyping</span><span>Design systems</span></p></div>
+      <div class="bgroup"><p class="blabel">Collaborate</p>
+        <p class="bwords"><span>Cross-functional teams</span><span>Stakeholder communication</span><span>AI-powered design tools</span></p></div>
+      <div class="bgroup tools-g"><p class="blabel">Tools</p>
+        <p class="bwords"><span>Figma</span><span>FigJam</span><span>Miro</span><span>Maze</span><span>Illustrator</span><span>Adobe XD</span></p></div>
     </div>
-    <p class="tools" aria-label="Tools"><span>Figma</span><span>FigJam</span><span>Miro</span><span>Maze</span><span>Illustrator</span><span>AI design tools</span></p>
   </div>
 </section>
 
@@ -1596,20 +1492,43 @@ document.querySelectorAll("#navlinks a").forEach(a=>a.addEventListener("click",(
 
 function depth(){}
 
-/* ═══════ SKILLS — play each diagram once as it comes into view (staggered), replay on hover/focus ═══════ */
+/* ═══════ SKILLS — a headlight drifts over the words on its own; on desktop it follows the pointer.
+   Each word brightens by how close it is to the light. Runs only while the section is on screen. ═══════ */
 (function(){
-  const tiles=[...document.querySelectorAll("#glyphs .gl")];
-  if(!tiles.length) return;
-  const play=t=>{ t.classList.remove("play"); void t.getBoundingClientRect(); t.classList.add("play"); };
-  if("IntersectionObserver" in window){
-    const io=new IntersectionObserver(es=>{
-      if(!es.some(e=>e.isIntersecting)) return;
-      io.disconnect();
-      tiles.forEach((t,i)=>setTimeout(()=>play(t),RM?0:i*160));
-    },{threshold:.35});
-    io.observe(document.getElementById("glyphs"));
-  } else tiles.forEach(play);
-  if(!RM) tiles.forEach(t=>{ t.addEventListener("mouseenter",()=>play(t)); t.addEventListener("focus",()=>play(t)); });
+  const field=document.getElementById("beamField"),beam=document.getElementById("beam");
+  if(!field) return;
+  const words=[...field.querySelectorAll(".bwords span")];
+  if(RM){ words.forEach(w=>w.style.setProperty("--g",.55)); beam.style.display="none"; return; }
+  let centres=[],W=1,H=1;
+  function measure(){
+    const r=field.getBoundingClientRect();W=r.width;H=r.height;
+    centres=words.map(w=>{const b=w.getBoundingClientRect();return [b.left-r.left+b.width/2,b.top-r.top+b.height/2];});
+  }
+  let bx=.5,by=.5,tx=.5,ty=.5,ptr=false,t0=performance.now(),raf=0,on=false;
+  function frame(now){
+    const t=(now-t0)/1000;
+    if(!ptr){ tx=.5+.48*Math.sin(t*.42); ty=.5+.36*Math.sin(t*.29+1.2); }   // a slow, wandering sweep
+    bx+=(tx-bx)*.08; by+=(ty-by)*.08;
+    const x=bx*W,y=by*H,sx=Math.max(170,W*.2),sy=Math.max(90,H*.28);
+    beam.style.transform=`translate(${x.toFixed(1)}px,${y.toFixed(1)}px) translate(-50%,-50%)`;
+    for(let i=0;i<words.length;i++){
+      const dx=(centres[i][0]-x)/sx,dy=(centres[i][1]-y)/sy;
+      words[i].style.setProperty("--g",Math.exp(-(dx*dx+dy*dy)).toFixed(3));
+    }
+    raf=on?requestAnimationFrame(frame):0;
+  }
+  measure();
+  window.addEventListener("resize",measure);
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(measure);
+  new IntersectionObserver(es=>{
+    on=es[0].isIntersecting;
+    if(on){ measure(); if(!raf) raf=requestAnimationFrame(frame); }
+  }).observe(field);
+  if(!isTouch){
+    field.addEventListener("pointermove",e=>{ const r=field.getBoundingClientRect(); ptr=true;
+      tx=clamp((e.clientX-r.left)/r.width,0,1); ty=clamp((e.clientY-r.top)/r.height,0,1); });
+    field.addEventListener("pointerleave",()=>{ ptr=false; t0=performance.now()-Math.asin(clamp((bx-.5)/.48,-1,1))/.42*1000; });
+  }
 })();
 
 /* ═══════ JOURNEY — a short road. When it comes into view a traveller drives through the milestones,
