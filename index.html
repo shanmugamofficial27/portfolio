@@ -210,19 +210,28 @@ main{position:relative;z-index:2}
 .mile-cta i{font-style:normal;color:var(--acc);transition:transform .35s var(--ease)}
 .mile:hover .mile-cta i{transform:translateX(5px)}
 
-/* ---------- 03 skills — words in the dark, lit by a drifting headlight ---------- */
-.beam-field{position:relative;max-width:900px;margin:0 auto;text-align:center;isolation:isolate}
-/* the light itself: a soft warm-white pool, behind the words */
-.beam{position:absolute;z-index:-1;left:0;top:0;width:clamp(260px,40vw,420px);height:clamp(180px,26vw,280px);
-  border-radius:50%;pointer-events:none;will-change:transform;
-  background:radial-gradient(closest-side,rgba(255,236,204,.16),rgba(139,223,255,.07) 55%,transparent);filter:blur(6px)}
-.bgroup+.bgroup{margin-top:clamp(22px,3.4vw,34px)}
-.blabel{margin:0 0 10px;font-size:.78rem;font-weight:500;color:var(--muted)}
-.bwords{display:flex;flex-wrap:wrap;justify-content:center;gap:6px clamp(16px,2.4vw,30px);margin:0}
-.bwords span{--g:0;font-size:clamp(1.05rem,2vw,1.4rem);font-weight:600;letter-spacing:-.015em;line-height:1.35;
-  color:color-mix(in srgb,#FFF4E2 calc(var(--g)*100%),rgba(201,214,255,.42));
-  text-shadow:0 0 calc(var(--g)*18px) rgba(255,214,160,calc(var(--g)*.55))}
-.tools-g .bwords span{font-size:clamp(.9rem,1.5vw,1.05rem);font-weight:500}
+/* ---------- 03 skills — lanes of road, skills as reflectors, headlights passing through ---------- */
+.lanes{position:relative;max-width:1000px;margin:0 auto;border-radius:18px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(10,13,24,.72),rgba(8,10,19,.72));border:1px solid rgba(255,255,255,.06)}
+.lane{position:relative;display:grid;grid-template-columns:128px minmax(0,1fr);align-items:center;min-height:72px;padding:0 22px}
+/* dashed lane markings between lanes, scrolling slowly like the road is moving */
+.lane+.lane::before{content:"";position:absolute;left:22px;right:22px;top:0;height:2px;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.16) 0 26px,transparent 26px 52px);
+  animation:laneDash 2.4s linear infinite}
+@keyframes laneDash{to{background-position:52px 0}}
+.lane-l{margin:0;font-size:.78rem;font-weight:500;color:var(--muted);position:relative;z-index:2}
+.lane-s{list-style:none;margin:0;padding:12px 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 18px;position:relative;z-index:2;isolation:isolate;overflow:hidden}
+.lane-s li{--g:0;font-size:clamp(.92rem,1.5vw,1.05rem);font-weight:600;letter-spacing:-.01em;white-space:nowrap;cursor:default;
+  color:color-mix(in srgb,#FFF4E2 calc(var(--g)*100%),rgba(201,214,255,.5));
+  text-shadow:0 0 calc(var(--g)*16px) rgba(255,214,160,calc(var(--g)*.6));transition:transform .3s var(--ease)}
+.lane-s li:hover{--g:1 !important;transform:translateY(-1px)}
+.lane-tools{min-height:60px}
+.lane-tools .lane-s li{font-size:clamp(.86rem,1.3vw,.95rem);font-weight:500}
+/* a headlight: a bright point with a soft beam ahead of it */
+.car{position:absolute;z-index:-1;top:50%;left:0;width:150px;height:44px;margin:-22px 0 0 -150px;pointer-events:none;will-change:transform;
+  background:radial-gradient(ellipse 60% 50% at 100% 50%,rgba(255,236,204,.2),transparent 70%)}
+.car::after{content:"";position:absolute;right:-3px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:#FFF3E0;
+  box-shadow:0 0 10px 3px rgba(255,214,160,.7)}
 
 /* ---------- 04 journey — a short road with lamp posts ---------- */
 .trip{position:relative;max-width:980px;margin:0 auto;aspect-ratio:1000/240}
@@ -596,7 +605,9 @@ main{position:relative;z-index:2}
   .sec{padding-left:clamp(18px,5vw,56px);padding-right:clamp(18px,5vw,56px)}
   .sec{min-height:auto;padding-top:92px;padding-bottom:92px}
   #start{min-height:100svh;padding-top:0}
-  .bwords{gap:4px 14px}
+  .lane{grid-template-columns:1fr;padding:14px 16px 6px}
+  .lane+.lane::before{left:16px;right:16px}
+  .lane-s{justify-content:flex-start;padding:6px 0 10px;gap:6px 16px}
   .trip{aspect-ratio:1000/420}
   .lamp{width:64px}
   .lamp-t{font-size:.7rem}
@@ -629,12 +640,13 @@ main{position:relative;z-index:2}
   .desk-status{top:10px;left:10px;font-size:.58rem}
   .desk-tools{top:auto;bottom:10px;right:10px}
   .desk-toast{bottom:54px;font-size:.66rem;padding:8px 12px;max-width:86%}
-  .beam{width:260px;height:200px}
+  .car{height:34px;margin-top:-17px}
   .screens{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
   .mouse i{display:none}
+  .lane+.lane::before{animation:none}
 
   .hi-name{animation:none;background:none;-webkit-text-fill-color:var(--text)}
   .hero-title .w>i{animation:none;transform:none;filter:none;opacity:1}
@@ -744,22 +756,22 @@ main{position:relative;z-index:2}
   </div>
 </section>
 
-<!-- ═════════ 03 SKILLS — every skill in the dark; a headlight drifts across and lights what it passes ═════════ -->
+<!-- ═════════ 03 SKILLS — a stretch of road seen from above: one lane per group,
+     headlights drive through and each skill lights up like a road reflector as they pass ═════════ -->
 <section class="sec" id="skills">
   <div class="wrap">
     <div class="sec-head">
       <h2 class="display h-sec">What I bring to a team</h2>
     </div>
-    <div class="beam-field" id="beamField">
-      <div class="beam" id="beam" aria-hidden="true"></div>
-      <div class="bgroup"><p class="blabel">Understand</p>
-        <p class="bwords"><span>User research</span><span>Usability testing</span><span>Information architecture</span><span>User flows</span></p></div>
-      <div class="bgroup"><p class="blabel">Design</p>
-        <p class="bwords"><span>Wireframing</span><span>Interaction design</span><span>Visual design</span><span>Typography</span><span>High-fidelity prototyping</span><span>Design systems</span></p></div>
-      <div class="bgroup"><p class="blabel">Collaborate</p>
-        <p class="bwords"><span>Cross-functional teams</span><span>Stakeholder communication</span><span>AI-powered design tools</span></p></div>
-      <div class="bgroup tools-g"><p class="blabel">Tools</p>
-        <p class="bwords"><span>Figma</span><span>FigJam</span><span>Miro</span><span>Maze</span><span>Illustrator</span><span>Adobe XD</span></p></div>
+    <div class="lanes" id="lanes">
+      <div class="lane"><p class="lane-l">Understand</p>
+        <ul class="lane-s"><li>User research</li><li>Usability testing</li><li>Information architecture</li><li>User flows</li></ul></div>
+      <div class="lane"><p class="lane-l">Design</p>
+        <ul class="lane-s"><li>Wireframing</li><li>Interaction design</li><li>Visual design</li><li>Typography</li><li>Prototyping</li><li>Design systems</li></ul></div>
+      <div class="lane"><p class="lane-l">Collaborate</p>
+        <ul class="lane-s"><li>Cross-functional teams</li><li>Stakeholder communication</li><li>AI design tools</li></ul></div>
+      <div class="lane lane-tools"><p class="lane-l">Tools</p>
+        <ul class="lane-s"><li>Figma</li><li>FigJam</li><li>Miro</li><li>Maze</li><li>Illustrator</li><li>Adobe XD</li></ul></div>
     </div>
   </div>
 </section>
@@ -1492,29 +1504,42 @@ document.querySelectorAll("#navlinks a").forEach(a=>a.addEventListener("click",(
 
 function depth(){}
 
-/* ═══════ SKILLS — a headlight drifts over the words on its own; on desktop it follows the pointer.
-   Each word brightens by how close it is to the light. Runs only while the section is on screen. ═══════ */
+/* ═══════ SKILLS — headlights drive through each lane on a loop, at their own speed.
+   A skill lights up as a headlight reaches it, then fades, like a road reflector. Runs only on screen. ═══════ */
 (function(){
-  const field=document.getElementById("beamField"),beam=document.getElementById("beam");
-  if(!field) return;
-  const words=[...field.querySelectorAll(".bwords span")];
-  if(RM){ words.forEach(w=>w.style.setProperty("--g",.55)); beam.style.display="none"; return; }
-  let centres=[],W=1,H=1;
+  const lanesEl=document.getElementById("lanes");if(!lanesEl) return;
+  const lanes=[...lanesEl.querySelectorAll(".lane")];
+  if(RM){ lanesEl.querySelectorAll(".lane-s li").forEach(li=>li.style.setProperty("--g",.5)); return; }
+  const SPEED=[150,120,170,135];                     // px per second, one per lane
+  const cars=lanes.map((ln,i)=>{
+    // the car drives only through the skills area, never over the lane label
+    const road=ln.querySelector(".lane-s"),c=document.createElement("span");c.className="car";c.setAttribute("aria-hidden","true");road.appendChild(c);
+    return {el:c,lane:road,items:[...ln.querySelectorAll(".lane-s li")],x:-200-i*260,v:SPEED[i%SPEED.length],pos:[],w:0};
+  });
   function measure(){
-    const r=field.getBoundingClientRect();W=r.width;H=r.height;
-    centres=words.map(w=>{const b=w.getBoundingClientRect();return [b.left-r.left+b.width/2,b.top-r.top+b.height/2];});
+    cars.forEach(c=>{
+      const r=c.lane.getBoundingClientRect();c.w=r.width;
+      c.pos=c.items.map(li=>{const b=li.getBoundingClientRect();return [b.left-r.left,b.right-r.left,(b.top+b.bottom)/2-r.top];});
+      c.h=r.height;
+    });
   }
-  let bx=.5,by=.5,tx=.5,ty=.5,ptr=false,t0=performance.now(),raf=0,on=false;
+  let on=false,raf=0,last=0;
+  const glow=new WeakMap();
   function frame(now){
-    const t=(now-t0)/1000;
-    if(!ptr){ tx=.5+.48*Math.sin(t*.42); ty=.5+.36*Math.sin(t*.29+1.2); }   // a slow, wandering sweep
-    bx+=(tx-bx)*.08; by+=(ty-by)*.08;
-    const x=bx*W,y=by*H,sx=Math.max(170,W*.2),sy=Math.max(90,H*.28);
-    beam.style.transform=`translate(${x.toFixed(1)}px,${y.toFixed(1)}px) translate(-50%,-50%)`;
-    for(let i=0;i<words.length;i++){
-      const dx=(centres[i][0]-x)/sx,dy=(centres[i][1]-y)/sy;
-      words[i].style.setProperty("--g",Math.exp(-(dx*dx+dy*dy)).toFixed(3));
-    }
+    const dt=Math.min(.05,(now-last)/1000);last=now;
+    cars.forEach(c=>{
+      c.x+=c.v*dt;
+      if(c.x>c.w+150) c.x=-40-Math.random()*260;             // loop back with a little gap
+      c.el.style.transform=`translateX(${c.x.toFixed(1)}px)`;
+      c.items.forEach((li,j)=>{
+        const [l,r]=c.pos[j];
+        let g=glow.get(li)||0;
+        if(c.x>=l-6&&c.x<=r+24) g=1;                            // headlight is on the word
+        else g=Math.max(0,g-dt*1.1);                             // then it fades like a reflector
+        glow.set(li,g);
+        li.style.setProperty("--g",g.toFixed(3));
+      });
+    });
     raf=on?requestAnimationFrame(frame):0;
   }
   measure();
@@ -1522,13 +1547,8 @@ function depth(){}
   if(document.fonts&&document.fonts.ready) document.fonts.ready.then(measure);
   new IntersectionObserver(es=>{
     on=es[0].isIntersecting;
-    if(on){ measure(); if(!raf) raf=requestAnimationFrame(frame); }
-  }).observe(field);
-  if(!isTouch){
-    field.addEventListener("pointermove",e=>{ const r=field.getBoundingClientRect(); ptr=true;
-      tx=clamp((e.clientX-r.left)/r.width,0,1); ty=clamp((e.clientY-r.top)/r.height,0,1); });
-    field.addEventListener("pointerleave",()=>{ ptr=false; t0=performance.now()-Math.asin(clamp((bx-.5)/.48,-1,1))/.42*1000; });
-  }
+    if(on&&!raf){ measure(); last=performance.now(); raf=requestAnimationFrame(frame); }
+  }).observe(lanesEl);
 })();
 
 /* ═══════ JOURNEY — a short road. When it comes into view a traveller drives through the milestones,
