@@ -211,18 +211,24 @@ main{position:relative;z-index:2}
 .mile:hover .mile-cta i{transform:translateX(5px)}
 
 /* ---------- 03 skills — lanes of road, skills as reflectors, headlights passing through ---------- */
-.lanes{position:relative;max-width:1000px;margin:0 auto;border-radius:18px;overflow:hidden;
-  background:linear-gradient(180deg,rgba(10,13,24,.72),rgba(8,10,19,.72));border:1px solid rgba(255,255,255,.06)}
-.lane{position:relative;display:grid;grid-template-columns:128px minmax(0,1fr);align-items:center;min-height:72px;padding:0 22px}
+.lanes{position:relative;max-width:1040px;margin:0 auto}
+/* solid road edges above and below, fading into the scene at both ends */
+.lanes::before,.lanes::after{content:"";position:absolute;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.22) 12%,rgba(255,255,255,.22) 88%,transparent)}
+.lanes::before{top:0}.lanes::after{bottom:0}
+.lane{position:relative;display:grid;grid-template-columns:150px minmax(0,1fr);align-items:center;min-height:76px;padding:0 clamp(18px,4vw,56px)}
 /* dashed lane markings between lanes, scrolling slowly like the road is moving */
-.lane+.lane::before{content:"";position:absolute;left:22px;right:22px;top:0;height:2px;
-  background:repeating-linear-gradient(90deg,rgba(255,255,255,.16) 0 26px,transparent 26px 52px);
+.lane+.lane::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.18) 0 26px,transparent 26px 52px);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
   animation:laneDash 2.4s linear infinite}
 @keyframes laneDash{to{background-position:52px 0}}
-.lane-l{margin:0;font-size:.78rem;font-weight:500;color:var(--muted);position:relative;z-index:2}
+.lane-l{margin:0;display:flex;align-items:center;gap:10px;font-size:.95rem;font-weight:600;letter-spacing:-.01em;color:var(--text);position:relative;z-index:2}
+.lane-l::before{content:"";width:3px;height:16px;border-radius:2px;background:var(--cyan);box-shadow:0 0 10px rgba(139,223,255,.55)}
+.lane-tools .lane-l::before{background:var(--warm);box-shadow:0 0 10px rgba(255,201,139,.5)}
 .lane-s{list-style:none;margin:0;padding:12px 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 18px;position:relative;z-index:2;isolation:isolate;overflow:hidden}
-.lane-s li{--g:0;font-size:clamp(.92rem,1.5vw,1.05rem);font-weight:600;letter-spacing:-.01em;white-space:nowrap;cursor:default;
-  color:color-mix(in srgb,#FFF4E2 calc(var(--g)*100%),rgba(201,214,255,.5));
+.lane-s li{--g:0;font-size:clamp(.9rem,1.4vw,1rem);font-weight:500;letter-spacing:-.005em;white-space:nowrap;cursor:default;
+  color:color-mix(in srgb,#FFF4E2 calc(var(--g)*100%),rgba(201,214,255,.56));
   text-shadow:0 0 calc(var(--g)*16px) rgba(255,214,160,calc(var(--g)*.6));transition:transform .3s var(--ease)}
 .lane-s li:hover{--g:1 !important;transform:translateY(-1px)}
 .lane-tools{min-height:60px}
@@ -605,8 +611,7 @@ main{position:relative;z-index:2}
   .sec{padding-left:clamp(18px,5vw,56px);padding-right:clamp(18px,5vw,56px)}
   .sec{min-height:auto;padding-top:92px;padding-bottom:92px}
   #start{min-height:100svh;padding-top:0}
-  .lane{grid-template-columns:1fr;padding:14px 16px 6px}
-  .lane+.lane::before{left:16px;right:16px}
+  .lane{grid-template-columns:1fr;padding:16px 4px 6px}
   .lane-s{justify-content:flex-start;padding:6px 0 10px;gap:6px 16px}
   .trip{aspect-ratio:1000/420}
   .lamp{width:64px}
