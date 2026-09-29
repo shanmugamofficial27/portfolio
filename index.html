@@ -215,6 +215,12 @@ main{position:relative;z-index:2}
 .mile-mark{position:absolute;top:-10px;left:28px;z-index:2;padding:3px 10px;border-radius:999px;font-size:.62rem;font-weight:600;
   letter-spacing:.2em;text-transform:uppercase;color:var(--acc);background:#0B0F1C;border:1px solid rgba(255,255,255,.1)}
 .mile-cover .ph-frame{border-radius:12px;transition:transform .6s var(--ease),border-color .4s}
+/* live covers: a canvas that draws the project's motif, with glitter */
+.cover-live{position:relative;aspect-ratio:16/10;border-radius:12px;overflow:hidden;background:#070A14;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);transition:transform .6s var(--ease),box-shadow .4s}
+.cover-live canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.mile:hover .cover-live{transform:scale(1.015);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--acc) 45%,transparent)}
+.cs-cover .cover-live{aspect-ratio:16/9;border-radius:16px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1),0 40px 80px -40px rgba(0,0,0,.9)}
 .mile:hover .mile-cover .ph-frame{transform:scale(1.015);border-color:color-mix(in srgb,var(--acc) 40%,transparent)}
 .mile-body{padding:6px 10px 6px 0}
 .mile-meta{margin:0;font-size:.72rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
@@ -736,10 +742,10 @@ main{position:relative;z-index:2}
       <p class="sub">25+ projects across different domains in two years. These three are the ones I'm proudest of.</p></div>
     <div class="miles">
 
-      <!-- covers are temporary artwork (images/work/*/cover.jpg); swap in real screens or an MP4 loop later -->
+      <!-- covers are drawn live (see LIVE COVERS in the script); swap in real screens or an MP4 loop later -->
       <a class="mile" href="#/work/genix" style="--acc:#8BDFFF">
         <span class="mile-mark">Mile 01</span>
-        <figure class="ph mile-cover" data-type="image" data-ratio="16:10" data-label="Genix.ai cover" data-src="images/work/genix/cover.jpg"></figure>
+        <div class="cover-live mile-cover" data-p="genix" role="img" aria-label="Genix.ai cover artwork"><canvas></canvas></div>
         <div class="mile-body">
           <p class="mile-meta">Healthcare · Genomics · AI</p>
           <h3 class="mile-title">Genix.ai</h3>
@@ -751,7 +757,7 @@ main{position:relative;z-index:2}
 
       <a class="mile" href="#/work/billcostro" style="--acc:#9C8CFF">
         <span class="mile-mark">Mile 02</span>
-        <figure class="ph mile-cover" data-type="image" data-ratio="16:10" data-label="Billcostro cover" data-src="images/work/billcostro/cover.jpg"></figure>
+        <div class="cover-live mile-cover" data-p="billcostro" role="img" aria-label="Billcostro cover artwork"><canvas></canvas></div>
         <div class="mile-body">
           <p class="mile-meta">Enterprise SaaS · Cost management</p>
           <h3 class="mile-title">Billcostro</h3>
@@ -763,7 +769,7 @@ main{position:relative;z-index:2}
 
       <a class="mile" href="#/work/moolago" style="--acc:#FFC98B">
         <span class="mile-mark">Mile 03</span>
-        <figure class="ph mile-cover" data-type="image" data-ratio="16:10" data-label="Moolago cover" data-src="images/work/moolago/cover.jpg"></figure>
+        <div class="cover-live mile-cover" data-p="moolago" role="img" aria-label="Moolago cover artwork"><canvas></canvas></div>
         <div class="mile-body">
           <p class="mile-meta">Fintech · Mobile · AI</p>
           <h3 class="mile-title">Moolago</h3>
@@ -1447,6 +1453,101 @@ function mountMedia(root){
   }
 }
 mountMedia(document);
+
+/* ═══════ LIVE COVERS — each project's motif drawn on a canvas, centred, with drifting glitter.
+   Genix: a turning double helix. Billcostro: nine roles flowing into one line. Moolago: an SMS that becomes a rising savings line.
+   Hovering the cover (or its Work row) makes the glitter brighter. Only animates while on screen. ═══════ */
+const mountCovers=(function(){
+  const ACC={genix:[139,223,255],billcostro:[156,140,255],moolago:[255,201,139]};
+  const live=new Set();let raf=0;
+  function seeded(n){ let s=n*9301+49297; return ()=>((s=(s*16807)%2147483647)/2147483647); }
+  function setup(el){
+    const cv=el.querySelector("canvas"),ctx=cv.getContext("2d"),p=el.dataset.p,acc=ACC[p]||ACC.genix;
+    const rnd=seeded(p.length*13+7);
+    const o={el,cv,ctx,p,acc,w:1,h:1,e:0,te:0,on:false,
+      stars:[...Array(70)].map(()=>[rnd(),rnd(),rnd()*1.1+.2,rnd()]),
+      sparks:[...Array(28)].map(()=>({x:.12+rnd()*.76,y:.14+rnd()*.72,ph:rnd()*6.28,sp:.6+rnd()*1.4,sz:.6+rnd()*1.2,dy:.004+rnd()*.01}))};
+    const size=()=>{ const r=el.getBoundingClientRect(),d=Math.min(2,window.devicePixelRatio||1);
+      o.w=Math.max(1,r.width);o.h=Math.max(1,r.height);cv.width=Math.round(o.w*d);cv.height=Math.round(o.h*d);ctx.setTransform(d,0,0,d,0,0); };
+    size();o.size=size;
+    const host=el.closest(".mile")||el;
+    host.addEventListener("pointerenter",()=>o.te=1);host.addEventListener("pointerleave",()=>o.te=0);
+    return o;
+  }
+  const col=(o,a)=>`rgba(${o.acc[0]},${o.acc[1]},${o.acc[2]},${a})`;
+  function bg(o){
+    const {ctx,w,h}=o;
+    const g=ctx.createLinearGradient(0,0,w,h);g.addColorStop(0,"#070A14");g.addColorStop(1,"#0D1122");ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+    const r=ctx.createRadialGradient(w/2,h/2,0,w/2,h/2,Math.max(w,h)*.55);
+    r.addColorStop(0,col(o,.16+o.e*.06));r.addColorStop(.5,col(o,.05));r.addColorStop(1,col(o,0));ctx.fillStyle=r;ctx.fillRect(0,0,w,h);
+    ctx.fillStyle="#E6EEF8";
+    for(const [x,y,s,a] of o.stars){ctx.globalAlpha=.12+a*.35;ctx.beginPath();ctx.arc(x*w,y*h,s,0,6.283);ctx.fill();}
+    ctx.globalAlpha=1;
+  }
+  function line(o,pts,wd,a,blur){const {ctx}=o;ctx.save();ctx.lineCap="round";ctx.lineJoin="round";ctx.strokeStyle=col(o,a);ctx.lineWidth=wd;
+    ctx.shadowColor=col(o,.9);ctx.shadowBlur=blur||0;ctx.beginPath();pts.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.stroke();ctx.restore();}
+  function dot(o,x,y,r,a,blur){const {ctx}=o;ctx.save();ctx.fillStyle=col(o,a);ctx.shadowColor=col(o,1);ctx.shadowBlur=blur||0;ctx.beginPath();ctx.arc(x,y,r,0,6.283);ctx.fill();ctx.restore();}
+  const DRAW={
+    genix(o,t){ const {w,h}=o,k=Math.min(w/800,h/500),N=180,x0=w*.14,x1=w*.86,cy=h*.5,A=h*.23,turns=2.4,ph=t*.7;
+      const pt=(u,off)=>[x0+(x1-x0)*u,cy+Math.sin(u*Math.PI*2*turns+ph+off)*A*(.6+.4*Math.sin(u*Math.PI))];
+      const s1=[],s2=[];for(let i=0;i<=N;i++){s1.push(pt(i/N,0));s2.push(pt(i/N,Math.PI));}
+      for(let i=4;i<N;i+=7){const u=i/N,f=Math.sin(u*Math.PI),depth=(Math.cos(u*Math.PI*2*turns+ph)+1)/2;
+        o.ctx.strokeStyle=col(o,(.08+.22*f)*(.5+.5*depth));o.ctx.lineWidth=1.4*k;o.ctx.beginPath();o.ctx.moveTo(...s1[i]);o.ctx.lineTo(...s2[i]);o.ctx.stroke();
+        dot(o,...s1[i],2.4*k,(.35+.6*f)*(.4+.6*depth),6);dot(o,...s2[i],2.2*k,(.3+.5*f)*(1-.6*depth),4);}
+      line(o,s1,2.6*k,.95,14);line(o,s2,1.9*k,.5,8); },
+    billcostro(o,t){ const {w,h}=o,k=Math.min(w/800,h/500),mx=w*.56,my=h*.5,ex=w*.86,gx=w*.16,gy=h*.24,sx=w*.085,sy=h*.26;
+      const paths=[];for(let r=0;r<3;r++)for(let c=0;c<3;c++){const nx=gx+c*sx,ny=gy+r*sy,pts=[];
+        for(let u=0;u<=1.0001;u+=.04){const e=u*u*(3-2*u);pts.push([nx+(mx-nx)*u,ny+(my-ny)*e]);}paths.push(pts);}
+      paths.forEach((pts,i)=>{line(o,pts,1.2*k,.24,0);dot(o,pts[0][0],pts[0][1],4*k,.7,8);
+        const u=((t*.35+i*.11)%1),j=Math.min(pts.length-1,Math.floor(u*(pts.length-1)));dot(o,pts[j][0],pts[j][1],2.6*k,.95*(1-u*.4),10);});
+      line(o,[[mx,my],[ex,my]],3.2*k,.95,16);
+      for(let i=0;i<4;i++){const px=mx+(ex-mx)*(.14+.28*i);dot(o,px,my,5.5*k,.95,12);}
+      const u=(t*.3)%1;dot(o,mx+(ex-mx)*u,my,4*k,1,18);dot(o,mx,my,8*k,1,22); },
+    moolago(o,t){ const {w,h}=o,k=Math.min(w/800,h/500),ctx=o.ctx,bw=96*k,bh=62*k,bx=w*.2,by=h*.36;
+      ctx.save();ctx.strokeStyle=col(o,.9);ctx.lineWidth=2*k;ctx.shadowColor=col(o,.9);ctx.shadowBlur=10;ctx.beginPath();
+      if(ctx.roundRect) ctx.roundRect(bx,by,bw,bh,14*k); else ctx.rect(bx,by,bw,bh);
+      ctx.moveTo(bx+20*k,by+bh);ctx.lineTo(bx+12*k,by+bh+18*k);ctx.lineTo(bx+36*k,by+bh);ctx.stroke();ctx.restore();
+      [0,1,2].forEach(i=>{ctx.fillStyle=col(o,.55-.15*i);ctx.fillRect(bx+14*k,by+(16+14*i)*k,bw*(.66-.16*i),5*k);});
+      const sx=bx+12*k,sy=by+bh+20*k,ex=w*.82,ey=h*.26,pts=[];
+      for(let u=0;u<=1.0001;u+=.01){pts.push([sx+(ex-sx)*u,sy+(ey-sy)*(u*u*.55+u*.45)+Math.sin(u*14)*6*k*(1-u)]);}
+      ctx.setLineDash([1.5*k,8*k]);line(o,pts.slice(0,20),1.6*k,.55,0);ctx.setLineDash([]);
+      line(o,pts.slice(18),3*k,.95,14);
+      [.35,.55,.75,1].forEach((u,i)=>{const q=pts[Math.round(u*100)];dot(o,q[0],q[1],(4+i*1.4)*k,.95,12);});
+      const u=.18+((t*.22)%1)*.82,q=pts[Math.round(u*100)];dot(o,q[0],q[1],4.5*k,1,20); }
+  };
+  // glitter: four-point sparkles that twinkle and drift upward
+  function glitter(o,t){
+    const {ctx,w,h}=o,k=Math.min(w/800,h/500),boost=1+o.e*1.6;
+    for(const g of o.sparks){
+      const tw=Math.pow(Math.max(0,Math.sin(t*g.sp*(1+o.e*.8)+g.ph)),6)*boost;
+      if(tw<.02) continue;
+      const y=((g.y-t*g.dy)%1+1)%1,x=g.x*w,yy=(.1+y*.8)*h,s=(2.2+g.sz*3)*k*(.6+tw*.5);
+      ctx.save();ctx.globalAlpha=Math.min(1,tw);ctx.strokeStyle="#FFF6EC";ctx.lineWidth=.9*k;ctx.shadowColor=col(o,1);ctx.shadowBlur=8;
+      ctx.beginPath();ctx.moveTo(x-s,yy);ctx.lineTo(x+s,yy);ctx.moveTo(x,yy-s);ctx.lineTo(x,yy+s);ctx.stroke();
+      ctx.fillStyle="#FFF6EC";ctx.beginPath();ctx.arc(x,yy,.9*k,0,6.283);ctx.fill();ctx.restore();
+    }
+  }
+  function paint(o,t){ o.e+=(o.te-o.e)*.08; bg(o); (DRAW[o.p]||DRAW.genix)(o,t); glitter(o,t); }
+  function loop(now){
+    const t=now/1000;let any=false;
+    live.forEach(o=>{ if(!o.el.isConnected){live.delete(o);return;} if(o.on){paint(o,t);any=true;} });
+    raf=any?requestAnimationFrame(loop):0;
+  }
+  const io=("IntersectionObserver" in window)?new IntersectionObserver(es=>es.forEach(e=>{
+    const o=e.target._cover;if(!o)return;o.on=e.isIntersecting&&!RM;
+    if(e.isIntersecting&&RM) paint(o,2);
+    if(o.on&&!raf) raf=requestAnimationFrame(loop);
+  }),{rootMargin:"100px"}):null;
+  window.addEventListener("resize",()=>live.forEach(o=>{o.size();if(RM)paint(o,2);}));
+  return function(root){
+    (root||document).querySelectorAll(".cover-live:not([data-live])").forEach(el=>{
+      el.dataset.live="1";const o=setup(el);el._cover=o;live.add(o);
+      paint(o,2);
+      if(io) io.observe(el); else { o.on=!RM; if(!raf) raf=requestAnimationFrame(loop); }
+    });
+  };
+})();
+mountCovers(document);
 
 /* ═══════ HERO — name glow (click to stop) + headline words rise, "simple." unscrambles ═══════ */
 (function(){
@@ -2431,7 +2532,7 @@ const CASES={
     line:"Designed from scratch at Chadura Tech: a precision-health product used by patients, clinicians, genetic counsellors, bioinformaticians, administrators and hospitals.",
     meta:[["Role","Primary product designer"],["Team","Founder, frontend & backend developers, marketing, bioinformaticians"],
           ["Platforms","Web platform, website, mobile app"],["Timeline","Apr 2025 - present"],["Status","Live, in active development"]],
-    cover:{type:"image",ratio:"16:9",label:"Genix.ai cover",src:"images/work/genix/hero.jpg"},                                    // REPLACE: src
+    cover:{live:"genix"},                                    // REPLACE: src
     chapters:[
       {h:"Six kinds of users, one dense set of data.",
        p:["Genix works with genomic and healthcare information: dense, high-stakes and unfamiliar to most people. The same product has to serve a patient reading their own results and a bioinformatician checking the detail.",
@@ -2479,7 +2580,7 @@ const CASES={
     line:"An enterprise cost-management platform at Chadura Tech, where requests, approvals, expenses, reimbursements and assets move between nine user roles.",
     meta:[["Role","Primary and only designer"],["Team","Founder, frontend & backend developers, marketing"],
           ["Platforms","Web, mobile"],["Timeline","Dec 2024 - Mar 2025"],["Status","Fully functional"]],
-    cover:{type:"image",ratio:"16:9",label:"Billcostro cover",src:"images/work/billcostro/hero.jpg"},                                   // REPLACE: src
+    cover:{live:"billcostro"},                                   // REPLACE: src
     chapters:[
       {h:"Nine roles. Nine versions of the same request.",
        p:["In Billcostro, the workflow changes with who you are and where you sit in the hierarchy. The person raising a request and the person approving it touch the same item, but need different information and can take different actions.",
@@ -2523,7 +2624,7 @@ const CASES={
     line:"A personal-finance app that reads the transaction messages your bank already sends, and turns them into one journey from spending to saving.",
     meta:[["Role","Product designer, mobile app"],["Team","Product and development team"],
           ["Platform","Mobile app"],["Timeline","Mar 2025 - Aug 2025"],["Status","Mobile application"]],
-    cover:{type:"image",ratio:"16:9",label:"Moolago cover",src:"images/work/moolago/hero.jpg"},                                       // REPLACE: src
+    cover:{live:"moolago"},                                       // REPLACE: src
     chapters:[
       {h:"The whole product depends on one permission.",
        p:["Moolago tracks spending automatically by reading transaction SMS messages. That's what makes it effortless, and it's also exactly the kind of access people are most careful about.",
@@ -2580,7 +2681,7 @@ function renderCase(k){
     <p class="cs-line">${esc(c.line)}</p>
     <dl class="cs-meta">${c.meta.map(([a,b])=>`<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join("")}</dl>
   </header>
-  <div class="cs-wide cs-cover">${phHTML(c.cover)}</div>`;
+  <div class="cs-wide cs-cover">${c.cover.live?`<div class="cover-live" data-p="${c.cover.live}" role="img" aria-label="${esc(c.name)} cover artwork"><canvas></canvas></div>`:phHTML(c.cover)}</div>`;
 
   c.chapters.forEach((ch,n)=>{
     const wide=ch.screens||ch.phones||ch.explore||ch.areas;
@@ -2625,7 +2726,7 @@ function renderCase(k){
 
   caseEl.dataset.theme=k;
   caseBody.innerHTML=h;
-  mountMedia(caseBody);
+  mountMedia(caseBody);mountCovers(caseBody);
 
   // explorer: pick an item, the view cross-fades
   caseBody.querySelectorAll(".explore").forEach(ex=>{
