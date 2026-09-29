@@ -289,16 +289,38 @@ main{position:relative;z-index:2}
   letter-spacing:.2em;text-transform:uppercase;color:var(--muted);transition:opacity .4s}
 .desk-loading.hide{opacity:0;pointer-events:none}
 
-.desk-status{position:absolute;top:14px;left:14px;z-index:4;margin:0;display:flex;align-items:center;gap:9px;
-  font-size:.64rem;letter-spacing:.08em;color:var(--text);padding:8px 13px 8px 11px;border-radius:999px;
-  background:rgba(12,9,8,.66);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+/* progress: Light, Password (with its slots), Photo */
+.desk-steps{position:absolute;top:14px;left:14px;z-index:4;margin:0;padding:6px;list-style:none;display:flex;align-items:center;gap:2px;
+  border-radius:999px;background:rgba(12,9,8,.66);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
-.desk-status i{width:7px;height:7px;border-radius:50%;background:var(--pa);box-shadow:0 0 0 0 rgba(var(--pa-rgb),.6);
-  animation:statusPing 2.2s var(--ease) infinite}
-.desk-status.done i{animation:none;background:#9FD6A4}
-@keyframes statusPing{0%{box-shadow:0 0 0 0 rgba(var(--pa-rgb),.55)}80%,100%{box-shadow:0 0 0 9px rgba(var(--pa-rgb),0)}}
+.desk-steps li{display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-size:.74rem;font-weight:500;
+  color:var(--muted);transition:color .3s,background .3s}
+.desk-steps li i{width:7px;height:7px;border-radius:50%;border:1.5px solid currentColor;transition:background .3s,border-color .3s}
+.desk-steps li.done{color:var(--text-2)}
+.desk-steps li.done i{background:var(--pa);border-color:var(--pa)}
+.desk-steps li.cur{color:var(--text);background:rgba(var(--pa-rgb),.12)}
+.desk-steps li.cur i{border-color:var(--pa);animation:statusPing 2.2s var(--ease) infinite}
+@keyframes statusPing{0%{box-shadow:0 0 0 0 rgba(var(--pa-rgb),.55)}80%,100%{box-shadow:0 0 0 7px rgba(var(--pa-rgb),0)}}
+.desk-steps .pass{display:inline-flex;gap:3px;margin-left:2px}
+.desk-steps .pass span{width:18px;height:22px;border-radius:5px;display:grid;place-items:center;font-size:.74rem;font-weight:700;color:var(--pa);
+  background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);transition:box-shadow .4s var(--ease),background .4s var(--ease)}
+.desk-steps .pass span:empty::before{content:"";width:7px;height:1px;background:var(--muted)}
+.desk-steps .pass span.got{background:rgba(var(--pa-rgb),.12);box-shadow:inset 0 0 0 1px rgba(var(--pa-rgb),.55);animation:slotIn .6s var(--ease)}
+@keyframes slotIn{0%{transform:translateY(-6px) scale(1.25);opacity:0}100%{transform:none;opacity:1}}
+/* the hook over the dark desk */
+.desk-hook{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  text-align:center;padding:24px;pointer-events:none;transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.desk-hook>*{pointer-events:auto}
+.desk-hook.gone{opacity:0;transform:scale(.98);pointer-events:none}
+.desk-hook.gone>*{pointer-events:none}
+.hook-q{margin:0;font-size:clamp(1.35rem,3vw,2rem);font-weight:600;letter-spacing:-.02em;color:var(--text);text-shadow:0 2px 20px rgba(0,0,0,.8)}
+.hook-s{margin:0;font-size:.95rem;color:var(--text-2);text-shadow:0 2px 14px rgba(0,0,0,.8)}
+.hook-cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px;margin-top:12px}
+.hook-cta .desk-btn.solid{font-size:.86rem;padding:12px 22px;box-shadow:0 12px 30px -10px rgba(var(--pa-rgb),.7)}
+.hook-skip{font-size:.84rem;color:var(--text-2);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(255,255,255,.25)}
+.hook-skip:hover{color:var(--text)}
 .desk-tools{position:absolute;top:14px;right:14px;z-index:4;display:flex;gap:8px}
-.desk-btn{display:inline-flex;align-items:center;gap:7px;font-size:.64rem;letter-spacing:.06em;color:var(--text-2);
+.desk-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:34px;font-size:.78rem;font-weight:500;color:var(--text-2);
   background:rgba(12,9,8,.66);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);border-radius:999px;padding:8px 14px;
   transition:color .25s var(--ease),box-shadow .25s var(--ease),transform .2s var(--ease),background .25s var(--ease)}
@@ -307,11 +329,12 @@ main{position:relative;z-index:2}
 .desk-btn.solid{background:var(--pa);color:#1a110a;font-weight:600;box-shadow:none}
 .desk-btn.solid:hover{background:#ffd7a8;color:#1a110a}
 .desk-btn.ghost{background:transparent}
+.desk-btn.icon{width:34px;padding:0;font-size:.95rem}
 .desk-btn[hidden]{display:none}
 
 .desk-toast{position:absolute;left:50%;bottom:16px;z-index:5;margin:0;max-width:min(92%,440px);
   transform:translate(-50%,10px);opacity:0;pointer-events:none;text-align:center;
-  font-size:.74rem;line-height:1.45;color:var(--text);padding:10px 16px;border-radius:12px;
+  font-size:.84rem;line-height:1.45;color:var(--text);padding:10px 16px;border-radius:12px;
   background:rgba(12,9,8,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   box-shadow:inset 0 0 0 1px rgba(var(--pa-rgb),.25);transition:opacity .3s var(--ease),transform .3s var(--ease)}
 .desk-toast.show{opacity:1;transform:translate(-50%,0)}
@@ -341,48 +364,34 @@ main{position:relative;z-index:2}
   border-radius:50%;box-shadow:0 0 0 2px var(--pa),0 0 0 6px rgba(var(--pa-rgb),.25);outline:none;z-index:5;
   color:transparent}
 
-/* ---- field notes ---- */
-.journal{max-width:1100px;margin:18px auto 0;display:grid;grid-template-columns:240px 1fr;gap:18px;
-  padding:22px;border-radius:14px;background:rgba(14,10,9,.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
-.journal-side{padding:4px 6px}
-.journal-count{margin:10px 0 22px;display:flex;align-items:baseline;gap:6px}
-.journal-count b{font-size:2.3rem;font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--text)}
-.journal-count span{font-size:.72rem;color:var(--muted)}
-.journal-lbl{font-size:.64rem;color:var(--text-2);margin:0 0 9px}
-.pass{display:flex;gap:7px}
-.pass span{width:38px;height:44px;border-radius:9px;display:grid;place-items:center;
-  font-size:1.05rem;font-weight:600;color:var(--pa);background:rgba(255,255,255,.03);
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);transition:box-shadow .4s var(--ease),background .4s var(--ease)}
-.pass span:empty::before{content:"";width:12px;height:1px;background:var(--muted)}
-.pass span.got{background:rgba(var(--pa-rgb),.08);box-shadow:inset 0 0 0 1px rgba(var(--pa-rgb),.5);animation:slotIn .6s var(--ease)}
-@keyframes slotIn{0%{transform:translateY(-8px) scale(1.2);opacity:0}100%{transform:none;opacity:1}}
-.journal-help{font-size:.7rem;line-height:1.55;color:var(--muted);margin:12px 0 0;max-width:28ch}
-
-.notes{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:start}
-.note{position:relative;padding:14px 16px 15px;border-radius:10px;background:rgba(255,255,255,.025);
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);transition:background .4s var(--ease),box-shadow .4s var(--ease)}
-.note-k{display:flex;justify-content:space-between;align-items:center;font-size:.6rem;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--muted)}
-.note-k em{font-style:normal;letter-spacing:0;font-size:.7rem;font-weight:600;color:var(--pa)}
-.note-t{font-size:.86rem;font-weight:600;color:var(--text);margin:8px 0 5px}
-.note-s{font-size:.72rem;line-height:1.6;color:var(--text-2);margin:0}
-.note.locked .note-t{color:var(--muted);font-weight:500}
-.note.locked .note-s{color:var(--muted);opacity:.7;font-style:italic}
-.note.fresh{background:rgba(var(--pa-rgb),.07);box-shadow:inset 0 0 0 1px rgba(var(--pa-rgb),.35);animation:noteIn .7s var(--ease)}
-@keyframes noteIn{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:none}}
-
-.finale{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,4vw,40px);align-items:center;
-  padding-top:20px;margin-top:4px;border-top:1px solid rgba(255,255,255,.07);animation:noteIn .8s var(--ease)}
+/* ---- notes strip under the desk ---- */
+.journal{max-width:1100px;margin:14px auto 0;padding:14px 18px;border-radius:14px;background:rgba(14,10,9,.5);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.jr-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.jr-count{margin:0;font-size:.84rem;color:var(--muted);white-space:nowrap}
+.jr-count b{font-size:1.05rem;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums}
+.notes{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.nchip{min-height:30px;padding:0 12px;border-radius:999px;font-size:.78rem;color:var(--muted);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);transition:color .3s,box-shadow .3s,background .3s}
+.nchip.got{color:var(--text);box-shadow:inset 0 0 0 1px rgba(var(--pa-rgb),.4)}
+.nchip.got b{color:var(--pa);font-weight:700;margin-right:5px}
+.nchip.got:hover,.nchip[aria-pressed="true"]{background:rgba(var(--pa-rgb),.12)}
+.nchip.fresh{animation:noteIn .7s var(--ease)}
+.nchip:disabled{cursor:default}
+@keyframes noteIn{0%{opacity:0;transform:translateY(6px)}100%{opacity:1;transform:none}}
+.jr-note{margin:10px 0 0;font-size:.9rem;line-height:1.55;color:var(--text-2)}
+.jr-note b{color:var(--text);font-weight:600}
+.finale{display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,4vw,34px);align-items:center;
+  padding-top:16px;margin-top:14px;border-top:1px solid rgba(255,255,255,.07);animation:noteIn .8s var(--ease)}
 .finale[hidden]{display:none}
-.polaroid{margin:0;width:220px;padding:10px 10px 0;background:#F4EDE2;border-radius:4px;transform:rotate(-3deg);
+.polaroid{margin:0;width:170px;padding:8px 8px 0;background:#F4EDE2;border-radius:4px;transform:rotate(-3deg);
   box-shadow:0 24px 40px -18px rgba(20,8,2,.8);transition:transform .4s var(--ease)}
 .polaroid:hover{transform:rotate(0) scale(1.02)}
 .polaroid-img{aspect-ratio:4/3;background:#1a1411;display:grid;place-items:center;overflow:hidden}
 .polaroid-img img{width:100%;height:100%;object-fit:cover;display:block}
 .polaroid-img span{font-size:.62rem;color:#8a7a6a;text-align:center;padding:0 16px}
 .polaroid figcaption{font-size:.66rem;color:#5a4a3c;text-align:center;padding:10px 0 12px;font-style:italic}
-.finale-title{font-size:clamp(1.4rem,2.6vw,1.9rem);font-weight:600;letter-spacing:-.02em;margin:10px 0 10px;color:var(--text)}
+.finale-title{font-size:clamp(1.2rem,2.2vw,1.5rem);font-weight:600;letter-spacing:-.02em;margin:0 0 8px;color:var(--text)}
 .finale .sub{max-width:52ch;font-size:.9rem}
 .finale-cta{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 
@@ -618,7 +627,7 @@ main{position:relative;z-index:2}
   .lamp-t{font-size:.7rem}
   .gap{height:34vh}
   .deskscene{aspect-ratio:4/3}
-  .journal{grid-template-columns:1fr;padding:18px}
+  .journal{padding:12px 14px}
   .finale{grid-template-columns:1fr;justify-items:center;text-align:center}
   .finale-cta{justify-content:center}
   .mile{grid-template-columns:1fr;gap:18px}
@@ -641,9 +650,11 @@ main{position:relative;z-index:2}
 }
 @media(max-width:520px){
   .deskscene{aspect-ratio:1/1}
-  .notes{grid-template-columns:1fr}
-  .desk-status{top:10px;left:10px;font-size:.58rem}
+  .desk-steps{top:10px;left:10px;right:10px;justify-content:space-between}
+  .desk-steps li{padding:5px 8px;font-size:.68rem;gap:6px}
+  .desk-steps .pass span{width:15px;height:19px;font-size:.66rem}
   .desk-tools{top:auto;bottom:10px;right:10px}
+  .hook-s{font-size:.85rem}
   .desk-toast{bottom:54px;font-size:.66rem;padding:8px 12px;max-width:86%}
   .car{height:34px;margin-top:-17px}
   .screens{grid-template-columns:1fr}
@@ -810,14 +821,30 @@ main{position:relative;z-index:2}
   <div class="wrap">
     <div class="sec-head play-head">
       <h2 class="display h-sec">The road less travelled</h2>
-      <p class="sub">It's dark in here. Find the light, then crack the laptop's password. Everything on this desk knows something about me.</p>
+      <p class="sub">Everything on this desk knows something about me.</p>
     </div>
 
     <div class="deskscene is-dark" id="deskscene">
-      <p class="desk-status" id="deskStatus"><i></i><span>Step 1 · Find the light</span></p>
+      <!-- three steps, the current one highlighted; the password slots live inside step 2 -->
+      <ol class="desk-steps" id="deskStatus" data-cur="1" aria-label="Progress">
+        <li data-s="1"><i aria-hidden="true"></i>Light</li>
+        <li data-s="2"><i aria-hidden="true"></i>Password
+          <span class="pass" id="pass" aria-label="Password letters found"><span data-slot="0"></span><span data-slot="1"></span><span data-slot="2"></span><span data-slot="3"></span></span></li>
+        <li data-s="3"><i aria-hidden="true"></i>Photo</li>
+      </ol>
       <div class="desk-tools">
-        <button class="desk-btn" id="deskHint">Need a hint?</button>
-        <button class="desk-btn" id="deskReset">↺ Reset</button>
+        <button class="desk-btn" id="deskHint" type="button">Hint</button>
+        <button class="desk-btn" id="deskSkip" type="button">Skip</button>
+        <button class="desk-btn icon" id="deskReset" type="button" aria-label="Reset the desk">↺</button>
+      </div>
+      <!-- the hook: an invitation over the dark desk, gone once the lamp is on -->
+      <div class="desk-hook" id="deskHook">
+        <p class="hook-q">Can you unlock my laptop?</p>
+        <p class="hook-s">Four letters are hidden on this desk.</p>
+        <div class="hook-cta">
+          <button class="desk-btn solid" id="hookStart" type="button">Switch on the lamp</button>
+          <button class="hook-skip" id="hookSkip" type="button">Skip the puzzle</button>
+        </div>
       </div>
       <p class="desk-loading" id="deskLoading">Setting up the desk…</p>
       <canvas id="deskCanvas" aria-hidden="true"></canvas>
@@ -849,30 +876,24 @@ main{position:relative;z-index:2}
       <div class="callout" id="lblCamera"><span class="callout-t">Camera</span><span class="callout-s">Save it for last</span></div>
     </div>
 
-    <!-- REPLACE: the note copy lives in NOTES inside the playground script -->
+    <!-- compact strip: one chip per object, the latest note in one line; the finale replaces it when unlocked -->
     <div class="journal" id="journal">
-      <div class="journal-side">
-        <p class="eyebrow">Field notes</p>
-        <p class="journal-count"><b id="noteCount">0</b><span>/7 found</span></p>
-        <p class="journal-lbl">Laptop password</p>
-        <div class="pass" id="pass" aria-label="Password letters found">
-          <span data-slot="0"></span><span data-slot="1"></span><span data-slot="2"></span><span data-slot="3"></span>
-        </div>
-        <p class="journal-help" id="journalHelp">Four objects are hiding one letter each.</p>
+      <div class="jr-row">
+        <p class="jr-count"><b id="noteCount">0</b>/7 notes</p>
+        <ol class="notes" id="notes" aria-label="Notes found on the desk"></ol>
       </div>
-      <ol class="notes" id="notes"></ol>
+      <p class="jr-note" id="journalHelp" aria-live="polite">Four objects are hiding one letter each.</p>
       <div class="finale" id="finale" hidden>
         <figure class="polaroid" id="polaroid">
-          <div class="polaroid-img" id="polaroidImg"><span>Click the camera on the desk</span></div>
+          <div class="polaroid-img" id="polaroidImg"><span>Take a photo with the camera</span></div>
           <figcaption>4:30 AM · you found me</figcaption>
         </figure>
         <div class="finale-copy">
-          <p class="eyebrow">Unlocked</p>
           <h3 class="finale-title">Hi, I'm Shanmugam.</h3>
-          <p class="sub">Self-taught product designer. I start with the user, keep things simple, read everything and build what I design. You just met most of me.</p>
+          <p class="sub">Engineer by degree, designer by choice. I start with the user, keep things simple and read everything. You just met most of me.</p>
           <div class="finale-cta">
-            <a class="desk-btn solid" href="#works">See the work →</a>
-            <a class="desk-btn" href="#home">Say hello</a>
+            <a class="desk-btn solid" href="#works">See the work</a>
+            <a class="desk-btn" href="#home">Connect</a>
             <a class="desk-btn ghost" id="polaroidSave" download="shanmugam-desk.png" hidden>Save the photo</a>
           </div>
         </div>
@@ -1646,13 +1667,13 @@ function depth(){}
   const NOTES=[
     {id:"cNote",   obj:"Notebook",     letter:"U", slot:0, t:"Users before pixels", s:"Every project starts on a notebook page: who is it for, what's the problem, what's the context.", hint:"Something on the desk has pages. Open it."},
     {id:"cSticky", obj:"Sticky notes", letter:"S", slot:1, t:"Simple survives", s:"Most of design is deleting. These sticky notes are the ideas that made it through.", hint:"Small, square, far right. Peel one off."},
-    {id:"cCoffee", obj:"Coffee",       letter:"E", slot:2, t:"Engineer, too", s:"I build what I design, Django and backend included. Usually around the third cup.", hint:"Something's written on the bottom of a cup."},
-    {id:"cBooks",  obj:"Books",        letter:"R", slot:3, t:"Read everything", s:"100% self-taught. Books, docs and a lot of broken builds did the teaching.", hint:"Look between the books in the stack."},
-    {id:"cPlant",  obj:"Plant",        t:"Growing slowly", s:"School, then college (2020–24), now designing AI and data products at Chadura Tech.", hint:"Something green wants a nudge."},
+    {id:"cCoffee", obj:"Coffee",       letter:"E", slot:2, t:"Engineer first", s:"ECE taught me systems. Design taught me people. Usually around the third cup.", hint:"Something's written on the bottom of a cup."},
+    {id:"cBooks",  obj:"Books",        letter:"R", slot:3, t:"Read everything", s:"Design, self-taught: books, articles and a lot of other people's products.", hint:"Look between the books in the stack."},
+    {id:"cPlant",  obj:"Plant",        t:"Still growing", s:"ECE from 2020 to 2024, then Chadura Tech from Sep 2024.", hint:"Something green wants a nudge."},
     {id:"cPhones", obj:"Headphones",   t:"Focus mode", s:"Headphones on means deep work: flows, systems, interaction. Don't take it personally.", hint:"Something for your ears, back right."},
     {id:"cPhone",  obj:"Phone",        t:"Everyday curiosity", s:"Half my camera roll is screenshots of apps that did something really well, or really badly.", hint:"Someone left you a message."}
   ];
-  const LAPTOP_LINES=["Hi, I'm Shanmugam.","Product designer · AI · Data","One more thing: grab the camera."];
+  const LAPTOP_LINES=["Hi, I'm Shanmugam.","Product designer, Chadura Tech","One more thing: grab the camera."];
   const PHONE_LINES=["3 new messages","“Talk to users today.”","“Ship it. Learn. Improve.”"];
   const NOTE_BY_ID={}; NOTES.forEach(n=>NOTE_BY_ID[n.id]=n);
   const LETTER_IDS=NOTES.filter(n=>n.letter).map(n=>n.id);
@@ -2005,22 +2026,25 @@ function depth(){}
   }
   function lettersFound(){ return LETTER_IDS.filter(id=>state.found.has(id)).length; }
   function updateStatus(){
-    let txt, done=false;
-    if(!state.lampOn) txt=state.found.size?"It's dark · switch the lamp back on":"Step 1 · Find the light";
-    else if(!state.unlocked) txt=`Step 2 · Find the password · ${lettersFound()}/4 letters`;
-    else if(!state.photo) txt="Step 3 · Take a photo with the camera";
-    else { txt=`Desk complete · ${state.found.size}/${NOTES.length} notes`; done=true; }
-    statusEl.querySelector("span").textContent=txt;
-    statusEl.classList.toggle("done",done);
+    // 1 light, 2 password, 3 photo, 4 complete
+    const cur=!state.lampOn&&!state.unlocked?1:!state.unlocked?2:!state.photo?3:4;
+    statusEl.querySelectorAll("li").forEach(li=>{
+      const n=+li.dataset.s; li.classList.toggle("done",n<cur||(n===1&&state.lampOn)); li.classList.toggle("cur",n===cur);
+    });
     container.classList.toggle("is-dark",!state.lampOn);
+    const hook=$("deskHook"); if(hook) hook.classList.toggle("gone",state.lampOn||state.found.size>0||state.unlocked);
+  }
+  let shownNote=null;
+  function showNote(id){
+    const n=NOTE_BY_ID[id]; if(!n) return; shownNote=id;
+    helpEl.innerHTML=`<b>${n.t}.</b> ${n.s}`;
+    notesEl.querySelectorAll(".nchip").forEach(c=>c.setAttribute("aria-pressed",c.dataset.id===id?"true":"false"));
   }
   function renderNotes(fresh){
-    notesEl.innerHTML=NOTES.map((n,i)=>{
+    notesEl.innerHTML=NOTES.map(n=>{
       const got=state.found.has(n.id);
-      const num=String(i+1).padStart(2,"0");
-      return `<li class="note${got?"":" locked"}${n.id===fresh?" fresh":""}">`+
-        `<div class="note-k"><span>${num} · ${got?n.obj:(n.letter?"Letter":"Bonus")}</span>${n.letter?`<em>${got?n.letter:"?"}</em>`:""}</div>`+
-        `<p class="note-t">${got?n.t:"Not found yet"}</p><p class="note-s">${got?n.s:n.hint}</p></li>`;
+      return `<li><button type="button" class="nchip${got?" got":""}${n.id===fresh?" fresh":""}" data-id="${n.id}" ${got?"":"disabled"} aria-pressed="false">`+
+        `${got&&n.letter?`<b>${n.letter}</b>`:""}${got?n.obj:"?"}</button></li>`;
     }).join("");
     countEl.textContent=state.found.size;
     passEl.querySelectorAll("span").forEach(sp=>{
@@ -2028,12 +2052,11 @@ function depth(){}
       if(got&&!sp.textContent) sp.classList.add("got");
       sp.textContent=got?n.letter:""; if(!got) sp.classList.remove("got");
     });
-    const left=4-lettersFound();
-    helpEl.textContent=state.unlocked?"Password accepted. The laptop has something to say."
-      :left===4?"Four objects are hiding one letter each."
-      :left===0?"That's all four. Watch the laptop."
-      :`${left} letter${left>1?"s":""} still hiding on the desk.`;
+    if(fresh) showNote(fresh);
+    else if(shownNote&&state.found.has(shownNote)) showNote(shownNote);
+    else { shownNote=null; helpEl.textContent=state.unlocked?"Password accepted. The laptop has something to say.":"Four objects are hiding one letter each."; }
   }
+  notesEl.addEventListener("click",e=>{ const c=e.target.closest(".nchip.got"); if(c) showNote(c.dataset.id); });
   function discover(id){
     if(state.found.has(id)) return false;
     state.found.add(id);
@@ -2083,7 +2106,7 @@ function depth(){}
       const save=$("polaroidSave"); save.href=url; save.hidden=false;
     }
     const first=!state.photo; state.photo=true; updateStatus();
-    if(first){ toast("Got it. Your photo is in the field notes below.",3800); finaleEl.scrollIntoView({behavior:RM?"auto":"smooth",block:"nearest"}); }
+    if(first){ toast("Got it. Your photo is just below the desk.",3800); finaleEl.scrollIntoView({behavior:RM?"auto":"smooth",block:"nearest"}); }
   }
 
   const ACTIONS={
@@ -2102,7 +2125,7 @@ function depth(){}
     cBooks(){
       const o=objects.cBooks;
       tween(700,p=>{ const e=bump(p); o.top.position.x=e*.45; o.top.position.y=o.topY+e*.12; o.top.rotation.z=-e*.1; },()=>{ o.top.position.set(0,o.topY,0); o.top.rotation.z=0; });
-      if(!discover("cBooks")) toast("Mostly design, some psychology, one very used Django book.");
+      if(!discover("cBooks")) toast("Mostly design, some psychology, a few well-worn favourites.");
     },
     cSticky(){
       const o=objects.cSticky;
@@ -2160,6 +2183,26 @@ function depth(){}
     else { const n=NOTES.find(x=>!state.found.has(x.id)); h=n?"Bonus: "+n.hint:"You found everything. Thanks for playing."; }
     toast(h,4200);
   });
+
+  /* ---- the hook and skip ---- */
+  $("hookStart").addEventListener("click",()=>{ if(!state.lampOn) act("cLamp"); });
+  function skipAll(){
+    if(state.typing) return;
+    state.lampOn=true;
+    NOTES.forEach(n=>{
+      state.found.add(n.id);
+      const lbl=$("lbl"+n.id.slice(1)); if(lbl){ lbl.classList.add("found"); lbl.querySelector(".callout-s").textContent=n.t; }
+    });
+    objects.cNote.flipped=true; drawNote(true); drawSticky(true);
+    state.unlocked=true; state.laptopLine=0; drawScreen();
+    const ll=$("lblLaptop"); ll.classList.add("found"); ll.querySelector(".callout-s").textContent="Unlocked · click it";
+    $("lblCamera").querySelector(".callout-s").textContent="Take the photo";
+    finaleEl.hidden=false;
+    renderNotes(); updateStatus();
+    toast("Skipped ahead. Password <b>USER</b>. Everything the desk knows is below.",4200);
+  }
+  $("deskSkip").addEventListener("click",skipAll);
+  $("hookSkip").addEventListener("click",skipAll);
 
   /* ---- hover / labels ---- */
   let hoveredId=null, tapTimer=0;
@@ -2220,7 +2263,7 @@ function depth(){}
       cLaptop:"Locked · 4-letter password",cPlant:"Give it a nudge",cPhones:"Put them on",cPhone:"Unread messages",cCamera:"Save it for last"};
     Object.keys(labels).forEach(id=>{ labels[id].classList.remove("found"); labels[id].querySelector(".callout-s").textContent=SUBS[id]; });
     finaleEl.hidden=true;
-    $("polaroidImg").innerHTML="<span>Click the camera on the desk</span>";
+    $("polaroidImg").innerHTML="<span>Take a photo with the camera</span>";
     const save=$("polaroidSave"); save.hidden=true; save.removeAttribute("href");
     view.touched=false; fitCamera();
     renderNotes(); updateStatus(); toastEl.classList.remove("show");
