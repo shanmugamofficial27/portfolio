@@ -210,48 +210,65 @@ main{position:relative;z-index:2}
 .mile-cta i{font-style:normal;color:var(--acc);transition:transform .35s var(--ease)}
 .mile:hover .mile-cta i{transform:translateX(5px)}
 
-/* ---------- 04 journey — timeline ---------- */
-.timeline{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:32px;
-  max-width:1040px;margin:0 auto}
-.timeline::before{content:"";position:absolute;left:0;right:0;top:9px;height:1px;background:var(--line-2)}
-.tstop{position:relative;padding-top:34px;opacity:0;transform:translateY(16px);
-  transition:opacity .6s var(--ease),transform .6s var(--ease)}
-.tstop.in{opacity:1;transform:none}
-.tstop-dot{position:absolute;left:0;top:4px;width:11px;height:11px;border-radius:50%;
-  background:var(--cyan);box-shadow:0 0 0 5px var(--bg),0 0 18px rgba(139,223,255,.7)}
-.tstop-era{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin:0 0 6px}
-.tstop-title{font-size:1.2rem;font-weight:600;letter-spacing:-.01em;margin:0 0 10px}
-.tstop-l{font-size:1rem;line-height:1.7;color:var(--text-2);margin:0;max-width:36ch}
-.tstop-art{
-  margin-top:18px;aspect-ratio:16/10;border-radius:6px;background:var(--surface) center/cover no-repeat;
-  border:1px solid var(--line-2);display:grid;place-items:center;color:var(--muted);
-  font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;text-align:center;padding:14px;
-}
-.branches{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
-.branch{font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2);
-  border:1px solid var(--line-2);border-radius:20px;padding:4px 11px;background:var(--bg-3)}
+/* ---------- 03 skills + 04 journey: left-aligned headers ---------- */
+.bring,.road-wrap{max-width:1080px}
+.bring-head{max-width:640px;margin:0 0 clamp(36px,6vw,60px)}
+.bring-head .sub{margin-top:14px}
 
-/* ---------- 03 skills — counters + marquee ---------- */
-.stats{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(30px,7vw,72px);
-  margin-bottom:clamp(48px,7vw,76px)}
-.stat{text-align:center}
-.stat-num{font-size:clamp(1.9rem,4.4vw,2.8rem);font-weight:700;color:var(--text);
-  font-variant-numeric:tabular-nums;line-height:1}
-.stat-num .unit{color:var(--cyan)}
-.stat-lbl{margin-top:8px;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-2)}
+/* skills: large-type list, the proof beside it */
+.cap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:start}
+.cap-list{list-style:none;margin:0;padding:0}
+.cap-list li{border-top:1px solid rgba(255,255,255,.08)}
+.cap-list li:last-child{border-bottom:1px solid rgba(255,255,255,.08)}
+.cap-btn{position:relative;display:flex;align-items:baseline;gap:16px;width:100%;padding:18px 0;text-align:left;
+  font-size:clamp(1.25rem,2.6vw,1.75rem);font-weight:600;letter-spacing:-.02em;line-height:1.2;color:var(--muted);
+  transition:color .35s var(--ease),transform .45s var(--ease)}
+.cap-btn:hover{color:var(--text-2)}
+.cap-btn[aria-pressed="true"]{color:var(--text);transform:translateX(10px)}
+.cap-btn::before{content:"";position:absolute;left:-10px;top:22px;bottom:22px;width:2px;border-radius:2px;background:var(--acc);
+  transform:scaleY(0);transition:transform .4s var(--ease)}
+.cap-btn[aria-pressed="true"]::before{transform:none}
+.cap-m{display:none}
+.cap-proof{position:sticky;top:110px;transition:opacity .28s var(--ease),transform .28s var(--ease)}
+.cap-proof.swap{opacity:0;transform:translateY(8px)}
+.cap-proj{margin:18px 0 0;font-size:.84rem;font-weight:600;color:var(--acc)}
+.cap-text{margin:8px 0 0;font-size:1.05rem;line-height:1.7;color:var(--text-2)}
+.cap-link{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:.92rem;font-weight:600;color:var(--text)}
+.cap-link i{font-style:normal;color:var(--acc);transition:transform .35s var(--ease)}
+.cap-link:hover i{transform:translateX(5px)}
+.tools{margin:clamp(40px,6vw,64px) 0 0;display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.95rem;line-height:1.6;color:var(--text-2)}
+.tools span{color:var(--muted)}
 
-.marquee{position:relative;overflow:hidden;padding:10px 0;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
-  mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-.mrow{display:flex;width:max-content;animation:scrollL 32s linear infinite}
-.mrow.rev{animation-name:scrollR;animation-duration:28s}
-.mrow span{display:inline-flex;align-items:center;font-size:clamp(1.3rem,3.4vw,2.1rem);font-weight:600;
-  letter-spacing:.01em;color:var(--text-2);white-space:nowrap;padding:0 26px;transition:color .3s}
-.mrow span:hover{color:var(--cyan)}
-.mrow span::after{content:"•";margin-left:26px;color:var(--cyan);opacity:.55;font-weight:400}
-.mrow:hover{animation-play-state:paused}
-@keyframes scrollL{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@keyframes scrollR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+/* journey: a vertical road; each stop lights up like a streetlight as you reach it */
+.road{list-style:none;margin:0;padding:0;position:relative}
+.stop{position:relative;display:grid;grid-template-columns:minmax(0,190px) 28px minmax(0,1fr);gap:0 22px;padding:0 0 clamp(34px,5vw,48px)}
+.stop:last-child{padding-bottom:0}
+/* the road: a dim line, and a lit segment that switches on per stop */
+.stop::before,.stop::after{content:"";position:absolute;z-index:0;left:calc(min(190px,100%) + 22px + 13px);top:14px;bottom:-14px;width:2px;border-radius:2px}
+.stop::before{background:rgba(255,255,255,.08)}
+.stop::after{background:linear-gradient(var(--acc,var(--cyan)),rgba(139,223,255,.35));transform:scaleY(0);transform-origin:top;
+  transition:transform .9s var(--ease) .15s}
+.stop:last-child::before,.stop:last-child::after{display:none}
+.stop.lit::after{transform:none}
+.stop-when{grid-column:1;margin:0;padding-top:2px;text-align:right;font-size:clamp(1.05rem,2vw,1.35rem);font-weight:600;
+  letter-spacing:-.01em;color:var(--muted);font-variant-numeric:tabular-nums;transition:color .6s}
+.stop-body{grid-column:3}
+/* the lamp on each stop */
+.stop-body::before{content:"";position:absolute;z-index:1;left:calc(min(190px,100%) + 22px + 6px);top:6px;width:16px;height:16px;border-radius:50%;
+  background:#0B0F1C;border:2px solid rgba(255,255,255,.16);transition:border-color .6s,box-shadow .6s,background .6s}
+.stop.lit .stop-body::before{border-color:var(--acc,var(--cyan));background:color-mix(in srgb,var(--acc,var(--cyan)) 30%,#0B0F1C);
+  box-shadow:0 0 0 6px color-mix(in srgb,var(--acc,var(--cyan)) 12%,transparent),0 0 22px color-mix(in srgb,var(--acc,var(--cyan)) 60%,transparent)}
+.stop.lit .stop-when{color:var(--text)}
+.stop h3{margin:0;font-size:clamp(1.15rem,2.2vw,1.4rem);font-weight:600;letter-spacing:-.015em;color:var(--text-2);transition:color .6s}
+.stop.lit h3{color:var(--text)}
+.stop h3 a{display:inline-flex;align-items:center;gap:10px}
+.stop h3 a i{font-style:normal;font-size:.9em;color:var(--acc);transition:transform .35s var(--ease)}
+.stop h3 a:hover i{transform:translateX(5px)}
+.stop-body p{margin:8px 0 0;max-width:58ch;font-size:1rem;line-height:1.7;color:var(--muted);transition:color .6s}
+.stop.lit .stop-body p{color:var(--text-2)}
+.stop-next{--acc:var(--warm)}
+.stop-link{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:.92rem;font-weight:600;color:var(--text)}
+.stop-link i{font-style:normal;color:var(--warm)}
 
 /* ---------- 05 playground — lamp-lit desk puzzle (Three.js) ----------
    One accent here: the lamp's amber (--warm), matching the pre-dawn sky. */
@@ -456,7 +473,7 @@ main{position:relative;z-index:2}
 .cs-kick{margin:0;font-size:.8rem;font-weight:500;color:var(--case-accent)}
 .cs-hero h1{margin:14px 0 0;font-size:clamp(2.2rem,6vw,3.8rem);font-weight:600;letter-spacing:-.03em;line-height:1.04;text-wrap:balance}
 .cs-line{margin:22px 0 0;font-size:clamp(1.05rem,2vw,1.22rem);line-height:1.65;color:var(--text-2);max-width:58ch}
-.cs-meta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin:clamp(34px,6vw,52px) 0 0;
+.cs-meta{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;margin:clamp(34px,6vw,52px) 0 0;
   padding-top:18px;border-top:1px solid rgba(255,255,255,.08)}
 .cs-meta dt{font-size:.74rem;color:var(--muted)}
 .cs-meta dd{margin:5px 0 0;font-size:.9rem;line-height:1.5;color:var(--text)}
@@ -595,12 +612,19 @@ main{position:relative;z-index:2}
   .sec{padding-left:clamp(18px,5vw,56px);padding-right:clamp(18px,5vw,56px)}
   .sec{min-height:auto;padding-top:92px;padding-bottom:92px}
   #start{min-height:100svh;padding-top:0}
-  .timeline{grid-template-columns:1fr;gap:40px}
-  .timeline::before{left:5px;right:auto;top:0;bottom:0;width:1px;height:auto}
-  .tstop{padding-top:0;padding-left:26px}
-  .tstop-dot{left:0;top:4px}
-  .mrow{animation-duration:22s}
-  .mrow.rev{animation-duration:19s}
+  .cap{grid-template-columns:1fr}
+  .cap-proof{display:none}
+  .cap-btn[aria-pressed="true"]{transform:none;padding-left:14px}
+  .cap-btn::before{left:0}
+  .cap-m{display:block;overflow:hidden;max-height:0;opacity:0;transition:max-height .5s var(--ease),opacity .4s}
+  .cap-list li.open .cap-m{max-height:520px;opacity:1}
+  .cap-m .cap-text{margin-top:0}
+  .cap-m>div{padding:0 0 20px 14px}
+  .stop{grid-template-columns:28px minmax(0,1fr);gap:0 16px}
+  .stop::before,.stop::after{left:13px}
+  .stop-when{grid-column:2;text-align:left;font-size:.9rem;padding:0 0 4px}
+  .stop-body{grid-column:2}
+  .stop-body::before{left:6px}
   .gap{height:34vh}
   .deskscene{aspect-ratio:4/3}
   .journal{grid-template-columns:1fr;padding:18px}
@@ -743,55 +767,80 @@ main{position:relative;z-index:2}
   </div>
 </section>
 
-<!-- ═════════ 03 SKILLS ═════════ -->
+<!-- ═════════ 03 SKILLS — what I bring, each with proof ═════════ -->
 <section class="sec" id="skills">
-  <div class="wrap">
-    <div class="sec-head"><h2 class="display h-sec">What I carry with me</h2></div>
-
-    <div class="stats" id="stats">
-      <div class="stat"><div class="stat-num" data-to="3">0</div><div class="stat-lbl">Products shipped</div></div>
-      <div class="stat"><div class="stat-num" data-to="500" data-suffix="+">0</div><div class="stat-lbl">Screens designed</div></div>
-      <div class="stat"><div class="stat-num" data-to="50" data-suffix="+">0</div><div class="stat-lbl">Components built</div></div>
-      <div class="stat"><div class="stat-num" data-final="100%">0</div><div class="stat-lbl">Self-taught</div></div>
+  <div class="wrap bring">
+    <div class="bring-head">
+      <h2 class="display h-sec">What I bring to a team</h2>
+      <p class="sub">Each of these shows up in the work. Pick one to see where.</p>
     </div>
-
-    <div class="marquee"><div class="mrow" id="mrow1"></div></div>
-    <div class="marquee"><div class="mrow rev" id="mrow2"></div></div>
+    <div class="cap" id="cap">
+      <ol class="cap-list" id="capList"></ol>
+      <div class="cap-proof" id="capProof" aria-live="polite"></div>
+    </div>
+    <p class="tools"><span>Tools I work in</span>Figma, FigJam, Miro, Maze, Illustrator, and AI design tools for research and prototyping.</p>
   </div>
 </section>
 
-<!-- ═════════ 04 JOURNEY ═════════ -->
+<!-- ═════════ 04 JOURNEY — the road so far ═════════ -->
 <section class="sec" id="journey">
-  <div class="wrap">
-    <div class="sec-head"><h2 class="display h-sec">Where I came from</h2></div>
-
-    <div class="timeline" id="timeline">
-
-      <article class="tstop">
-        <span class="tstop-dot"></span>
-        <p class="tstop-era">Before 2020 · School</p>
-        <h3 class="tstop-title">Beginning</h3>
-        <p class="tstop-l">Taking things apart to see how they worked.</p>
-        <div class="branches"><span class="branch">Questions</span></div>
-      </article>
-
-      <article class="tstop">
-        <span class="tstop-dot"></span>
-        <p class="tstop-era">2020 — 2024 · College</p>
-        <h3 class="tstop-title">Then</h3>
-        <p class="tstop-l">Built things, broke things, found the part worth keeping.</p>
-        <div class="branches"><span class="branch">First interfaces</span><span class="branch">Experiments</span></div>
-      </article>
-
-      <article class="tstop">
-        <span class="tstop-dot"></span>
-        <p class="tstop-era">2024 — Now · Product Designer</p>
-        <h3 class="tstop-title">Now</h3>
-        <p class="tstop-l">Designing across AI, data and complex products at Chadura Tech.</p>
-        <div class="branches"><span class="branch">AI</span><span class="branch">Data</span><span class="branch">Systems</span></div>
-      </article>
-
+  <div class="wrap road-wrap">
+    <div class="bring-head">
+      <h2 class="display h-sec">Where I came from</h2>
+      <p class="sub">From electronics to product design, one stop at a time.</p>
     </div>
+    <ol class="road" id="road">
+      <li class="stop">
+        <p class="stop-when">2020</p>
+        <div class="stop-body">
+          <h3>Started with electronics.</h3>
+          <p>B.E. in Electronics and Communication Engineering at Kongunadu College of Engineering and Technology, Trichy (2020 - 2024). A foundation in technology and systems.</p>
+        </div>
+      </li>
+      <li class="stop">
+        <p class="stop-when">Along the way</p>
+        <div class="stop-body">
+          <h3>Pulled toward the human side.</h3>
+          <p>I was always more curious about how people use technology: how they move through interfaces, how behaviour shapes decisions, and how a product should work before it becomes screens. So I taught myself UX and product design.</p>
+        </div>
+      </li>
+      <li class="stop">
+        <p class="stop-when">Sep 2024</p>
+        <div class="stop-body">
+          <h3>Joined Chadura Tech.</h3>
+          <p>Product Designer, and the only designer on the team, working directly with the founder, product managers and developers.</p>
+        </div>
+      </li>
+      <li class="stop stop-work" style="--acc:#9C8CFF">
+        <p class="stop-when">Dec 2024</p>
+        <div class="stop-body">
+          <h3><a href="#/work/billcostro">Billcostro <i aria-hidden="true">→</i></a></h3>
+          <p>Enterprise cost management: navigation, dashboards and a design system for nine user roles.</p>
+        </div>
+      </li>
+      <li class="stop stop-work" style="--acc:#FFC98B">
+        <p class="stop-when">Mar 2025</p>
+        <div class="stop-body">
+          <h3><a href="#/work/moolago">Moolago <i aria-hidden="true">→</i></a></h3>
+          <p>Personal finance from a transaction SMS, with budgeting and expense flows tested in Maze before handoff.</p>
+        </div>
+      </li>
+      <li class="stop stop-work" style="--acc:#8BDFFF">
+        <p class="stop-when">Apr 2025</p>
+        <div class="stop-body">
+          <h3><a href="#/work/genix">Genix.ai <i aria-hidden="true">→</i></a></h3>
+          <p>A genomics and health product designed from scratch across web and mobile, still in active development.</p>
+        </div>
+      </li>
+      <li class="stop stop-next">
+        <p class="stop-when">Next</p>
+        <div class="stop-body">
+          <h3>The next road.</h3>
+          <p>Looking for Product Designer roles at product companies working on AI, healthcare, SaaS or data-driven products.</p>
+          <a class="stop-link" href="#home">Connect <i aria-hidden="true">↓</i></a>
+        </div>
+      </li>
+    </ol>
   </div>
 </section>
 
@@ -1254,7 +1303,7 @@ function tick(now){
   tp=sceneOverride!==null?sceneOverride:progress();
   sp=RM?tp:lerp(sp,tp,.07);
   mx=RM?tmx:lerp(mx,tmx,.055); my=RM?tmy:lerp(my,tmy,.055);
-  draw(now); fx(); depth(); jrn();
+  draw(now); fx(); depth();
   const bg=shade(atmo(sp).skyHex,.5,1);
   if(bg!==lastBg){ document.body.style.backgroundColor=bg; lastBg=bg; }
   requestAnimationFrame(tick);
@@ -1499,52 +1548,61 @@ document.querySelectorAll("#navlinks a").forEach(a=>a.addEventListener("click",(
 
 function depth(){}
 
-/* ═══════ CARRY — count-up stats + skill marquee ═══════ */
+/* ═══════ SKILLS — capabilities, each with proof that opens the case at the right chapter ═══════
+   ch = the chapter index inside that case study (0-based). */
 (function(){
-  const stats=document.getElementById("stats");
-  if(stats){
-    const nums=[...stats.querySelectorAll(".stat-num")];
-    const io2=new IntersectionObserver(es=>{
-      es.forEach(e=>{
-        if(!e.isIntersecting) return;
-        io2.unobserve(e.target);
-        const el=e.target;
-        if(el.dataset.final){ el.textContent=el.dataset.final; return; }
-        const to=+el.dataset.to, suf=el.dataset.suffix||"";
-        if(RM){ el.textContent=to+suf; return; }
-        const dur=1100,t0=performance.now();
-        function step(now){
-          const p=clamp((now-t0)/dur,0,1), e2=1-Math.pow(1-p,3);
-          el.textContent=Math.round(to*e2)+suf;
-          if(p<1) requestAnimationFrame(step);
-        }
-        requestAnimationFrame(step);
-      });
-    },{threshold:.5});
-    nums.forEach(n=>io2.observe(n));
+  const list=document.getElementById("capList"),proof=document.getElementById("capProof");
+  if(!list||!proof) return;
+  const ACC={genix:"#8BDFFF",billcostro:"#9C8CFF",moolago:"#FFC98B"};
+  const NAME={genix:"Genix.ai",billcostro:"Billcostro",moolago:"Moolago"};
+  const CAPS=[
+    {t:"Complex workflows and roles",k:"billcostro",ch:2,
+     d:"Billcostro has nine user roles whose workflows change with hierarchy. I gave every screen the same structure: context, status, decision, action."},
+    {t:"Information hierarchy",k:"genix",ch:3,
+     d:"Genix turns dense genomic data into what matters, what it means and what to do next, with navigation unified across mobile and web."},
+    {t:"Designing from zero",k:"genix",ch:2,
+     d:"Genix had no product to redesign. I built it up in layers, from information architecture and flows to a design system shared across web and mobile."},
+    {t:"Trust and sensitive data",k:"moolago",ch:2,
+     d:"Moolago only works if people allow it to read transaction SMS. The permission flow had to earn that access before asking for it."},
+    {t:"AI inside products",k:"genix",ch:1,
+     d:"With product and engineering I shaped AI-powered recommendation features in Genix, and designed AI-supported guidance in Moolago."},
+    {t:"Testing before handoff",k:"moolago",ch:5,
+     d:"Moolago's budgeting and expense flows were validated through usability testing in Maze before they went to development."}
+  ];
+  const proofHTML=c=>`<figure class="ph" data-type="image" data-ratio="16:10" data-label="${esc(NAME[c.k])} · ${esc(c.t.toLowerCase())}"></figure>
+    <p class="cap-proj">${esc(NAME[c.k])}</p><p class="cap-text">${esc(c.d)}</p>
+    <a class="cap-link" href="#/work/${c.k}/${c.ch}">See it in ${esc(NAME[c.k])} <i aria-hidden="true">→</i></a>`;
+  list.innerHTML=CAPS.map((c,i)=>`<li style="--acc:${ACC[c.k]}">
+      <button class="cap-btn" type="button" data-i="${i}" aria-pressed="${i===0}">${esc(c.t)}</button>
+      <div class="cap-m"><div><p class="cap-text">${esc(c.d)}</p>
+        <a class="cap-link" href="#/work/${c.k}/${c.ch}">See it in ${esc(NAME[c.k])} <i aria-hidden="true">→</i></a></div></div>
+    </li>`).join("");
+  const btns=[...list.querySelectorAll(".cap-btn")];
+  let cur=-1,t=0;
+  function show(i){
+    if(i===cur) return; cur=i;
+    btns.forEach((b,j)=>{ b.setAttribute("aria-pressed",j===i?"true":"false"); b.parentElement.classList.toggle("open",j===i); });
+    proof.style.setProperty("--acc",ACC[CAPS[i].k]);
+    proof.classList.add("swap");clearTimeout(t);
+    t=setTimeout(()=>{ proof.innerHTML=proofHTML(CAPS[i]); mountMedia(proof); proof.classList.remove("swap"); },RM?0:200);
   }
-
-  const row1=document.getElementById("mrow1"),row2=document.getElementById("mrow2");
-  if(!row1||!row2) return;
-  const A=["Product Strategy","UX Research","Interaction Design","Visual Design","Design Systems","Prototyping","AI / ML UX"];
-  const B=["Data Visualisation","Usability Testing","Information Architecture","Django / Backend","Frontend Dev","Figma","Accessibility"];
-  function fill(row,list){
-    const html=list.map(n=>"<span>"+n+"</span>").join("");
-    row.innerHTML=html+html; // duplicated once for a seamless -50% loop
-  }
-  fill(row1,A);fill(row2,B);
+  show(0);
+  const fine=matchMedia("(hover:hover) and (pointer:fine)").matches;
+  btns.forEach((b,i)=>{
+    b.addEventListener("click",()=>show(i));
+    b.addEventListener("focus",()=>show(i));
+    if(fine) b.addEventListener("mouseenter",()=>show(i));
+  });
 })();
 
-/* ═══════ JOURNEY — timeline reveals as it enters view ═══════ */
-const jrn=(function(){
-  const tl=document.getElementById("timeline");
-  if(!tl) return function(){};
-  const stops=[...tl.querySelectorAll(".tstop")];
-  const io3=new IntersectionObserver(es=>{
-    es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("in"); });
-  },{threshold:.3});
-  stops.forEach((s,i)=>{ s.style.transitionDelay=(i*120)+"ms"; io3.observe(s); });
-  return function(){};
+/* ═══════ JOURNEY — each stop lights up as it reaches the middle of the screen ═══════ */
+(function(){
+  const stops=[...document.querySelectorAll("#road .stop")];
+  if(!stops.length) return;
+  if(!("IntersectionObserver" in window)||RM){ stops.forEach(s=>s.classList.add("lit")); return; }
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("lit"); }),
+    {rootMargin:"0px 0px -45% 0px"});
+  stops.forEach(s=>io.observe(s));
 })();
 
 /* ═══════ PLAYGROUND — lamp-lit desk puzzle (Three.js) ═══════
@@ -2324,7 +2382,7 @@ const CASES={
     title:"Making genomics make sense.",
     line:"Designed from scratch at Chadura Tech: a precision-health product used by patients, clinicians, genetic counsellors, bioinformaticians, administrators and hospitals.",
     meta:[["Role","Primary product designer"],["Team","Founder, frontend & backend developers, marketing, bioinformaticians"],
-          ["Platforms","Web platform, website, mobile app"],["Status","Shipped · live · in active development"]],
+          ["Platforms","Web platform, website, mobile app"],["Timeline","Apr 2025 - present"],["Status","Live, in active development"]],
     cover:{type:"gif",ratio:"16:9",label:"Genix.ai · product walkthrough"},                                    // REPLACE: src
     chapters:[
       {h:"Six kinds of users, one dense set of data.",
@@ -2362,7 +2420,7 @@ const CASES={
        phones:[{type:"image",ratio:"9:19",label:"Mobile app · 1"},{type:"image",ratio:"9:19",label:"Mobile app · 2"},
                {type:"image",ratio:"9:19",label:"Mobile app · 3"},{type:"image",ratio:"9:19",label:"Mobile app · 4"}]}],
     end:["Genix grew from a set of requirements into a complete product experience: a web platform, a website and a mobile app. It's live, and still being actively developed.",
-         "I was the primary designer, working day to day with the founder, frontend and backend developers, marketing and bioinformaticians, including workflows in the Django admin panel."],
+         "I was the primary designer, working day to day with the founder, product and engineering, marketing and bioinformaticians, including workflows in the Django admin panel. I unified navigation across mobile and web, shaped AI-powered recommendation features with product and engineering, and prototyped high-fidelity screens in Figma, folding stakeholder feedback into rapid design cycles."],
     reflection:"The hardest part of Genix wasn't adding features. It was deciding, screen by screen, what each user should see first.",   // REPLACE: in your own words
     testimonial:null,                                                                                           // REPLACE: {text,by} once you have a real quote
     next:"billcostro"},
@@ -2372,7 +2430,7 @@ const CASES={
     title:"One product, nine ways to use it.",
     line:"An enterprise cost-management platform at Chadura Tech, where requests, approvals, expenses, reimbursements and assets move between nine user roles.",
     meta:[["Role","Primary and only designer"],["Team","Founder, frontend & backend developers, marketing"],
-          ["Platforms","Web, mobile"],["Status","Fully functional"]],
+          ["Platforms","Web, mobile"],["Timeline","Dec 2024 - Mar 2025"],["Status","Fully functional"]],
     cover:{type:"gif",ratio:"16:9",label:"Billcostro · request to approval"},                                   // REPLACE: src
     chapters:[
       {h:"Nine roles. Nine versions of the same request.",
@@ -2406,7 +2464,7 @@ const CASES={
        phones:[{type:"image",ratio:"9:19",label:"Mobile · 1"},{type:"image",ratio:"9:19",label:"Mobile · 2"},
                {type:"image",ratio:"9:19",label:"Mobile · 3"},{type:"image",ratio:"9:19",label:"Mobile · 4"}]}],
     end:["Billcostro is a fully functional platform on web and mobile, bringing nine roles and their financial workflows into one structured system.",
-         "I was its only designer, working closely with the founder, the frontend and backend developers, and marketing."],
+         "I was its only designer, working closely with the founder, the frontend and backend developers, and marketing. Alongside the screens, I owned a reusable design system and guidelines so every enterprise module stayed consistent."],
     reflection:"In enterprise products, the number of screens isn't the hard part. Keeping nine different workflows feeling like one product is.",   // REPLACE: in your own words
     testimonial:null,
     next:"moolago"},
@@ -2416,7 +2474,7 @@ const CASES={
     title:"Asking for trust before asking for data.",
     line:"A personal-finance app that reads the transaction messages your bank already sends, and turns them into one journey from spending to saving.",
     meta:[["Role","Product designer, mobile app"],["Team","Product and development team"],
-          ["Platform","Mobile app"],["Status","Mobile application"]],
+          ["Platform","Mobile app"],["Timeline","Mar 2025 - Aug 2025"],["Status","Mobile application"]],
     cover:{type:"gif",ratio:"16:9",label:"Moolago · SMS to saving plan"},                                       // REPLACE: src
     chapters:[
       {h:"The whole product depends on one permission.",
@@ -2447,7 +2505,7 @@ const CASES={
        screens:{tall:true,list:[{type:"image",ratio:"9:19",label:"Home"},{type:"image",ratio:"9:19",label:"Spending patterns"},   // REPLACE: src + caption
                                 {type:"image",ratio:"9:19",label:"Budget"},{type:"gif",ratio:"9:19",label:"AI guidance"}]}}],
     end:["Moolago's mobile experience follows one connected journey: from capturing a transaction through SMS, to understanding spending, tracking a budget, getting AI guidance and planning savings.",
-         "I designed it as the product designer for the mobile app, with the product and development team."],
+         "I designed it as the product designer for the mobile app, with the product and development team, and validated the budgeting and expense flows through usability testing in Maze before developer handoff."],
     reflection:"In finance, trust is part of the interface. The permission screen is as much a design problem as any dashboard.",   // REPLACE: in your own words
     testimonial:null,
     next:"genix"}
@@ -2561,7 +2619,7 @@ caseEl.addEventListener("scroll",()=>{
     const [t,ap]=fmtTime(clockFrozen),b=caseTime.querySelector("b");if(b)b.textContent=t+" "+ap;
   }
 },{passive:true});
-function openCase(k,push){
+function openCase(k,push,ch){
   if(!renderCase(k))return;
   lastY=window.scrollY;lastFocus=document.activeElement;
   caseEl.classList.add("open");document.body.classList.add("locked");
@@ -2569,8 +2627,14 @@ function openCase(k,push){
   clockFrozen=CASES[k].minute;paintClock(clockFrozen);
   caseKey=k;caseBase=sceneOverride!==null?caseBase:progress();sceneOverride=caseBase;
   if(railFill) railFill.style.height="0%";
-  if(push!==false&&location.hash!=="#/work/"+k){
-    try{ history.pushState({case:k},"","#/work/"+k); }catch(e){}
+  if(ch!=null){
+    const target=caseBody.querySelectorAll(".ch")[ch];
+    if(target) requestAnimationFrame(()=>{ target.classList.add("in");
+      caseEl.scrollTo({top:target.getBoundingClientRect().top+caseEl.scrollTop-90,behavior:"auto"}); });
+  }
+  const url="#/work/"+k+(ch!=null?"/"+ch:"");
+  if(push!==false&&location.hash!==url){
+    try{ history.pushState({case:k},"",url); }catch(e){}
   }
 }
 function closeCase(push){
@@ -2586,14 +2650,15 @@ document.addEventListener("click",e=>{
   const a=e.target.closest('a[href^="#/work/"]');
   if(!a) return;
   e.preventDefault();
-  openCase(a.getAttribute("href").split("/").pop(),true);
+  const [,,k,ch]=a.getAttribute("href").split("/");
+  openCase(k,true,ch!=null&&ch!==""?+ch:null);
 });
 document.getElementById("caseback").addEventListener("click",()=>closeCase(true));
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&caseEl.classList.contains("open"))closeCase(true);});
 function route(){
   try{
-    const m=/^#\/work\/([a-z]+)$/.exec(location.hash||"");
-    if(m&&CASES[m[1]]) openCase(m[1],false);
+    const m=/^#\/work\/([a-z]+)(?:\/(\d+))?$/.exec(location.hash||"");
+    if(m&&CASES[m[1]]) openCase(m[1],false,m[2]!=null?+m[2]:null);
     else if(caseEl.classList.contains("open")) closeCase(false);
   }catch(e){}
 }
