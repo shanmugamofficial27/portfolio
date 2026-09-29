@@ -48,7 +48,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
 .eyebrow{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--text-2);font-weight:500;margin:0}
 /* headings: sentence case — uppercase is kept for small labels only */
 .display{font-weight:600;line-height:1.12;letter-spacing:-.015em;margin:0;text-wrap:balance}
-.h-sec{font-size:clamp(1.85rem,3.8vw,2.7rem)}
+.h-sec{font-size:clamp(1.6rem,3vw,2.2rem)}
 .sub{color:var(--text-2);font-size:1.05rem;line-height:1.75;margin:0}
 
 /* ---------- section arrival: heading → content ---------- */
@@ -210,63 +210,48 @@ main{position:relative;z-index:2}
 .mile-cta i{font-style:normal;color:var(--acc);transition:transform .35s var(--ease)}
 .mile:hover .mile-cta i{transform:translateX(5px)}
 
-/* ---------- 03 skills — a constellation ---------- */
-.sky{position:relative;max-width:980px;margin:0 auto;aspect-ratio:16/7.2}
-.sky-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
-.sky-lines line{stroke:rgba(201,214,255,.14);stroke-width:1;transition:stroke .5s var(--ease),stroke-width .5s}
-.sky-lines line.on{stroke:rgba(var(--rgb),.75);stroke-width:1.4}
-.star{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-9px);display:flex;flex-direction:column;align-items:center;
-  gap:12px;padding:0;width:170px;text-align:center}
-.star-dot{position:relative;width:18px;height:18px;display:grid;place-items:center}
-.star-dot::before{content:"";width:6px;height:6px;border-radius:50%;background:#E6EEF8;
-  box-shadow:0 0 8px rgba(230,238,248,.8);transition:transform .45s var(--ease),background .45s,box-shadow .45s;
-  animation:twinkle 3.4s ease-in-out infinite;animation-delay:var(--tw,0s)}
-.star-dot::after{content:"";position:absolute;inset:-10px;border-radius:50%;border:1px solid rgba(var(--rgb),.0);
-  transform:scale(.4);transition:transform .5s var(--ease),border-color .5s}
-@keyframes twinkle{0%,100%{opacity:1}50%{opacity:.55}}
-.star-t{font-size:.95rem;font-weight:500;line-height:1.3;color:var(--muted);transition:color .4s;
-  text-shadow:0 0 6px #070a14,0 0 14px #070a14,0 0 22px #070a14}
-.star:hover .star-t{color:var(--text-2)}
-.star:hover .star-dot::before{transform:scale(1.4)}
-.star[aria-pressed="true"] .star-t{color:var(--text)}
-.star[aria-pressed="true"] .star-dot::before{transform:scale(1.9);background:rgb(var(--rgb));
-  box-shadow:0 0 14px rgba(var(--rgb),.9),0 0 34px rgba(var(--rgb),.45);animation:none}
-.star[aria-pressed="true"] .star-dot::after{transform:none;border-color:rgba(var(--rgb),.35)}
-.sky-cap{max-width:560px;min-height:150px;margin:clamp(18px,3vw,30px) auto 0;text-align:center;
-  transition:opacity .3s var(--ease),transform .3s var(--ease)}
-.sky-cap.swap{opacity:0;transform:translateY(8px)}
-.sky-cap h3{margin:0;font-size:clamp(1.3rem,2.6vw,1.7rem);font-weight:600;letter-spacing:-.02em;color:var(--text)}
-.sky-cap p{margin:10px 0 0;font-size:1.02rem;line-height:1.7;color:var(--text-2)}
-.sky-cap a{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:.92rem;font-weight:600;color:var(--text)}
-.sky-cap a i{font-style:normal;color:rgb(var(--rgb));transition:transform .35s var(--ease)}
-.sky-cap a:hover i{transform:translateX(5px)}
-.tools{margin:clamp(34px,5vw,54px) auto 0;max-width:640px;text-align:center;font-size:.95rem;line-height:1.7;color:var(--text-2)}
-.tools span{display:block;margin-bottom:4px;font-size:.82rem;color:var(--muted)}
+/* ---------- 03 skills — compact, scannable ---------- */
+.caps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 clamp(22px,3vw,40px);max-width:960px;margin:0 auto;text-align:left}
+.cap-i{position:relative;padding:18px 0 22px;border-top:1px solid rgba(255,255,255,.09)}
+.cap-i::before{content:"";position:absolute;left:0;top:-1px;height:1px;width:0;background:var(--acc);transition:width .5s var(--ease)}
+.cap-i:hover::before,.cap-i:focus-within::before{width:100%}
+.cap-i h3{margin:0;font-size:1.02rem;font-weight:600;letter-spacing:-.01em;color:var(--text)}
+.cap-i p{margin:6px 0 0;font-size:.92rem;line-height:1.6;color:var(--text-2)}
+.cap-i a{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:.82rem;font-weight:600;color:var(--acc)}
+.cap-i a i{font-style:normal;transition:transform .3s var(--ease)}
+.cap-i a:hover i{transform:translateX(4px)}
+.tools{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:clamp(26px,4vw,40px) auto 0;max-width:720px}
+.tools span{padding:6px 13px;border-radius:999px;border:1px solid rgba(255,255,255,.1);font-size:.82rem;color:var(--text-2)}
 
-/* ---------- 04 journey — a signal that gets clearer as the story goes on ---------- */
-.wave-wrap{position:sticky;top:86px;z-index:1;max-width:980px;margin:0 auto clamp(26px,4vw,40px);padding:10px 0 18px;
-  background:rgba(6,8,16,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  -webkit-mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent),linear-gradient(to bottom,transparent,#000 18%,#000 82%,transparent);
-  -webkit-mask-composite:source-in;
-  mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent),linear-gradient(to bottom,transparent,#000 18%,#000 82%,transparent);
-  mask-composite:intersect}
-.wave{display:block;width:100%;height:clamp(70px,9vw,110px);overflow:visible}
-.wave-line{fill:none;stroke:var(--wc,#C9D6FF);stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;
-  filter:drop-shadow(0 0 6px var(--wg,rgba(201,214,255,.35)));transition:stroke .8s,filter .8s}
-.wave-ghost{fill:none;stroke:rgba(201,214,255,.08);stroke-width:1;vector-effect:non-scaling-stroke}
-.wave-label{margin:10px 0 0;text-align:center;font-size:.8rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--wc,#C9D6FF);transition:color .8s}
-.stages{list-style:none;margin:0 auto;padding:0;max-width:620px;text-align:center}
-.stage{padding:clamp(34px,6vw,56px) 0;opacity:.28;transform:scale(.98);transition:opacity .7s var(--ease),transform .7s var(--ease)}
-.stage.on{opacity:1;transform:none}
-.stage+.stage{border-top:1px solid rgba(255,255,255,.06)}
-.stage-k{display:flex;justify-content:center;align-items:baseline;gap:12px;margin:0;font-size:.82rem;color:var(--muted)}
-.stage-k b{font-weight:600;color:var(--sc,var(--cyan))}
-.stage h3{margin:12px 0 0;font-size:clamp(1.4rem,3vw,1.95rem);font-weight:600;letter-spacing:-.02em;line-height:1.2;color:var(--text)}
-.stage>p:not(.stage-k){margin:12px auto 0;font-size:1.02rem;line-height:1.75;color:var(--text-2);max-width:56ch}
-.stage-link{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:.92rem;font-weight:600;color:var(--text)}
-.stage-link i{font-style:normal;color:var(--warm)}
-.stage[data-stage="0"]{--sc:#C9D6FF}.stage[data-stage="1"]{--sc:#A9B6D8}.stage[data-stage="2"]{--sc:#9AC8F0}
-.stage[data-stage="3"]{--sc:var(--cyan)}.stage[data-stage="4"]{--sc:var(--warm)}
+/* ---------- 04 journey — a short road with lamp posts ---------- */
+.trip{position:relative;max-width:980px;margin:0 auto;aspect-ratio:1000/240}
+.trip-road{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.trip-base{fill:none;stroke:rgba(255,255,255,.05);stroke-width:26;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.trip-dash{fill:none;stroke:rgba(255,255,255,.2);stroke-width:1.2;stroke-dasharray:6 10;vector-effect:non-scaling-stroke}
+.trip-lit{fill:none;stroke:url(#tripGrad);stroke-width:2;stroke-linecap:round;vector-effect:non-scaling-stroke;
+  filter:drop-shadow(0 0 5px rgba(139,223,255,.6))}
+/* the traveller: a small warm light moving along the road */
+.trip-car{position:absolute;left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#FFF3E0;pointer-events:none;
+  box-shadow:0 0 0 4px rgba(255,201,139,.18),0 0 18px 6px rgba(255,201,139,.55);will-change:transform}
+.trip-stops{position:absolute;inset:0}
+.lamp{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;
+  width:96px;padding:0}
+.lamp-d{width:14px;height:14px;border-radius:50%;background:#0B0F1C;border:2px solid rgba(255,255,255,.22);
+  transition:background .5s,border-color .5s,box-shadow .5s,transform .35s var(--ease)}
+.lamp-t{position:absolute;top:calc(50% + 16px);font-size:.8rem;font-weight:500;white-space:nowrap;color:var(--muted);transition:color .4s}
+.lamp.up .lamp-t{top:auto;bottom:calc(50% + 16px)}
+.lamp:hover .lamp-d{transform:scale(1.25)}
+.lamp.lit .lamp-d{background:#FFE3BD;border-color:#FFC98B;box-shadow:0 0 0 5px rgba(255,201,139,.12),0 0 18px rgba(255,201,139,.7)}
+.lamp.lit .lamp-t{color:var(--text-2)}
+.lamp[aria-pressed="true"] .lamp-t{color:var(--text)}
+.lamp.ahead .lamp-d{border-style:dashed}
+.trip-cap{max-width:520px;min-height:128px;margin:clamp(22px,3vw,34px) auto 0;text-align:center;transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.trip-cap.swap{opacity:0;transform:translateY(6px)}
+.trip-cap small{font-size:.8rem;font-weight:600;color:var(--warm)}
+.trip-cap h3{margin:6px 0 0;font-size:1.2rem;font-weight:600;letter-spacing:-.01em;color:var(--text)}
+.trip-cap p{margin:6px 0 0;font-size:.95rem;line-height:1.65;color:var(--text-2)}
+.trip-cap a{display:inline-flex;gap:6px;margin-top:10px;font-size:.86rem;font-weight:600;color:var(--text)}
+.trip-cap a i{font-style:normal;color:var(--warm)}
 
 /* ---------- 05 playground — lamp-lit desk puzzle (Three.js) ----------
    One accent here: the lamp's amber (--warm), matching the pre-dawn sky. */
@@ -610,11 +595,10 @@ main{position:relative;z-index:2}
   .sec{padding-left:clamp(18px,5vw,56px);padding-right:clamp(18px,5vw,56px)}
   .sec{min-height:auto;padding-top:92px;padding-bottom:92px}
   #start{min-height:100svh;padding-top:0}
-  .sky{aspect-ratio:1/1.15}
-  .star{width:130px;gap:8px}
-  .star-t{font-size:.84rem}
-  .wave-wrap{top:72px;background:rgba(6,8,16,.82);
-    -webkit-mask-image:linear-gradient(to bottom,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 14%,#000 86%,transparent)}
+  .caps{grid-template-columns:1fr 1fr}
+  .trip{aspect-ratio:1000/420}
+  .lamp{width:64px}
+  .lamp-t{font-size:.7rem}
   .gap{height:34vh}
   .deskscene{aspect-ratio:4/3}
   .journal{grid-template-columns:1fr;padding:18px}
@@ -644,12 +628,16 @@ main{position:relative;z-index:2}
   .desk-status{top:10px;left:10px;font-size:.58rem}
   .desk-tools{top:auto;bottom:10px;right:10px}
   .desk-toast{bottom:54px;font-size:.66rem;padding:8px 12px;max-width:86%}
+  .caps{gap:0 16px}
+  .cap-i{padding:14px 0 16px}
+  .cap-i h3{font-size:.92rem}
+  .cap-i p{font-size:.82rem;line-height:1.5}
   .screens{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
   .mouse i{display:none}
-  .star-dot::before{animation:none}
+
   .hi-name{animation:none;background:none;-webkit-text-fill-color:var(--text)}
   .hero-title .w>i{animation:none;transform:none;filter:none;opacity:1}
   .rv-on .rv,.rv-on .sec.out-up .rv{opacity:1!important;transform:none!important}
@@ -758,64 +746,38 @@ main{position:relative;z-index:2}
   </div>
 </section>
 
-<!-- ═════════ 03 SKILLS — a constellation: each star is something I bring ═════════ -->
+<!-- ═════════ 03 SKILLS — everything visible at a glance ═════════ -->
 <section class="sec" id="skills">
   <div class="wrap">
     <div class="sec-head">
       <h2 class="display h-sec">What I bring to a team</h2>
-      <p class="sub">Six things that show up in my work. Pick a star.</p>
     </div>
-    <div class="sky" id="sky">
-      <svg class="sky-lines" id="skyLines" aria-hidden="true"></svg>
-      <div class="sky-stars" id="skyStars" role="group" aria-label="What I bring"></div>
-    </div>
-    <div class="sky-cap" id="skyCap" aria-live="polite"></div>
-    <p class="tools"><span>Tools I work in</span>Figma, FigJam, Miro, Maze, Illustrator and AI design tools</p>
+    <div class="caps" id="caps"></div>
+    <p class="tools" aria-label="Tools"><span>Figma</span><span>FigJam</span><span>Miro</span><span>Maze</span><span>Illustrator</span><span>AI design tools</span></p>
   </div>
 </section>
 
-<!-- ═════════ 04 JOURNEY — electronics to design, told as a signal getting clearer ═════════ -->
+<!-- ═════════ 04 JOURNEY — a short road; a traveller drives through the milestones ═════════ -->
 <section class="sec" id="journey">
   <div class="wrap">
     <div class="sec-head">
       <h2 class="display h-sec">Where I came from</h2>
-      <p class="sub">Electronics taught me how signals travel. Design taught me what they mean to people.</p>
     </div>
-    <div class="wave-wrap" aria-hidden="true">
-      <svg class="wave" id="wave" viewBox="0 0 1000 120" preserveAspectRatio="none">
-        <path id="waveGhost" class="wave-ghost"/>
-        <path id="wavePath" class="wave-line"/>
+    <div class="trip" id="trip">
+      <svg class="trip-road" id="tripSvg" viewBox="0 0 1000 240" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="tripGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#C9D6FF"/><stop offset=".7" stop-color="#8BDFFF"/><stop offset="1" stop-color="#FFC98B"/>
+          </linearGradient>
+        </defs>
+        <path id="tripBase" class="trip-base" d="M10 180 C 160 180, 190 70, 340 80 S 570 200, 690 160 S 880 60, 990 70"/>
+        <path class="trip-dash" d="M10 180 C 160 180, 190 70, 340 80 S 570 200, 690 160 S 880 60, 990 70"/>
+        <path id="tripLit" class="trip-lit" d="M10 180 C 160 180, 190 70, 340 80 S 570 200, 690 160 S 880 60, 990 70"/>
       </svg>
-      <p class="wave-label" id="waveLabel">Input</p>
+      <div class="trip-stops" id="tripStops" role="group" aria-label="Milestones"></div>
+      <span class="trip-car" id="tripCar" aria-hidden="true"></span>
     </div>
-    <ol class="stages" id="stages">
-      <li class="stage" data-stage="0">
-        <p class="stage-k"><b>Input</b><span>2020</span></p>
-        <h3>Signals and systems.</h3>
-        <p>I started a B.E. in Electronics and Communication Engineering at Kongunadu College of Engineering and Technology, Trichy. Four years of how information moves through a system.</p>
-      </li>
-      <li class="stage" data-stage="1">
-        <p class="stage-k"><b>Noise</b><span>Along the way</span></p>
-        <h3>The interesting part was the person.</h3>
-        <p>The circuits worked. What kept pulling at me was the human at the other end: how people read an interface, and why they behave the way they do.</p>
-      </li>
-      <li class="stage" data-stage="2">
-        <p class="stage-k"><b>Filter</b><span>Self-taught</span></p>
-        <h3>Learning what to take away.</h3>
-        <p>I taught myself UX and product design: research, flows, hierarchy, systems. Most of it turned out to be deciding what doesn't need to be there.</p>
-      </li>
-      <li class="stage" data-stage="3">
-        <p class="stage-k"><b>Signal</b><span>Sep 2024</span></p>
-        <h3>Clear enough to ship.</h3>
-        <p>I graduated in 2024 and joined Chadura Tech as a Product Designer, the only designer on the team, working directly with the founder, product managers and developers.</p>
-      </li>
-      <li class="stage" data-stage="4">
-        <p class="stage-k"><b>Next</b><span>Now</span></p>
-        <h3>Where the signal goes next.</h3>
-        <p>Product Designer roles at product companies building for AI, healthcare, SaaS or data.</p>
-        <a class="stage-link" href="#home">Connect <i aria-hidden="true">↓</i></a>
-      </li>
-    </ol>
+    <div class="trip-cap" id="tripCap" aria-live="polite"></div>
   </div>
 </section>
 
@@ -1523,137 +1485,93 @@ document.querySelectorAll("#navlinks a").forEach(a=>a.addEventListener("click",(
 
 function depth(){}
 
-/* ═══════ SKILLS — a constellation. Pick a star: its lines light up and the proof appears.
-   Positions are in % of the sky box: [x,y] on wide screens, [mx,my] on phones.
-   ch = chapter index inside that case study (0-based) for the "see it" link. */
+/* ═══════ SKILLS — six capabilities, each with one line of proof and a link to the exact chapter ═══════
+   ch = chapter index inside that case study (0-based). */
 (function(){
-  const sky=document.getElementById("sky"),starsEl=document.getElementById("skyStars"),
-        svg=document.getElementById("skyLines"),cap=document.getElementById("skyCap");
-  if(!sky) return;
-  const RGB={genix:"139,223,255",billcostro:"156,140,255",moolago:"255,201,139"};
+  const el=document.getElementById("caps");if(!el) return;
+  const ACC={genix:"#8BDFFF",billcostro:"#9C8CFF",moolago:"#FFC98B"};
   const NAME={genix:"Genix.ai",billcostro:"Billcostro",moolago:"Moolago"};
-  const STARS=[
-    {t:"Complex workflows",x:14,y:30,mx:24,my:8,k:"billcostro",ch:2,
-     d:"Nine user roles whose workflows change with hierarchy, held together by one structure: context, status, decision, action."},
-    {t:"Information hierarchy",x:37,y:12,mx:74,my:20,k:"genix",ch:3,
-     d:"Dense genomic data, ordered as what matters, what it means and what to do next, across mobile and web."},
-    {t:"Designing from zero",x:58,y:38,mx:30,my:38,k:"genix",ch:2,
-     d:"No product to redesign. Built up layer by layer, from information architecture to a shared design system."},
-    {t:"Trust and sensitive data",x:84,y:16,mx:74,my:52,k:"moolago",ch:2,
-     d:"An app that reads transaction SMS has to earn that permission before it asks for it."},
-    {t:"AI inside products",x:30,y:74,mx:26,my:70,k:"genix",ch:1,
-     d:"AI-powered recommendations shaped with product and engineering, and AI guidance that explains spending."},
-    {t:"Testing before handoff",x:74,y:70,mx:72,my:86,k:"moolago",ch:5,
-     d:"Budgeting and expense flows validated through usability testing in Maze before development."}
+  const CAPS=[
+    ["Complex workflows","Nine roles, one structure: context, status, decision, action.","billcostro",2],
+    ["Information hierarchy","Dense data ordered as what matters, what it means, what to do.","genix",3],
+    ["Designing from zero","A product built layer by layer, from IA to a design system.","genix",2],
+    ["Trust and sensitive data","Earning permission to read SMS before asking for it.","moolago",2],
+    ["AI inside products","AI recommendations and guidance that explain, not just predict.","genix",1],
+    ["Testing before handoff","Flows validated with usability tests in Maze before development.","moolago",5]
   ];
-  const LINKS=[[0,1],[1,2],[2,3],[0,4],[2,4],[2,5],[3,5]];
-  const narrow=matchMedia("(max-width:820px)");
-  starsEl.innerHTML=STARS.map((s2,i)=>`<button class="star" type="button" data-i="${i}" aria-pressed="false"
-      style="--rgb:${RGB[s2.k]};--tw:${(i*.57).toFixed(2)}s"><span class="star-dot" aria-hidden="true"></span><span class="star-t">${esc(s2.t)}</span></button>`).join("");
-  const btns=[...starsEl.querySelectorAll(".star")];
-  function place(){
-    const n=narrow.matches;
-    btns.forEach((b,i)=>{ b.style.setProperty("--x",(n?STARS[i].mx:STARS[i].x)+"%"); b.style.setProperty("--y",(n?STARS[i].my:STARS[i].y)+"%"); });
-    const W=sky.clientWidth,H=sky.clientHeight;
-    svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
-    svg.innerHTML=LINKS.map(([a,b])=>{
-      const A=STARS[a],B=STARS[b],ax=(n?A.mx:A.x)/100*W,ay=(n?A.my:A.y)/100*H,bx=(n?B.mx:B.x)/100*W,by=(n?B.my:B.y)/100*H;
-      return `<line x1="${ax.toFixed(1)}" y1="${ay.toFixed(1)}" x2="${bx.toFixed(1)}" y2="${by.toFixed(1)}" data-a="${a}" data-b="${b}"/>`;
-    }).join("");
-    if(cur>=0) light(cur);
-  }
-  let cur=-1,t=0;
-  function light(i){
-    svg.querySelectorAll("line").forEach(l=>{
-      const on=+l.dataset.a===i||+l.dataset.b===i;
-      l.classList.toggle("on",on); if(on) l.style.setProperty("--rgb",RGB[STARS[i].k]);
-      l.style.stroke=on?`rgba(${RGB[STARS[i].k]},.75)`:"";
-    });
-  }
-  function show(i){
-    if(i===cur) return; cur=i;
-    btns.forEach((b,j)=>b.setAttribute("aria-pressed",j===i?"true":"false"));
-    light(i);
-    const s2=STARS[i];
-    cap.style.setProperty("--rgb",RGB[s2.k]);
-    cap.classList.add("swap");clearTimeout(t);
-    t=setTimeout(()=>{
-      cap.innerHTML=`<h3>${esc(s2.t)}</h3><p>${esc(s2.d)}</p><a href="#/work/${s2.k}/${s2.ch}">See it in ${esc(NAME[s2.k])} <i aria-hidden="true">→</i></a>`;
-      cap.classList.remove("swap");
-    },RM?0:180);
-  }
-  place(); show(0);
-  window.addEventListener("resize",place);
-  if(narrow.addEventListener) narrow.addEventListener("change",place);
-  const fine=matchMedia("(hover:hover) and (pointer:fine)").matches;
-  btns.forEach((b,i)=>{
-    b.addEventListener("click",()=>show(i));
-    b.addEventListener("focus",()=>show(i));
-    if(fine) b.addEventListener("mouseenter",()=>show(i));
-  });
+  el.innerHTML=CAPS.map(([t,d,k,ch])=>`<div class="cap-i" style="--acc:${ACC[k]}"><h3>${esc(t)}</h3><p>${esc(d)}</p>
+    <a href="#/work/${k}/${ch}">${esc(NAME[k])} <i aria-hidden="true">→</i></a></div>`).join("");
 })();
 
-/* ═══════ JOURNEY — a waveform that starts rigid and noisy (electronics) and settles into a clean signal.
-   Each stage sets the target shape; the wave eases toward it. The pointer nudges it slightly. ═══════ */
+/* ═══════ JOURNEY — a short road. When it comes into view a traveller drives through the milestones,
+   lighting each lamp; click any lamp to drive there. "Next" stays ahead, unlit. ═══════ */
 (function(){
-  const path=document.getElementById("wavePath"),ghost=document.getElementById("waveGhost"),
-        label=document.getElementById("waveLabel"),wrap=path&&path.closest(".wave-wrap");
-  const stages=[...document.querySelectorAll("#stages .stage")];
-  if(!path||!stages.length) return;
-  //            square  noise  amp  freq   colour        label
-  const SHAPES=[{sq:1,  nz:.05, a:30, f:6,   c:"#C9D6FF",l:"Input"},
-                {sq:.7, nz:.9,  a:30, f:6,   c:"#A9B6D8",l:"Noise"},
-                {sq:.25,nz:.3,  a:32, f:4.5, c:"#9AC8F0",l:"Filter"},
-                {sq:0,  nz:0,   a:36, f:3,   c:"#8BDFFF",l:"Signal"},
-                {sq:0,  nz:0,   a:44, f:2.2, c:"#FFC98B",l:"Next"}];
-  const cur=Object.assign({},SHAPES[0]),tgt=Object.assign({},SHAPES[0]);
-  const N=220,seed=[...Array(N)].map(()=>Math.random()*2-1);
-  let px=-1,phase=0,visible=false,raf=0,last=performance.now();
-  function build(o,ph,withPointer){
-    let d="";
-    for(let i=0;i<=N;i++){
-      const u=i/N,x=u*1000,th=u*Math.PI*2*o.f+ph;
-      const sine=Math.sin(th),square=Math.tanh(sine*12);
-      let y=(square*o.sq+sine*(1-o.sq))*o.a;
-      y+=seed[i%N]*o.nz*16*Math.sin(u*37+ph*.6);
-      if(withPointer&&px>=0){ const dd=(u-px)*9; y-=Math.exp(-dd*dd)*14; }
-      d+=(i?"L":"M")+x.toFixed(1)+" "+(60-y).toFixed(1);
-    }
-    return d;
+  const trip=document.getElementById("trip");if(!trip) return;
+  const base=document.getElementById("tripBase"),lit=document.getElementById("tripLit"),car=document.getElementById("tripCar"),
+        stopsEl=document.getElementById("tripStops"),cap=document.getElementById("tripCap");
+  const STOPS=[
+    {t:.03,l:"2020",y:"2020",h:"Started engineering.",d:"B.E. in Electronics and Communication Engineering at Kongunadu College of Engineering and Technology, Trichy."},
+    {t:.2,l:"College",y:"2020 - 2024",h:"Drawn to the human side.",d:"More curious about how people use technology than how the circuit works."},
+    {t:.4,l:"Self-taught",y:"Along the way",h:"Taught myself design.",d:"UX and product design, learned on my own: research, flows, hierarchy and systems."},
+    {t:.58,l:"2024",y:"2024",h:"Graduated.",d:"B.E. Electronics and Communication Engineering, 2020 - 2024."},
+    {t:.77,l:"Sep 2024",y:"Sep 2024 - now",h:"Product Designer, Chadura Tech.",d:"The only designer on the team, working directly with the founder, product managers and developers."},
+    {t:.97,l:"Next",y:"Next",h:"The next road.",d:"Looking for Product Designer roles in AI, healthcare, SaaS and data.",link:true}
+  ];
+  const NOW=4;                                   // where the traveller lives today
+  const L=base.getTotalLength();
+  lit.style.strokeDasharray=L;lit.style.strokeDashoffset=L;
+  stopsEl.innerHTML=STOPS.map((s2,i)=>`<button class="lamp${i>NOW?" ahead":""}" type="button" data-i="${i}" aria-pressed="false"
+     aria-label="${esc(s2.y)}: ${esc(s2.h)}"><span class="lamp-d"></span><span class="lamp-t">${esc(s2.l)}</span></button>`).join("");
+  const lamps=[...stopsEl.querySelectorAll(".lamp")];
+  function place(){
+    const sx=trip.clientWidth/1000,sy=trip.clientHeight/240;
+    STOPS.forEach((s2,i)=>{
+      const pt=base.getPointAtLength(s2.t*L);
+      lamps[i].style.setProperty("--x",(pt.x*sx)+"px");lamps[i].style.setProperty("--y",(pt.y*sy)+"px");
+      lamps[i].classList.toggle("up",pt.y>130);    // labels sit on the side away from the road's bend
+    });
   }
-  ghost.setAttribute("d",build(SHAPES[3],0,false));
-  function frame(now){
-    const dt=Math.min(.05,(now-last)/1000);last=now;
-    const k=RM?1:1-Math.pow(.02,dt);                      // ease toward the target shape
-    for(const key of ["sq","nz","a","f"]) cur[key]+=(tgt[key]-cur[key])*k;
-    if(!RM) phase+=dt*(0.9+ (1-cur.sq)*.6);
-    path.setAttribute("d",build(cur,phase,true));
-    if(visible&&!RM) raf=requestAnimationFrame(frame); else raf=0;
+  let pos=0,sel=-1,anim=0;
+  function drawAt(u){
+    pos=u;const pt=base.getPointAtLength(u*L);
+    car.style.transform=`translate(${(pt.x*trip.clientWidth/1000).toFixed(1)}px,${(pt.y*trip.clientHeight/240).toFixed(1)}px)`;
+    lit.style.strokeDashoffset=(L*(1-u)).toFixed(1);
+    STOPS.forEach((s2,i)=>lamps[i].classList.toggle("lit",s2.t<=u+.001));
   }
-  function setStage(i){
-    Object.assign(tgt,SHAPES[i]);
-    wrap.style.setProperty("--wc",SHAPES[i].c);
-    wrap.style.setProperty("--wg",SHAPES[i].c+"66");
-    label.textContent=SHAPES[i].l;
-    stages.forEach((s2,j)=>s2.classList.toggle("on",j<=i));
-    if(RM) frame(performance.now());
+  function caption(i){
+    if(i===sel) return; sel=i;
+    lamps.forEach((l,j)=>l.setAttribute("aria-pressed",j===i?"true":"false"));
+    const s2=STOPS[i];
+    cap.classList.add("swap");
+    setTimeout(()=>{
+      cap.innerHTML=`<small>${esc(s2.y)}</small><h3>${esc(s2.h)}</h3><p>${esc(s2.d)}</p>`+
+        (s2.link?`<a href="#home">Connect <i aria-hidden="true">↓</i></a>`:"");
+      cap.classList.remove("swap");
+    },RM?0:160);
   }
-  setStage(0);frame(performance.now());
-  if("IntersectionObserver" in window){
-    // the stage nearest the middle of the screen drives the wave
-    const io=new IntersectionObserver(es=>{
-      es.forEach(e=>{ if(e.isIntersecting) setStage(+e.target.dataset.stage); });
-    },{rootMargin:"-45% 0px -45% 0px"});
-    stages.forEach(s2=>io.observe(s2));
-    new IntersectionObserver(es=>{
-      visible=es[0].isIntersecting;
-      if(visible&&!raf&&!RM){ last=performance.now(); raf=requestAnimationFrame(frame); }
-    }).observe(document.getElementById("journey"));
-  } else stages.forEach(s2=>s2.classList.add("on"));
-  if(!isTouch) wrap.parentElement.addEventListener("pointermove",e=>{
-    const r=path.getBoundingClientRect();
-    px=(e.clientY>r.top-60&&e.clientY<r.bottom+60)?clamp((e.clientX-r.left)/r.width,0,1):-1;
-  });
+  // drive from the current position to stop i; captions follow as each lamp is passed
+  function driveTo(i,onDone){
+    cancelAnimationFrame(anim);
+    const from=pos,to=STOPS[i].t;
+    if(RM){ drawAt(to); caption(i); if(onDone)onDone(); return; }
+    const dur=600+Math.abs(to-from)*2600,t0=performance.now();
+    (function step(now){
+      const k=Math.min(1,(now-t0)/dur),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+      const u=from+(to-from)*e; drawAt(u);
+      // driving forward, the caption follows the last lamp passed
+      let passed=-1; STOPS.forEach((s2,j)=>{ if(s2.t<=u+.001) passed=j; });
+      if(k<1){ if(to>from&&passed>=0&&passed!==sel) caption(passed); anim=requestAnimationFrame(step); }
+      else { caption(i); if(onDone)onDone(); }
+    })(t0);
+  }
+  place();drawAt(0);caption(0);
+  window.addEventListener("resize",()=>{ place(); drawAt(pos); });
+  lamps.forEach((l,i)=>l.addEventListener("click",()=>driveTo(i)));
+  let toured=false;
+  if("IntersectionObserver" in window) new IntersectionObserver(es=>{
+    if(es[0].isIntersecting&&!toured){ toured=true; setTimeout(()=>driveTo(NOW),RM?0:500); }
+  },{threshold:.5}).observe(trip);
+  else driveTo(NOW);
 })();
 
 /* ═══════ PLAYGROUND — lamp-lit desk puzzle (Three.js) ═══════
