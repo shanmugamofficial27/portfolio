@@ -3,14 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>V Shanmugam — Product Designer</title>
-<meta name="description" content="Product designer working across AI, data and complex products.">
+<title>V Shanmugam - Product Designer</title>
+<meta name="description" content="Product designer for complex products in healthcare, SaaS, fintech and AI. Based in Bengaluru, open to product design roles.">
+<meta name="theme-color" content="#0A0E14">
+<link rel="canonical" href="https://shanmugamofficial27.github.io/portfolio/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://shanmugamofficial27.github.io/portfolio/">
+<meta property="og:title" content="V Shanmugam - Product Designer">
+<meta property="og:description" content="I design complex products that feel simple. Healthcare, SaaS, fintech and, increasingly, AI.">
+<meta property="og:image" content="https://shanmugamofficial27.github.io/portfolio/images/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="V Shanmugam - Product Designer">
+<meta name="twitter:description" content="I design complex products that feel simple. Healthcare, SaaS, fintech and, increasingly, AI.">
+<meta name="twitter:image" content="https://shanmugamofficial27.github.io/portfolio/images/og-cover.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="shortcut icon" href="images/logo2.png">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <!-- ============================================================
-     THE JOURNEY — V2
+     THE NIGHT ROAD WALK
      Search "REPLACE:" for every point that needs real content.
      ============================================================ -->
 
@@ -31,6 +44,9 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 body.locked{overflow:hidden}
+.skip{position:fixed;left:16px;top:-60px;z-index:90;padding:10px 16px;border-radius:999px;background:var(--text);color:#0A0E14;
+  font-size:.86rem;font-weight:600;transition:top .25s var(--ease)}
+.skip:focus{top:16px}
 /* while a case study is open only the night scene stays behind it */
 main,.foot,.nav{transition:opacity .45s var(--ease),visibility .45s}
 body.locked main,body.locked .foot,body.locked .nav{opacity:0;visibility:hidden}
@@ -167,13 +183,6 @@ main{position:relative;z-index:2}
 @keyframes namePass{from{background-position:100% 0}to{background-position:0 0}}
 .hero-hi.stopped .hi-name{animation:none;background:none;-webkit-text-fill-color:var(--text)}
 .hero-lede{margin:24px auto 0;font-size:clamp(1.05rem,1.9vw,1.25rem);line-height:1.6;color:var(--text-2);max-width:46ch}
-.scroll-hint{position:absolute;left:0;right:0;bottom:44px;display:flex;flex-direction:column;
-  align-items:center;gap:12px;transition:opacity .6s var(--ease)}
-.mouse{width:19px;height:30px;border:1px solid var(--line-2);border-radius:11px;position:relative}
-.mouse i{position:absolute;left:50%;top:6px;width:2px;height:5px;margin-left:-1px;border-radius:2px;
-  background:var(--cyan);animation:drop 2.2s var(--ease) infinite}
-@keyframes drop{0%,100%{transform:translateY(0);opacity:0}30%{opacity:1}70%{transform:translateY(10px);opacity:0}}
-.scroll-hint small{font-size:.64rem;letter-spacing:.34em;color:var(--muted);text-transform:uppercase}
 .hero-cta{margin-top:44px;display:flex;flex-direction:column;align-items:center;gap:16px}
 .hero-btn{display:inline-flex;align-items:center;gap:12px;padding:15px 26px 15px 28px;border-radius:999px;
   background:var(--text);color:#0A0E14;font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
@@ -183,10 +192,7 @@ main{position:relative;z-index:2}
 .hero-btn:hover{background:var(--cyan);box-shadow:0 22px 44px -16px rgba(139,223,255,.7)}
 .hero-btn:hover i{transform:translateX(4px)}
 .hero-btn:active{transform:scale(.97)}
-.hero-link{font-size:.92rem;color:var(--text-2);padding:4px 2px;background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;
-  transition:color .3s var(--ease),background-size .35s var(--ease)}
-.hero-link:hover{color:var(--text);background-size:100% 1px}
-@media(max-height:620px){.scroll-hint{display:none}.hero-cta{margin-top:30px}}
+@media(max-height:620px){.hero-cta{margin-top:30px}}
 
 /* ---------- 02 works — one row per project, like mile markers on the road ---------- */
 .miles{max-width:1080px;margin:0 auto;display:grid;gap:clamp(18px,3vw,28px)}
@@ -491,9 +497,8 @@ main{position:relative;z-index:2}
 /* chapters */
 .ch{margin-top:clamp(80px,13vw,140px);opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
 .ch.in{opacity:1;transform:none}
-.ch-n{display:flex;align-items:center;gap:14px;margin:0 0 18px;font-size:.78rem;font-weight:600;
+.ch-n{display:block;width:56px;height:2px;border-radius:2px;margin:0 0 20px;background:var(--case-accent);opacity:.7;
   color:var(--case-accent);font-variant-numeric:tabular-nums}
-.ch-n::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(var(--case-rgb),.35),transparent)}
 .ch h2{margin:0;font-size:clamp(1.6rem,3.6vw,2.3rem);font-weight:600;letter-spacing:-.02em;line-height:1.15;text-wrap:balance}
 .ch p{margin:20px 0 0;font-size:1.06rem;line-height:1.8;color:var(--text-2);max-width:62ch}
 .ch-media{margin-top:36px}
@@ -589,14 +594,6 @@ main{position:relative;z-index:2}
 .lb-close{position:absolute;top:18px;right:20px;width:44px;height:44px;border-radius:50%;color:var(--text-2);font-size:1.1rem;transition:.3s}
 .lb-close:hover{color:var(--text);background:rgba(255,255,255,.06)}
 
-/* ---------- cursor ---------- */
-.cursor{position:fixed;top:0;left:0;z-index:80;pointer-events:none;width:6px;height:6px;
-  border-radius:50%;background:var(--cyan);transform:translate(-50%,-50%);mix-blend-mode:screen;
-  transition:width .3s var(--ease),height .3s var(--ease),background .3s,border-color .3s}
-.cursor.big{width:52px;height:52px;background:rgba(139,223,255,.07);border:1px solid rgba(139,223,255,.4)}
-.cursor span{position:absolute;inset:0;display:grid;place-items:center;font-size:.46rem;
-  letter-spacing:.16em;color:var(--cyan);text-transform:uppercase;opacity:0;transition:opacity .25s}
-.cursor.big span{opacity:1}
 
 /* ---------- responsive ---------- */
 @media(max-width:820px){
@@ -616,7 +613,6 @@ main{position:relative;z-index:2}
   .nav-cv{display:none}
   .burger{display:block}
   .clock{height:40px;padding:0 12px 0 10px;font-size:.74rem}
-  .cursor{display:none}
   .sec{padding-left:clamp(18px,5vw,56px);padding-right:clamp(18px,5vw,56px)}
   .sec{min-height:auto;padding-top:92px;padding-bottom:92px}
   #start{min-height:100svh;padding-top:0}
@@ -661,7 +657,6 @@ main{position:relative;z-index:2}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
-  .mouse i{display:none}
   .lane+.lane::before{animation:none}
 
   .hi-name{animation:none;background:none;-webkit-text-fill-color:var(--text)}
@@ -671,6 +666,7 @@ main{position:relative;z-index:2}
 </style>
 </head>
 <body>
+<a class="skip" href="#works">Skip to work</a>
 
 <canvas id="scene" aria-hidden="true"></canvas>
 <div class="grain" aria-hidden="true"></div>
@@ -717,11 +713,9 @@ main{position:relative;z-index:2}
     <h1 class="display hero-title" id="heroTitle" aria-label="I design complex products that feel simple."><span>I design complex products</span><span>that feel simple.</span></h1>
     <p class="hero-lede">Product designer at Chadura Tech, working across healthcare, SaaS, fintech and, increasingly, AI.</p>
     <div class="hero-cta">
-      <a class="hero-btn" href="#works" data-cursor="Go">Start the walk <i aria-hidden="true">→</i></a>
-      <a class="hero-link" href="resume.pdf" target="_blank" rel="noopener">Resume ↓</a>
+      <a class="hero-btn" href="#works">Start the walk <i aria-hidden="true">→</i></a>
     </div>
   </div>
-  <div class="scroll-hint" id="hint"><div class="mouse"><i></i></div><small>Scroll to walk</small></div>
 </section>
 
 <!-- ═════════ 02 WORKS ═════════ -->
@@ -732,7 +726,7 @@ main{position:relative;z-index:2}
     <div class="miles">
 
       <!-- REPLACE: set data-src on each cover (a GIF or MP4 loop works best) -->
-      <a class="mile" href="#/work/genix" style="--acc:#8BDFFF" data-cursor="Read">
+      <a class="mile" href="#/work/genix" style="--acc:#8BDFFF">
         <span class="mile-mark">Mile 01</span>
         <figure class="ph mile-cover" data-type="gif" data-ratio="16:10" data-label="Genix.ai · product walkthrough"></figure>
         <div class="mile-body">
@@ -744,7 +738,7 @@ main{position:relative;z-index:2}
         </div>
       </a>
 
-      <a class="mile" href="#/work/billcostro" style="--acc:#9C8CFF" data-cursor="Read">
+      <a class="mile" href="#/work/billcostro" style="--acc:#9C8CFF">
         <span class="mile-mark">Mile 02</span>
         <figure class="ph mile-cover" data-type="gif" data-ratio="16:10" data-label="Billcostro · request to approval"></figure>
         <div class="mile-body">
@@ -756,7 +750,7 @@ main{position:relative;z-index:2}
         </div>
       </a>
 
-      <a class="mile" href="#/work/moolago" style="--acc:#FFC98B" data-cursor="Read">
+      <a class="mile" href="#/work/moolago" style="--acc:#FFC98B">
         <span class="mile-mark">Mile 03</span>
         <figure class="ph mile-cover" data-type="gif" data-ratio="16:10" data-label="Moolago · SMS to saving plan"></figure>
         <div class="mile-body">
@@ -911,15 +905,15 @@ main{position:relative;z-index:2}
     <p class="home-sub">I'm looking for Product Designer roles at product companies working on AI, healthcare, SaaS or data-driven products. Based in Bengaluru, open to remote.</p>
 
     <div class="mail">
-      <a class="mail-addr" href="mailto:shanmugamofficial27@gmail.com" data-cursor="Write">shanmugamofficial27@gmail.com</a>
+      <a class="mail-addr" href="mailto:shanmugamofficial27@gmail.com">shanmugamofficial27@gmail.com</a>
       <button class="mail-copy" id="mailCopy" type="button" aria-label="Copy email address">Copy</button>
       <span class="sr-only" id="mailCopyMsg" role="status" aria-live="polite"></span>
     </div>
 
     <div class="links">
-      <a class="link" href="https://www.linkedin.com/in/shanmugam-v-/" target="_blank" rel="noopener" data-cursor="Open">LinkedIn <i>↗</i></a>
+      <a class="link" href="https://www.linkedin.com/in/shanmugam-v-/" target="_blank" rel="noopener">LinkedIn <i>↗</i></a>
       <!-- REPLACE: drop resume.pdf into the project folder -->
-      <a class="link" href="resume.pdf" target="_blank" rel="noopener" data-cursor="Open">Resume <i>↓</i></a>
+      <a class="link" href="resume.pdf" target="_blank" rel="noopener">Resume <i>↓</i></a>
     </div>
 
     <nav class="route" aria-label="Every stop on the walk">
@@ -939,7 +933,7 @@ main{position:relative;z-index:2}
 
 <footer class="foot">
   <div>V Shanmugam · Product Designer · Bengaluru</div>
-  <a class="again" href="#start" data-cursor="Rewind"><span class="totop" aria-hidden="true">↑</span>Start again <small>back to 8:00 PM</small></a>
+  <a class="again" href="#start"><span class="totop" aria-hidden="true">↑</span>Start again <small>back to 8:00 PM</small></a>
 </footer>
 
 <div id="case" role="dialog" aria-modal="true" aria-labelledby="casetitle">
@@ -966,7 +960,6 @@ main{position:relative;z-index:2}
   </div>
 </div>
 
-<div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -1317,7 +1310,6 @@ function placeInd(){
 }
 window.addEventListener("resize",placeInd);
 if(document.fonts&&document.fonts.ready) document.fonts.ready.then(placeInd);
-const hint=document.getElementById("hint");
 const nav=document.getElementById("nav");
 function chrome(){
   const vh=window.innerHeight;let active=0;
@@ -1332,7 +1324,6 @@ function chrome(){
   }
   if(navProg) navProg.style.transform=`scaleX(${progress().toFixed(4)})`;
   nav.classList.toggle("solid",window.scrollY>40);
-  if(hint) hint.style.opacity=clamp(1-window.scrollY/240,0,1);
 }
 window.addEventListener("scroll",chrome,{passive:true});chrome();
 
@@ -1650,8 +1641,9 @@ function depth(){}
 
 /* ═══════ PLAYGROUND — lamp-lit desk puzzle (Three.js) ═══════
    Flow: switch the lamp on → find the 4 password letters hidden in
-   objects (U·S·E·R) → laptop unlocks → camera takes a souvenir photo. */
-(function(){
+   objects (U·S·E·R) → laptop unlocks → camera takes a souvenir photo.
+   Wrapped so a WebGL failure only affects the desk, never the rest of the page. */
+try{ (function(){
   const container=document.getElementById("deskscene");
   const canvas=document.getElementById("deskCanvas");
   const loading=document.getElementById("deskLoading");
@@ -1980,7 +1972,7 @@ function depth(){}
     stickyTex.draw((ctx,w,h)=>{
       ctx.fillStyle="#F2D98A"; ctx.fillRect(0,0,w,h);
       ctx.fillStyle="#5a4420";
-      if(!found){ ctx.font="italic 19px Georgia,serif"; ctx.fillText("to do:",16,36); ctx.fillText("– delete",16,72); ctx.fillText("   more",16,100); return; }
+      if(!found){ ctx.font="italic 19px Georgia,serif"; ctx.fillText("to do:",16,36); ctx.fillText("- delete",16,72); ctx.fillText("   more",16,100); return; }
       ctx.font="italic 18px Georgia,serif"; ctx.fillText("keep it",16,34);
       ctx.fillStyle="#B8612F"; ctx.font="bold 74px "+FONT; ctx.textAlign="center"; ctx.fillText("S",w/2,122); ctx.textAlign="left";
       ctx.font="italic 16px Georgia,serif"; ctx.fillStyle="#5a4420"; ctx.fillText("imple",w/2+24,122);
@@ -2366,7 +2358,12 @@ function depth(){}
   if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>{ drawNote(state.found.has("cNote")); drawSticky(state.found.has("cSticky")); drawScreen(state.unlocked?undefined:""); drawPhone(); });
   if(loading) requestAnimationFrame(()=>loading.classList.add("hide"));
   animate();
-})();
+})(); }catch(err){
+  const l=document.getElementById("deskLoading"),h=document.getElementById("deskHook");
+  if(l){ l.classList.remove("hide"); l.textContent="The desk needs WebGL, which is turned off in this browser."; }
+  if(h) h.remove();
+  document.querySelectorAll("#deskscene .desk-tools,#deskscene .desk-steps").forEach(e=>e.remove());
+}
 
 /* ═══════ ROUTE MAP ═══════ */
 (function(){
@@ -2393,24 +2390,6 @@ function depth(){}
   },{threshold:.4});
   obs.observe(document.getElementById("routemap"));
 })();
-
-/* ═══════ CURSOR ═══════ */
-if(!isTouch){
-  const cur=document.getElementById("cursor"),lbl=cur.querySelector("span");
-  let cx=0,cy=0,tx=0,ty=0;
-  window.addEventListener("mousemove",e=>{tx=e.clientX;ty=e.clientY;},{passive:true});
-  (function loop(){cx=lerp(cx,tx,.2);cy=lerp(cy,ty,.2);
-    cur.style.transform=`translate(${cx}px,${cy}px) translate(-50%,-50%)`;requestAnimationFrame(loop);})();
-  document.addEventListener("mouseover",e=>{
-    const t=e.target.closest("[data-cursor],a,button");
-    if(!t){cur.classList.remove("big");lbl.textContent="";return;}
-    cur.classList.add("big");lbl.textContent=t.getAttribute("data-cursor")||"";
-  });
-  document.addEventListener("mouseout",e=>{
-    if(!e.relatedTarget||!e.relatedTarget.closest("[data-cursor],a,button")){
-      cur.classList.remove("big");lbl.textContent="";}
-  });
-}
 
 /* ═══════ SCREEN LIGHTBOX — a bigger look at any key screen ═══════ */
 const lb=document.getElementById("lightbox"),lbMedia=document.getElementById("lbMedia"),
@@ -2602,7 +2581,7 @@ function renderCase(k){
   c.chapters.forEach((ch,n)=>{
     const wide=ch.screens||ch.phones||ch.explore||ch.areas;
     h+=`<section class="ch ${wide?"cs-wide":"cs"}">
-      <p class="ch-n">${String(n+1).padStart(2,"0")}</p>
+      <span class="ch-n" aria-hidden="true"></span>
       <h2>${esc(ch.h)}</h2>
       ${wide?`<div style="max-width:62ch">${paras(ch.p)}</div>`:paras(ch.p)}`;
     if(ch.q) h+=`<p class="cs-q">${esc(ch.q)}</p>`;
@@ -2627,7 +2606,7 @@ function renderCase(k){
   });
 
   h+=`<section class="ch cs cs-end">
-      <p class="ch-n">${String(c.chapters.length+1).padStart(2,"0")}</p>
+      <span class="ch-n" aria-hidden="true"></span>
       <h2>Where it is now.</h2>
       ${paras(c.end)}
       ${c.testimonial?`<blockquote class="case-quote"><p>“${esc(c.testimonial.text)}”</p><cite>${esc(c.testimonial.by)}</cite></blockquote>`:""}
