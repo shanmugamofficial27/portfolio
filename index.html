@@ -86,7 +86,7 @@ figure.ph[data-ratio="9:19"]{--ar:9/19}figure.ph[data-ratio="1:1"]{--ar:1/1}figu
   text-transform:uppercase;color:var(--text);padding:4px 8px;border-radius:4px;
   background:rgba(5,7,12,.62);border:1px solid var(--line-2)}
 .ph-label{font-size:.8rem;letter-spacing:.04em;color:var(--muted);text-align:center;padding:0 18px}
-figure.ph.has-media .ph-label{display:none}
+figure.ph.has-media .ph-label,figure.ph.has-media .ph-tag{display:none}
 .ph-play{position:absolute;inset:0;margin:auto;z-index:2;width:52px;height:52px;border-radius:50%;
   background:rgba(5,7,12,.6);border:1px solid var(--line-2);color:var(--text);font-size:.9rem;
   display:grid;place-items:center;transition:transform .3s var(--ease),opacity .3s}
@@ -736,10 +736,10 @@ main{position:relative;z-index:2}
       <p class="sub">25+ projects across different domains in two years. These three are the ones I'm proudest of.</p></div>
     <div class="miles">
 
-      <!-- REPLACE: set data-src on each cover (a GIF or MP4 loop works best) -->
+      <!-- covers are temporary artwork (images/work/*/cover.jpg); swap in real screens or an MP4 loop later -->
       <a class="mile" href="#/work/genix" style="--acc:#8BDFFF">
         <span class="mile-mark">Mile 01</span>
-        <figure class="ph mile-cover" data-type="gif" data-ratio="16:10" data-label="Genix.ai · product walkthrough"></figure>
+        <figure class="ph mile-cover" data-type="image" data-ratio="16:10" data-label="Genix.ai cover" data-src="images/work/genix/cover.jpg"></figure>
         <div class="mile-body">
           <p class="mile-meta">Healthcare · Genomics · AI</p>
           <h3 class="mile-title">Genix.ai</h3>
@@ -751,7 +751,7 @@ main{position:relative;z-index:2}
 
       <a class="mile" href="#/work/billcostro" style="--acc:#9C8CFF">
         <span class="mile-mark">Mile 02</span>
-        <figure class="ph mile-cover" data-type="gif" data-ratio="16:10" data-label="Billcostro · request to approval"></figure>
+        <figure class="ph mile-cover" data-type="image" data-ratio="16:10" data-label="Billcostro cover" data-src="images/work/billcostro/cover.jpg"></figure>
         <div class="mile-body">
           <p class="mile-meta">Enterprise SaaS · Cost management</p>
           <h3 class="mile-title">Billcostro</h3>
@@ -763,7 +763,7 @@ main{position:relative;z-index:2}
 
       <a class="mile" href="#/work/moolago" style="--acc:#FFC98B">
         <span class="mile-mark">Mile 03</span>
-        <figure class="ph mile-cover" data-type="gif" data-ratio="16:10" data-label="Moolago · SMS to saving plan"></figure>
+        <figure class="ph mile-cover" data-type="image" data-ratio="16:10" data-label="Moolago cover" data-src="images/work/moolago/cover.jpg"></figure>
         <div class="mile-body">
           <p class="mile-meta">Fintech · Mobile · AI</p>
           <h3 class="mile-title">Moolago</h3>
@@ -2431,7 +2431,7 @@ const CASES={
     line:"Designed from scratch at Chadura Tech: a precision-health product used by patients, clinicians, genetic counsellors, bioinformaticians, administrators and hospitals.",
     meta:[["Role","Primary product designer"],["Team","Founder, frontend & backend developers, marketing, bioinformaticians"],
           ["Platforms","Web platform, website, mobile app"],["Timeline","Apr 2025 - present"],["Status","Live, in active development"]],
-    cover:{type:"gif",ratio:"16:9",label:"Genix.ai · product walkthrough"},                                    // REPLACE: src
+    cover:{type:"image",ratio:"16:9",label:"Genix.ai cover",src:"images/work/genix/hero.jpg"},                                    // REPLACE: src
     chapters:[
       {h:"Six kinds of users, one dense set of data.",
        p:["Genix works with genomic and healthcare information: dense, high-stakes and unfamiliar to most people. The same product has to serve a patient reading their own results and a bioinformatician checking the detail.",
@@ -2479,7 +2479,7 @@ const CASES={
     line:"An enterprise cost-management platform at Chadura Tech, where requests, approvals, expenses, reimbursements and assets move between nine user roles.",
     meta:[["Role","Primary and only designer"],["Team","Founder, frontend & backend developers, marketing"],
           ["Platforms","Web, mobile"],["Timeline","Dec 2024 - Mar 2025"],["Status","Fully functional"]],
-    cover:{type:"gif",ratio:"16:9",label:"Billcostro · request to approval"},                                   // REPLACE: src
+    cover:{type:"image",ratio:"16:9",label:"Billcostro cover",src:"images/work/billcostro/hero.jpg"},                                   // REPLACE: src
     chapters:[
       {h:"Nine roles. Nine versions of the same request.",
        p:["In Billcostro, the workflow changes with who you are and where you sit in the hierarchy. The person raising a request and the person approving it touch the same item, but need different information and can take different actions.",
@@ -2523,7 +2523,7 @@ const CASES={
     line:"A personal-finance app that reads the transaction messages your bank already sends, and turns them into one journey from spending to saving.",
     meta:[["Role","Product designer, mobile app"],["Team","Product and development team"],
           ["Platform","Mobile app"],["Timeline","Mar 2025 - Aug 2025"],["Status","Mobile application"]],
-    cover:{type:"gif",ratio:"16:9",label:"Moolago · SMS to saving plan"},                                       // REPLACE: src
+    cover:{type:"image",ratio:"16:9",label:"Moolago cover",src:"images/work/moolago/hero.jpg"},                                       // REPLACE: src
     chapters:[
       {h:"The whole product depends on one permission.",
        p:["Moolago tracks spending automatically by reading transaction SMS messages. That's what makes it effortless, and it's also exactly the kind of access people are most careful about.",
