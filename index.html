@@ -210,65 +210,63 @@ main{position:relative;z-index:2}
 .mile-cta i{font-style:normal;color:var(--acc);transition:transform .35s var(--ease)}
 .mile:hover .mile-cta i{transform:translateX(5px)}
 
-/* ---------- 03 skills + 04 journey: left-aligned headers ---------- */
-.bring,.road-wrap{max-width:1080px}
-.bring-head{max-width:640px;margin:0 0 clamp(36px,6vw,60px)}
-.bring-head .sub{margin-top:14px}
+/* ---------- 03 skills — a constellation ---------- */
+.sky{position:relative;max-width:980px;margin:0 auto;aspect-ratio:16/7.2}
+.sky-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.sky-lines line{stroke:rgba(201,214,255,.14);stroke-width:1;transition:stroke .5s var(--ease),stroke-width .5s}
+.sky-lines line.on{stroke:rgba(var(--rgb),.75);stroke-width:1.4}
+.star{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-9px);display:flex;flex-direction:column;align-items:center;
+  gap:12px;padding:0;width:170px;text-align:center}
+.star-dot{position:relative;width:18px;height:18px;display:grid;place-items:center}
+.star-dot::before{content:"";width:6px;height:6px;border-radius:50%;background:#E6EEF8;
+  box-shadow:0 0 8px rgba(230,238,248,.8);transition:transform .45s var(--ease),background .45s,box-shadow .45s;
+  animation:twinkle 3.4s ease-in-out infinite;animation-delay:var(--tw,0s)}
+.star-dot::after{content:"";position:absolute;inset:-10px;border-radius:50%;border:1px solid rgba(var(--rgb),.0);
+  transform:scale(.4);transition:transform .5s var(--ease),border-color .5s}
+@keyframes twinkle{0%,100%{opacity:1}50%{opacity:.55}}
+.star-t{font-size:.95rem;font-weight:500;line-height:1.3;color:var(--muted);transition:color .4s;
+  text-shadow:0 0 6px #070a14,0 0 14px #070a14,0 0 22px #070a14}
+.star:hover .star-t{color:var(--text-2)}
+.star:hover .star-dot::before{transform:scale(1.4)}
+.star[aria-pressed="true"] .star-t{color:var(--text)}
+.star[aria-pressed="true"] .star-dot::before{transform:scale(1.9);background:rgb(var(--rgb));
+  box-shadow:0 0 14px rgba(var(--rgb),.9),0 0 34px rgba(var(--rgb),.45);animation:none}
+.star[aria-pressed="true"] .star-dot::after{transform:none;border-color:rgba(var(--rgb),.35)}
+.sky-cap{max-width:560px;min-height:150px;margin:clamp(18px,3vw,30px) auto 0;text-align:center;
+  transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.sky-cap.swap{opacity:0;transform:translateY(8px)}
+.sky-cap h3{margin:0;font-size:clamp(1.3rem,2.6vw,1.7rem);font-weight:600;letter-spacing:-.02em;color:var(--text)}
+.sky-cap p{margin:10px 0 0;font-size:1.02rem;line-height:1.7;color:var(--text-2)}
+.sky-cap a{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:.92rem;font-weight:600;color:var(--text)}
+.sky-cap a i{font-style:normal;color:rgb(var(--rgb));transition:transform .35s var(--ease)}
+.sky-cap a:hover i{transform:translateX(5px)}
+.tools{margin:clamp(34px,5vw,54px) auto 0;max-width:640px;text-align:center;font-size:.95rem;line-height:1.7;color:var(--text-2)}
+.tools span{display:block;margin-bottom:4px;font-size:.82rem;color:var(--muted)}
 
-/* skills: large-type list, the proof beside it */
-.cap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:start}
-.cap-list{list-style:none;margin:0;padding:0}
-.cap-list li{border-top:1px solid rgba(255,255,255,.08)}
-.cap-list li:last-child{border-bottom:1px solid rgba(255,255,255,.08)}
-.cap-btn{position:relative;display:flex;align-items:baseline;gap:16px;width:100%;padding:18px 0;text-align:left;
-  font-size:clamp(1.25rem,2.6vw,1.75rem);font-weight:600;letter-spacing:-.02em;line-height:1.2;color:var(--muted);
-  transition:color .35s var(--ease),transform .45s var(--ease)}
-.cap-btn:hover{color:var(--text-2)}
-.cap-btn[aria-pressed="true"]{color:var(--text);transform:translateX(10px)}
-.cap-btn::before{content:"";position:absolute;left:-10px;top:22px;bottom:22px;width:2px;border-radius:2px;background:var(--acc);
-  transform:scaleY(0);transition:transform .4s var(--ease)}
-.cap-btn[aria-pressed="true"]::before{transform:none}
-.cap-m{display:none}
-.cap-proof{position:sticky;top:110px;transition:opacity .28s var(--ease),transform .28s var(--ease)}
-.cap-proof.swap{opacity:0;transform:translateY(8px)}
-.cap-proj{margin:18px 0 0;font-size:.84rem;font-weight:600;color:var(--acc)}
-.cap-text{margin:8px 0 0;font-size:1.05rem;line-height:1.7;color:var(--text-2)}
-.cap-link{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:.92rem;font-weight:600;color:var(--text)}
-.cap-link i{font-style:normal;color:var(--acc);transition:transform .35s var(--ease)}
-.cap-link:hover i{transform:translateX(5px)}
-.tools{margin:clamp(40px,6vw,64px) 0 0;display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.95rem;line-height:1.6;color:var(--text-2)}
-.tools span{color:var(--muted)}
-
-/* journey: a vertical road; each stop lights up like a streetlight as you reach it */
-.road{list-style:none;margin:0;padding:0;position:relative}
-.stop{position:relative;display:grid;grid-template-columns:minmax(0,190px) 28px minmax(0,1fr);gap:0 22px;padding:0 0 clamp(34px,5vw,48px)}
-.stop:last-child{padding-bottom:0}
-/* the road: a dim line, and a lit segment that switches on per stop */
-.stop::before,.stop::after{content:"";position:absolute;z-index:0;left:calc(min(190px,100%) + 22px + 13px);top:14px;bottom:-14px;width:2px;border-radius:2px}
-.stop::before{background:rgba(255,255,255,.08)}
-.stop::after{background:linear-gradient(var(--acc,var(--cyan)),rgba(139,223,255,.35));transform:scaleY(0);transform-origin:top;
-  transition:transform .9s var(--ease) .15s}
-.stop:last-child::before,.stop:last-child::after{display:none}
-.stop.lit::after{transform:none}
-.stop-when{grid-column:1;margin:0;padding-top:2px;text-align:right;font-size:clamp(1.05rem,2vw,1.35rem);font-weight:600;
-  letter-spacing:-.01em;color:var(--muted);font-variant-numeric:tabular-nums;transition:color .6s}
-.stop-body{grid-column:3}
-/* the lamp on each stop */
-.stop-body::before{content:"";position:absolute;z-index:1;left:calc(min(190px,100%) + 22px + 6px);top:6px;width:16px;height:16px;border-radius:50%;
-  background:#0B0F1C;border:2px solid rgba(255,255,255,.16);transition:border-color .6s,box-shadow .6s,background .6s}
-.stop.lit .stop-body::before{border-color:var(--acc,var(--cyan));background:color-mix(in srgb,var(--acc,var(--cyan)) 30%,#0B0F1C);
-  box-shadow:0 0 0 6px color-mix(in srgb,var(--acc,var(--cyan)) 12%,transparent),0 0 22px color-mix(in srgb,var(--acc,var(--cyan)) 60%,transparent)}
-.stop.lit .stop-when{color:var(--text)}
-.stop h3{margin:0;font-size:clamp(1.15rem,2.2vw,1.4rem);font-weight:600;letter-spacing:-.015em;color:var(--text-2);transition:color .6s}
-.stop.lit h3{color:var(--text)}
-.stop h3 a{display:inline-flex;align-items:center;gap:10px}
-.stop h3 a i{font-style:normal;font-size:.9em;color:var(--acc);transition:transform .35s var(--ease)}
-.stop h3 a:hover i{transform:translateX(5px)}
-.stop-body p{margin:8px 0 0;max-width:58ch;font-size:1rem;line-height:1.7;color:var(--muted);transition:color .6s}
-.stop.lit .stop-body p{color:var(--text-2)}
-.stop-next{--acc:var(--warm)}
-.stop-link{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:.92rem;font-weight:600;color:var(--text)}
-.stop-link i{font-style:normal;color:var(--warm)}
+/* ---------- 04 journey — a signal that gets clearer as the story goes on ---------- */
+.wave-wrap{position:sticky;top:86px;z-index:1;max-width:980px;margin:0 auto clamp(26px,4vw,40px);padding:10px 0 18px;
+  background:rgba(6,8,16,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent),linear-gradient(to bottom,transparent,#000 18%,#000 82%,transparent);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent),linear-gradient(to bottom,transparent,#000 18%,#000 82%,transparent);
+  mask-composite:intersect}
+.wave{display:block;width:100%;height:clamp(70px,9vw,110px);overflow:visible}
+.wave-line{fill:none;stroke:var(--wc,#C9D6FF);stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;
+  filter:drop-shadow(0 0 6px var(--wg,rgba(201,214,255,.35)));transition:stroke .8s,filter .8s}
+.wave-ghost{fill:none;stroke:rgba(201,214,255,.08);stroke-width:1;vector-effect:non-scaling-stroke}
+.wave-label{margin:10px 0 0;text-align:center;font-size:.8rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--wc,#C9D6FF);transition:color .8s}
+.stages{list-style:none;margin:0 auto;padding:0;max-width:620px;text-align:center}
+.stage{padding:clamp(34px,6vw,56px) 0;opacity:.28;transform:scale(.98);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.stage.on{opacity:1;transform:none}
+.stage+.stage{border-top:1px solid rgba(255,255,255,.06)}
+.stage-k{display:flex;justify-content:center;align-items:baseline;gap:12px;margin:0;font-size:.82rem;color:var(--muted)}
+.stage-k b{font-weight:600;color:var(--sc,var(--cyan))}
+.stage h3{margin:12px 0 0;font-size:clamp(1.4rem,3vw,1.95rem);font-weight:600;letter-spacing:-.02em;line-height:1.2;color:var(--text)}
+.stage>p:not(.stage-k){margin:12px auto 0;font-size:1.02rem;line-height:1.75;color:var(--text-2);max-width:56ch}
+.stage-link{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:.92rem;font-weight:600;color:var(--text)}
+.stage-link i{font-style:normal;color:var(--warm)}
+.stage[data-stage="0"]{--sc:#C9D6FF}.stage[data-stage="1"]{--sc:#A9B6D8}.stage[data-stage="2"]{--sc:#9AC8F0}
+.stage[data-stage="3"]{--sc:var(--cyan)}.stage[data-stage="4"]{--sc:var(--warm)}
 
 /* ---------- 05 playground — lamp-lit desk puzzle (Three.js) ----------
    One accent here: the lamp's amber (--warm), matching the pre-dawn sky. */
@@ -612,19 +610,11 @@ main{position:relative;z-index:2}
   .sec{padding-left:clamp(18px,5vw,56px);padding-right:clamp(18px,5vw,56px)}
   .sec{min-height:auto;padding-top:92px;padding-bottom:92px}
   #start{min-height:100svh;padding-top:0}
-  .cap{grid-template-columns:1fr}
-  .cap-proof{display:none}
-  .cap-btn[aria-pressed="true"]{transform:none;padding-left:14px}
-  .cap-btn::before{left:0}
-  .cap-m{display:block;overflow:hidden;max-height:0;opacity:0;transition:max-height .5s var(--ease),opacity .4s}
-  .cap-list li.open .cap-m{max-height:520px;opacity:1}
-  .cap-m .cap-text{margin-top:0}
-  .cap-m>div{padding:0 0 20px 14px}
-  .stop{grid-template-columns:28px minmax(0,1fr);gap:0 16px}
-  .stop::before,.stop::after{left:13px}
-  .stop-when{grid-column:2;text-align:left;font-size:.9rem;padding:0 0 4px}
-  .stop-body{grid-column:2}
-  .stop-body::before{left:6px}
+  .sky{aspect-ratio:1/1.15}
+  .star{width:130px;gap:8px}
+  .star-t{font-size:.84rem}
+  .wave-wrap{top:72px;background:rgba(6,8,16,.82);
+    -webkit-mask-image:linear-gradient(to bottom,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 14%,#000 86%,transparent)}
   .gap{height:34vh}
   .deskscene{aspect-ratio:4/3}
   .journal{grid-template-columns:1fr;padding:18px}
@@ -659,6 +649,7 @@ main{position:relative;z-index:2}
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
   .mouse i{display:none}
+  .star-dot::before{animation:none}
   .hi-name{animation:none;background:none;-webkit-text-fill-color:var(--text)}
   .hero-title .w>i{animation:none;transform:none;filter:none;opacity:1}
   .rv-on .rv,.rv-on .sec.out-up .rv{opacity:1!important;transform:none!important}
@@ -767,78 +758,62 @@ main{position:relative;z-index:2}
   </div>
 </section>
 
-<!-- ═════════ 03 SKILLS — what I bring, each with proof ═════════ -->
+<!-- ═════════ 03 SKILLS — a constellation: each star is something I bring ═════════ -->
 <section class="sec" id="skills">
-  <div class="wrap bring">
-    <div class="bring-head">
+  <div class="wrap">
+    <div class="sec-head">
       <h2 class="display h-sec">What I bring to a team</h2>
-      <p class="sub">Each of these shows up in the work. Pick one to see where.</p>
+      <p class="sub">Six things that show up in my work. Pick a star.</p>
     </div>
-    <div class="cap" id="cap">
-      <ol class="cap-list" id="capList"></ol>
-      <div class="cap-proof" id="capProof" aria-live="polite"></div>
+    <div class="sky" id="sky">
+      <svg class="sky-lines" id="skyLines" aria-hidden="true"></svg>
+      <div class="sky-stars" id="skyStars" role="group" aria-label="What I bring"></div>
     </div>
-    <p class="tools"><span>Tools I work in</span>Figma, FigJam, Miro, Maze, Illustrator, and AI design tools for research and prototyping.</p>
+    <div class="sky-cap" id="skyCap" aria-live="polite"></div>
+    <p class="tools"><span>Tools I work in</span>Figma, FigJam, Miro, Maze, Illustrator and AI design tools</p>
   </div>
 </section>
 
-<!-- ═════════ 04 JOURNEY — the road so far ═════════ -->
+<!-- ═════════ 04 JOURNEY — electronics to design, told as a signal getting clearer ═════════ -->
 <section class="sec" id="journey">
-  <div class="wrap road-wrap">
-    <div class="bring-head">
+  <div class="wrap">
+    <div class="sec-head">
       <h2 class="display h-sec">Where I came from</h2>
-      <p class="sub">From electronics to product design, one stop at a time.</p>
+      <p class="sub">Electronics taught me how signals travel. Design taught me what they mean to people.</p>
     </div>
-    <ol class="road" id="road">
-      <li class="stop">
-        <p class="stop-when">2020</p>
-        <div class="stop-body">
-          <h3>Started with electronics.</h3>
-          <p>B.E. in Electronics and Communication Engineering at Kongunadu College of Engineering and Technology, Trichy (2020 - 2024). A foundation in technology and systems.</p>
-        </div>
+    <div class="wave-wrap" aria-hidden="true">
+      <svg class="wave" id="wave" viewBox="0 0 1000 120" preserveAspectRatio="none">
+        <path id="waveGhost" class="wave-ghost"/>
+        <path id="wavePath" class="wave-line"/>
+      </svg>
+      <p class="wave-label" id="waveLabel">Input</p>
+    </div>
+    <ol class="stages" id="stages">
+      <li class="stage" data-stage="0">
+        <p class="stage-k"><b>Input</b><span>2020</span></p>
+        <h3>Signals and systems.</h3>
+        <p>I started a B.E. in Electronics and Communication Engineering at Kongunadu College of Engineering and Technology, Trichy. Four years of how information moves through a system.</p>
       </li>
-      <li class="stop">
-        <p class="stop-when">Along the way</p>
-        <div class="stop-body">
-          <h3>Pulled toward the human side.</h3>
-          <p>I was always more curious about how people use technology: how they move through interfaces, how behaviour shapes decisions, and how a product should work before it becomes screens. So I taught myself UX and product design.</p>
-        </div>
+      <li class="stage" data-stage="1">
+        <p class="stage-k"><b>Noise</b><span>Along the way</span></p>
+        <h3>The interesting part was the person.</h3>
+        <p>The circuits worked. What kept pulling at me was the human at the other end: how people read an interface, and why they behave the way they do.</p>
       </li>
-      <li class="stop">
-        <p class="stop-when">Sep 2024</p>
-        <div class="stop-body">
-          <h3>Joined Chadura Tech.</h3>
-          <p>Product Designer, and the only designer on the team, working directly with the founder, product managers and developers.</p>
-        </div>
+      <li class="stage" data-stage="2">
+        <p class="stage-k"><b>Filter</b><span>Self-taught</span></p>
+        <h3>Learning what to take away.</h3>
+        <p>I taught myself UX and product design: research, flows, hierarchy, systems. Most of it turned out to be deciding what doesn't need to be there.</p>
       </li>
-      <li class="stop stop-work" style="--acc:#9C8CFF">
-        <p class="stop-when">Dec 2024</p>
-        <div class="stop-body">
-          <h3><a href="#/work/billcostro">Billcostro <i aria-hidden="true">→</i></a></h3>
-          <p>Enterprise cost management: navigation, dashboards and a design system for nine user roles.</p>
-        </div>
+      <li class="stage" data-stage="3">
+        <p class="stage-k"><b>Signal</b><span>Sep 2024</span></p>
+        <h3>Clear enough to ship.</h3>
+        <p>I graduated in 2024 and joined Chadura Tech as a Product Designer, the only designer on the team, working directly with the founder, product managers and developers.</p>
       </li>
-      <li class="stop stop-work" style="--acc:#FFC98B">
-        <p class="stop-when">Mar 2025</p>
-        <div class="stop-body">
-          <h3><a href="#/work/moolago">Moolago <i aria-hidden="true">→</i></a></h3>
-          <p>Personal finance from a transaction SMS, with budgeting and expense flows tested in Maze before handoff.</p>
-        </div>
-      </li>
-      <li class="stop stop-work" style="--acc:#8BDFFF">
-        <p class="stop-when">Apr 2025</p>
-        <div class="stop-body">
-          <h3><a href="#/work/genix">Genix.ai <i aria-hidden="true">→</i></a></h3>
-          <p>A genomics and health product designed from scratch across web and mobile, still in active development.</p>
-        </div>
-      </li>
-      <li class="stop stop-next">
-        <p class="stop-when">Next</p>
-        <div class="stop-body">
-          <h3>The next road.</h3>
-          <p>Looking for Product Designer roles at product companies working on AI, healthcare, SaaS or data-driven products.</p>
-          <a class="stop-link" href="#home">Connect <i aria-hidden="true">↓</i></a>
-        </div>
+      <li class="stage" data-stage="4">
+        <p class="stage-k"><b>Next</b><span>Now</span></p>
+        <h3>Where the signal goes next.</h3>
+        <p>Product Designer roles at product companies building for AI, healthcare, SaaS or data.</p>
+        <a class="stage-link" href="#home">Connect <i aria-hidden="true">↓</i></a>
       </li>
     </ol>
   </div>
@@ -1548,45 +1523,68 @@ document.querySelectorAll("#navlinks a").forEach(a=>a.addEventListener("click",(
 
 function depth(){}
 
-/* ═══════ SKILLS — capabilities, each with proof that opens the case at the right chapter ═══════
-   ch = the chapter index inside that case study (0-based). */
+/* ═══════ SKILLS — a constellation. Pick a star: its lines light up and the proof appears.
+   Positions are in % of the sky box: [x,y] on wide screens, [mx,my] on phones.
+   ch = chapter index inside that case study (0-based) for the "see it" link. */
 (function(){
-  const list=document.getElementById("capList"),proof=document.getElementById("capProof");
-  if(!list||!proof) return;
-  const ACC={genix:"#8BDFFF",billcostro:"#9C8CFF",moolago:"#FFC98B"};
+  const sky=document.getElementById("sky"),starsEl=document.getElementById("skyStars"),
+        svg=document.getElementById("skyLines"),cap=document.getElementById("skyCap");
+  if(!sky) return;
+  const RGB={genix:"139,223,255",billcostro:"156,140,255",moolago:"255,201,139"};
   const NAME={genix:"Genix.ai",billcostro:"Billcostro",moolago:"Moolago"};
-  const CAPS=[
-    {t:"Complex workflows and roles",k:"billcostro",ch:2,
-     d:"Billcostro has nine user roles whose workflows change with hierarchy. I gave every screen the same structure: context, status, decision, action."},
-    {t:"Information hierarchy",k:"genix",ch:3,
-     d:"Genix turns dense genomic data into what matters, what it means and what to do next, with navigation unified across mobile and web."},
-    {t:"Designing from zero",k:"genix",ch:2,
-     d:"Genix had no product to redesign. I built it up in layers, from information architecture and flows to a design system shared across web and mobile."},
-    {t:"Trust and sensitive data",k:"moolago",ch:2,
-     d:"Moolago only works if people allow it to read transaction SMS. The permission flow had to earn that access before asking for it."},
-    {t:"AI inside products",k:"genix",ch:1,
-     d:"With product and engineering I shaped AI-powered recommendation features in Genix, and designed AI-supported guidance in Moolago."},
-    {t:"Testing before handoff",k:"moolago",ch:5,
-     d:"Moolago's budgeting and expense flows were validated through usability testing in Maze before they went to development."}
+  const STARS=[
+    {t:"Complex workflows",x:14,y:30,mx:24,my:8,k:"billcostro",ch:2,
+     d:"Nine user roles whose workflows change with hierarchy, held together by one structure: context, status, decision, action."},
+    {t:"Information hierarchy",x:37,y:12,mx:74,my:20,k:"genix",ch:3,
+     d:"Dense genomic data, ordered as what matters, what it means and what to do next, across mobile and web."},
+    {t:"Designing from zero",x:58,y:38,mx:30,my:38,k:"genix",ch:2,
+     d:"No product to redesign. Built up layer by layer, from information architecture to a shared design system."},
+    {t:"Trust and sensitive data",x:84,y:16,mx:74,my:52,k:"moolago",ch:2,
+     d:"An app that reads transaction SMS has to earn that permission before it asks for it."},
+    {t:"AI inside products",x:30,y:74,mx:26,my:70,k:"genix",ch:1,
+     d:"AI-powered recommendations shaped with product and engineering, and AI guidance that explains spending."},
+    {t:"Testing before handoff",x:74,y:70,mx:72,my:86,k:"moolago",ch:5,
+     d:"Budgeting and expense flows validated through usability testing in Maze before development."}
   ];
-  const proofHTML=c=>`<figure class="ph" data-type="image" data-ratio="16:10" data-label="${esc(NAME[c.k])} · ${esc(c.t.toLowerCase())}"></figure>
-    <p class="cap-proj">${esc(NAME[c.k])}</p><p class="cap-text">${esc(c.d)}</p>
-    <a class="cap-link" href="#/work/${c.k}/${c.ch}">See it in ${esc(NAME[c.k])} <i aria-hidden="true">→</i></a>`;
-  list.innerHTML=CAPS.map((c,i)=>`<li style="--acc:${ACC[c.k]}">
-      <button class="cap-btn" type="button" data-i="${i}" aria-pressed="${i===0}">${esc(c.t)}</button>
-      <div class="cap-m"><div><p class="cap-text">${esc(c.d)}</p>
-        <a class="cap-link" href="#/work/${c.k}/${c.ch}">See it in ${esc(NAME[c.k])} <i aria-hidden="true">→</i></a></div></div>
-    </li>`).join("");
-  const btns=[...list.querySelectorAll(".cap-btn")];
+  const LINKS=[[0,1],[1,2],[2,3],[0,4],[2,4],[2,5],[3,5]];
+  const narrow=matchMedia("(max-width:820px)");
+  starsEl.innerHTML=STARS.map((s2,i)=>`<button class="star" type="button" data-i="${i}" aria-pressed="false"
+      style="--rgb:${RGB[s2.k]};--tw:${(i*.57).toFixed(2)}s"><span class="star-dot" aria-hidden="true"></span><span class="star-t">${esc(s2.t)}</span></button>`).join("");
+  const btns=[...starsEl.querySelectorAll(".star")];
+  function place(){
+    const n=narrow.matches;
+    btns.forEach((b,i)=>{ b.style.setProperty("--x",(n?STARS[i].mx:STARS[i].x)+"%"); b.style.setProperty("--y",(n?STARS[i].my:STARS[i].y)+"%"); });
+    const W=sky.clientWidth,H=sky.clientHeight;
+    svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
+    svg.innerHTML=LINKS.map(([a,b])=>{
+      const A=STARS[a],B=STARS[b],ax=(n?A.mx:A.x)/100*W,ay=(n?A.my:A.y)/100*H,bx=(n?B.mx:B.x)/100*W,by=(n?B.my:B.y)/100*H;
+      return `<line x1="${ax.toFixed(1)}" y1="${ay.toFixed(1)}" x2="${bx.toFixed(1)}" y2="${by.toFixed(1)}" data-a="${a}" data-b="${b}"/>`;
+    }).join("");
+    if(cur>=0) light(cur);
+  }
   let cur=-1,t=0;
+  function light(i){
+    svg.querySelectorAll("line").forEach(l=>{
+      const on=+l.dataset.a===i||+l.dataset.b===i;
+      l.classList.toggle("on",on); if(on) l.style.setProperty("--rgb",RGB[STARS[i].k]);
+      l.style.stroke=on?`rgba(${RGB[STARS[i].k]},.75)`:"";
+    });
+  }
   function show(i){
     if(i===cur) return; cur=i;
-    btns.forEach((b,j)=>{ b.setAttribute("aria-pressed",j===i?"true":"false"); b.parentElement.classList.toggle("open",j===i); });
-    proof.style.setProperty("--acc",ACC[CAPS[i].k]);
-    proof.classList.add("swap");clearTimeout(t);
-    t=setTimeout(()=>{ proof.innerHTML=proofHTML(CAPS[i]); mountMedia(proof); proof.classList.remove("swap"); },RM?0:200);
+    btns.forEach((b,j)=>b.setAttribute("aria-pressed",j===i?"true":"false"));
+    light(i);
+    const s2=STARS[i];
+    cap.style.setProperty("--rgb",RGB[s2.k]);
+    cap.classList.add("swap");clearTimeout(t);
+    t=setTimeout(()=>{
+      cap.innerHTML=`<h3>${esc(s2.t)}</h3><p>${esc(s2.d)}</p><a href="#/work/${s2.k}/${s2.ch}">See it in ${esc(NAME[s2.k])} <i aria-hidden="true">→</i></a>`;
+      cap.classList.remove("swap");
+    },RM?0:180);
   }
-  show(0);
+  place(); show(0);
+  window.addEventListener("resize",place);
+  if(narrow.addEventListener) narrow.addEventListener("change",place);
   const fine=matchMedia("(hover:hover) and (pointer:fine)").matches;
   btns.forEach((b,i)=>{
     b.addEventListener("click",()=>show(i));
@@ -1595,14 +1593,67 @@ function depth(){}
   });
 })();
 
-/* ═══════ JOURNEY — each stop lights up as it reaches the middle of the screen ═══════ */
+/* ═══════ JOURNEY — a waveform that starts rigid and noisy (electronics) and settles into a clean signal.
+   Each stage sets the target shape; the wave eases toward it. The pointer nudges it slightly. ═══════ */
 (function(){
-  const stops=[...document.querySelectorAll("#road .stop")];
-  if(!stops.length) return;
-  if(!("IntersectionObserver" in window)||RM){ stops.forEach(s=>s.classList.add("lit")); return; }
-  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("lit"); }),
-    {rootMargin:"0px 0px -45% 0px"});
-  stops.forEach(s=>io.observe(s));
+  const path=document.getElementById("wavePath"),ghost=document.getElementById("waveGhost"),
+        label=document.getElementById("waveLabel"),wrap=path&&path.closest(".wave-wrap");
+  const stages=[...document.querySelectorAll("#stages .stage")];
+  if(!path||!stages.length) return;
+  //            square  noise  amp  freq   colour        label
+  const SHAPES=[{sq:1,  nz:.05, a:30, f:6,   c:"#C9D6FF",l:"Input"},
+                {sq:.7, nz:.9,  a:30, f:6,   c:"#A9B6D8",l:"Noise"},
+                {sq:.25,nz:.3,  a:32, f:4.5, c:"#9AC8F0",l:"Filter"},
+                {sq:0,  nz:0,   a:36, f:3,   c:"#8BDFFF",l:"Signal"},
+                {sq:0,  nz:0,   a:44, f:2.2, c:"#FFC98B",l:"Next"}];
+  const cur=Object.assign({},SHAPES[0]),tgt=Object.assign({},SHAPES[0]);
+  const N=220,seed=[...Array(N)].map(()=>Math.random()*2-1);
+  let px=-1,phase=0,visible=false,raf=0,last=performance.now();
+  function build(o,ph,withPointer){
+    let d="";
+    for(let i=0;i<=N;i++){
+      const u=i/N,x=u*1000,th=u*Math.PI*2*o.f+ph;
+      const sine=Math.sin(th),square=Math.tanh(sine*12);
+      let y=(square*o.sq+sine*(1-o.sq))*o.a;
+      y+=seed[i%N]*o.nz*16*Math.sin(u*37+ph*.6);
+      if(withPointer&&px>=0){ const dd=(u-px)*9; y-=Math.exp(-dd*dd)*14; }
+      d+=(i?"L":"M")+x.toFixed(1)+" "+(60-y).toFixed(1);
+    }
+    return d;
+  }
+  ghost.setAttribute("d",build(SHAPES[3],0,false));
+  function frame(now){
+    const dt=Math.min(.05,(now-last)/1000);last=now;
+    const k=RM?1:1-Math.pow(.02,dt);                      // ease toward the target shape
+    for(const key of ["sq","nz","a","f"]) cur[key]+=(tgt[key]-cur[key])*k;
+    if(!RM) phase+=dt*(0.9+ (1-cur.sq)*.6);
+    path.setAttribute("d",build(cur,phase,true));
+    if(visible&&!RM) raf=requestAnimationFrame(frame); else raf=0;
+  }
+  function setStage(i){
+    Object.assign(tgt,SHAPES[i]);
+    wrap.style.setProperty("--wc",SHAPES[i].c);
+    wrap.style.setProperty("--wg",SHAPES[i].c+"66");
+    label.textContent=SHAPES[i].l;
+    stages.forEach((s2,j)=>s2.classList.toggle("on",j<=i));
+    if(RM) frame(performance.now());
+  }
+  setStage(0);frame(performance.now());
+  if("IntersectionObserver" in window){
+    // the stage nearest the middle of the screen drives the wave
+    const io=new IntersectionObserver(es=>{
+      es.forEach(e=>{ if(e.isIntersecting) setStage(+e.target.dataset.stage); });
+    },{rootMargin:"-45% 0px -45% 0px"});
+    stages.forEach(s2=>io.observe(s2));
+    new IntersectionObserver(es=>{
+      visible=es[0].isIntersecting;
+      if(visible&&!raf&&!RM){ last=performance.now(); raf=requestAnimationFrame(frame); }
+    }).observe(document.getElementById("journey"));
+  } else stages.forEach(s2=>s2.classList.add("on"));
+  if(!isTouch) wrap.parentElement.addEventListener("pointermove",e=>{
+    const r=path.getBoundingClientRect();
+    px=(e.clientY>r.top-60&&e.clientY<r.bottom+60)?clamp((e.clientX-r.left)/r.width,0,1):-1;
+  });
 })();
 
 /* ═══════ PLAYGROUND — lamp-lit desk puzzle (Three.js) ═══════
