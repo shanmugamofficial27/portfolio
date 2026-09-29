@@ -160,7 +160,7 @@ main{position:relative;z-index:2}
 .sec-head p{margin-top:14px}
 
 /* ---------- 01 hero ---------- */
-#start{justify-content:center;text-align:center;min-height:100svh}
+#start{justify-content:center;text-align:center;min-height:100svh;padding-bottom:max(110px,24vh)}
 .hero-title{font-size:clamp(2rem,4.6vw,3.5rem);letter-spacing:-.025em;line-height:1.08;margin-top:18px}
 .hero-title>span{display:block}
 /* words rise out of a mask, one after another */
@@ -184,15 +184,24 @@ main{position:relative;z-index:2}
 @keyframes namePass{from{background-position:100% 0}to{background-position:0 0}}
 .hero-hi.stopped .hi-name{animation:none;background:none;-webkit-text-fill-color:var(--text)}
 .hero-lede{margin:24px auto 0;font-size:clamp(1.05rem,1.9vw,1.25rem);line-height:1.6;color:var(--text-2);max-width:46ch}
-.hero-cta{margin-top:44px;display:flex;flex-direction:column;align-items:center;gap:16px}
-.hero-btn{display:inline-flex;align-items:center;gap:12px;padding:15px 26px 15px 28px;border-radius:999px;
-  background:var(--text);color:#0A0E14;font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+.hero-cta{margin-top:36px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:14px 26px}
+.hero-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:999px;
+  background:var(--text);color:#0A0E14;font-size:.95rem;font-weight:600;
   box-shadow:0 18px 40px -18px rgba(139,223,255,.55);
   transition:background .3s var(--ease),transform .25s var(--ease),box-shadow .3s var(--ease)}
 .hero-btn i{font-style:normal;letter-spacing:0;transition:transform .3s var(--ease)}
 .hero-btn:hover{background:var(--cyan);box-shadow:0 22px 44px -16px rgba(139,223,255,.7)}
 .hero-btn:hover i{transform:translateX(4px)}
 .hero-btn:active{transform:scale(.97)}
+.hero-hello{display:inline-flex;align-items:center;gap:9px;font-size:.92rem;font-weight:500;color:var(--text-2);padding:6px 2px;
+  background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:color .3s,background-size .35s var(--ease)}
+.hero-hello:hover{color:var(--text);background-size:100% 1px}
+.hero-hello i{width:7px;height:7px;border-radius:50%;background:#9FD6A4;animation:availPing 2.4s var(--ease) infinite}
+.hero-me{display:inline-flex;align-items:center;gap:10px}
+.hi-avatar{width:34px;height:34px;border-radius:50%;flex:none;display:grid;place-items:center;overflow:hidden;
+  font-size:.9rem;font-weight:700;color:#0A0E14;background:linear-gradient(135deg,#C9D6FF,#8BDFFF);
+  box-shadow:0 0 0 2px rgba(10,14,20,.8),0 0 0 3px rgba(139,223,255,.35)}
+.hi-avatar img{width:100%;height:100%;object-fit:cover;display:block}
 @media(max-height:620px){.hero-cta{margin-top:30px}}
 
 /* ---------- 02 works — one row per project, like mile markers on the road ---------- */
@@ -615,7 +624,7 @@ main{position:relative;z-index:2}
   .clock{height:40px;padding:0 12px 0 10px;font-size:.74rem}
   .sec{padding-left:clamp(18px,5vw,56px);padding-right:clamp(18px,5vw,56px)}
   .sec{min-height:auto;padding-top:92px;padding-bottom:92px}
-  #start{min-height:100svh;padding-top:0}
+  #start{min-height:100svh;padding-top:0;padding-bottom:max(120px,26vh)}
   .lane{grid-template-columns:1fr;padding:16px 4px 6px}
   .lane-s{justify-content:flex-start;padding:6px 0 10px;gap:6px 16px}
   .trip{aspect-ratio:1000/420}
@@ -662,7 +671,7 @@ main{position:relative;z-index:2}
   .hi-name{animation:none;background:none;-webkit-text-fill-color:var(--text)}
   .hero-title .w>i{animation:none;transform:none;filter:none;opacity:1}
   .rv-on .rv,.rv-on .sec.out-up .rv{opacity:1!important;transform:none!important}
-  .dawn{transition:none}.avail i{animation:none}
+  .dawn{transition:none}.avail i,.hero-hello i{animation:none}
 }
 </style>
 </head>
@@ -709,12 +718,17 @@ main{position:relative;z-index:2}
 <!-- ═════════ 01 START ═════════ -->
 <section class="sec" id="start">
   <div class="wrap">
-    <p class="hero-hi" id="heroHi" role="button" tabindex="0" aria-pressed="false"
-       aria-label="Hi, I'm Shanmugam. Click to stop the animation.">Hi, I'm <span class="hi-name">Shanmugam</span></p>
+    <div class="hero-me">
+      <!-- REPLACE: set data-src to a square photo of you (e.g. images/me.jpg); until then the initial shows -->
+      <span class="hi-avatar" id="hiAvatar" data-src="" aria-hidden="true">S</span>
+      <p class="hero-hi" id="heroHi" role="button" tabindex="0" aria-pressed="false"
+         aria-label="Hi, I'm Shanmugam. Click to stop the animation.">Hi, I'm <span class="hi-name">Shanmugam</span></p>
+    </div>
     <h1 class="display hero-title" id="heroTitle" aria-label="I design complex products that feel simple."><span>I design complex products</span><span>that feel simple.</span></h1>
-    <p class="hero-lede">Product designer at Chadura Tech, working across healthcare, SaaS, fintech and, increasingly, AI.</p>
+    <p class="hero-lede">Product designer at Chadura Tech. Two years, three products across healthcare, SaaS and fintech, and increasingly AI.</p>
     <div class="hero-cta">
-      <a class="hero-btn" href="#works">Start the walk <i aria-hidden="true">→</i></a>
+      <a class="hero-btn" href="#works">See my work <i aria-hidden="true">→</i></a>
+      <a class="hero-hello" href="#home"><i aria-hidden="true"></i>Open to work · say hello</a>
     </div>
   </div>
 </section>
@@ -722,8 +736,8 @@ main{position:relative;z-index:2}
 <!-- ═════════ 02 WORKS ═════════ -->
 <section class="sec" id="works">
   <div class="wrap">
-    <div class="sec-head"><h2 class="display h-sec">Selected work</h2>
-      <p class="sub">Three products from two years at Chadura Tech.</p></div>
+    <div class="sec-head"><h2 class="display h-sec">Three stops along the way</h2>
+      <p class="sub">The products I designed at Chadura Tech over the last two years.</p></div>
     <div class="miles">
 
       <!-- REPLACE: set data-src on each cover (a GIF or MP4 loop works best) -->
@@ -772,7 +786,7 @@ main{position:relative;z-index:2}
 <section class="sec" id="skills">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="display h-sec">What I bring to a team</h2>
+      <h2 class="display h-sec">What I carry into every project</h2>
     </div>
     <div class="lanes" id="lanes">
       <div class="lane"><p class="lane-l">Understand</p>
@@ -791,7 +805,7 @@ main{position:relative;z-index:2}
 <section class="sec" id="journey">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="display h-sec">Where I came from</h2>
+      <h2 class="display h-sec">How I got on this road</h2>
     </div>
     <div class="trip" id="trip">
       <svg class="trip-road" id="tripSvg" viewBox="0 0 1000 240" preserveAspectRatio="none" aria-hidden="true">
@@ -815,8 +829,8 @@ main{position:relative;z-index:2}
 <section class="sec" id="play">
   <div class="wrap">
     <div class="sec-head play-head">
-      <h2 class="display h-sec">The road less travelled</h2>
-      <p class="sub">Everything on this desk knows something about me.</p>
+      <h2 class="display h-sec">Pull over at my desk</h2>
+      <p class="sub">It's 4:30 AM and the lamp is off. Everything on it knows something about me.</p>
     </div>
 
     <div class="deskscene is-dark" id="deskscene">
@@ -1437,6 +1451,13 @@ function mountMedia(root){
   }
 }
 mountMedia(document);
+
+/* ═══════ HERO AVATAR — swaps the initial for a photo when data-src is set ═══════ */
+(function(){
+  const a=document.getElementById("hiAvatar");
+  if(!a||!a.dataset.src) return;
+  const img=new Image();img.alt="";img.onload=()=>{ a.textContent=""; a.appendChild(img); };img.src=a.dataset.src;
+})();
 
 /* ═══════ HERO — name glow (click to stop) + headline words rise, "simple." unscrambles ═══════ */
 (function(){
