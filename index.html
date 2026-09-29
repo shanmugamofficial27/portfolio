@@ -401,51 +401,45 @@ main{position:relative;z-index:2}
 .finale .sub{max-width:52ch;font-size:.9rem}
 .finale-cta{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 
-/* ---------- 06 connect — the sunrise ---------- */
-#home{text-align:center;overflow:hidden;min-height:100svh;padding-bottom:clamp(150px,22vh,220px)}
-.connect{position:relative;z-index:2;max-width:720px}
-.home-title{font-size:clamp(2rem,4.6vw,3.2rem)}
-.home-sub{margin:16px auto 0;max-width:48ch;font-size:1.02rem;line-height:1.7;color:var(--text-2)}
-/* the email is the call to action: big, one click copies it */
-.mail-big{position:relative;display:inline-flex;flex-direction:column;align-items:center;gap:8px;margin:clamp(30px,5vw,44px) auto 0;
-  padding:18px 26px;border-radius:18px;transition:background .35s var(--ease),transform .25s var(--ease)}
-.mail-t{font-size:clamp(1.2rem,3.4vw,2rem);font-weight:600;letter-spacing:-.02em;color:var(--text);overflow-wrap:anywhere;
-  background:linear-gradient(currentColor,currentColor) 50% 100%/0 2px no-repeat;padding-bottom:4px;transition:background-size .45s var(--ease),color .35s}
-.mail-h{font-size:.82rem;color:rgba(255,236,214,.72);transition:color .3s}
-.mail-big:hover{background:rgba(255,201,139,.06)}
-.mail-big:hover .mail-t{color:#FFE9CC;background-size:100% 2px}
-.mail-big:hover .mail-h{color:var(--warm)}
-.mail-big:active{transform:scale(.98)}
-.mail-big.done .mail-h{color:var(--warm)}
+/* ---------- 06 connect — sunrise glow, contact rows ---------- */
+#home{text-align:center;overflow:hidden;min-height:100svh}
+/* the sunrise: just a warm light rising from the horizon, no disc */
+.dawn{position:absolute;z-index:0;left:50%;bottom:-38vh;width:min(1100px,130vw);height:70vh;transform:translate(-50%,12vh);border-radius:50%;
+  background:radial-gradient(closest-side,rgba(255,214,160,.34),rgba(255,170,110,.14) 45%,transparent 75%);pointer-events:none;
+  transition:transform 2.4s cubic-bezier(.16,1,.3,1),opacity 2.4s;opacity:.4}
+#home.in .dawn{transform:translate(-50%,0);opacity:1}
+.connect{position:relative;z-index:2;max-width:680px}
+.home-title{font-size:clamp(2rem,4.6vw,3.1rem)}
+.home-sub{margin:14px auto 0;max-width:46ch;font-size:1.02rem;line-height:1.7;color:var(--text-2)}
+.reach{list-style:none;margin:clamp(32px,5vw,48px) 0 0;padding:0;text-align:left;
+  border-radius:18px;background:rgba(10,8,12,.42);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.reach li+li{border-top:1px solid rgba(255,255,255,.07)}
+.reach-row{position:relative;display:grid;grid-template-columns:96px minmax(0,1fr) auto;align-items:center;gap:16px;width:100%;
+  padding:18px 22px;text-align:left;color:inherit;transition:background .3s var(--ease)}
+.reach li:first-child .reach-row{border-radius:18px 18px 0 0}
+.reach li:last-child .reach-row{border-radius:0 0 18px 18px}
+.reach-row::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:2px;border-radius:2px;background:var(--warm);
+  transform:scaleY(0);transition:transform .35s var(--ease)}
+.reach-k{font-size:.82rem;color:var(--muted)}
+.reach-v{font-size:clamp(.98rem,2vw,1.12rem);font-weight:600;color:var(--text);overflow-wrap:anywhere}
+.reach-a{display:inline-flex;align-items:center;gap:6px;font-size:.84rem;font-weight:600;color:var(--warm);white-space:nowrap;
+  transition:transform .3s var(--ease)}
+.reach-a i{font-style:normal}
+a.reach-row:hover,button.reach-row:hover,.reach-row:focus-visible{background:rgba(255,201,139,.07)}
+a.reach-row:hover::before,button.reach-row:hover::before,.reach-row:focus-visible::before{transform:none}
+a.reach-row:hover .reach-a,button.reach-row:hover .reach-a{transform:translateX(3px)}
+button.reach-row.done .reach-a{color:#9FD6A4}
+.reach-row.is-static .reach-a{color:var(--text-2);font-weight:500}
+.reach-dot::before{content:"";width:7px;height:7px;border-radius:50%;background:#9FD6A4;box-shadow:0 0 0 0 rgba(159,214,164,.5);
+  animation:availPing 2.4s var(--ease) infinite}
+@keyframes availPing{0%{box-shadow:0 0 0 0 rgba(159,214,164,.5)}80%,100%{box-shadow:0 0 0 8px rgba(159,214,164,0)}}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.home-links{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 26px;margin:22px 0 0}
-.home-links a{font-size:.92rem;font-weight:500;color:var(--text-2);padding:6px 2px;transition:color .3s}
-.home-links a i{font-style:normal;color:var(--warm)}
-.home-links a:hover{color:var(--text)}
-.sun-msg{min-height:1.5em;margin:26px 0 0;font-size:.95rem;font-style:italic;color:#FFE3BD;opacity:0;transform:translateY(6px);
-  transition:opacity .6s var(--ease),transform .6s var(--ease)}
-.sun-msg.on{opacity:1;transform:none}
-/* the sun: sits on the horizon, rises as the section arrives, follows the pointer a little */
-.sun{position:absolute;z-index:1;left:50%;bottom:0;width:clamp(220px,34vw,380px);aspect-ratio:1;border-radius:50%;
-  transform:translate(calc(-50% + var(--sx,0px)),62%);transition:transform 2.2s cubic-bezier(.16,1,.3,1);cursor:pointer}
-.sun.up{transform:translate(calc(-50% + var(--sx,0px)),38%)}
-.sun-core{position:absolute;inset:0;border-radius:50%;
-  background:radial-gradient(circle at 50% 45%,#FFF2DC 0%,#FFD29A 38%,#F5A56A 70%,rgba(245,165,106,.0) 71%);
-  box-shadow:0 0 90px 30px rgba(255,190,120,.28),0 0 220px 80px rgba(255,160,100,.14);
-  animation:sunBreath 5s ease-in-out infinite}
-@keyframes sunBreath{50%{box-shadow:0 0 110px 36px rgba(255,190,120,.34),0 0 260px 96px rgba(255,160,100,.17)}}
-.sun:hover .sun-core,.sun:focus-visible .sun-core{filter:brightness(1.08)}
-.sun:focus-visible{outline:2px solid var(--warm);outline-offset:8px}
-/* rays that burst out when the sun is clicked or the email is copied */
-.sun-rays{position:absolute;inset:-40%;border-radius:50%;opacity:0;pointer-events:none;
-  background:repeating-conic-gradient(from 0deg,rgba(255,220,170,.28) 0deg 3deg,transparent 3deg 15deg);
-  -webkit-mask-image:radial-gradient(circle,transparent 34%,#000 36%,#000 52%,transparent 70%);mask-image:radial-gradient(circle,transparent 34%,#000 36%,#000 52%,transparent 70%)}
-.sun-rays.burst{animation:raysBurst 1.4s var(--ease)}
-@keyframes raysBurst{0%{opacity:0;transform:scale(.7) rotate(0)}25%{opacity:1}100%{opacity:0;transform:scale(1.25) rotate(20deg)}}
-.again{position:absolute;z-index:2;left:50%;bottom:22px;transform:translateX(-50%);display:inline-flex;align-items:center;gap:8px;
-  font-size:.8rem;color:#3a2618;padding:8px 14px;border-radius:999px;transition:background .3s}
-.again i{font-style:normal}
-.again:hover{background:rgba(255,255,255,.35)}
+.again{display:inline-flex;align-items:center;gap:8px;margin-top:clamp(26px,4vw,40px);font-size:.86rem;color:var(--text-2);
+  padding:8px 14px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);transition:color .3s,box-shadow .3s}
+.again i{font-style:normal;color:var(--warm);transition:transform .3s var(--ease)}
+.again:hover{color:var(--text);box-shadow:inset 0 0 0 1px rgba(255,201,139,.45)}
+.again:hover i{transform:translateY(-2px)}
 
 /* ---------- case study — an editorial story, no boxes ---------- */
 #case{position:fixed;inset:0;z-index:60;overflow-y:auto;--case-accent:var(--cyan);--case-rgb:139,223,255;
@@ -643,7 +637,8 @@ main{position:relative;z-index:2}
   .phones .ph{scroll-snap-align:start}
   .screens.tall{grid-template-columns:repeat(2,minmax(0,1fr))}
   .case-time span{display:none}
-  .mail-big{padding:14px 12px}
+  .reach-row{grid-template-columns:1fr auto;gap:4px 12px;padding:14px 16px}
+  .reach-k{grid-column:1/-1}
 }
 @media(max-width:520px){
   .deskscene{aspect-ratio:1/1}
@@ -663,7 +658,7 @@ main{position:relative;z-index:2}
   .hi-name{animation:none;background:none;-webkit-text-fill-color:var(--text)}
   .hero-title .w>i{animation:none;transform:none;filter:none;opacity:1}
   .rv-on .rv,.rv-on .sec.out-up .rv{opacity:1!important;transform:none!important}
-  .sun{transition:none}.sun-core{animation:none}
+  .dawn{transition:none}.reach-dot::before{animation:none}
 }
 </style>
 </head>
@@ -898,29 +893,32 @@ main{position:relative;z-index:2}
   </div>
 </section>
 
-<!-- ═════════ 06 CONNECT — sunrise at the end of the road ═════════ -->
+<!-- ═════════ 06 CONNECT — sunrise; one clear row per way to reach me ═════════ -->
 <section class="sec" id="home">
-  <!-- the sun rises on the horizon as you arrive; it's also a button, for the curious -->
-  <button class="sun" id="sun" type="button" aria-label="Say good morning"><i class="sun-core"></i><i class="sun-rays" id="sunRays"></i></button>
+  <div class="dawn" aria-hidden="true"></div>
   <div class="wrap connect">
     <h2 class="display home-title">Where do we go from here?</h2>
-    <p class="home-sub">I'm looking for Product Designer roles in AI, healthcare, SaaS and data. Based in Bengaluru, open to remote.</p>
+    <p class="home-sub">I'm looking for Product Designer roles in AI, healthcare, SaaS and data.</p>
 
-    <button class="mail-big" id="mailCopy" type="button" aria-describedby="mailHint">
-      <span class="mail-t">shanmugamofficial27@gmail.com</span>
-      <span class="mail-h" id="mailHint">Click to copy</span>
-    </button>
+    <ul class="reach">
+      <li><button class="reach-row" id="mailCopy" type="button">
+        <span class="reach-k">Email</span><span class="reach-v">shanmugamofficial27@gmail.com</span><span class="reach-a" id="mailHint">Copy</span>
+      </button></li>
+      <li><a class="reach-row" href="https://www.linkedin.com/in/shanmugam-v-/" target="_blank" rel="noopener">
+        <span class="reach-k">LinkedIn</span><span class="reach-v">in/shanmugam-v-</span><span class="reach-a">Open <i aria-hidden="true">↗</i></span>
+      </a></li>
+      <!-- REPLACE: drop resume.pdf into the project folder -->
+      <li><a class="reach-row" href="resume.pdf" target="_blank" rel="noopener">
+        <span class="reach-k">Resume</span><span class="reach-v">PDF</span><span class="reach-a">Download <i aria-hidden="true">↓</i></span>
+      </a></li>
+      <li><div class="reach-row is-static">
+        <span class="reach-k">Based in</span><span class="reach-v">Bengaluru, open to remote</span><span class="reach-a reach-dot" aria-label="Open to roles">Available</span>
+      </div></li>
+    </ul>
     <span class="sr-only" id="mailCopyMsg" role="status" aria-live="polite"></span>
 
-    <p class="home-links">
-      <a href="mailto:shanmugamofficial27@gmail.com">Write an email</a>
-      <a href="https://www.linkedin.com/in/shanmugam-v-/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a>
-      <!-- REPLACE: drop resume.pdf into the project folder -->
-      <a href="resume.pdf" target="_blank" rel="noopener">Resume <i aria-hidden="true">↓</i></a>
-    </p>
-    <p class="sun-msg" id="sunMsg" aria-live="polite"></p>
+    <a class="again" href="#start">Back to 8:00 PM <i aria-hidden="true">↑</i></a>
   </div>
-  <a class="again" href="#start">Back to 8:00 PM <i aria-hidden="true">↑</i></a>
 </section>
 
 </main>
@@ -1477,28 +1475,14 @@ mountMedia(document);
   },startAt);
 })();
 
-/* ═══════ CONNECT — the sun rises as you arrive, drifts with the pointer, and answers a click.
-   The email copies in one click, and the sun bursts to say so. ═══════ */
+/* ═══════ CONNECT — the dawn light rises as you arrive; the email row copies in one click ═══════ */
 (function(){
-  const sun=document.getElementById("sun"),rays=document.getElementById("sunRays"),msg=document.getElementById("sunMsg");
-  const btn=document.getElementById("mailCopy"),hint=document.getElementById("mailHint"),sr=document.getElementById("mailCopyMsg");
-  const home=document.getElementById("home");
-  if(!sun||!btn) return;
-  const burst=()=>{ rays.classList.remove("burst"); void rays.offsetWidth; rays.classList.add("burst"); };
-  if("IntersectionObserver" in window) new IntersectionObserver(es=>{ sun.classList.toggle("up",es[0].isIntersecting); },{threshold:.35}).observe(home);
-  else sun.classList.add("up");
-  if(!isTouch&&!RM) home.addEventListener("pointermove",e=>{
-    const r=home.getBoundingClientRect();
-    sun.style.setProperty("--sx",(((e.clientX-r.left)/r.width-.5)*60).toFixed(1)+"px");
-  });
-  const LINES=["Good morning. Thanks for walking with me.","Still here? That's a good sign.","The coffee's on me. The email's above."];
-  let n=0,mt=0;
-  sun.addEventListener("click",()=>{
-    burst();
-    msg.textContent=LINES[n%LINES.length];n++;
-    msg.classList.add("on");clearTimeout(mt);mt=setTimeout(()=>msg.classList.remove("on"),3600);
-  });
-  const ADDR="shanmugamofficial27@gmail.com";let ht=0;
+  const home=document.getElementById("home"),btn=document.getElementById("mailCopy"),
+        hint=document.getElementById("mailHint"),sr=document.getElementById("mailCopyMsg");
+  if(!btn) return;
+  if("IntersectionObserver" in window) new IntersectionObserver(es=>{ if(es[0].isIntersecting) home.classList.add("in"); },{threshold:.3}).observe(home);
+  else home.classList.add("in");
+  const ADDR="shanmugamofficial27@gmail.com";let t=0;
   btn.addEventListener("click",async()=>{
     let ok=false;
     try{ await navigator.clipboard.writeText(ADDR); ok=true; }
@@ -1508,10 +1492,9 @@ mountMedia(document);
       try{ ok=document.execCommand("copy"); }catch(_){}
       ta.remove();
     }
-    hint.textContent=ok?"Copied. Talk soon.":"Press Ctrl+C to copy";
-    btn.classList.toggle("done",ok); sr.textContent=ok?"Email address copied":"";
-    if(ok) burst();
-    clearTimeout(ht);ht=setTimeout(()=>{ hint.textContent="Click to copy"; btn.classList.remove("done"); sr.textContent=""; },2600);
+    if(!ok){ location.href="mailto:"+ADDR; return; }       // no clipboard: open an email instead
+    hint.textContent="Copied ✓";btn.classList.add("done");sr.textContent="Email address copied";
+    clearTimeout(t);t=setTimeout(()=>{ hint.textContent="Copy";btn.classList.remove("done");sr.textContent=""; },2400);
   });
 })();
 
