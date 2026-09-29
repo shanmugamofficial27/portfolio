@@ -48,8 +48,8 @@ body.locked{overflow:hidden}
   font-size:.86rem;font-weight:600;transition:top .25s var(--ease)}
 .skip:focus{top:16px}
 /* while a case study is open only the night scene stays behind it */
-main,.foot,.nav{transition:opacity .45s var(--ease),visibility .45s}
-body.locked main,body.locked .foot,body.locked .nav{opacity:0;visibility:hidden}
+main,.nav{transition:opacity .45s var(--ease),visibility .45s}
+body.locked main,body.locked .nav{opacity:0;visibility:hidden}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
 :focus-visible{outline:1px solid var(--cyan);outline-offset:4px}
@@ -401,49 +401,51 @@ main{position:relative;z-index:2}
 .finale .sub{max-width:52ch;font-size:.9rem}
 .finale-cta{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 
-/* ---------- 06 connect ---------- */
-#home{text-align:center}
-#home .wrap{
-  background:rgba(5,7,12,.42);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  border-radius:16px;padding:clamp(36px,6vw,64px) clamp(18px,5vw,40px);
-  border:1px solid rgba(255,255,255,.08);
-}
-.home-title{font-size:clamp(2.2rem,5.4vw,3.8rem);margin-top:18px}
-.home-poem{margin:14px 0 0;font-size:1.05rem;color:var(--text-2);font-style:italic}
-.home-sub{margin:26px auto 0;max-width:52ch;font-size:1.02rem;line-height:1.75;color:var(--text-2)}
-.mail{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;margin:38px auto 0}
-.mail-addr{font-size:clamp(1rem,2.4vw,1.35rem);font-weight:600;color:var(--text);padding:14px 22px;border-radius:999px;
-  border:1px solid rgba(255,201,139,.35);background:rgba(255,201,139,.07);transition:border-color .3s,background .3s;
-  overflow-wrap:anywhere}
-.mail-addr:hover{border-color:var(--warm);background:rgba(255,201,139,.13)}
-.mail-copy{min-width:92px;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line-2);
-  font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2);transition:.3s var(--ease)}
-.mail-copy:hover{color:var(--text);border-color:var(--text-2)}
-.mail-copy.done{color:#0A0E14;background:var(--warm);border-color:var(--warm)}
+/* ---------- 06 connect — the sunrise ---------- */
+#home{text-align:center;overflow:hidden;min-height:100svh;padding-bottom:clamp(150px,22vh,220px)}
+.connect{position:relative;z-index:2;max-width:720px}
+.home-title{font-size:clamp(2rem,4.6vw,3.2rem)}
+.home-sub{margin:16px auto 0;max-width:48ch;font-size:1.02rem;line-height:1.7;color:var(--text-2)}
+/* the email is the call to action: big, one click copies it */
+.mail-big{position:relative;display:inline-flex;flex-direction:column;align-items:center;gap:8px;margin:clamp(30px,5vw,44px) auto 0;
+  padding:18px 26px;border-radius:18px;transition:background .35s var(--ease),transform .25s var(--ease)}
+.mail-t{font-size:clamp(1.2rem,3.4vw,2rem);font-weight:600;letter-spacing:-.02em;color:var(--text);overflow-wrap:anywhere;
+  background:linear-gradient(currentColor,currentColor) 50% 100%/0 2px no-repeat;padding-bottom:4px;transition:background-size .45s var(--ease),color .35s}
+.mail-h{font-size:.82rem;color:rgba(255,236,214,.72);transition:color .3s}
+.mail-big:hover{background:rgba(255,201,139,.06)}
+.mail-big:hover .mail-t{color:#FFE9CC;background-size:100% 2px}
+.mail-big:hover .mail-h{color:var(--warm)}
+.mail-big:active{transform:scale(.98)}
+.mail-big.done .mail-h{color:var(--warm)}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.links{display:grid;gap:2px;max-width:320px;margin:26px auto 0}
-.link{display:flex;align-items:center;justify-content:space-between;padding:15px 4px;
-  border-bottom:1px solid var(--line);font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--text-2);transition:.35s var(--ease)}
-.link:hover{color:var(--text);border-color:rgba(255,201,139,.5)}
-.link i{font-style:normal;color:var(--warm);transition:transform .4s var(--ease)}
-.link:hover i{transform:translateX(5px)}
-.route{margin:70px auto 0;max-width:560px}
-.route svg{width:100%;height:44px;overflow:visible}
-.route-lbls{display:flex;justify-content:space-between;margin:12px -14px 0;font-size:.62rem;
-  letter-spacing:.12em;color:var(--text-2);text-transform:uppercase}
-.route-lbls a{padding:8px 4px;min-width:28px;text-align:center;transition:color .3s}
-.route-lbls a:hover{color:var(--warm)}
-.foot{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
-  padding:32px clamp(18px,5vw,56px);border-top:1px solid var(--line);position:relative;z-index:2;
-  font-size:.62rem;letter-spacing:.16em;color:var(--text-2);text-transform:uppercase;
-  background:rgba(5,7,12,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
-.again{display:inline-flex;align-items:center;gap:12px;transition:color .35s}
-.again small{font-size:inherit;color:var(--muted);letter-spacing:.12em}
-.totop{width:34px;height:34px;border:1px solid var(--line-2);border-radius:50%;display:grid;
-  place-items:center;transition:.35s}
-.again:hover{color:var(--cyan)}
-.again:hover .totop{border-color:var(--cyan);color:var(--cyan);transform:translateY(-2px)}
+.home-links{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 26px;margin:22px 0 0}
+.home-links a{font-size:.92rem;font-weight:500;color:var(--text-2);padding:6px 2px;transition:color .3s}
+.home-links a i{font-style:normal;color:var(--warm)}
+.home-links a:hover{color:var(--text)}
+.sun-msg{min-height:1.5em;margin:26px 0 0;font-size:.95rem;font-style:italic;color:#FFE3BD;opacity:0;transform:translateY(6px);
+  transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.sun-msg.on{opacity:1;transform:none}
+/* the sun: sits on the horizon, rises as the section arrives, follows the pointer a little */
+.sun{position:absolute;z-index:1;left:50%;bottom:0;width:clamp(220px,34vw,380px);aspect-ratio:1;border-radius:50%;
+  transform:translate(calc(-50% + var(--sx,0px)),62%);transition:transform 2.2s cubic-bezier(.16,1,.3,1);cursor:pointer}
+.sun.up{transform:translate(calc(-50% + var(--sx,0px)),38%)}
+.sun-core{position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 50% 45%,#FFF2DC 0%,#FFD29A 38%,#F5A56A 70%,rgba(245,165,106,.0) 71%);
+  box-shadow:0 0 90px 30px rgba(255,190,120,.28),0 0 220px 80px rgba(255,160,100,.14);
+  animation:sunBreath 5s ease-in-out infinite}
+@keyframes sunBreath{50%{box-shadow:0 0 110px 36px rgba(255,190,120,.34),0 0 260px 96px rgba(255,160,100,.17)}}
+.sun:hover .sun-core,.sun:focus-visible .sun-core{filter:brightness(1.08)}
+.sun:focus-visible{outline:2px solid var(--warm);outline-offset:8px}
+/* rays that burst out when the sun is clicked or the email is copied */
+.sun-rays{position:absolute;inset:-40%;border-radius:50%;opacity:0;pointer-events:none;
+  background:repeating-conic-gradient(from 0deg,rgba(255,220,170,.28) 0deg 3deg,transparent 3deg 15deg);
+  -webkit-mask-image:radial-gradient(circle,transparent 34%,#000 36%,#000 52%,transparent 70%);mask-image:radial-gradient(circle,transparent 34%,#000 36%,#000 52%,transparent 70%)}
+.sun-rays.burst{animation:raysBurst 1.4s var(--ease)}
+@keyframes raysBurst{0%{opacity:0;transform:scale(.7) rotate(0)}25%{opacity:1}100%{opacity:0;transform:scale(1.25) rotate(20deg)}}
+.again{position:absolute;z-index:2;left:50%;bottom:22px;transform:translateX(-50%);display:inline-flex;align-items:center;gap:8px;
+  font-size:.8rem;color:#3a2618;padding:8px 14px;border-radius:999px;transition:background .3s}
+.again i{font-style:normal}
+.again:hover{background:rgba(255,255,255,.35)}
 
 /* ---------- case study — an editorial story, no boxes ---------- */
 #case{position:fixed;inset:0;z-index:60;overflow-y:auto;--case-accent:var(--cyan);--case-rgb:139,223,255;
@@ -641,8 +643,7 @@ main{position:relative;z-index:2}
   .phones .ph{scroll-snap-align:start}
   .screens.tall{grid-template-columns:repeat(2,minmax(0,1fr))}
   .case-time span{display:none}
-  .foot{justify-content:center;text-align:center}
-  .route-lbls{font-size:.55rem;letter-spacing:.06em;margin:12px -8px 0}
+  .mail-big{padding:14px 12px}
 }
 @media(max-width:520px){
   .deskscene{aspect-ratio:1/1}
@@ -662,6 +663,7 @@ main{position:relative;z-index:2}
   .hi-name{animation:none;background:none;-webkit-text-fill-color:var(--text)}
   .hero-title .w>i{animation:none;transform:none;filter:none;opacity:1}
   .rv-on .rv,.rv-on .sec.out-up .rv{opacity:1!important;transform:none!important}
+  .sun{transition:none}.sun-core{animation:none}
 }
 </style>
 </head>
@@ -896,45 +898,32 @@ main{position:relative;z-index:2}
   </div>
 </section>
 
-<!-- ═════════ 06 HOME ═════════ -->
+<!-- ═════════ 06 CONNECT — sunrise at the end of the road ═════════ -->
 <section class="sec" id="home">
-  <div class="wrap">
-    <p class="eyebrow">You made it · sunrise</p>
-    <h2 class="display home-title">Where do we<br>go from here?</h2>
-    <p class="home-poem">Maybe the next road is ours.</p>
-    <p class="home-sub">I'm looking for Product Designer roles at product companies working on AI, healthcare, SaaS or data-driven products. Based in Bengaluru, open to remote.</p>
+  <!-- the sun rises on the horizon as you arrive; it's also a button, for the curious -->
+  <button class="sun" id="sun" type="button" aria-label="Say good morning"><i class="sun-core"></i><i class="sun-rays" id="sunRays"></i></button>
+  <div class="wrap connect">
+    <h2 class="display home-title">Where do we go from here?</h2>
+    <p class="home-sub">I'm looking for Product Designer roles in AI, healthcare, SaaS and data. Based in Bengaluru, open to remote.</p>
 
-    <div class="mail">
-      <a class="mail-addr" href="mailto:shanmugamofficial27@gmail.com">shanmugamofficial27@gmail.com</a>
-      <button class="mail-copy" id="mailCopy" type="button" aria-label="Copy email address">Copy</button>
-      <span class="sr-only" id="mailCopyMsg" role="status" aria-live="polite"></span>
-    </div>
+    <button class="mail-big" id="mailCopy" type="button" aria-describedby="mailHint">
+      <span class="mail-t">shanmugamofficial27@gmail.com</span>
+      <span class="mail-h" id="mailHint">Click to copy</span>
+    </button>
+    <span class="sr-only" id="mailCopyMsg" role="status" aria-live="polite"></span>
 
-    <div class="links">
-      <a class="link" href="https://www.linkedin.com/in/shanmugam-v-/" target="_blank" rel="noopener">LinkedIn <i>↗</i></a>
+    <p class="home-links">
+      <a href="mailto:shanmugamofficial27@gmail.com">Write an email</a>
+      <a href="https://www.linkedin.com/in/shanmugam-v-/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a>
       <!-- REPLACE: drop resume.pdf into the project folder -->
-      <a class="link" href="resume.pdf" target="_blank" rel="noopener">Resume <i>↓</i></a>
-    </div>
-
-    <nav class="route" aria-label="Every stop on the walk">
-      <svg viewBox="0 0 560 34" id="routemap" aria-hidden="true">
-        <path id="routedraw" d="M8 26 C120 26, 140 10, 280 10 S440 26, 552 12" fill="none" stroke="url(#rg)" stroke-width="1"/>
-        <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="#8BDFFF"/><stop offset=".72" stop-color="#7669B8"/><stop offset="1" stop-color="#FFC98B"/>
-        </linearGradient></defs>
-        <g id="routedots"></g>
-      </svg>
-      <div class="route-lbls"><a href="#start">Start</a><a href="#works">Work</a><a href="#skills">Skills</a><a href="#journey">Journey</a><a href="#play">Desk</a><a href="#home">Connect</a></div>
-    </nav>
+      <a href="resume.pdf" target="_blank" rel="noopener">Resume <i aria-hidden="true">↓</i></a>
+    </p>
+    <p class="sun-msg" id="sunMsg" aria-live="polite"></p>
   </div>
+  <a class="again" href="#start">Back to 8:00 PM <i aria-hidden="true">↑</i></a>
 </section>
 
 </main>
-
-<footer class="foot">
-  <div>V Shanmugam · Product Designer · Bengaluru</div>
-  <a class="again" href="#start"><span class="totop" aria-hidden="true">↑</span>Start again <small>back to 8:00 PM</small></a>
-</footer>
 
 <div id="case" role="dialog" aria-modal="true" aria-labelledby="casetitle">
   <div class="case-glow" aria-hidden="true"></div>
@@ -1488,12 +1477,28 @@ mountMedia(document);
   },startAt);
 })();
 
-/* ═══════ CONNECT — one-click email copy ═══════ */
+/* ═══════ CONNECT — the sun rises as you arrive, drifts with the pointer, and answers a click.
+   The email copies in one click, and the sun bursts to say so. ═══════ */
 (function(){
-  const btn=document.getElementById("mailCopy"),msg=document.getElementById("mailCopyMsg");
-  if(!btn) return;
-  const ADDR="shanmugamofficial27@gmail.com";
-  let t=0;
+  const sun=document.getElementById("sun"),rays=document.getElementById("sunRays"),msg=document.getElementById("sunMsg");
+  const btn=document.getElementById("mailCopy"),hint=document.getElementById("mailHint"),sr=document.getElementById("mailCopyMsg");
+  const home=document.getElementById("home");
+  if(!sun||!btn) return;
+  const burst=()=>{ rays.classList.remove("burst"); void rays.offsetWidth; rays.classList.add("burst"); };
+  if("IntersectionObserver" in window) new IntersectionObserver(es=>{ sun.classList.toggle("up",es[0].isIntersecting); },{threshold:.35}).observe(home);
+  else sun.classList.add("up");
+  if(!isTouch&&!RM) home.addEventListener("pointermove",e=>{
+    const r=home.getBoundingClientRect();
+    sun.style.setProperty("--sx",(((e.clientX-r.left)/r.width-.5)*60).toFixed(1)+"px");
+  });
+  const LINES=["Good morning. Thanks for walking with me.","Still here? That's a good sign.","The coffee's on me. The email's above."];
+  let n=0,mt=0;
+  sun.addEventListener("click",()=>{
+    burst();
+    msg.textContent=LINES[n%LINES.length];n++;
+    msg.classList.add("on");clearTimeout(mt);mt=setTimeout(()=>msg.classList.remove("on"),3600);
+  });
+  const ADDR="shanmugamofficial27@gmail.com";let ht=0;
   btn.addEventListener("click",async()=>{
     let ok=false;
     try{ await navigator.clipboard.writeText(ADDR); ok=true; }
@@ -1503,9 +1508,10 @@ mountMedia(document);
       try{ ok=document.execCommand("copy"); }catch(_){}
       ta.remove();
     }
-    btn.textContent=ok?"Copied ✓":"Press Ctrl+C";btn.classList.toggle("done",ok);
-    msg.textContent=ok?"Email address copied":"";
-    clearTimeout(t);t=setTimeout(()=>{btn.textContent="Copy";btn.classList.remove("done");msg.textContent="";},2200);
+    hint.textContent=ok?"Copied. Talk soon.":"Press Ctrl+C to copy";
+    btn.classList.toggle("done",ok); sr.textContent=ok?"Email address copied":"";
+    if(ok) burst();
+    clearTimeout(ht);ht=setTimeout(()=>{ hint.textContent="Click to copy"; btn.classList.remove("done"); sr.textContent=""; },2600);
   });
 })();
 
@@ -2364,32 +2370,6 @@ try{ (function(){
   if(h) h.remove();
   document.querySelectorAll("#deskscene .desk-tools,#deskscene .desk-steps").forEach(e=>e.remove());
 }
-
-/* ═══════ ROUTE MAP ═══════ */
-(function(){
-  const path=document.getElementById("routedraw"),dots=document.getElementById("routedots");
-  if(!path)return;
-  const L=path.getTotalLength();
-  path.style.strokeDasharray=L;path.style.strokeDashoffset=L;
-  const N=6;
-  for(let i=0;i<N;i++){
-    const p=path.getPointAtLength(L*(i/(N-1)));
-    const c=document.createElementNS("http://www.w3.org/2000/svg","circle");
-    c.setAttribute("cx",p.x);c.setAttribute("cy",p.y);c.setAttribute("r","2.4");
-    c.setAttribute("fill",i===N-1?"#FFC98B":"#8BDFFF");c.setAttribute("opacity","0");
-    dots.appendChild(c);
-  }
-  const obs=new IntersectionObserver(es=>{
-    es.forEach(e=>{
-      if(!e.isIntersecting)return;
-      path.style.transition=RM?"none":"stroke-dashoffset 2.4s cubic-bezier(.22,.61,.36,1)";
-      path.style.strokeDashoffset=0;
-      [...dots.children].forEach((c,i)=>setTimeout(()=>{c.style.transition="opacity .5s";c.setAttribute("opacity","1");},RM?0:330*i));
-      obs.disconnect();
-    });
-  },{threshold:.4});
-  obs.observe(document.getElementById("routemap"));
-})();
 
 /* ═══════ SCREEN LIGHTBOX — a bigger look at any key screen ═══════ */
 const lb=document.getElementById("lightbox"),lbMedia=document.getElementById("lbMedia"),
