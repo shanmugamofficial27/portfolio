@@ -162,18 +162,17 @@ main{position:relative;z-index:2}
 /* ---------- 01 hero ---------- */
 #start{justify-content:center;text-align:center;min-height:100svh;padding-bottom:max(110px,24vh)}
 .hero-title{font-size:clamp(2rem,4.6vw,3.5rem);letter-spacing:-.025em;line-height:1.08;margin-top:18px}
-.hero-title>span{display:block}
-/* letters rise out of each word, one after another, in one smooth wave */
-.hero-title .w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .02em .1em;margin-bottom:-.1em}
-.hero-title .w>i{display:inline-block;font-style:normal}
-.hero-title .lt{display:inline-block;transform:translateY(105%);opacity:0;
-  animation:ltUp 1s cubic-bezier(.16,1,.3,1) forwards;animation-delay:var(--cd)}
-@keyframes ltUp{to{transform:none;opacity:1}}
-/* "simple." comes last: its letters arrive spread apart and gather into the word */
-.hero-title .w.simple{overflow:visible}
-.hero-title .w.simple .lt{color:var(--cyan);transform:translateX(var(--sx));filter:blur(6px);
-  animation:ltGather 1.3s cubic-bezier(.16,1,.3,1) forwards;animation-delay:var(--cd)}
-@keyframes ltGather{to{transform:none;filter:none;opacity:1}}
+.hero-title>span{display:block;opacity:0;transform:translateY(16px);animation:lineUp .9s var(--ease) forwards}
+.hero-title>span:nth-child(2){animation-delay:.15s}
+@keyframes lineUp{to{opacity:1;transform:none}}
+/* the last word keeps changing: each one slides up and out as the next rises in */
+.swap{position:relative;display:inline-block;overflow:hidden;vertical-align:top;padding:0 .04em .12em;margin:0 -.04em -.12em;
+  color:var(--cyan);text-align:left;transition:width .6s cubic-bezier(.65,0,.35,1)}
+.swap-size{visibility:hidden;white-space:nowrap}
+.swap-w{position:absolute;left:.04em;top:0;white-space:nowrap;
+  transition:transform .65s cubic-bezier(.65,0,.35,1),opacity .65s var(--ease),filter .65s var(--ease)}
+.swap-w.in{transform:translateY(90%);opacity:0;filter:blur(4px)}
+.swap-w.out{transform:translateY(-90%);opacity:0;filter:blur(4px)}
 
 /* name: each letter switches on like a streetlight, warm first, then settles white; hover lights it again */
 .hero-hi{position:relative;display:inline-flex;align-items:center;gap:.35em;margin:0;padding:6px 14px;border-radius:999px;
@@ -695,7 +694,7 @@ main{position:relative;z-index:2}
 
   .hi-name .hl,.hi-hand{animation:none;color:var(--text)}
   .hi-hand{color:var(--warm)}
-  .hero-title .lt,.hero-title .w.simple .lt{animation:none;transform:none;filter:none;opacity:1}
+  .hero-title>span{animation:none;opacity:1;transform:none}
   .rv-on .rv,.rv-on .sec.out-up .rv{opacity:1!important;transform:none!important}
   .dawn{transition:none}.avail i,.hero-hello .ph{animation:none}
 }
@@ -745,7 +744,7 @@ main{position:relative;z-index:2}
 <section class="sec" id="start">
   <div class="wrap">
     <p class="hero-hi" id="heroHi"><i class="ph ph-hand-waving hi-hand" aria-hidden="true"></i><span class="sr-only">Hi, I'm Shanmugam</span><span aria-hidden="true">Hi, I'm <span class="hi-name">Shanmugam</span></span></p>
-    <h1 class="display hero-title" id="heroTitle" aria-label="I design complex products that feel simple."><span>I design complex products</span><span>that feel simple.</span></h1>
+    <h1 class="display hero-title" id="heroTitle" aria-label="I design complex products that feel simple."><span>I design complex products</span><span>that feel <span class="swap" id="heroSwap"><span class="swap-size">simple.</span><span class="swap-w">simple.</span></span></span></h1>
     <p class="hero-lede">Product designer at Chadura Tech. Two years, 25+ projects across healthcare, SaaS, fintech and, increasingly, AI.</p>
     <div class="hero-cta">
       <a class="hero-btn" href="#works">See my work <i aria-hidden="true">→</i></a>
@@ -1615,7 +1614,7 @@ const mountCovers=(function(){
 mountCovers(document);
 
 /* ═══════ HERO — the name switches on letter by letter (hover lights it again);
-   the headline rises letter by letter, and "simple." gathers into place last ═══════ */
+   the headline rises in, then its last word keeps changing: simple, calm, clear, human ═══════ */
 (function(){
   const hi=document.getElementById("heroHi");
   if(hi){
@@ -1630,19 +1629,27 @@ mountCovers(document);
   }
   const h1=document.getElementById("heroTitle");
   if(!h1) return;
-  let n=0;
-  h1.querySelectorAll(":scope > span").forEach(line=>{
-    line.setAttribute("aria-hidden","true");
-    line.innerHTML=line.textContent.trim().split(/\s+/).map(w=>{
-      const simple=w==="simple.",mid=(w.length-1)/2;
-      const letters=[...w].map((c,j)=>{
-        const d=simple?.35+n*.024+.25+j*.05:.35+n*.024;
-        n++;
-        return `<span class="lt" style="--cd:${d.toFixed(3)}s${simple?`;--sx:${((j-mid)*.35).toFixed(2)}em`:""}">${esc(c)}</span>`;
-      }).join("");
-      return `<span class="w${simple?" simple":""}"><i>${letters}</i></span>`;
-    }).join(" ");
-  });
+  h1.querySelectorAll(":scope > span").forEach(line=>line.setAttribute("aria-hidden","true"));
+  const slot=document.getElementById("heroSwap");
+  if(!slot||RM) return;
+  const WORDS=["simple.","calm.","clear.","human."],size=slot.querySelector(".swap-size");
+  let k=0,cur=slot.querySelector(".swap-w"),visible=true;
+  const widthOf=w=>{ size.textContent=w; return size.getBoundingClientRect().width; };
+  function next(){
+    if(!visible||document.hidden) return;
+    k=(k+1)%WORDS.length;
+    const el=document.createElement("span");el.className="swap-w in";el.textContent=WORDS[k];
+    slot.style.width=slot.getBoundingClientRect().width+"px"; void slot.offsetWidth;   // start from the width shown now
+    slot.appendChild(el);
+    const pad=parseFloat(getComputedStyle(slot).paddingLeft)*2;
+    slot.style.width=(widthOf(WORDS[k])+pad)+"px";
+    const old=cur;cur=el;
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ old.classList.add("out"); el.classList.remove("in"); }));
+    setTimeout(()=>old.remove(),700);
+  }
+  setTimeout(()=>setInterval(next,2600),1400);
+  if("IntersectionObserver" in window) new IntersectionObserver(es=>{ visible=es[0].isIntersecting; }).observe(h1);
+  window.addEventListener("resize",()=>{ slot.style.width=""; size.textContent=WORDS[k]; });
 })();
 
 /* ═══════ CONNECT — a light line runs from the road to the destination you point at.
