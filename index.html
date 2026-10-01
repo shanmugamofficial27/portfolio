@@ -165,6 +165,10 @@ main{position:relative;z-index:2}
 .hero-title>span{display:block;opacity:0;transform:translateY(16px);animation:lineUp .9s var(--ease) forwards}
 .hero-title>span:nth-child(2){animation-delay:.15s}
 @keyframes lineUp{to{opacity:1;transform:none}}
+/* then the paragraph and buttons follow, so the hero reads top to bottom */
+.hero-lede,.hero-cta{opacity:0;transform:translateY(16px);animation:lineUp .9s var(--ease) forwards}
+.hero-lede{animation-delay:.5s}.hero-cta{animation-delay:.65s}
+#start .wrap{will-change:opacity,transform}
 /* the last word keeps changing: each one slides up and out as the next rises in */
 .swap{position:relative;display:inline-block;overflow:hidden;vertical-align:top;padding:0 .04em .12em;margin:0 -.04em -.12em;
   color:var(--cyan);text-align:left;transition:width .6s cubic-bezier(.65,0,.35,1)}
@@ -698,6 +702,7 @@ main{position:relative;z-index:2}
   .hi-name .hl,.hi-hand{animation:none;color:var(--text)}
   .hi-hand{color:var(--warm)}
   .hero-title>span{animation:none;opacity:1;transform:none}
+  .hero-lede,.hero-cta{animation:none;opacity:1;transform:none}
   .rv-on .rv,.rv-on .sec.out-up .rv{opacity:1!important;transform:none!important}
   .dawn{transition:none}.avail i,.hero-hello .ph{animation:none}
 }
@@ -1653,6 +1658,21 @@ mountCovers(document);
   setTimeout(()=>setInterval(next,2600),1400);
   if("IntersectionObserver" in window) new IntersectionObserver(es=>{ visible=es[0].isIntersecting; }).observe(h1);
   window.addEventListener("resize",()=>{ slot.style.width=""; size.textContent=WORDS[k]; });
+})();
+
+/* ═══════ HERO EXIT — scrolling down, the hero text fades and drifts up, handing over to Work ═══════ */
+(function(){
+  const sec=document.getElementById("start"),w=sec&&sec.querySelector(".wrap");
+  if(!w||RM) return;
+  let raf=0;
+  function upd(){
+    raf=0;
+    const p=clamp(window.scrollY/(sec.offsetHeight*.55),0,1);
+    w.style.opacity=(1-p).toFixed(3);
+    w.style.transform=p?`translateY(${(-p*48).toFixed(1)}px)`:"";
+  }
+  window.addEventListener("scroll",()=>{ if(!raf) raf=requestAnimationFrame(upd); },{passive:true});
+  upd();
 })();
 
 /* ═══════ CONNECT — a light line runs from the road to the destination you point at.
