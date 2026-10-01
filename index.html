@@ -272,7 +272,10 @@ main{position:relative;z-index:2}
   box-shadow:0 0 10px 3px rgba(255,214,160,.7)}
 
 /* ---------- 04 journey — milestones as a constellation; lines join them one by one ---------- */
-.sky{position:relative;max-width:980px;margin:0 auto;aspect-ratio:1000/380}
+.sky{position:relative;max-width:980px;margin:0 auto;aspect-ratio:1000/290}
+#journey{min-height:auto}
+#journey .sec-head{margin-bottom:clamp(8px,2vw,20px)}
+#journey .trip-cap{margin-top:clamp(10px,1.6vw,18px);min-height:112px}
 .sky-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
 .sky-guide{stroke:rgba(255,255,255,.1);stroke-width:1;stroke-dasharray:2 7;stroke-linecap:round}
 .sky-guide.ahead{stroke:rgba(255,201,139,.28)}
@@ -652,7 +655,7 @@ main{position:relative;z-index:2}
   #start{min-height:100svh;padding-top:0;padding-bottom:max(120px,26vh)}
   .lane{grid-template-columns:1fr;padding:16px 4px 6px}
   .lane-s{justify-content:flex-start;padding:6px 0 10px;gap:6px 16px}
-  .sky{aspect-ratio:1000/560}
+  .sky{aspect-ratio:1000/480}
   .star-t{font-size:.7rem}
   .gap{height:34vh}
   .deskscene{aspect-ratio:4/3}
@@ -1774,17 +1777,17 @@ function depth(){}
   const svg=document.getElementById("skyLines"),starsEl=document.getElementById("skyStars"),
         spark=document.getElementById("skySpark"),cap=document.getElementById("tripCap");
   const STOPS=[
-    {x:60, y:280,l:"2020",y2:"2020",h:"Started engineering.",d:"B.E. in Electronics and Communication Engineering at Kongunadu College of Engineering and Technology, Trichy."},
-    {x:235,y:150,l:"College",y2:"2020 - 2024",h:"Drawn to the human side.",d:"More curious about how people use technology than how the circuit works."},
-    {x:415,y:235,l:"Self-taught",y2:"Along the way",h:"Taught myself design.",d:"UX and product design, learned on my own: research, flows, hierarchy and systems."},
-    {x:585,y:105,l:"2024",y2:"2024",h:"Graduated.",d:"B.E. Electronics and Communication Engineering, 2020 - 2024."},
-    {x:770,y:220,l:"Sep 2024",y2:"Sep 2024 - now",h:"Product Designer, Chadura Tech.",d:"The only designer on the team, working directly with the founder, product managers and developers."},
-    {x:935,y:90, l:"Next",y2:"Next",h:"The next road.",d:"Looking for Product Designer roles in AI, healthcare, SaaS and data.",link:true}
+    {x:60, y:235,l:"2020",y2:"2020",h:"Started engineering.",d:"B.E. in Electronics and Communication Engineering at Kongunadu College of Engineering and Technology, Trichy."},
+    {x:235,y:115,l:"College",y2:"2020 - 2024",h:"Drawn to the human side.",d:"More curious about how people use technology than how the circuit works."},
+    {x:415,y:190,l:"Self-taught",y2:"Along the way",h:"Taught myself design.",d:"UX and product design, learned on my own: research, flows, hierarchy and systems."},
+    {x:585,y:58,l:"2024",y2:"2024",h:"Graduated.",d:"B.E. Electronics and Communication Engineering, 2020 - 2024."},
+    {x:770,y:175,l:"Sep 2024",y2:"Sep 2024 - now",h:"Product Designer, Chadura Tech.",d:"The only designer on the team, working directly with the founder, product managers and developers."},
+    {x:935,y:48, l:"Next",y2:"Next",h:"The next road.",d:"Looking for Product Designer roles in AI, healthcare, SaaS and data.",link:true}
   ];
   const NOW=4;                                   // the brightest star: today
   const NS="http://www.w3.org/2000/svg";
-  starsEl.innerHTML=STOPS.map((s2,i)=>`<button class="star${i===NOW?" now":""}${i>NOW?" ahead":""}${s2.y<190?" up":""}" type="button"
-     style="--x:${s2.x/10}%;--y:${(s2.y/3.8).toFixed(2)}%" data-i="${i}" aria-pressed="false"
+  starsEl.innerHTML=STOPS.map((s2,i)=>`<button class="star${i===NOW?" now":""}${i>NOW?" ahead":""}${s2.y<140?" up":""}" type="button"
+     style="--x:${s2.x/10}%;--y:${(s2.y/2.9).toFixed(2)}%" data-i="${i}" aria-pressed="false"
      aria-label="${esc(s2.y2)}: ${esc(s2.h)}"><span class="star-d"></span><span class="star-t">${esc(s2.l)}</span></button>`).join("");
   const stars=[...starsEl.querySelectorAll(".star")];
   // one faint guide and one lit line per gap between stars
@@ -1796,7 +1799,7 @@ function depth(){}
   let u=0;
   function place(){
     const w=sky.clientWidth,h=sky.clientHeight;
-    const pt=i=>({x:STOPS[i].x/1000*w,y:STOPS[i].y/380*h});
+    const pt=i=>({x:STOPS[i].x/1000*w,y:STOPS[i].y/290*h});
     segs.forEach((s2,i)=>{
       const a=pt(i),b=pt(i+1);
       [s2.g,s2.l].forEach(n=>{n.setAttribute("x1",a.x);n.setAttribute("y1",a.y);n.setAttribute("x2",b.x);n.setAttribute("y2",b.y);});
