@@ -163,29 +163,17 @@ main{position:relative;z-index:2}
 #start{justify-content:center;text-align:center;min-height:100svh;padding-bottom:max(110px,24vh)}
 .hero-title{font-size:clamp(2rem,4.6vw,3.5rem);letter-spacing:-.025em;line-height:1.08;margin-top:18px}
 .hero-title>span{display:block}
-/* words rise out of a mask, one after another */
-.hero-title .w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .02em .08em;margin-bottom:-.08em}
-.hero-title .w>i{display:inline-block;font-style:normal;transform:translateY(105%);filter:blur(6px);opacity:0;
-  animation:wordUp .9s var(--ease) forwards;animation-delay:calc(.35s + var(--wi)*70ms)}
-@keyframes wordUp{to{transform:none;filter:none;opacity:1}}
-/* "complex products": letters start scattered and blurred, then drift into one clean line */
-.hero-title .w.loose{overflow:visible}
-.hero-title .w.loose>i{transform:none;filter:none;opacity:1;animation:none}
-.hero-title .lt{display:inline-block;opacity:0;filter:blur(8px);
-  transform:translate(var(--dx),var(--dy)) rotate(var(--r));
-  animation:chIn 1.25s cubic-bezier(.16,1,.3,1) forwards;animation-delay:var(--cd)}
-@keyframes chIn{60%{filter:blur(0)}to{transform:none;filter:none;opacity:1}}
-/* "simple.": a lane line draws under it, then the word glows once */
+/* letters rise out of each word, one after another, in one smooth wave */
+.hero-title .w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .02em .1em;margin-bottom:-.1em}
+.hero-title .w>i{display:inline-block;font-style:normal}
+.hero-title .lt{display:inline-block;transform:translateY(105%);opacity:0;
+  animation:ltUp 1s cubic-bezier(.16,1,.3,1) forwards;animation-delay:var(--cd)}
+@keyframes ltUp{to{transform:none;opacity:1}}
+/* "simple." comes last: its letters arrive spread apart and gather into the word */
 .hero-title .w.simple{overflow:visible}
-.hero-title .w.simple>i{position:relative;background:linear-gradient(100deg,var(--cyan),#DDF5FF 70%);-webkit-background-clip:text;
-  background-clip:text;color:transparent;
-  animation:wordUp .9s var(--ease) forwards,simpleGlow 1.6s var(--ease) 2.15s;animation-delay:calc(.35s + var(--wi)*70ms),2.15s}
-.hero-title .lane-line{position:absolute;left:.04em;right:.3em;bottom:-.02em;height:3px;border-radius:2px;pointer-events:none;
-  background:repeating-linear-gradient(90deg,var(--cyan) 0 18px,transparent 18px 28px);
-  box-shadow:0 0 12px rgba(139,223,255,.55);transform:scaleX(0);transform-origin:left;
-  animation:laneDraw .8s cubic-bezier(.65,0,.35,1) 1.55s forwards}
-@keyframes laneDraw{to{transform:scaleX(1)}}
-@keyframes simpleGlow{0%,100%{filter:drop-shadow(0 0 0 rgba(139,223,255,0))}40%{filter:drop-shadow(0 0 14px rgba(139,223,255,.75))}}
+.hero-title .w.simple .lt{color:var(--cyan);transform:translateX(var(--sx));filter:blur(6px);
+  animation:ltGather 1.3s cubic-bezier(.16,1,.3,1) forwards;animation-delay:var(--cd)}
+@keyframes ltGather{to{transform:none;filter:none;opacity:1}}
 
 /* name: each letter switches on like a streetlight, warm first, then settles white; hover lights it again */
 .hero-hi{position:relative;display:inline-flex;align-items:center;gap:.35em;margin:0;padding:6px 14px;border-radius:999px;
@@ -707,8 +695,7 @@ main{position:relative;z-index:2}
 
   .hi-name .hl,.hi-hand{animation:none;color:var(--text)}
   .hi-hand{color:var(--warm)}
-  .hero-title .w>i,.hero-title .lt{animation:none;transform:none;filter:none;opacity:1}
-  .hero-title .lane-line{animation:none;transform:none}
+  .hero-title .lt,.hero-title .w.simple .lt{animation:none;transform:none;filter:none;opacity:1}
   .rv-on .rv,.rv-on .sec.out-up .rv{opacity:1!important;transform:none!important}
   .dawn{transition:none}.avail i,.hero-hello .ph{animation:none}
 }
@@ -1628,7 +1615,7 @@ const mountCovers=(function(){
 mountCovers(document);
 
 /* ═══════ HERO — the name switches on letter by letter (hover lights it again);
-   "complex products" drifts into line, "simple." gets a lane line and one glow ═══════ */
+   the headline rises letter by letter, and "simple." gathers into place last ═══════ */
 (function(){
   const hi=document.getElementById("heroHi");
   if(hi){
@@ -1643,21 +1630,17 @@ mountCovers(document);
   }
   const h1=document.getElementById("heroTitle");
   if(!h1) return;
-  let wi=0;
-  const LOOSE=["complex","products"];
+  let n=0;
   h1.querySelectorAll(":scope > span").forEach(line=>{
     line.setAttribute("aria-hidden","true");
     line.innerHTML=line.textContent.trim().split(/\s+/).map(w=>{
-      const i=wi++;
-      if(LOOSE.includes(w)){
-        const letters=[...w].map((c,j)=>{
-          const r=()=>Math.random()*2-1;
-          return `<span class="lt" style="--dx:${(r()*.6).toFixed(2)}em;--dy:${(r()*.7).toFixed(2)}em;--r:${(r()*28).toFixed(0)}deg;--cd:${(.35+i*.07+j*.035).toFixed(3)}s">${esc(c)}</span>`;
-        }).join("");
-        return `<span class="w loose"><i style="--wi:${i}">${letters}</i></span>`;
-      }
-      if(w==="simple.") return `<span class="w simple"><i style="--wi:${i}">${esc(w)}<span class="lane-line"></span></i></span>`;
-      return `<span class="w"><i style="--wi:${i}">${esc(w)}</i></span>`;
+      const simple=w==="simple.",mid=(w.length-1)/2;
+      const letters=[...w].map((c,j)=>{
+        const d=simple?.35+n*.024+.25+j*.05:.35+n*.024;
+        n++;
+        return `<span class="lt" style="--cd:${d.toFixed(3)}s${simple?`;--sx:${((j-mid)*.35).toFixed(2)}em`:""}">${esc(c)}</span>`;
+      }).join("");
+      return `<span class="w${simple?" simple":""}"><i>${letters}</i></span>`;
     }).join(" ");
   });
 })();
