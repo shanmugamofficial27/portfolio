@@ -168,21 +168,44 @@ main{position:relative;z-index:2}
 .hero-title .w>i{display:inline-block;font-style:normal;transform:translateY(105%);filter:blur(6px);opacity:0;
   animation:wordUp .9s var(--ease) forwards;animation-delay:calc(.35s + var(--wi)*70ms)}
 @keyframes wordUp{to{transform:none;filter:none;opacity:1}}
-/* "simple." resolves out of scrambled characters — complex settling into simple */
-.hero-title .w.simple>i{background:linear-gradient(100deg,var(--cyan),#DDF5FF 70%);-webkit-background-clip:text;
-  background-clip:text;color:transparent}
+/* "complex products": letters start scattered and blurred, then drift into one clean line */
+.hero-title .w.loose{overflow:visible}
+.hero-title .w.loose>i{transform:none;filter:none;opacity:1;animation:none}
+.hero-title .lt{display:inline-block;opacity:0;filter:blur(8px);
+  transform:translate(var(--dx),var(--dy)) rotate(var(--r));
+  animation:chIn 1.25s cubic-bezier(.16,1,.3,1) forwards;animation-delay:var(--cd)}
+@keyframes chIn{60%{filter:blur(0)}to{transform:none;filter:none;opacity:1}}
+/* "simple.": a lane line draws under it, then the word glows once */
+.hero-title .w.simple{overflow:visible}
+.hero-title .w.simple>i{position:relative;background:linear-gradient(100deg,var(--cyan),#DDF5FF 70%);-webkit-background-clip:text;
+  background-clip:text;color:transparent;
+  animation:wordUp .9s var(--ease) forwards,simpleGlow 1.6s var(--ease) 2.15s;animation-delay:calc(.35s + var(--wi)*70ms),2.15s}
+.hero-title .lane-line{position:absolute;left:.04em;right:.3em;bottom:-.02em;height:3px;border-radius:2px;pointer-events:none;
+  background:repeating-linear-gradient(90deg,var(--cyan) 0 18px,transparent 18px 28px);
+  box-shadow:0 0 12px rgba(139,223,255,.55);transform:scaleX(0);transform-origin:left;
+  animation:laneDraw .8s cubic-bezier(.65,0,.35,1) 1.55s forwards}
+@keyframes laneDraw{to{transform:scaleX(1)}}
+@keyframes simpleGlow{0%,100%{filter:drop-shadow(0 0 0 rgba(139,223,255,0))}40%{filter:drop-shadow(0 0 14px rgba(139,223,255,.75))}}
 
-/* name: a streetlight glow keeps drifting across it; click stops it */
+/* name: each letter switches on like a streetlight, warm first, then settles white; hover lights it again */
 .hero-hi{position:relative;display:inline-flex;align-items:center;gap:.35em;margin:0;padding:6px 14px;border-radius:999px;
-  font-size:.95rem;font-weight:500;color:var(--text-2);cursor:pointer;user-select:none;
+  font-size:.95rem;font-weight:500;color:var(--text-2);user-select:none;
   border:1px solid transparent;transition:background .3s var(--ease),border-color .3s}
 .hero-hi:hover{background:rgba(255,255,255,.04);border-color:var(--line)}
-.hi-name{font-weight:600;color:var(--text);
-  background:linear-gradient(100deg,var(--text) 0%,var(--text) 38%,var(--cyan) 47%,#FFE3BD 53%,var(--text) 62%,var(--text) 100%);
-  background-size:260% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  animation:namePass 3.6s linear infinite}
-@keyframes namePass{from{background-position:100% 0}to{background-position:0 0}}
-.hero-hi.stopped .hi-name{animation:none;background:none;-webkit-text-fill-color:var(--text)}
+.hi-hand{font-size:1.15em;color:var(--warm);transform-origin:70% 80%;animation:wave 1.1s var(--ease) .2s}
+.hi-name{font-weight:600;color:var(--text);letter-spacing:.01em}
+.hi-name .hl{display:inline-block;color:#3A4352;animation:lampOn 1.1s var(--ease) forwards;animation-delay:calc(.25s + var(--li)*85ms)}
+@keyframes lampOn{
+  0%{color:#3A4352;text-shadow:none}
+  18%{color:#FFE3BD;text-shadow:0 0 10px rgba(255,201,139,.95),0 0 22px rgba(255,201,139,.5)}
+  26%{color:#5A5048;text-shadow:none}
+  40%{color:#FFD9A0;text-shadow:0 0 12px rgba(255,201,139,.9),0 0 26px rgba(255,201,139,.45)}
+  100%{color:var(--text);text-shadow:0 0 14px rgba(255,227,189,.28)}}
+.hero-hi.relight .hl{animation-name:lampOn2}
+@keyframes lampOn2{
+  0%{color:var(--text)}
+  30%{color:#FFE3BD;text-shadow:0 0 12px rgba(255,201,139,.9),0 0 24px rgba(255,201,139,.45)}
+  100%{color:var(--text);text-shadow:0 0 14px rgba(255,227,189,.28)}}
 .hero-lede{margin:24px auto 0;font-size:clamp(1.05rem,1.9vw,1.25rem);line-height:1.6;color:var(--text-2);max-width:46ch}
 .hero-cta{margin-top:36px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:14px 26px}
 .hero-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:999px;
@@ -261,28 +284,37 @@ main{position:relative;z-index:2}
 .car::after{content:"";position:absolute;right:-3px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:#FFF3E0;
   box-shadow:0 0 10px 3px rgba(255,214,160,.7)}
 
-/* ---------- 04 journey — a short road with lamp posts ---------- */
-.trip{position:relative;max-width:980px;margin:0 auto;aspect-ratio:1000/240}
-.trip-road{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.trip-base{fill:none;stroke:rgba(255,255,255,.05);stroke-width:26;stroke-linecap:round;vector-effect:non-scaling-stroke}
-.trip-dash{fill:none;stroke:rgba(255,255,255,.2);stroke-width:1.2;stroke-dasharray:6 10;vector-effect:non-scaling-stroke}
-.trip-lit{fill:none;stroke:url(#tripGrad);stroke-width:2;stroke-linecap:round;vector-effect:non-scaling-stroke;
-  filter:drop-shadow(0 0 5px rgba(139,223,255,.6))}
-/* the traveller: a small warm light moving along the road */
-.trip-car{position:absolute;left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#FFF3E0;pointer-events:none;
-  box-shadow:0 0 0 4px rgba(255,201,139,.18),0 0 18px 6px rgba(255,201,139,.55);will-change:transform}
-.trip-stops{position:absolute;inset:0}
-.lamp{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;
-  width:96px;padding:0}
-.lamp-d{width:14px;height:14px;border-radius:50%;background:#0B0F1C;border:2px solid rgba(255,255,255,.22);
-  transition:background .5s,border-color .5s,box-shadow .5s,transform .35s var(--ease)}
-.lamp-t{position:absolute;top:calc(50% + 16px);font-size:.8rem;font-weight:500;white-space:nowrap;color:var(--muted);transition:color .4s}
-.lamp.up .lamp-t{top:auto;bottom:calc(50% + 16px)}
-.lamp:hover .lamp-d{transform:scale(1.25)}
-.lamp.lit .lamp-d{background:#FFE3BD;border-color:#FFC98B;box-shadow:0 0 0 5px rgba(255,201,139,.12),0 0 18px rgba(255,201,139,.7)}
-.lamp.lit .lamp-t{color:var(--text-2)}
-.lamp[aria-pressed="true"] .lamp-t{color:var(--text)}
-.lamp.ahead .lamp-d{border-style:dashed}
+/* ---------- 04 journey — milestones as a constellation; lines join them one by one ---------- */
+.sky{position:relative;max-width:980px;margin:0 auto;aspect-ratio:1000/380}
+.sky-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.sky-guide{stroke:rgba(255,255,255,.1);stroke-width:1;stroke-dasharray:2 7;stroke-linecap:round}
+.sky-guide.ahead{stroke:rgba(255,201,139,.28)}
+.sky-lit{stroke:rgba(214,224,255,.8);stroke-width:1.2;stroke-linecap:round;filter:drop-shadow(0 0 4px rgba(201,214,255,.75))}
+.sky-spark{position:absolute;left:0;top:0;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:#fff;pointer-events:none;
+  box-shadow:0 0 8px 3px rgba(201,214,255,.8);opacity:0;transition:opacity .3s;will-change:transform}
+.sky-spark.on{opacity:1}
+.star{position:absolute;left:var(--x);top:var(--y);width:44px;height:44px;margin:-22px 0 0 -22px;display:grid;place-items:center;border-radius:50%}
+.star-d{position:relative;width:7px;height:7px;border-radius:50%;background:rgba(190,199,208,.35);
+  transition:background .5s,box-shadow .5s,transform .4s var(--ease)}
+/* a thin four-point flare that opens when the star is lit */
+.star-d::before,.star-d::after{content:"";position:absolute;left:50%;top:50%;background:linear-gradient(90deg,transparent,rgba(230,238,248,.9),transparent);
+  width:26px;height:1px;transform:translate(-50%,-50%) scaleX(0);transition:transform .6s var(--ease)}
+.star-d::after{transform:translate(-50%,-50%) rotate(90deg) scaleX(0)}
+.star.lit .star-d{background:#fff;box-shadow:0 0 0 3px rgba(201,214,255,.12),0 0 14px rgba(201,214,255,.85)}
+.star.lit .star-d::before{transform:translate(-50%,-50%) scaleX(1)}
+.star.lit .star-d::after{transform:translate(-50%,-50%) rotate(90deg) scaleX(1)}
+.star.now .star-d{width:10px;height:10px}
+.star.now.lit .star-d{background:#FFF1DC;box-shadow:0 0 0 4px rgba(255,201,139,.14),0 0 20px rgba(255,201,139,.9);animation:twinkle 3.2s ease-in-out infinite}
+@keyframes twinkle{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+.star.ahead .star-d{background:transparent;border:1px dashed rgba(255,201,139,.6);width:10px;height:10px}
+.star::after{content:"";position:absolute;inset:8px;border-radius:50%;border:1px solid rgba(201,214,255,0);transition:border-color .35s,inset .35s var(--ease)}
+.star[aria-pressed="true"]::after{inset:4px;border-color:rgba(201,214,255,.4)}
+.star.ahead[aria-pressed="true"]::after{border-color:rgba(255,201,139,.5)}
+.star:hover .star-d{transform:scale(1.3)}
+.star-t{position:absolute;top:calc(50% + 14px);font-size:.8rem;font-weight:500;white-space:nowrap;color:var(--muted);transition:color .4s}
+.star.up .star-t{top:auto;bottom:calc(50% + 14px)}
+.star.lit .star-t{color:var(--text-2)}
+.star[aria-pressed="true"] .star-t{color:var(--text)}
 .trip-cap{max-width:520px;min-height:128px;margin:clamp(22px,3vw,34px) auto 0;text-align:center;transition:opacity .3s var(--ease),transform .3s var(--ease)}
 .trip-cap.swap{opacity:0;transform:translateY(6px)}
 .trip-cap small{font-size:.8rem;font-weight:600;color:var(--warm)}
@@ -633,9 +665,8 @@ main{position:relative;z-index:2}
   #start{min-height:100svh;padding-top:0;padding-bottom:max(120px,26vh)}
   .lane{grid-template-columns:1fr;padding:16px 4px 6px}
   .lane-s{justify-content:flex-start;padding:6px 0 10px;gap:6px 16px}
-  .trip{aspect-ratio:1000/420}
-  .lamp{width:64px}
-  .lamp-t{font-size:.7rem}
+  .sky{aspect-ratio:1000/560}
+  .star-t{font-size:.7rem}
   .gap{height:34vh}
   .deskscene{aspect-ratio:4/3}
   .journal{padding:12px 14px}
@@ -674,8 +705,10 @@ main{position:relative;z-index:2}
   *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
   .lane+.lane::before{animation:none}
 
-  .hi-name{animation:none;background:none;-webkit-text-fill-color:var(--text)}
-  .hero-title .w>i{animation:none;transform:none;filter:none;opacity:1}
+  .hi-name .hl,.hi-hand{animation:none;color:var(--text)}
+  .hi-hand{color:var(--warm)}
+  .hero-title .w>i,.hero-title .lt{animation:none;transform:none;filter:none;opacity:1}
+  .hero-title .lane-line{animation:none;transform:none}
   .rv-on .rv,.rv-on .sec.out-up .rv{opacity:1!important;transform:none!important}
   .dawn{transition:none}.avail i,.hero-hello .ph{animation:none}
 }
@@ -724,8 +757,7 @@ main{position:relative;z-index:2}
 <!-- ═════════ 01 START ═════════ -->
 <section class="sec" id="start">
   <div class="wrap">
-    <p class="hero-hi" id="heroHi" role="button" tabindex="0" aria-pressed="false"
-       aria-label="Hi, I'm Shanmugam. Click to stop the animation.">Hi, I'm <span class="hi-name">Shanmugam</span></p>
+    <p class="hero-hi" id="heroHi"><i class="ph ph-hand-waving hi-hand" aria-hidden="true"></i><span class="sr-only">Hi, I'm Shanmugam</span><span aria-hidden="true">Hi, I'm <span class="hi-name">Shanmugam</span></span></p>
     <h1 class="display hero-title" id="heroTitle" aria-label="I design complex products that feel simple."><span>I design complex products</span><span>that feel simple.</span></h1>
     <p class="hero-lede">Product designer at Chadura Tech. Two years, 25+ projects across healthcare, SaaS, fintech and, increasingly, AI.</p>
     <div class="hero-cta">
@@ -803,25 +835,16 @@ main{position:relative;z-index:2}
   </div>
 </section>
 
-<!-- ═════════ 04 JOURNEY — a short road; a traveller drives through the milestones ═════════ -->
+<!-- ═════════ 04 JOURNEY — the milestones are stars; lines join them in order, up to today ═════════ -->
 <section class="sec" id="journey">
   <div class="wrap">
     <div class="sec-head">
       <h2 class="display h-sec">How I got on this road</h2>
     </div>
-    <div class="trip" id="trip">
-      <svg class="trip-road" id="tripSvg" viewBox="0 0 1000 240" preserveAspectRatio="none" aria-hidden="true">
-        <defs>
-          <linearGradient id="tripGrad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stop-color="#C9D6FF"/><stop offset=".7" stop-color="#8BDFFF"/><stop offset="1" stop-color="#FFC98B"/>
-          </linearGradient>
-        </defs>
-        <path id="tripBase" class="trip-base" d="M10 180 C 160 180, 190 70, 340 80 S 570 200, 690 160 S 880 60, 990 70"/>
-        <path class="trip-dash" d="M10 180 C 160 180, 190 70, 340 80 S 570 200, 690 160 S 880 60, 990 70"/>
-        <path id="tripLit" class="trip-lit" d="M10 180 C 160 180, 190 70, 340 80 S 570 200, 690 160 S 880 60, 990 70"/>
-      </svg>
-      <div class="trip-stops" id="tripStops" role="group" aria-label="Milestones"></div>
-      <span class="trip-car" id="tripCar" aria-hidden="true"></span>
+    <div class="sky" id="sky">
+      <svg class="sky-lines" id="skyLines" aria-hidden="true"></svg>
+      <div id="skyStars" role="group" aria-label="Milestones"></div>
+      <span class="sky-spark" id="skySpark" aria-hidden="true"></span>
     </div>
     <div class="trip-cap" id="tripCap" aria-live="polite"></div>
   </div>
@@ -1212,6 +1235,10 @@ function draw(now){
   }
   ctx.globalAlpha=1;
 
+  // hero only: headlights on the far lane, a shooting star now and then, fog drifting over the horizon
+  const hf=clamp(1-sp*7,0,1);
+  if(hf>.01&&!RM) heroFx(now,time,A,hy,vpx,half,hf);
+
   const tf=clamp(1-sp*9,0,1);
   if(tf>.01){
     const th=H*.11,tw=th*.34,bx=vpx,by=hy+(H-hy)*.42;
@@ -1254,6 +1281,57 @@ function draw(now){
     const e2=1-Math.pow(1-age,3);
     ctx.beginPath();ctx.arc(rp.x,rp.y,8+e2*96,0,6.283);
     ctx.strokeStyle=rgba(A.lightHex,(1-age)*.28);ctx.lineWidth=1;ctx.stroke();
+  }
+}
+
+/* ═══════ HERO MOTION — small, slow events that keep the opening scene alive ═══════ */
+const hcar={t0:performance.now()+2200,dur:7000},hstar={dur:950};
+function nextStar(t){
+  hstar.t0=t;hstar.x=W*(.15+Math.random()*.7);hstar.y=H*.58*(.06+Math.random()*.26);
+  hstar.d=Math.random()<.5?-1:1;hstar.len=Math.min(W*.22,140+Math.random()*90);
+}
+function heroFx(now,time,A,hy,vpx,half,hf){
+  // fog: two wide, soft banks crossing the horizon in opposite directions
+  for(let i=0;i<2;i++){
+    const span=W*1.7,dir=i?1:-1;
+    const x=((time*(i?14:10)*dir+i*W*.8)%span+span)%span-W*.35;
+    ctx.save();ctx.translate(x,hy+H*(i?.03:.01));ctx.scale(1,.12);
+    const fg=ctx.createRadialGradient(0,0,0,0,0,W*.38);
+    fg.addColorStop(0,rgba(A.lightHex,.07*hf));fg.addColorStop(1,rgba(A.lightHex,0));
+    ctx.fillStyle=fg;ctx.beginPath();ctx.arc(0,0,W*.38,0,6.283);ctx.fill();ctx.restore();
+  }
+  // headlights: a car comes up the left lane from the horizon and passes out of view
+  let k=(now-hcar.t0)/hcar.dur;
+  if(k>1){ hcar.t0=now+4500+Math.random()*5000; hcar.dur=6200+Math.random()*1800; }
+  else if(k>=0){
+    const z=lerp(300,NEAR*1.05,k),s2=scl(z),y=projY(z,hy);
+    const a=clamp(k/.12,0,1)*clamp((1-k)/.12,0,1)*hf;
+    const cx=lerp(vpx,W/2,s2)-half*.46*s2,gap=half*.13*s2,r=Math.max(1.2,26*s2);
+    ctx.save();ctx.translate(cx,y+r*.5);ctx.scale(1,.22);       // light pooled on the road ahead of the car
+    const pg=ctx.createRadialGradient(0,0,0,0,0,half*.5*s2+8);
+    pg.addColorStop(0,`rgba(255,240,215,${.22*a})`);pg.addColorStop(1,"rgba(255,240,215,0)");
+    ctx.fillStyle=pg;ctx.beginPath();ctx.arc(0,0,half*.5*s2+8,0,6.283);ctx.fill();ctx.restore();
+    for(const side of [-1,1]){
+      const lx=cx+side*gap,lg=ctx.createRadialGradient(lx,y,0,lx,y,r*3);
+      lg.addColorStop(0,`rgba(255,248,232,${.95*a})`);lg.addColorStop(.18,`rgba(255,236,200,${.45*a})`);lg.addColorStop(1,"rgba(255,236,200,0)");
+      ctx.fillStyle=lg;ctx.beginPath();ctx.arc(lx,y,r*3,0,6.283);ctx.fill();
+    }
+  }
+  // shooting star: a short streak high in the sky
+  if(hstar.t0===undefined) nextStar(now+3800);
+  k=(now-hstar.t0)/hstar.dur;
+  if(k>1){
+    nextStar(now+7000+Math.random()*8000);
+  } else if(k>=0){
+    const e=1-Math.pow(1-k,2),ang=hstar.d<0?Math.PI*.86:Math.PI*.14;
+    const hx2=hstar.x+Math.cos(ang)*hstar.len*e,hy2=hstar.y+Math.sin(ang)*hstar.len*e;
+    const tl=hstar.len*.45*(1-k*.6),tx=hx2-Math.cos(ang)*tl,ty=hy2-Math.sin(ang)*tl;
+    const a=Math.sin(k*Math.PI)*hf;
+    const sg=ctx.createLinearGradient(tx,ty,hx2,hy2);
+    sg.addColorStop(0,"rgba(230,238,248,0)");sg.addColorStop(1,`rgba(230,238,248,${.85*a})`);
+    ctx.strokeStyle=sg;ctx.lineWidth=1.2;ctx.lineCap="round";
+    ctx.beginPath();ctx.moveTo(tx,ty);ctx.lineTo(hx2,hy2);ctx.stroke();
+    ctx.fillStyle=`rgba(255,255,255,${.9*a})`;ctx.beginPath();ctx.arc(hx2,hy2,1.3,0,6.283);ctx.fill();
   }
 }
 
@@ -1549,39 +1627,39 @@ const mountCovers=(function(){
 })();
 mountCovers(document);
 
-/* ═══════ HERO — name glow (click to stop) + headline words rise, "simple." unscrambles ═══════ */
+/* ═══════ HERO — the name switches on letter by letter (hover lights it again);
+   "complex products" drifts into line, "simple." gets a lane line and one glow ═══════ */
 (function(){
   const hi=document.getElementById("heroHi");
   if(hi){
-    let stopped=RM;
-    const set=()=>{ hi.classList.toggle("stopped",stopped); hi.setAttribute("aria-pressed",stopped?"true":"false"); };
-    set();
-    hi.addEventListener("click",()=>{ stopped=!stopped; set(); });
-    hi.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); hi.click(); } });
+    const nm=hi.querySelector(".hi-name");
+    nm.innerHTML=[...nm.textContent].map((c,i)=>`<span class="hl" style="--li:${i}">${esc(c)}</span>`).join("");
+    let ready=false;
+    nm.lastElementChild.addEventListener("animationend",()=>{ ready=true; });
+    hi.addEventListener("mouseenter",()=>{
+      if(!ready||RM) return; ready=false;
+      hi.classList.remove("relight"); void hi.offsetWidth; hi.classList.add("relight");
+    });
   }
   const h1=document.getElementById("heroTitle");
   if(!h1) return;
   let wi=0;
+  const LOOSE=["complex","products"];
   h1.querySelectorAll(":scope > span").forEach(line=>{
     line.setAttribute("aria-hidden","true");
-    line.innerHTML=line.textContent.trim().split(/\s+/).map(w=>
-      `<span class="w${w==="simple."?" simple":""}"><i style="--wi:${wi++}">${esc(w)}</i></span>`).join(" ");
+    line.innerHTML=line.textContent.trim().split(/\s+/).map(w=>{
+      const i=wi++;
+      if(LOOSE.includes(w)){
+        const letters=[...w].map((c,j)=>{
+          const r=()=>Math.random()*2-1;
+          return `<span class="lt" style="--dx:${(r()*.6).toFixed(2)}em;--dy:${(r()*.7).toFixed(2)}em;--r:${(r()*28).toFixed(0)}deg;--cd:${(.35+i*.07+j*.035).toFixed(3)}s">${esc(c)}</span>`;
+        }).join("");
+        return `<span class="w loose"><i style="--wi:${i}">${letters}</i></span>`;
+      }
+      if(w==="simple.") return `<span class="w simple"><i style="--wi:${i}">${esc(w)}<span class="lane-line"></span></i></span>`;
+      return `<span class="w"><i style="--wi:${i}">${esc(w)}</i></span>`;
+    }).join(" ");
   });
-  const word=h1.querySelector(".w.simple>i");
-  if(!word||RM) return;
-  const FINAL=word.textContent,POOL="#%&*+=?/<>[]{}01xz";
-  word.style.display="inline-block";word.style.minWidth=word.offsetWidth+"px";
-  const scramble=()=>[...FINAL].map(c=>c==="."?c:POOL[(Math.random()*POOL.length)|0]).join("");
-  word.textContent=scramble();                       // it rises in scrambled…
-  const startAt=(.35+(wi-1)*.07+.55)*1000;           // …and resolves once it has risen into place
-  setTimeout(()=>{
-    const t0=performance.now(),DUR=950;
-    (function frame(now){
-      const p=Math.min(1,(now-t0)/DUR);
-      word.textContent=[...FINAL].map((c,i)=>(i/FINAL.length<p||c===".")?c:POOL[(Math.random()*POOL.length)|0]).join("");
-      if(p<1) requestAnimationFrame(frame); else { word.textContent=FINAL; word.style.minWidth=""; }
-    })(t0);
-  },startAt);
 })();
 
 /* ═══════ CONNECT — a light line runs from the road to the destination you point at.
@@ -1699,75 +1777,81 @@ function depth(){}
   }).observe(lanesEl);
 })();
 
-/* ═══════ JOURNEY — a short road. When it comes into view a traveller drives through the milestones,
-   lighting each lamp; click any lamp to drive there. "Next" stays ahead, unlit. ═══════ */
+/* ═══════ JOURNEY — a constellation. When it comes into view, lines join the stars in order up to today,
+   each star lighting as the line reaches it; click any star to read its story. "Next" stays unlit, ahead. ═══════ */
 (function(){
-  const trip=document.getElementById("trip");if(!trip) return;
-  const base=document.getElementById("tripBase"),lit=document.getElementById("tripLit"),car=document.getElementById("tripCar"),
-        stopsEl=document.getElementById("tripStops"),cap=document.getElementById("tripCap");
+  const sky=document.getElementById("sky");if(!sky) return;
+  const svg=document.getElementById("skyLines"),starsEl=document.getElementById("skyStars"),
+        spark=document.getElementById("skySpark"),cap=document.getElementById("tripCap");
   const STOPS=[
-    {t:.03,l:"2020",y:"2020",h:"Started engineering.",d:"B.E. in Electronics and Communication Engineering at Kongunadu College of Engineering and Technology, Trichy."},
-    {t:.2,l:"College",y:"2020 - 2024",h:"Drawn to the human side.",d:"More curious about how people use technology than how the circuit works."},
-    {t:.4,l:"Self-taught",y:"Along the way",h:"Taught myself design.",d:"UX and product design, learned on my own: research, flows, hierarchy and systems."},
-    {t:.58,l:"2024",y:"2024",h:"Graduated.",d:"B.E. Electronics and Communication Engineering, 2020 - 2024."},
-    {t:.77,l:"Sep 2024",y:"Sep 2024 - now",h:"Product Designer, Chadura Tech.",d:"The only designer on the team, working directly with the founder, product managers and developers."},
-    {t:.97,l:"Next",y:"Next",h:"The next road.",d:"Looking for Product Designer roles in AI, healthcare, SaaS and data.",link:true}
+    {x:60, y:280,l:"2020",y2:"2020",h:"Started engineering.",d:"B.E. in Electronics and Communication Engineering at Kongunadu College of Engineering and Technology, Trichy."},
+    {x:235,y:150,l:"College",y2:"2020 - 2024",h:"Drawn to the human side.",d:"More curious about how people use technology than how the circuit works."},
+    {x:415,y:235,l:"Self-taught",y2:"Along the way",h:"Taught myself design.",d:"UX and product design, learned on my own: research, flows, hierarchy and systems."},
+    {x:585,y:105,l:"2024",y2:"2024",h:"Graduated.",d:"B.E. Electronics and Communication Engineering, 2020 - 2024."},
+    {x:770,y:220,l:"Sep 2024",y2:"Sep 2024 - now",h:"Product Designer, Chadura Tech.",d:"The only designer on the team, working directly with the founder, product managers and developers."},
+    {x:935,y:90, l:"Next",y2:"Next",h:"The next road.",d:"Looking for Product Designer roles in AI, healthcare, SaaS and data.",link:true}
   ];
-  const NOW=4;                                   // where the traveller lives today
-  const L=base.getTotalLength();
-  lit.style.strokeDasharray=L;lit.style.strokeDashoffset=L;
-  stopsEl.innerHTML=STOPS.map((s2,i)=>`<button class="lamp${i>NOW?" ahead":""}" type="button" data-i="${i}" aria-pressed="false"
-     aria-label="${esc(s2.y)}: ${esc(s2.h)}"><span class="lamp-d"></span><span class="lamp-t">${esc(s2.l)}</span></button>`).join("");
-  const lamps=[...stopsEl.querySelectorAll(".lamp")];
+  const NOW=4;                                   // the brightest star: today
+  const NS="http://www.w3.org/2000/svg";
+  starsEl.innerHTML=STOPS.map((s2,i)=>`<button class="star${i===NOW?" now":""}${i>NOW?" ahead":""}${s2.y<190?" up":""}" type="button"
+     style="--x:${s2.x/10}%;--y:${(s2.y/3.8).toFixed(2)}%" data-i="${i}" aria-pressed="false"
+     aria-label="${esc(s2.y2)}: ${esc(s2.h)}"><span class="star-d"></span><span class="star-t">${esc(s2.l)}</span></button>`).join("");
+  const stars=[...starsEl.querySelectorAll(".star")];
+  // one faint guide and one lit line per gap between stars
+  const segs=STOPS.slice(1).map((_,i)=>{
+    const g=document.createElementNS(NS,"line"),l=document.createElementNS(NS,"line");
+    g.setAttribute("class","sky-guide"+(i+1>NOW?" ahead":""));l.setAttribute("class","sky-lit");
+    svg.append(g,l); return {g,l,len:0,a:null,b:null};
+  });
+  let u=0;
   function place(){
-    const sx=trip.clientWidth/1000,sy=trip.clientHeight/240;
-    STOPS.forEach((s2,i)=>{
-      const pt=base.getPointAtLength(s2.t*L);
-      lamps[i].style.setProperty("--x",(pt.x*sx)+"px");lamps[i].style.setProperty("--y",(pt.y*sy)+"px");
-      lamps[i].classList.toggle("up",pt.y>130);    // labels sit on the side away from the road's bend
+    const w=sky.clientWidth,h=sky.clientHeight;
+    const pt=i=>({x:STOPS[i].x/1000*w,y:STOPS[i].y/380*h});
+    segs.forEach((s2,i)=>{
+      const a=pt(i),b=pt(i+1);
+      [s2.g,s2.l].forEach(n=>{n.setAttribute("x1",a.x);n.setAttribute("y1",a.y);n.setAttribute("x2",b.x);n.setAttribute("y2",b.y);});
+      s2.a=a;s2.b=b;s2.len=Math.hypot(b.x-a.x,b.y-a.y);
+      s2.l.style.strokeDasharray=s2.len;
     });
   }
-  let pos=0,sel=-1,anim=0;
-  function drawAt(u){
-    pos=u;const pt=base.getPointAtLength(u*L);
-    car.style.transform=`translate(${(pt.x*trip.clientWidth/1000).toFixed(1)}px,${(pt.y*trip.clientHeight/240).toFixed(1)}px)`;
-    lit.style.strokeDashoffset=(L*(1-u)).toFixed(1);
-    STOPS.forEach((s2,i)=>lamps[i].classList.toggle("lit",s2.t<=u+.001));
+  function drawAt(v){
+    u=v;
+    segs.forEach((s2,i)=>{ const f=clamp(v-i,0,1); s2.l.style.strokeDashoffset=(s2.len*(1-f)).toFixed(1); });
+    stars.forEach((st,i)=>st.classList.toggle("lit",i<=v+.001&&i<=NOW));
+    const i=Math.min(Math.floor(v),segs.length-1),f=clamp(v-i,0,1),s2=segs[i];
+    if(s2){ spark.style.transform=`translate(${(s2.a.x+(s2.b.x-s2.a.x)*f).toFixed(1)}px,${(s2.a.y+(s2.b.y-s2.a.y)*f).toFixed(1)}px)`; }
   }
+  let sel=-1;
   function caption(i){
     if(i===sel) return; sel=i;
-    lamps.forEach((l,j)=>l.setAttribute("aria-pressed",j===i?"true":"false"));
+    stars.forEach((st,j)=>st.setAttribute("aria-pressed",j===i?"true":"false"));
     const s2=STOPS[i];
     cap.classList.add("swap");
     setTimeout(()=>{
-      cap.innerHTML=`<small>${esc(s2.y)}</small><h3>${esc(s2.h)}</h3><p>${esc(s2.d)}</p>`+
+      cap.innerHTML=`<small>${esc(s2.y2)}</small><h3>${esc(s2.h)}</h3><p>${esc(s2.d)}</p>`+
         (s2.link?`<a href="#home">Connect <i aria-hidden="true">↓</i></a>`:"");
       cap.classList.remove("swap");
     },RM?0:160);
   }
-  // drive from the current position to stop i; captions follow as each lamp is passed
-  function driveTo(i,onDone){
-    cancelAnimationFrame(anim);
-    const from=pos,to=STOPS[i].t;
-    if(RM){ drawAt(to); caption(i); if(onDone)onDone(); return; }
-    const dur=600+Math.abs(to-from)*2600,t0=performance.now();
+  // join the stars from the first one up to today; captions follow each star as it lights
+  function tour(){
+    if(RM){ drawAt(NOW); caption(NOW); return; }
+    const dur=NOW*900,t0=performance.now();
+    spark.classList.add("on");
     (function step(now){
       const k=Math.min(1,(now-t0)/dur),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
-      const u=from+(to-from)*e; drawAt(u);
-      // driving forward, the caption follows the last lamp passed
-      let passed=-1; STOPS.forEach((s2,j)=>{ if(s2.t<=u+.001) passed=j; });
-      if(k<1){ if(to>from&&passed>=0&&passed!==sel) caption(passed); anim=requestAnimationFrame(step); }
-      else { caption(i); if(onDone)onDone(); }
+      drawAt(e*NOW); caption(Math.floor(e*NOW+.001));
+      if(k<1) requestAnimationFrame(step); else spark.classList.remove("on");
     })(t0);
   }
   place();drawAt(0);caption(0);
-  window.addEventListener("resize",()=>{ place(); drawAt(pos); });
-  lamps.forEach((l,i)=>l.addEventListener("click",()=>driveTo(i)));
+  window.addEventListener("resize",()=>{ place(); drawAt(u); });
+  stars.forEach((st,i)=>st.addEventListener("click",()=>caption(i)));
   let toured=false;
   if("IntersectionObserver" in window) new IntersectionObserver(es=>{
-    if(es[0].isIntersecting&&!toured){ toured=true; setTimeout(()=>driveTo(NOW),RM?0:500); }
-  },{threshold:.5}).observe(trip);
-  else driveTo(NOW);
+    if(es[0].isIntersecting&&!toured){ toured=true; setTimeout(tour,RM?0:450); }
+  },{threshold:.5}).observe(sky);
+  else tour();
 })();
 
 /* ═══════ PLAYGROUND — lamp-lit desk puzzle (Three.js) ═══════
