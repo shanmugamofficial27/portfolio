@@ -629,19 +629,21 @@ main{position:relative;z-index:2}
 #case .back{height:34px;padding:0 14px;font-size:.8rem;border-color:rgba(255,255,255,.1)}
 #case.cpage .case-glow{background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(var(--case-rgb),.12),transparent 70%),rgba(4,6,12,.55)}
 
-.ccase{max-width:960px;margin:0 auto;padding:0 clamp(18px,5vw,40px) 160px;text-align:center}
+.ccase{--w:880px;--t:640px;max-width:calc(var(--w) + 2*clamp(18px,5vw,40px));margin:0 auto;padding:0 clamp(18px,5vw,40px) 160px;text-align:center}
 .rc-hero{padding-top:32px}
 .rc-hero .cs-kick{margin:0}
 .rc-hero h1{margin:16px auto 0;font-size:clamp(2.3rem,6vw,4.2rem);font-weight:600;letter-spacing:-.035em;line-height:1.04;text-wrap:balance;max-width:16ch}
-.rc-hero .cs-line{margin:20px auto 0;max-width:54ch}
-.rc-hero .cs-meta{margin:40px auto 0;text-align:left}
+.rc-hero .cs-line{margin:20px auto 0;max-width:var(--t)}
+.rc-hero .cs-meta{margin:40px auto 0;text-align:center}
 .rc-cover{margin-top:56px;aspect-ratio:16/8;border-radius:16px;box-shadow:0 40px 80px -40px rgba(0,0,0,.9)}
 
+/* every paragraph on the case page sits on the centre line (the old chapter rule capped them at 62ch, flush left) */
+.ccase .ch p{margin-left:auto;margin-right:auto}
 .bk{margin-top:160px}
-.bk-title{max-width:640px;margin:0 auto}
+.bk-title{max-width:var(--t);margin:0 auto}
 .bk-eye,.ch .bk-eye{margin:0;font-size:.75rem;line-height:1.4;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--case-accent)}
 .bk h2{margin:12px 0 0;font-size:clamp(1.75rem,3.4vw,2.5rem);font-weight:600;letter-spacing:-.025em;line-height:1.15;text-wrap:balance}
-.ch .bk-line{margin:16px auto 0;font-size:clamp(1rem,1.4vw,1.125rem);line-height:1.6;color:var(--text-2);max-width:46ch}
+.ch .bk-line{margin:16px auto 0;font-size:clamp(1rem,1.4vw,1.125rem);line-height:1.6;color:var(--text-2);max-width:var(--t)}
 .bk-body{margin-top:40px;text-align:left}
 .ch .bk-cap{margin:12px 0 0;font-size:.875rem;line-height:1.55;color:var(--muted);text-align:center}
 .bk-cap b{color:var(--text);font-weight:600}
@@ -660,7 +662,7 @@ main{position:relative;z-index:2}
 
 /* process: four tabs, the artifact, one caption */
 .st-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 16px;align-items:start}
-.st-tabs button{position:relative;display:block;padding:12px 0 0;text-align:left;border-top:1px solid rgba(255,255,255,.1)}
+.st-tabs button{position:relative;display:block;padding:12px 4px 0;text-align:center;border-top:1px solid rgba(255,255,255,.1)}
 .st-n{display:block;font-size:.75rem;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;transition:color .4s}
 .st-tabs b{display:block;margin-top:4px;font-size:.9375rem;font-weight:600;line-height:1.35;color:var(--muted);transition:color .4s}
 .st-tabs button:hover b{color:var(--text-2)}
@@ -694,7 +696,7 @@ main{position:relative;z-index:2}
 .gr-m b+.gr-t{color:var(--text)}
 
 /* report: the collage leads; short notes beside it spotlight its parts */
-.anno{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:40px;align-items:center;max-width:860px;margin:0 auto}
+.anno{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
 .anno-media{position:relative}
 .anno-spot{position:absolute;inset:0;border-radius:10px;pointer-events:none;opacity:0;transition:opacity .45s var(--ease);
   background:radial-gradient(circle at var(--sx,50%) var(--sy,50%),transparent 0 16%,rgba(4,6,12,.74) 30%)}
@@ -713,22 +715,22 @@ main{position:relative;z-index:2}
 .anno-list button[aria-pressed="true"] i{background:var(--case-accent);color:#0A0E14}
 
 /* decision: a quiet panel; the problem, the options (rejected ones struck through), why, then a small diagram */
-.dcard{max-width:720px;margin:64px auto 0;padding:40px clamp(18px,4vw,40px);border-radius:20px;text-align:center;
+.dcard{margin:64px 0 0;padding:40px clamp(18px,4vw,40px);border-radius:20px;text-align:center;
   background:linear-gradient(180deg,rgba(var(--case-rgb),.05),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.07)}
 .ch .dc-k{margin:0;font-size:.75rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-.ch .dc-prob{margin:12px auto 0;font-size:clamp(1rem,1.6vw,1.125rem);line-height:1.55;color:var(--text);max-width:44ch}
+.ch .dc-prob{margin:12px auto 0;font-size:clamp(1rem,1.6vw,1.125rem);line-height:1.55;color:var(--text);max-width:var(--t)}
 .dc-opts{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
 .dc-opts li{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.1);
   font-size:.875rem;color:var(--text-2);transition:opacity .5s,border-color .5s,background .5s,color .5s}
 .dc-opts li i{font-style:normal;font-size:.75rem;font-weight:700;color:var(--case-accent)}
 .dc-opts.done li:not(.pick){opacity:.4;text-decoration:line-through;text-decoration-color:rgba(255,255,255,.3)}
 .dc-opts.done li.pick{border-color:rgba(var(--case-rgb),.6);background:rgba(var(--case-rgb),.12);color:var(--text)}
-.ch .dc-why{margin:16px auto 0;font-size:.875rem;line-height:1.55;color:var(--text-2);max-width:46ch}
+.ch .dc-why{margin:16px auto 0;font-size:.875rem;line-height:1.55;color:var(--text-2);max-width:var(--t)}
 .dg{margin:32px auto 0}
 
 /* diagram · reading order: three layers stack, the finding in front */
-.dg-layers{position:relative;max-width:420px;height:178px}
-.ly{position:absolute;left:calc(var(--i)*22px);right:calc(var(--i)*-22px + 44px);top:calc(var(--i)*52px);display:flex;align-items:center;gap:12px;
+.dg-layers{position:relative;max-width:440px;height:178px}
+.ly{position:absolute;left:calc(var(--i)*18px);right:calc(var(--i)*18px);top:calc(var(--i)*52px);display:flex;align-items:center;gap:12px;
   height:56px;padding:0 16px;border-radius:12px;text-align:left;background:#0C111B;border:1px solid rgba(255,255,255,.1);
   z-index:calc(3 - var(--i));opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease) calc(var(--i)*.25s),transform .6s var(--ease) calc(var(--i)*.25s)}
 .dg-layers.go .ly{opacity:calc(1 - var(--i)*.22);transform:none}
@@ -740,9 +742,9 @@ main{position:relative;z-index:2}
 .ly:first-child span{background:var(--case-accent);color:#0A0E14}
 
 /* diagram · kit to lab: the manual step is crossed out, the direct line lights up */
-.dg-hand{display:grid;gap:16px;max-width:560px}
-.hr{display:flex;align-items:center;gap:0}
-.hr em{flex:none;width:64px;font-style:normal;font-size:.6875rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:left}
+.dg-hand{display:grid;gap:20px;max-width:520px}
+.hr{position:relative;display:flex;align-items:center;gap:0;padding-top:22px}
+.hr em{position:absolute;left:0;right:0;top:0;font-style:normal;font-size:.6875rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:center}
 .hn{flex:none;padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#0C111B;font-size:.8125rem;font-weight:500;color:var(--text-2);white-space:nowrap}
 .hl{position:relative;flex:1;min-width:16px;height:1px;background:rgba(255,255,255,.2)}
 .hn-manual{position:relative;border-style:dashed;transition:opacity .5s var(--ease) .6s,color .5s .6s}
@@ -802,7 +804,7 @@ main{position:relative;z-index:2}
 @keyframes flTxt{0%{color:var(--text)}20%,100%{color:var(--text-2)}}
 
 /* mobile: four phones; the one you point at comes forward */
-.bk .phones{margin:0 auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;max-width:760px}
+.bk .phones{margin:0 auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;max-width:720px}
 .ph-focus .ph{transition:opacity .35s var(--ease)}
 .ph-focus:hover .ph:not(:hover){opacity:.45}
 .bk .phones figcaption{margin-top:12px;font-size:.8125rem;line-height:1.45;color:var(--muted);text-align:center}
@@ -848,9 +850,8 @@ main{position:relative;z-index:2}
   .ph-focus:hover .ph:not(:hover){opacity:1}
   .dcard{margin-top:48px;padding:32px 18px}
   .dg-layers{height:170px}
-  .ly{left:calc(var(--i)*12px);right:calc(var(--i)*-12px + 24px);padding:0 12px}
+  .ly{left:calc(var(--i)*10px);right:calc(var(--i)*10px);padding:0 12px}
   .ly em{display:none}
-  .hr em{width:52px}
   .hn{padding:7px 9px;font-size:.75rem}
 }
 @media (prefers-reduced-motion:reduce){
