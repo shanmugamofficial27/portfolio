@@ -75,7 +75,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
 .rv-on .sec.out-up .rv{opacity:0;transform:translateY(-14px);transition-duration:.4s;transition-delay:0s}
 
 /* ---------- media placeholder: IMAGE / GIF / VIDEO ---------- */
-figure.ph{margin:0}
+figure.ph{margin:0;font-family:"Plus Jakarta Sans","Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;line-height:normal;font-style:normal;speak:auto}
 .ph-frame{position:relative;aspect-ratio:var(--ar,16/10);border-radius:10px;overflow:hidden;
   border:1px solid var(--line-2);display:grid;place-items:center;
   background:radial-gradient(ellipse 80% 70% at 30% 20%,rgba(139,223,255,.07),transparent 70%),
@@ -619,6 +619,198 @@ main{position:relative;z-index:2}
 .cs-next-arrow{font-size:clamp(1.6rem,4vw,2.4rem);color:var(--next-acc);transition:transform .4s var(--ease)}
 .cs-next:hover .cs-next-arrow{transform:translateX(8px)}
 
+/* ---------- case blocks — the interactive layout (Genix first) ---------- */
+.bk-eye{margin:0 0 12px;font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--case-accent)}
+.bk-p{max-width:62ch}
+
+/* at a glance: three short lines, each with its own accent rule that fills on hover */
+.glance{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 28px}
+.gl{position:relative;padding:20px 0 4px;border-top:1px solid rgba(255,255,255,.1)}
+.gl::before{content:"";position:absolute;left:0;top:-1px;height:1px;width:0;background:var(--case-accent);transition:width .6s var(--ease)}
+.ch.in .gl::before{width:28px}
+.gl:hover::before{width:100%}
+.gl i{display:block;font-style:normal;font-size:.72rem;font-weight:600;color:var(--case-accent);font-variant-numeric:tabular-nums}
+.gl b{display:block;margin-top:10px;font-size:1rem;font-weight:600;color:var(--text)}
+.ch .gl p{margin:8px 0 0;font-size:.96rem;line-height:1.65}
+
+/* process: steps on the left, the artifact on the right; it advances by itself until you choose */
+.steps{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(22px,4vw,48px);align-items:start;margin-top:38px}
+.st-list{list-style:none;margin:0;padding:0}
+.st-list button{position:relative;display:grid;grid-template-columns:34px minmax(0,1fr);gap:14px;width:100%;padding:16px 0 18px;text-align:left;
+  border-top:1px solid rgba(255,255,255,.08)}
+.st-n{font-size:.78rem;font-weight:600;color:var(--muted);padding-top:3px;font-variant-numeric:tabular-nums;transition:color .4s}
+.st-b b{display:block;font-size:1.04rem;font-weight:600;color:var(--text-2);transition:color .4s}
+.st-b>span{display:grid;grid-template-rows:0fr;margin-top:0;opacity:0;transition:grid-template-rows .45s var(--ease),margin .45s var(--ease),opacity .45s}
+.st-b>span>span{overflow:hidden;font-size:.94rem;line-height:1.6;color:var(--text-2)}
+.st-list button[aria-pressed="true"] .st-b>span{grid-template-rows:1fr;margin-top:6px;opacity:1}
+.st-list button[aria-pressed="true"] .st-n{color:var(--case-accent)}
+.st-list button[aria-pressed="true"] .st-b b,.st-list button:hover .st-b b{color:var(--text)}
+.st-bar{position:absolute;left:0;right:0;top:-1px;height:1px;overflow:hidden}
+.st-bar i{display:block;height:100%;width:100%;background:var(--case-accent);transform:scaleX(0);transform-origin:left}
+.st-list button[aria-pressed="true"] .st-bar i{transform:none}
+.steps.auto .st-list button[aria-pressed="true"] .st-bar i{animation:stFill 5.5s linear}
+@keyframes stFill{from{transform:scaleX(0)}to{transform:none}}
+.st-view,.gal-view{transition:opacity .25s var(--ease),transform .25s var(--ease)}
+.st-view.swap,.gal-view.swap{opacity:0;transform:translateY(6px)}
+
+/* decisions: the options appear, the ones I left fade, the one I chose lights up; before and after under a slider */
+.dc{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(24px,4vw,52px);align-items:start;margin-top:30px}
+.dc.tall{grid-template-columns:minmax(0,1fr) minmax(200px,270px)}
+.dc-k{display:block;margin:0 0 8px;font-size:.74rem;font-weight:600;color:var(--muted)}
+.ch .dc-prob{margin:0;font-size:1.02rem;line-height:1.7;color:var(--text-2)}
+.dc-opts{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:8px}
+.dc-opts li{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.08);
+  font-size:.95rem;line-height:1.45;color:var(--text-2);opacity:0;transform:translateY(8px);
+  transition:opacity .5s var(--ease) calc(var(--i)*120ms),transform .5s var(--ease) calc(var(--i)*120ms),border-color .5s,background .5s,color .5s}
+.dc-opts li i{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:.7rem;font-weight:600;
+  border:1px solid rgba(255,255,255,.16);color:var(--muted);transition:background .5s,color .5s,border-color .5s}
+.ch.in .dc-opts li{opacity:1;transform:none}
+.dc-opts.done li:not(.pick){opacity:.42;transition-delay:0s}
+.dc-opts.done li.pick{border-color:rgba(var(--case-rgb),.55);background:rgba(var(--case-rgb),.08);color:var(--text)}
+.dc-opts.done li.pick i{background:var(--case-accent);border-color:var(--case-accent);color:#0A0E14}
+.dc-why{margin-top:26px}
+.ch .dc-why p{margin:0 0 10px;font-size:1rem;line-height:1.7}
+
+.cmp{position:relative;user-select:none;-webkit-user-select:none;border-radius:12px}
+.cmp .ph-tag{display:none}
+.cmp>figure .ph-frame{justify-items:start}
+.cmp>figure .ph-label{max-width:46%;text-align:left}
+.cmp-after{position:absolute;inset:0;clip-path:inset(0 0 0 var(--pos))}
+.cmp-after .ph-frame{justify-items:end;border-color:rgba(var(--case-rgb),.35);
+  background:radial-gradient(ellipse 80% 70% at 70% 30%,rgba(var(--case-rgb),.14),transparent 70%),linear-gradient(155deg,var(--bg-3),var(--bg-2))}
+.cmp-after .ph-label{max-width:46%;text-align:right;color:var(--text-2)}
+.cmp-line{position:absolute;top:0;bottom:0;left:var(--pos);width:2px;margin-left:-1px;background:var(--case-accent);pointer-events:none;
+  box-shadow:0 0 12px rgba(var(--case-rgb),.6)}
+.cmp-line i{position:absolute;top:50%;left:50%;width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;display:grid;place-items:center;
+  font-style:normal;font-size:.9rem;color:#0A0E14;background:var(--case-accent);box-shadow:0 6px 20px -6px rgba(0,0,0,.8)}
+.cmp-tag{position:absolute;top:10px;padding:4px 9px;border-radius:999px;font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  background:rgba(5,7,12,.7);border:1px solid var(--line-2);color:var(--text-2);pointer-events:none}
+.cmp-tag.l{left:10px}.cmp-tag.r{right:10px;color:var(--case-accent)}
+.cmp-range{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;-webkit-appearance:none;appearance:none}
+.cmp:focus-within .cmp-line i{outline:1px solid var(--text);outline-offset:3px}
+.ch .cmp-hint{margin:12px 0 0;font-size:.8rem;color:var(--muted);text-align:center}
+
+/* growth: one report becomes a product; the line fills and each stage lights in turn, numbers count up */
+.grow{list-style:none;margin:46px 0 0;padding:0;position:relative;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:0 14px}
+.grow::before,.grow::after{content:"";position:absolute;left:calc(50%/var(--n));right:calc(50%/var(--n));top:34px;height:1px;background:rgba(255,255,255,.1)}
+.grow::after{background:rgba(var(--case-rgb),.8);transform:scaleX(0);transform-origin:left;
+  transition:transform 2.6s cubic-bezier(.45,0,.2,1) .2s;box-shadow:0 0 10px rgba(var(--case-rgb),.6)}
+.grow.go::after{transform:none}
+.grow li{position:relative;z-index:1;text-align:center;opacity:.35;transition:opacity .6s var(--ease) calc(.25s + var(--i)*.45s)}
+.grow.go li{opacity:1}
+.gr-m{height:68px;display:grid;place-items:center}
+.gr-m b{font-size:clamp(2rem,4.4vw,3rem);font-weight:600;letter-spacing:-.04em;line-height:1;color:var(--text);font-variant-numeric:tabular-nums;
+  padding:0 10px;background:#070A12;border-radius:8px;transition:color .6s calc(.25s + var(--i)*.45s),text-shadow .6s calc(.25s + var(--i)*.45s)}
+.grow.go .gr-m b{color:var(--case-accent);text-shadow:0 0 22px rgba(var(--case-rgb),.45)}
+.gr-m s{width:12px;height:12px;border-radius:50%;background:#0A0D16;border:1px solid rgba(255,255,255,.25);
+  transition:background .6s calc(.25s + var(--i)*.45s),box-shadow .6s calc(.25s + var(--i)*.45s),border-color .6s calc(.25s + var(--i)*.45s)}
+.grow.go .gr-m s{background:var(--case-accent);border-color:var(--case-accent);box-shadow:0 0 14px rgba(var(--case-rgb),.8)}
+.gr-t{display:block;margin-top:8px;font-size:.88rem;line-height:1.45;color:var(--text-2)}
+
+/* roles: the explorer, with a short line about each role */
+.roles .ex-cap{font-size:.95rem;line-height:1.6;color:var(--text-2)}
+.roles .ex-cap b{display:block;margin-bottom:3px}
+.ex-count{float:right;margin-left:12px;font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* report: one collage with numbered notes; pointing at a note spotlights its part of the report */
+.anno{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(24px,4vw,56px);align-items:center;margin-top:38px}
+.anno-media{position:relative;max-width:440px;width:100%;justify-self:center}
+.anno-spot{position:absolute;inset:0;border-radius:10px;pointer-events:none;opacity:0;transition:opacity .45s var(--ease);
+  background:radial-gradient(circle at var(--sx,50%) var(--sy,50%),transparent 0 16%,rgba(4,6,12,.74) 30%)}
+.anno.on .anno-spot{opacity:1}
+.anno-pin{position:absolute;left:var(--x);top:var(--y);width:28px;height:28px;margin:-14px 0 0 -14px;border-radius:50%;display:grid;place-items:center;
+  font-size:.74rem;font-weight:700;color:#0A0E14;background:var(--case-accent);pointer-events:none;
+  box-shadow:0 0 0 4px rgba(var(--case-rgb),.18);transition:transform .4s var(--ease),box-shadow .4s}
+.anno-pin.on{transform:scale(1.18);box-shadow:0 0 0 8px rgba(var(--case-rgb),.22),0 0 24px rgba(var(--case-rgb),.8)}
+.anno-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.anno-list button{display:grid;grid-template-columns:28px minmax(0,1fr);gap:14px;align-items:center;width:100%;padding:14px 16px;border-radius:12px;
+  text-align:left;border:1px solid rgba(255,255,255,.07);font-size:.98rem;line-height:1.5;color:var(--text-2);transition:border-color .35s,background .35s,color .35s}
+.anno-list i{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:.72rem;font-weight:700;
+  border:1px solid rgba(var(--case-rgb),.5);color:var(--case-accent);transition:background .35s,color .35s}
+.anno-list button:hover,.anno-list button[aria-pressed="true"]{color:var(--text);border-color:rgba(var(--case-rgb),.4);background:rgba(var(--case-rgb),.06)}
+.anno-list button[aria-pressed="true"] i{background:var(--case-accent);color:#0A0E14}
+
+/* connected product: a packet of work travels the chain; each team lights as it arrives */
+.flow{position:relative;margin-top:48px;--n:7;--d:9s}
+.flow ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:0 8px}
+.flow::before{content:"";position:absolute;left:calc(50%/var(--n));right:calc(50%/var(--n));top:7px;height:1px;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.22) 0 4px,transparent 4px 9px)}
+.flow li{text-align:center}
+.fl-d{display:block;width:15px;height:15px;margin:0 auto;border-radius:50%;background:#0A0D16;border:1px solid rgba(var(--case-rgb),.45);position:relative;z-index:1}
+.fl-t{display:block;margin-top:14px;font-size:.86rem;line-height:1.4;font-weight:500;color:var(--text-2)}
+.fl-pkt{position:absolute;top:7px;left:calc(50%/var(--n));width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;z-index:2;background:#fff;
+  box-shadow:0 0 0 4px rgba(var(--case-rgb),.25),0 0 18px 4px rgba(var(--case-rgb),.8);opacity:0}
+.ch.in .fl-pkt{animation:pktX var(--d) linear infinite}
+@keyframes pktX{0%{left:calc(50%/var(--n));opacity:0}4%{left:calc(50%/var(--n));opacity:1}96%{left:calc(100% - 50%/var(--n));opacity:1}100%{left:calc(100% - 50%/var(--n));opacity:0}}
+.ch.in .fl-d{animation:flLit var(--d) linear infinite;animation-delay:calc(var(--d)*.04 + var(--i)*var(--d)*.92/(var(--n) - 1))}
+.ch.in .fl-t{animation:flTxt var(--d) linear infinite;animation-delay:calc(var(--d)*.04 + var(--i)*var(--d)*.92/(var(--n) - 1))}
+@keyframes flLit{0%{background:var(--case-accent);box-shadow:0 0 0 5px rgba(var(--case-rgb),.18),0 0 18px rgba(var(--case-rgb),.8)}
+  20%,100%{background:#0A0D16;box-shadow:none}}
+@keyframes flTxt{0%{color:var(--text)}20%,100%{color:var(--text-2)}}
+
+/* mobile: four phones; the one you point at comes forward */
+.ph-focus .ph{transition:opacity .35s var(--ease)}
+.ph-focus:hover .ph:not(:hover){opacity:.45}
+.phones.ph-focus figcaption b{display:inline;margin:0 8px 0 0;color:var(--case-accent)}
+
+/* the design: one stage, six parts of the product */
+.gal{margin-top:36px}
+.gal-tabs{display:flex;flex-wrap:wrap;gap:8px}
+.gal-tabs button{padding:9px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.1);font-size:.88rem;font-weight:500;color:var(--muted);
+  transition:color .3s,border-color .3s,background .3s}
+.gal-tabs button:hover{color:var(--text)}
+.gal-tabs button[aria-pressed="true"]{color:#0A0E14;background:var(--case-accent);border-color:var(--case-accent)}
+.gal-stage{margin-top:18px;aspect-ratio:16/10;border-radius:16px;padding:clamp(10px,2vw,18px);display:grid;place-items:center;
+  background:radial-gradient(ellipse 70% 60% at 50% 40%,rgba(var(--case-rgb),.08),transparent 70%),rgba(255,255,255,.015);border:1px solid rgba(255,255,255,.06)}
+.gal-stage{position:relative}
+.gal-view{position:absolute;inset:clamp(10px,2vw,18px);display:grid;grid-template:100% / 100%;place-items:center}
+.gal-view .ph,.gal-view .ph-frame{height:100%;width:auto;max-width:100%}
+.gal-view .ph{cursor:zoom-in}
+.gal-foot{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:16px}
+.ch .gal-cap{margin:0;font-size:1rem;color:var(--text-2)}
+.gal-nav{display:flex;align-items:center;gap:12px;flex:none}
+.gal-nav button{width:40px;height:40px;border-radius:50%;border:1px solid var(--line-2);color:var(--text-2);transition:.3s}
+.gal-nav button:hover{border-color:var(--case-accent);color:var(--case-accent)}
+.gal-count{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums;min-width:38px;text-align:center}
+
+/* outcome: three lines that check in one by one */
+.outc{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:14px}
+.outc li{display:grid;grid-template-columns:26px minmax(0,1fr);gap:14px;font-size:1.04rem;line-height:1.7;color:var(--text-2);
+  opacity:0;transform:translateX(-8px);transition:opacity .6s var(--ease) calc(var(--i)*160ms + .2s),transform .6s var(--ease) calc(var(--i)*160ms + .2s)}
+.outc li::before{content:"✓";width:24px;height:24px;margin-top:3px;border-radius:50%;display:grid;place-items:center;font-size:.72rem;font-weight:700;
+  color:#0A0E14;background:var(--case-accent)}
+.ch.in .outc li{opacity:1;transform:none}
+
+@media(max-width:820px){
+  .glance{grid-template-columns:1fr;gap:6px}
+  .steps,.dc,.dc.tall,.anno{grid-template-columns:1fr}
+  .dc.tall .cmp{max-width:300px;margin:0 auto}
+  .grow{grid-template-columns:1fr;gap:4px;margin-top:30px}
+  .grow::before,.grow::after{left:34px;right:auto;top:34px;bottom:34px;width:1px;height:auto}
+  .grow::after{transform:scaleY(0);transform-origin:top}
+  .grow li{display:grid;grid-template-columns:68px minmax(0,1fr);gap:12px;align-items:center;text-align:left}
+  .gr-m b{font-size:1.8rem}
+  .gr-t{margin:0}
+  .flow::before{left:7px;right:auto;top:calc(50%/var(--n));bottom:calc(50%/var(--n));width:1px;height:auto;
+    background:repeating-linear-gradient(180deg,rgba(255,255,255,.22) 0 4px,transparent 4px 9px)}
+  .flow ol{grid-template-columns:1fr;gap:0}
+  .flow li{display:flex;align-items:center;gap:16px;min-height:46px;text-align:left}
+  .fl-d,.fl-t{margin:0}
+  .fl-pkt{left:7px;top:calc(50%/var(--n))}
+  .ch.in .fl-pkt{animation-name:pktY}
+  .gal-tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+  .gal-tabs::-webkit-scrollbar{display:none}
+  .gal-tabs button{flex:none}
+  .gal-stage{aspect-ratio:4/5}
+  .gal-view .ph[data-ratio="16:10"],.gal-view .ph[data-ratio="16:10"] .ph-frame{height:auto;width:100%}
+  .gal-foot{flex-direction:column;align-items:flex-start}
+}
+@keyframes pktY{0%{top:calc(50%/var(--n));opacity:0}4%{top:calc(50%/var(--n));opacity:1}96%{top:calc(100% - 50%/var(--n));opacity:1}100%{top:calc(100% - 50%/var(--n));opacity:0}}
+@media (prefers-reduced-motion:reduce){
+  .ch.in .fl-pkt,.ch.in .fl-d,.ch.in .fl-t{animation:none}
+  .grow::after{transition:none}
+}
+
 /* lightbox */
 .lightbox{position:fixed;inset:0;z-index:70;background:rgba(4,6,10,.92);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
   display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;
@@ -775,8 +967,8 @@ main{position:relative;z-index:2}
         <div class="mile-body">
           <p class="mile-meta">Healthcare · Genomics · AI</p>
           <h3 class="mile-title">Genix.ai</h3>
-          <p class="mile-line">Designed from scratch: a genomics and health product for six very different kinds of users.</p>
-          <p class="mile-status"><i aria-hidden="true"></i>Shipped · Live · Web, website &amp; mobile</p>
+          <p class="mile-line">From one DNA report with no interface to a product for nine roles across web, admin and mobile.</p>
+          <p class="mile-status"><i aria-hidden="true"></i>Live and in use · Web, admin &amp; mobile</p>
           <span class="mile-cta">Read the case <i aria-hidden="true">→</i></span>
         </div>
       </a>
@@ -1514,7 +1706,9 @@ function mountMedia(root){
       const img=new Image();img.alt=alt;img.src=f.dataset.poster;frame.prepend(img);
       addPlay(f,()=>{ img.src=f.dataset.src; f.classList.add("playing"); });
     }else{
-      const img=new Image();img.alt=alt;img.decoding="async";img.src=f.dataset.src;frame.prepend(img);
+      const img=new Image();img.alt=alt;img.decoding="async";
+      img.onerror=()=>{ img.remove(); f.classList.remove("has-media"); };
+      img.src=f.dataset.src;frame.prepend(img);
     }
     f.classList.add("has-media");
   }
@@ -2625,50 +2819,108 @@ document.addEventListener("keydown",e=>{
 const CASES={
   genix:{
     name:"Genix.ai",minute:184,kick:"Genix.ai · Healthcare · Genomics · AI",
-    title:"Making genomics make sense.",
-    line:"Designed from scratch at Chadura Tech: a precision-health product used by patients, clinicians, genetic counsellors, bioinformaticians, administrators and hospitals.",
-    meta:[["Role","Primary product designer"],["Team","Founder, frontend & backend developers, marketing, bioinformaticians"],
-          ["Platforms","Web platform, website, mobile app"],["Timeline","Apr 2025 - present"],["Status","Live, in active development"]],
-    cover:{live:"genix"},                                    // REPLACE: src
-    chapters:[
-      {h:"Six kinds of users, one dense set of data.",
-       p:["Genix works with genomic and healthcare information: dense, high-stakes and unfamiliar to most people. The same product has to serve a patient reading their own results and a bioinformatician checking the detail.",
-          "And it kept growing, into wellness tracking, AI assistance and behavioural experiences."],
-       q:"How do you make the same data clear for a patient and precise for a clinician?"},
-      {h:"More than a genomics report.",
-       p:["Genix didn't stay one thing. Around the genomic core, the product grew into several connected experiences, and each one had to feel like part of the same product."],
-       areas:[["Genomics","Complex genomic information, for experts and non-experts alike."],
-              ["Healthcare workflows","The clinical side: the people and steps around that information."],
-              ["Wellness tracking","Everyday tracking that sits alongside the genetic picture."],
-              ["AI assistance","AI built into the experience, to help people make sense of what they see."],
-              ["Behavioural experiences","Features designed around people's everyday behaviour."],
-              ["Web, website, mobile","Three surfaces, one product: a web platform, a website and a mobile app."]]},
-      {h:"Nothing to redesign. Everything to design.",
-       p:["There was no existing product to improve. Genix started as an idea and a set of requirements, so I designed it in layers, each one resting on the one before."],
-       layers:[["Idea","Requirements spanning genomics, healthcare, wellness and AI."],
-               ["Information architecture","What exists, and where it lives, for six kinds of users."],
-               ["User flows","The path each user takes through the product."],
-               ["Interaction patterns","Progressive disclosure: detail appears when it's needed, not before."],
-               ["Interface","Screens that lead with what matters."],
-               ["Design system","Reusable components, shared across web and mobile."],
-               ["Product ecosystem","A web platform, a website and a mobile app, working as one."]]},
-      {h:"Not everything deserves equal weight.",
-       p:["Showing every value with the same importance leaves people to work out for themselves what matters. Instead, each screen is built around a clear hierarchy, in the same order:"],
-       chain:["What matters","What it means","What to do next"],
-       p2:["Progressive disclosure keeps the deeper detail one step away for the people who need it, and reusable patterns carry the same logic across the whole product."]},
-      {h:"One product, six ways in.",
-       p:["Each user needs a different slice of the same information. Choose one to see their view."],
-       explore:{items:["Patient","Clinician","Genetic counsellor","Bioinformatician","Administrator","Hospital"],   // REPLACE: src per view
-                label:x=>"Genix · "+x+" view",cap:x=>`What a <b>${x.toLowerCase()}</b> sees first.`}},
-      {h:"The work.",
-       screens:{list:[{type:"image",ratio:"16:10",label:"Web platform"},{type:"gif",ratio:"16:10",label:"A key user flow"},   // REPLACE: src + caption
-                      {type:"image",ratio:"16:10",label:"Website"},{type:"image",ratio:"16:10",label:"Design system components"}]},
-       phones:[{type:"image",ratio:"9:19",label:"Mobile app · 1"},{type:"image",ratio:"9:19",label:"Mobile app · 2"},
-               {type:"image",ratio:"9:19",label:"Mobile app · 3"},{type:"image",ratio:"9:19",label:"Mobile app · 4"}]}],
-    end:["Genix grew from a set of requirements into a complete product experience: a web platform, a website and a mobile app. It's live, and still being actively developed.",
-         "I was the primary designer, working day to day with the founder, product and engineering, marketing and bioinformaticians, including workflows in the Django admin panel. I unified navigation across mobile and web, shaped AI-powered recommendation features with product and engineering, and prototyped high-fidelity screens in Figma, folding stakeholder feedback into rapid design cycles."],
-    reflection:"The hardest part of Genix wasn't adding features. It was deciding, screen by screen, what each user should see first.",   // REPLACE: in your own words
-    testimonial:null,                                                                                           // REPLACE: {text,by} once you have a real quote
+    title:"From one report to a product ecosystem",
+    line:"I joined Genix when one DNA report existed without a UI, then designed the product as it grew across reports, labs, clinicians, B2B and mobile.",
+    meta:[["Role","Product Designer"],["Team","Founder, developers and bioinformaticians"],
+          ["Timeline","Apr 2025 to present"],["Platforms","Web, admin, mobile app"],["Status","Live and in use"]],
+    cover:{live:"genix"},
+    // images load from here when the files exist; until then each one stays a placeholder
+    dir:"images/work/genix/",
+    blocks:[
+      {type:"glance",items:[
+        ["Challenge","Genix had one locally generated DNA wellness report, no product UI, and a B2B launch plan."],
+        ["What I did","I designed the workflows and interfaces around the report as new clinical, lab, B2B, mobile and AI requirements arrived."],
+        ["Result","Genix grew into three report categories, 32 report experiences, multiple operational workflows, and a mobile product used by customers."]]},
+
+      {type:"text",eyebrow:"The problem",h:"There was a report, not a product.",
+       p:["When I joined Genix, there was no existing interface. The founder had the product idea, the team had a B2B direction, and a DNA wellness report was being generated locally. My first challenge was turning that starting point into something people could actually use.",
+          "The scope kept changing as we learned more. A report led to bioinformatics workflows, lab operations, clinicians, hospitals, partners, ecommerce, mobile wellness and AI. Each new requirement changed something else around it."],
+       q:"How do I build the product around the report without losing sight of who uses it?"},
+
+      {type:"steps",eyebrow:"How I worked",h:"Four steps, repeated as Genix grew.",items:[
+        {name:"Understand the source",line:"I studied the existing reports and worked with the founder and bioinformaticians to understand what the product was actually producing.",img:"process-1.png"},
+        {name:"Follow the work",line:"I mapped what happens before and after a report, from kit ordering and lab processing to analysis and delivery.",img:"process-2.png"},
+        {name:"Design the roles",line:"I translated those workflows into different experiences for users, clinicians, laboratories, organizations, partners and platform teams.",img:"process-3.png"},
+        {name:"Work with the team",line:"I reviewed new requirements with developers, bioinformaticians and the founder, then turned them into flows and interfaces.",img:"process-4.png"}]},
+
+      {type:"growth",eyebrow:"The expansion",h:"One report was only the beginning.",
+       p:["Genix started with one DNA wellness report. As the product evolved, that became three report areas: wellness, oncology and diagnostic DNA, with 32 report experiences across them.",
+          "Around the reports, I worked on the systems that made them usable: bioinformatics, laboratory processing, clinical workflows, organization management, platform administration, ecommerce, mobile wellness and AI."],
+       items:["1 report","3 report categories","32 report experiences","Lab and bioinformatics workflows","Clinical and B2B workflows","Mobile wellness and AI"]},
+
+      {type:"roles",eyebrow:"Nine roles",h:"Different jobs, different starting points.",
+       p:["Genix is not one interface used by everyone. The same platform changes depending on what a person needs to do. Choose a role to see where they start."],
+       items:[
+        {name:"Normal user",cap:"Views and downloads reports, manages kit orders, and uses wellness and AI features on mobile.",img:"role-normal-user.png"},
+        {name:"Channel partner",cap:"Manages coupon activity, sees users from their codes, and tracks rewards and payment information.",img:"role-channel-partner.png"},
+        {name:"Solo clinician",cap:"Prescribes through Genix and monitors patients directly.",img:"role-solo-clinician.png"},
+        {name:"Organization clinician",cap:"Works with patients through the organization or hospital they belong to.",img:"role-organization-clinician.png"},
+        {name:"Lab admin",cap:"Manages kit collection and assigns laboratory work.",img:"role-lab-admin.png"},
+        {name:"Lab technician",cap:"Processes assigned kits and uploads sequencing files into the workflow.",img:"role-lab-technician.png"},
+        {name:"Bioinformatician",cap:"Uploads raw files and works with VCF, metadata and RNA analysis workflows.",img:"role-bioinformatician.png"},
+        {name:"Organization admin",cap:"Manages patients, clinicians, kits, inventory and hospital operations.",img:"role-organization-admin.png"},
+        {name:"Platform admin",cap:"Manages payments, inventory, clinicians, partners, ecommerce and platform activity.",img:"role-platform-admin.png"}]},
+
+      {type:"annotate",eyebrow:"The report",h:"Not every result needs equal weight.",
+       p:["A genomic report can contain a large amount of information. The difficult part was deciding what someone should understand first, what could wait, and how to keep the supporting detail available.",
+          "I used that order consistently across the report: first the important finding, then its meaning, then the detail behind it."],
+       img:"report-collage.png",label:"Genix report collage",
+       // REPLACE: once report-collage.png is in, move each pin (x, y in %) onto the part of the report it describes
+       items:[{cap:"The opening gives the reader a place to start.",x:50,y:12},
+              {cap:"Important findings get stronger visual priority.",x:30,y:36},
+              {cap:"Detailed information moves deeper into the report.",x:66,y:62},
+              {cap:"Supporting references stay available without taking over the first view.",x:40,y:88}]},
+
+      {type:"decision",eyebrow:"Decision 01",h:"The report had to become readable.",
+       problem:"The original report had the information, but not a product interface that helped a person understand where to start.",
+       options:["Show more information on the first page","Separate the information into clearer sections","Lead with the important finding, then reveal the deeper detail"],pick:2,
+       chose:["I built the report around a reading order instead of giving every result the same visual weight.",
+              "The first layer helps the reader understand the finding. The deeper layers keep the supporting detail available without making the first view do everything."],
+       before:["decision-1-before.png","The original report"],after:["decision-1-after.png","The report with a reading order"]},
+
+      {type:"flow",eyebrow:"The connected product",h:"The report was only one handoff.",
+       p:["The report depended on work happening before it. A kit had to be purchased, assigned and processed. Laboratory work produced sequencing data. Bioinformaticians worked with that data before a report could reach a clinician or user.",
+          "I designed the interfaces around these handoffs so each team could continue the work from where the previous one stopped."],
+       items:["Kit purchase","Kit assignment","Lab processing","Sequencing data","Bioinformatics","Report","Clinician / user"]},
+
+      {type:"decision",eyebrow:"Decision 02",h:"A kit should not stop at assignment.",
+       problem:"The kit moved through several people and teams. One early version required the organization side to manually update the laboratory technician after assignment.",
+       options:["Keep the handoff manual","Ask the next team to update the assignment","Continue the laboratory workflow from the kit assignment itself"],pick:2,
+       chose:["I changed the flow so assigning the kit could continue into the laboratory workflow automatically.",
+              "That removed one manual handoff and made the relationship between the organization, kit and laboratory work more direct."],
+       before:["decision-2-before.png","Manual update after assignment"],after:["decision-2-after.png","Assignment continues into the lab"]},
+
+      {type:"phones",eyebrow:"Mobile and AI",h:"The report could not be the end.",
+       p:["Genix also needed to become something people returned to after receiving a report. The mobile experience introduced wellness tracking for free users and connected DNA users with their reports, wellness data and AI insights.",
+          "That shifted the experience from reading a result once to using Genix as part of everyday health behaviour."],
+       items:[{label:"Wellness tracking",cap:"Free users start with everyday wellness tracking.",img:"mobile-1.png"},
+              {label:"Report on mobile",cap:"DNA users bring their report into the mobile experience.",img:"mobile-2.png"},
+              {label:"Wellness data",cap:"Wellness data gives the experience something to respond to.",img:"mobile-3.png"},
+              {label:"AI next step",cap:"AI turns that context into a useful next step.",img:"ai-1.png"}]},
+
+      {type:"decision",eyebrow:"Decision 03",h:"A new app needed a different first screen.",ratio:"9:19",
+       problem:"The first mobile flow opened with sign in, even though Genix was a new product that needed to bring new users into the experience.",
+       options:["Sign in first","Sign up first","Let users explore before creating an account"],pick:1,
+       chose:["I changed the entry flow to signup first.",
+              "The decision came from the product stage itself. We were introducing Genix to new users, so the first interaction needed to support account creation rather than assume an existing user."],
+       before:["decision-3-before.png","Sign in first"],after:["decision-3-after.png","Sign up first"]},
+
+      {type:"gallery",eyebrow:"The design",h:"This is what Genix became.",items:[
+        {name:"Report",cap:"A report system built around what the reader needs first.",img:"screen-1.png"},
+        {name:"Clinical",cap:"A workspace for prescribing and monitoring patients.",img:"screen-2.png"},
+        {name:"Bioinformatics",cap:"A workflow for uploading and working with genomic data.",img:"screen-3.png"},
+        {name:"Operations",cap:"Admin interfaces for kits, clinicians, patients, inventory and payments.",img:"screen-4.png"},
+        {name:"Mobile",cap:"A daily wellness experience alongside the genetic report.",img:"mobile-1.png",ratio:"9:19"},
+        {name:"AI",cap:"An intelligence layer connecting report and wellness context.",img:"ai-1.png",ratio:"9:19"}]},
+
+      {type:"list",eyebrow:"Outcome",h:"Where Genix is now.",items:[
+        "Genix grew from one locally generated DNA wellness report into three report categories and 32 report experiences.",
+        "The product now supports users across consumer, clinical, laboratory, bioinformatics, partner, organization and platform workflows.",
+        "The web, admin and mobile experiences are live and in use."]},
+
+      {type:"reflect",eyebrow:"What I learned",h:"I learned to design what surrounds the screen.",
+       text:"Genix taught me that the hardest part is often outside the interface. A report depends on data, laboratory work, people, permissions and handoffs. Understanding those parts changed the decisions I made on the screen."}
+    ],
     next:"billcostro"},
 
   billcostro:{
@@ -2762,6 +3014,205 @@ const caseEl=document.getElementById("case"),caseBody=document.getElementById("c
 let lastY=0,lastFocus=null;
 const MOON='<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M10.8 1.4A6.6 6.6 0 1 0 14.6 11 5.4 5.4 0 0 1 10.8 1.4z"/></svg>';
 
+/* ═══════ CASE STUDIES — interactive blocks. Genix uses them now; Billcostro and Moolago move over
+   when their content is ready. Each block is a chapter (.ch) so arrival, deep links and the rail still work. ═══════ */
+const pad2=i=>String(i+1).padStart(2,"0");
+function blockMedia(c,file,label,ratio){ return {type:"image",ratio:ratio||"16:10",label,src:file?c.dir+file:""}; }
+function zoomFig(m,g,i){ return phHTML(m).replace('<figure class="ph"',`<figure class="ph" tabindex="0" role="button" data-g="${g}" data-i="${i}"`); }
+function renderBlocks(c,galleries){
+  const P=a=>(a||[]).map(x=>`<p>${esc(x)}</p>`).join("");
+  const M=(f,l,r)=>blockMedia(c,f,l,r);
+  const gal=list=>{ galleries.push(list); return galleries.length-1; };
+  const head=(b,wide,extra)=>`<section class="ch ${wide?"cs-wide":"cs"} bk-${b.type}"${extra||""}>
+      <span class="ch-n" aria-hidden="true"></span>${b.eyebrow?`<p class="bk-eye">${esc(b.eyebrow)}</p>`:""}${b.h?`<h2>${esc(b.h)}</h2>`:""}`;
+  const intro=b=>b.p?`<div class="bk-p">${P(b.p)}</div>`:"";
+  const R={
+    glance:b=>`<section class="ch cs-wide bk-glance"><p class="bk-eye">At a glance</p><div class="glance">${b.items.map(([k,v],i)=>
+      `<div class="gl"><i>${pad2(i)}</i><b>${esc(k)}</b><p>${esc(v)}</p></div>`).join("")}</div></section>`,
+
+    text:b=>head(b)+P(b.p)+(b.q?`<p class="cs-q">${esc(b.q)}</p>`:"")+`</section>`,
+
+    steps:b=>{
+      const list=b.items.map(s=>M(s.img,s.name)),g=gal(list);
+      return head(b,true)+intro(b)+`<div class="steps" data-g="${g}">
+        <ol class="st-list">${b.items.map((s,i)=>`<li><button type="button" data-i="${i}" aria-pressed="${i===0}">
+          <span class="st-bar" aria-hidden="true"><i></i></span><span class="st-n">${pad2(i)}</span>
+          <span class="st-b"><b>${esc(s.name)}</b><span><span>${esc(s.line)}</span></span></span></button></li>`).join("")}</ol>
+        <div class="st-view">${zoomFig(list[0],g,0)}</div></div></section>`;
+    },
+
+    growth:b=>head(b,true)+intro(b)+`<ol class="grow" style="--n:${b.items.length}">${b.items.map((x,i)=>{
+        const m=/^(\d+)\s+(.*)$/.exec(x);
+        return `<li style="--i:${i}"><span class="gr-m">${m?`<b data-n="${m[1]}">${m[1]}</b>`:`<s aria-hidden="true"></s>`}</span>
+          <span class="gr-t">${esc(m?m[2]:x)}</span></li>`;
+      }).join("")}</ol></section>`,
+
+    roles:b=>{
+      const list=b.items.map(r=>M(r.img,"Genix · "+r.name+" view")),g=gal(list),f=b.items[0];
+      return head(b,true)+intro(b)+`<div class="explore roles" data-g="${g}">
+        <ul class="ex-list" role="group" aria-label="Choose a role">${b.items.map((r,i)=>
+          `<li><button type="button" data-i="${i}" aria-pressed="${i===0}">${esc(r.name)}</button></li>`).join("")}</ul>
+        <div><div class="ex-view">${zoomFig(list[0],g,0)}</div>
+        <p class="ex-cap" aria-live="polite"><span class="ex-count">01 / ${pad2(b.items.length-1)}</span><b>${esc(f.name)}</b>${esc(f.cap)}</p></div>
+      </div></section>`;
+    },
+
+    annotate:b=>{
+      const m=M(b.img,b.label,"4:5"),g=gal([m]);
+      return head(b,true)+intro(b)+`<div class="anno">
+        <div class="anno-media">${zoomFig(m,g,0)}<div class="anno-spot" aria-hidden="true"></div>${b.items.map((a,i)=>
+          `<span class="anno-pin" style="--x:${a.x}%;--y:${a.y}%" aria-hidden="true">${i+1}</span>`).join("")}</div>
+        <ol class="anno-list" aria-label="What to notice in the report">${b.items.map((a,i)=>
+          `<li><button type="button" data-i="${i}" aria-pressed="false"><i>${i+1}</i><span>${esc(a.cap)}</span></button></li>`).join("")}</ol>
+      </div></section>`;
+    },
+
+    decision:b=>{
+      const r=b.ratio||"16:10";
+      return head(b,true)+`<div class="dc${r==="9:19"?" tall":""}">
+        <div>
+          <span class="dc-k">The problem</span><p class="dc-prob">${esc(b.problem)}</p>
+          <ul class="dc-opts" aria-label="Options I considered">${b.options.map((o,i)=>
+            `<li class="${i===b.pick?"pick":""}" style="--i:${i}"><i aria-hidden="true">${i===b.pick?"✓":String.fromCharCode(97+i)}</i><span>${esc(o)}${i===b.pick?'<span class="sr-only"> (my choice)</span>':""}</span></li>`).join("")}</ul>
+          <div class="dc-why"><span class="dc-k">What I chose</span>${P(b.chose)}</div>
+        </div>
+        <div>
+          <div class="cmp" style="--pos:50%">
+            ${phHTML(M(b.before[0],"Before: "+b.before[1],r))}
+            <div class="cmp-after" aria-hidden="true">${phHTML(M(b.after[0],"After: "+b.after[1],r))}</div>
+            <span class="cmp-line" aria-hidden="true"><i>⇆</i></span>
+            <span class="cmp-tag l" aria-hidden="true">Before</span><span class="cmp-tag r" aria-hidden="true">After</span>
+            <input class="cmp-range" type="range" min="0" max="100" value="50" aria-label="Slide to compare before (${esc(b.before[1])}) and after (${esc(b.after[1])})">
+          </div>
+          <p class="cmp-hint">Drag to compare</p>
+        </div>
+      </div></section>`;
+    },
+
+    flow:b=>head(b,true)+intro(b)+`<div class="flow" style="--n:${b.items.length}"><ol>${b.items.map((x,i)=>
+        `<li style="--i:${i}"><span class="fl-d" aria-hidden="true"></span><span class="fl-t">${esc(x)}</span></li>`).join("")}</ol>
+        <span class="fl-pkt" aria-hidden="true"></span></div></section>`,
+
+    phones:b=>{
+      const list=b.items.map(x=>M(x.img,x.label,"9:19")),g=gal(list);
+      return head(b,true)+intro(b)+`<div class="phones ph-focus">${b.items.map((x,i)=>
+        zoomFig(Object.assign({},list[i],{cap:`<b>${pad2(i)}</b>${esc(x.cap)}`}),g,i)).join("")}</div></section>`;
+    },
+
+    gallery:b=>{
+      const list=b.items.map(x=>M(x.img,x.name+": "+x.cap,x.ratio)),g=gal(list);
+      return head(b,true)+intro(b)+`<div class="gal" data-g="${g}">
+        <div class="gal-tabs" role="group" aria-label="Choose a part of the product">${b.items.map((x,i)=>
+          `<button type="button" data-i="${i}" aria-pressed="${i===0}">${esc(x.name)}</button>`).join("")}</div>
+        <div class="gal-stage"><div class="gal-view">${zoomFig(list[0],g,0)}</div></div>
+        <div class="gal-foot"><p class="gal-cap" aria-live="polite">${esc(b.items[0].cap)}</p>
+          <div class="gal-nav"><button type="button" class="gal-prev" aria-label="Previous">←</button>
+          <span class="gal-count">1 / ${b.items.length}</span><button type="button" class="gal-next" aria-label="Next">→</button></div></div>
+      </div></section>`;
+    },
+
+    list:b=>head(b)+`<ul class="outc">${b.items.map((x,i)=>`<li style="--i:${i}">${esc(x)}</li>`).join("")}</ul></section>`,
+
+    reflect:b=>head(b)+`<p class="cs-reflect">${esc(b.text)}</p></section>`
+  };
+  return c.blocks.map(b=>(R[b.type]||(()=>""))(b)).join("");
+}
+
+// wires up every interactive block after the case is on the page
+function initBlocks(root,c,galleries){
+  const alive=el=>document.body.contains(el)&&caseEl.classList.contains("open");
+  const seen=(el,fn,th)=>{ if(!("IntersectionObserver" in window)) return fn();
+    const io=new IntersectionObserver(es=>{ if(es[0].isIntersecting){ io.disconnect(); fn(); } },{root:caseEl,threshold:th||.35}); io.observe(el); };
+  const press=(btns,i)=>btns.forEach((x,j)=>x.setAttribute("aria-pressed",j===i?"true":"false"));
+  const swapIn=(view,html,after)=>{ view.classList.add("swap");
+    setTimeout(()=>{ view.innerHTML=html; mountMedia(view); if(after)after(); view.classList.remove("swap"); },RM?0:200); };
+
+  // process: auto-advances while on screen, stops for good once someone chooses a step
+  root.querySelectorAll(".steps").forEach(st=>{
+    const g=+st.dataset.g,btns=[...st.querySelectorAll(".st-list button")],view=st.querySelector(".st-view");
+    let cur=0,timer=0;
+    const show=i=>{ if(i===cur) return; cur=i; press(btns,i); swapIn(view,zoomFig(galleries[g][i],g,i)); };
+    const stop=()=>{ clearInterval(timer); st.classList.remove("auto"); };
+    btns.forEach((b,i)=>b.addEventListener("click",()=>{ stop(); show(i); }));
+    if(!RM) seen(st,()=>{ st.classList.add("auto");
+      // restart the bar on the first step so its fill lines up with the timer
+      btns[0].setAttribute("aria-pressed","false"); void btns[0].offsetWidth; btns[0].setAttribute("aria-pressed","true");
+      timer=setInterval(()=>{ if(!alive(st)) return clearInterval(timer);
+        const n=(cur+1)%btns.length; show(n);
+        btns[n].setAttribute("aria-pressed","false"); void btns[n].offsetWidth; btns[n].setAttribute("aria-pressed","true");
+      },5500); });
+  });
+
+  // growth: the line fills, stages light in turn, numbers count up from zero
+  root.querySelectorAll(".grow").forEach(gr=>seen(gr,()=>{
+    gr.classList.add("go");
+    if(RM) return;
+    gr.querySelectorAll("b[data-n]").forEach((el,k)=>{
+      const to=+el.dataset.n,delay=250+[...gr.children].indexOf(el.closest("li"))*450,dur=900;
+      el.textContent="0";
+      setTimeout(()=>{ const t0=performance.now();
+        (function f(now){ const p=Math.min(1,(now-t0)/dur); el.textContent=Math.round(to*(1-Math.pow(1-p,3)));
+          if(p<1) requestAnimationFrame(f); })(t0); },delay);
+    });
+  }));
+
+  // roles: pick one, the view and its line cross-fade; arrow keys move through the list
+  root.querySelectorAll(".roles").forEach(ex=>{
+    const g=+ex.dataset.g,btns=[...ex.querySelectorAll(".ex-list button")],view=ex.querySelector(".ex-view"),cap=ex.querySelector(".ex-cap");
+    const items=c.blocks.find(b=>b.type==="roles").items;
+    const show=i=>{ press(btns,i);
+      swapIn(view,zoomFig(galleries[g][i],g,i),()=>{ cap.innerHTML=`<span class="ex-count">${pad2(i)} / ${pad2(items.length-1)}</span><b>${esc(items[i].name)}</b>${esc(items[i].cap)}`; }); };
+    btns.forEach((b,i)=>{
+      b.addEventListener("click",()=>{ if(b.getAttribute("aria-pressed")!=="true") show(i); });
+      b.addEventListener("keydown",e=>{ const d=e.key==="ArrowDown"||e.key==="ArrowRight"?1:e.key==="ArrowUp"||e.key==="ArrowLeft"?-1:0;
+        if(!d) return; e.preventDefault(); const n=(i+d+btns.length)%btns.length; btns[n].focus(); show(n); });
+    });
+  });
+
+  // report notes: point at a note to spotlight its part of the collage; cycles by itself until touched
+  root.querySelectorAll(".anno").forEach(an=>{
+    const btns=[...an.querySelectorAll(".anno-list button")],pins=[...an.querySelectorAll(".anno-pin")],spot=an.querySelector(".anno-spot");
+    let timer=0,cur=-1;
+    const show=i=>{ cur=i; press(btns,i); pins.forEach((p,j)=>p.classList.toggle("on",j===i));
+      an.classList.add("on"); spot.style.setProperty("--sx",pins[i].style.getPropertyValue("--x")); spot.style.setProperty("--sy",pins[i].style.getPropertyValue("--y")); };
+    const stop=()=>clearInterval(timer);
+    btns.forEach((b,i)=>{ b.addEventListener("mouseenter",()=>{ stop(); show(i); }); b.addEventListener("focus",()=>{ stop(); show(i); });
+      b.addEventListener("click",()=>{ stop(); show(i); }); });
+    if(!RM) seen(an,()=>{ show(0); timer=setInterval(()=>{ if(!alive(an)) return clearInterval(timer); show((cur+1)%btns.length); },3000); });
+  });
+
+  // decisions: once read, the options resolve to the choice; the slider sweeps once to show it moves
+  root.querySelectorAll(".dc").forEach(dc=>{
+    const opts=dc.querySelector(".dc-opts"),cmp=dc.querySelector(".cmp"),rng=dc.querySelector(".cmp-range");
+    const set=v=>{ cmp.style.setProperty("--pos",v+"%"); rng.value=v; };
+    rng.addEventListener("input",()=>set(+rng.value));
+    let touched=false; rng.addEventListener("pointerdown",()=>{ touched=true; }); rng.addEventListener("keydown",()=>{ touched=true; });
+    seen(dc,()=>{
+      setTimeout(()=>opts.classList.add("done"),RM?0:1300);
+      if(RM) return;
+      setTimeout(()=>{ const t0=performance.now(),D=1800;
+        (function f(now){ if(touched) return; const p=Math.min(1,(now-t0)/D);
+          set(Math.round(50-Math.sin(p*Math.PI*2)*22*(1-p*.3)));
+          if(p<1) requestAnimationFrame(f); else set(50); })(t0); },900);
+    },.45);
+  });
+
+  // gallery: tabs, arrows and left/right keys move through the six parts
+  root.querySelectorAll(".gal").forEach(ga=>{
+    const g=+ga.dataset.g,btns=[...ga.querySelectorAll(".gal-tabs button")],view=ga.querySelector(".gal-view"),
+          cap=ga.querySelector(".gal-cap"),count=ga.querySelector(".gal-count"),items=c.blocks.find(b=>b.type==="gallery").items;
+    let cur=0;
+    const show=i=>{ i=(i+btns.length)%btns.length; if(i===cur) return; cur=i; press(btns,i);
+      btns[i].scrollIntoView({block:"nearest",inline:"nearest",behavior:RM?"auto":"smooth"});
+      swapIn(view,zoomFig(galleries[g][i],g,i),()=>{ cap.textContent=items[i].cap; count.textContent=(i+1)+" / "+btns.length; }); };
+    btns.forEach((b,i)=>b.addEventListener("click",()=>show(i)));
+    ga.querySelector(".gal-prev").addEventListener("click",()=>show(cur-1));
+    ga.querySelector(".gal-next").addEventListener("click",()=>show(cur+1));
+    ga.addEventListener("keydown",e=>{ if(e.target.closest(".gal-tabs")&&(e.key==="ArrowRight"||e.key==="ArrowLeft")){
+      e.preventDefault(); show(cur+(e.key==="ArrowRight"?1:-1)); btns[cur].focus(); } });
+  });
+}
+
 /* ═══════ CASE STUDIES — template ═══════ */
 function renderCase(k){
   const c=CASES[k];if(!c)return false;
@@ -2780,7 +3231,8 @@ function renderCase(k){
   </header>
   <div class="cs-wide cs-cover">${c.cover.live?`<div class="cover-live" data-p="${c.cover.live}" role="img" aria-label="${esc(c.name)} cover artwork"><canvas></canvas></div>`:phHTML(c.cover)}</div>`;
 
-  c.chapters.forEach((ch,n)=>{
+  if(c.blocks) h+=renderBlocks(c,galleries);
+  else c.chapters.forEach((ch,n)=>{
     const wide=ch.screens||ch.phones||ch.explore||ch.areas;
     h+=`<section class="ch ${wide?"cs-wide":"cs"}">
       <span class="ch-n" aria-hidden="true"></span>
@@ -2807,14 +3259,14 @@ function renderCase(k){
     h+=`</section>`;
   });
 
-  h+=`<section class="ch cs cs-end">
+  if(!c.blocks) h+=`<section class="ch cs cs-end">
       <span class="ch-n" aria-hidden="true"></span>
       <h2>Where it is now.</h2>
       ${paras(c.end)}
       ${c.testimonial?`<blockquote class="case-quote"><p>“${esc(c.testimonial.text)}”</p><cite>${esc(c.testimonial.by)}</cite></blockquote>`:""}
       <p class="cs-reflect">${esc(c.reflection)}</p>
-    </section>
-    <div class="cs">
+    </section>`;
+  h+=`<div class="cs">
       <a class="cs-next" href="#/work/${esc(c.next)}" style="--next-acc:${CASE_ACC[c.next]}">
         <div><p class="cs-next-l">Next stop · ${esc(fmtTime(nx.minute).join(" "))}</p><p class="cs-next-t">${esc(nx.name)}</p></div>
         <span class="cs-next-arrow" aria-hidden="true">→</span>
@@ -2825,8 +3277,9 @@ function renderCase(k){
   caseBody.innerHTML=h;
   mountMedia(caseBody);mountCovers(caseBody);
 
+  if(c.blocks) initBlocks(caseBody,c,galleries);
   // explorer: pick an item, the view cross-fades
-  caseBody.querySelectorAll(".explore").forEach(ex=>{
+  if(!c.blocks) caseBody.querySelectorAll(".explore").forEach(ex=>{
     const e=c.chapters[+ex.dataset.ex].explore,view=ex.querySelector(".ex-view"),cap=ex.querySelector(".ex-cap");
     ex.querySelector(".ex-list").addEventListener("click",ev=>{
       const b=ev.target.closest("button[data-i]");if(!b||b.getAttribute("aria-pressed")==="true")return;
