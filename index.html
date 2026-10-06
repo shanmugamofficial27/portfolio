@@ -1020,6 +1020,7 @@ main{position:relative;z-index:2}
 
 /* decisions: three rows, text and diagram side by side, alternating */
 .dlist{list-style:none;margin:0;padding:0;display:grid;gap:56px}
+.drow>*{min-width:0}
 .drow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center;text-align:left;
   opacity:0;transform:translateY(16px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .drow.go{opacity:1;transform:none}
@@ -1068,7 +1069,7 @@ main{position:relative;z-index:2}
   .fl-ui{margin-top:4px;padding-top:0;border:0}
 }
 /* scope: five product areas, no order and no process */
-.scope{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.scope{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(var(--n,5),minmax(0,1fr));gap:12px}
 .scope li{padding:24px 16px;border-radius:16px;text-align:center;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.015);
   opacity:0;transform:translateY(10px);transition:opacity .6s var(--ease) calc(var(--i)*.1s),transform .6s var(--ease) calc(var(--i)*.1s),border-color .3s}
 .ch.in .scope li{opacity:1;transform:none}
@@ -1100,6 +1101,102 @@ main{position:relative;z-index:2}
 @media(max-width:420px){ .scope{grid-template-columns:1fr} .scope li{display:grid;grid-template-columns:40px minmax(0,1fr);gap:2px 12px;text-align:left;align-items:center}
   .scope i{grid-row:1/3;width:40px;height:40px;margin:0} .scope b{margin:0} .scope span{margin:0} }
 @media (prefers-reduced-motion:reduce){ .scope li{transition:none} }
+/* ---------- Billcostro additions: pains, the responsibility chain, the three archetypes, four decision diagrams ---------- */
+.pains{list-style:none;margin:0 0 48px;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.pains li{padding:24px 20px;border-radius:16px;text-align:left;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.015);
+  opacity:0;transform:translateY(10px);transition:opacity .6s var(--ease) calc(var(--i)*.15s),transform .6s var(--ease) calc(var(--i)*.15s)}
+.pains.go li{opacity:1;transform:none}
+.pains b{display:block;font-size:.75rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--case-accent)}
+.pains span{display:block;margin-top:8px;font-size:1.0625rem;line-height:1.4;font-weight:500;color:var(--text)}
+
+/* the insight: role leads to responsibility, then actions, information and the experience */
+.chain-x{list-style:none;margin:8px 0 0;padding:0;display:flex;justify-content:center;flex-wrap:wrap;gap:8px 0}
+.chain-x li{position:relative;padding:10px 16px;border-radius:999px;font-size:.9375rem;font-weight:600;color:var(--text);
+  border:1px solid rgba(var(--case-rgb),.4);background:rgba(var(--case-rgb),.08);margin-right:28px;
+  opacity:0;transform:scale(.94);transition:opacity .5s var(--ease) calc(1s + var(--i)*.22s),transform .5s var(--ease) calc(1s + var(--i)*.22s)}
+.chain-x li:last-child{margin-right:0;background:var(--case-accent);color:#0A0E14;border-color:var(--case-accent);box-shadow:0 0 0 6px rgba(var(--case-rgb),.12)}
+.chain-x li:not(:last-child)::after{content:"→";position:absolute;right:-21px;top:50%;transform:translateY(-50%);font-weight:400;color:var(--case-accent)}
+.src.go .chain-x li{opacity:1;transform:none}
+
+/* roles: three archetypes above the scrolling row */
+.types{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:40px}
+.types>div{padding:24px 20px;border-radius:16px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.015);
+  opacity:0;transform:translateY(10px);transition:opacity .6s var(--ease) calc(var(--i)*.15s),transform .6s var(--ease) calc(var(--i)*.15s)}
+.types.go>div{opacity:1;transform:none}
+.types span{display:block;font-size:.8125rem;color:var(--muted)}
+.types b{display:block;margin-top:4px;font-size:clamp(1.75rem,3.4vw,2.25rem);font-weight:600;letter-spacing:-.03em;color:var(--case-accent)}
+.ch .types p{margin:8px auto 0;font-size:.875rem;line-height:1.5;color:var(--text-2)}
+
+/* closing: one honest line after the learning */
+.ch .bk-again{margin:20px auto 0;font-size:.9375rem;line-height:1.6;color:var(--muted);max-width:var(--t)}
+
+/* diagram · dashboards by responsibility */
+.dg-dash{max-width:360px;width:100%}
+.dd-tabs{display:flex;justify-content:center;gap:6px;margin-bottom:12px}
+.dd-tabs span{padding:4px 10px;border-radius:999px;font-size:.6875rem;font-weight:600;color:var(--muted);border:1px solid rgba(255,255,255,.1);transition:.4s}
+.dd-tabs span.on{color:#0A0E14;background:var(--case-accent);border-color:var(--case-accent)}
+.dd-frame{position:relative;height:150px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0C111B}
+.dd-set{position:absolute;inset:10px;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:8px;opacity:0;transform:translateY(6px);transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.dd-set.on{opacity:1;transform:none}
+.dd-set i{display:flex;align-items:flex-end;padding:8px;border-radius:8px;font-style:normal;font-size:.625rem;font-weight:500;color:var(--text-2);
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}
+.dd-set i.w2{grid-column:span 2}.dd-set i.w3{grid-column:span 3}
+.dd-set i.act{background:rgba(var(--case-rgb),.18);border-color:rgba(var(--case-rgb),.4);color:var(--text)}
+
+/* diagram · category first */
+.dg-cat{display:grid;grid-template-columns:auto 36px auto;align-items:center;justify-content:center;max-width:420px}
+.ct-grid{display:grid;grid-template-columns:repeat(2,auto);gap:6px}
+.ct-grid span{padding:6px 10px;border-radius:8px;font-size:.6875rem;font-weight:500;color:var(--muted);border:1px solid rgba(255,255,255,.1);background:#0C111B;text-align:center}
+.ct-grid span.on{transition:all .4s .5s}
+.dg-cat.go .ct-grid span.on{color:#0A0E14;background:var(--case-accent);border-color:var(--case-accent)}
+.ct-arrow{height:1px;margin:0 6px;background:rgba(var(--case-rgb),.6);position:relative}
+.ct-arrow::after{content:"";position:absolute;right:0;top:-3px;border:3.5px solid transparent;border-left:6px solid var(--case-accent);border-right:0}
+.ct-form{width:132px;padding:12px;border-radius:10px;display:grid;gap:7px;border:1px solid rgba(var(--case-rgb),.45);background:rgba(var(--case-rgb),.06);text-align:left;
+  opacity:0;transform:translateX(-6px);transition:opacity .5s var(--ease) 1s,transform .5s var(--ease) 1s}
+.dg-cat.go .ct-form{opacity:1;transform:none}
+.ct-form b{font-size:.6875rem;font-weight:600;color:var(--text)}
+.ct-form i{height:14px;border-radius:4px;border:1px solid rgba(255,255,255,.12)}
+.ct-form i.half{width:60%}
+.ct-form em{justify-self:start;padding:3px 8px;border-radius:999px;font-style:normal;font-size:.5625rem;font-weight:600;background:var(--case-accent);color:#0A0E14}
+
+/* diagram · mobile as a companion */
+.dg-comp{display:grid;grid-template-columns:minmax(0,1fr) 28px 120px;align-items:center;max-width:420px}
+.dg-comp b{display:block;margin-bottom:8px;font-size:.6875rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.cp-web>div{display:flex;flex-wrap:wrap;gap:4px}
+.cp-web span{padding:3px 7px;border-radius:6px;font-size:.625rem;color:var(--muted);border:1px solid rgba(255,255,255,.08);transition:all .5s .4s}
+.dg-comp.go .cp-web span.m{color:var(--text);border-color:rgba(var(--case-rgb),.5)}
+.cp-arrow{height:1px;margin:0 4px;background:rgba(var(--case-rgb),.6);position:relative}
+.cp-arrow::after{content:"";position:absolute;right:0;top:-3px;border:3.5px solid transparent;border-left:6px solid var(--case-accent);border-right:0}
+.cp-phone{padding:12px 10px;border-radius:18px;border:1px solid rgba(var(--case-rgb),.45);background:#0A0E16;display:grid;gap:5px}
+.cp-phone b{text-align:center;margin-bottom:2px}
+.cp-phone span{padding:5px 8px;border-radius:6px;font-size:.625rem;font-weight:500;color:var(--text);background:rgba(var(--case-rgb),.1);
+  opacity:0;transform:translateY(4px);transition:opacity .4s var(--ease) calc(.9s + var(--i)*.1s),transform .4s var(--ease) calc(.9s + var(--i)*.1s)}
+.dg-comp.go .cp-phone span{opacity:1;transform:none}
+
+/* diagram · collection, folder, file */
+.dg-files{display:flex;align-items:center;justify-content:center;max-width:440px}
+.fl-col{padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#0C111B;text-align:left;min-width:96px;
+  opacity:0;transform:translateY(6px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.fl-col:nth-of-type(2){transition-delay:.35s}.fl-col:nth-of-type(3){transition-delay:.7s;border-color:rgba(var(--case-rgb),.5)}
+.dg-files.go .fl-col{opacity:1;transform:none}
+.fl-col b{display:block;font-size:.625rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.fl-col span{display:block;margin-top:4px;font-size:.75rem;font-weight:500;color:var(--text)}
+.fl-col em{display:inline-block;margin-top:6px;padding:2px 7px;border-radius:999px;font-style:normal;font-size:.5625rem;font-weight:600;color:#0A0E14;background:var(--case-accent)}
+.fl-ln{flex:1;min-width:14px;height:1px;background:rgba(var(--case-rgb),.5)}
+
+@media(max-width:820px){
+  .pains,.types{grid-template-columns:1fr;gap:10px}
+  .pains li,.types>div{padding:18px}
+  .chain-x{flex-direction:column;align-items:center;gap:22px}
+  .chain-x li{margin-right:0}
+  .chain-x li:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-21px;transform:translateX(-50%)}
+  .dg-comp{grid-template-columns:minmax(0,1fr) 20px 104px}
+  .fl-col{min-width:0;padding:10px}
+  .dd-set i{padding:6px;font-size:.5625rem}
+  .dg-cat{grid-template-columns:auto 24px auto}
+  .ct-form{width:110px}
+}
+@media (prefers-reduced-motion:reduce){ .pains li,.types>div,.chain-x li,.ct-form,.cp-phone span,.fl-col{transition:none} }
 /* lightbox */
 .lightbox{position:fixed;inset:0;z-index:70;background:rgba(4,6,10,.92);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
   display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;
@@ -3186,47 +3283,86 @@ const CASES={
 
   billcostro:{
     name:"Billcostro",minute:200,kick:"Billcostro · Enterprise SaaS · Cost management",
-    title:"One product, nine ways to use it.",
-    line:"An enterprise cost-management platform at Chadura Tech, where requests, approvals, expenses, reimbursements and assets move between nine user roles.",
-    meta:[["Role","Primary and only designer"],["Team","Founder, frontend & backend developers, marketing"],
-          ["Platforms","Web, mobile"],["Timeline","Dec 2024 - Mar 2025"],["Status","Fully functional"]],
-    cover:{live:"billcostro"},                                   // REPLACE: src
-    chapters:[
-      {h:"Nine roles. Nine versions of the same request.",
-       p:["In Billcostro, the workflow changes with who you are and where you sit in the hierarchy. The person raising a request and the person approving it touch the same item, but need different information and can take different actions.",
-          "Multiply that across requests, approvals, expenses, reimbursements, assets and financial activity, and nine roles, and it becomes easy to end up with nine different products."],
-       q:"How do you keep one coherent product when every role needs different workflows, permissions, information and actions?"},
-      {h:"Six workflows, one system.",
-       p:["Billcostro isn't a single flow. It's a set of financial workflows that constantly hand work to each other, and each of them changes depending on who is looking."],
-       areas:[["Requests","Someone asks for something that costs money."],
-              ["Approvals","The right people decide, in the right order."],
-              ["Expenses","What was actually spent, recorded against the request."],
-              ["Reimbursements","Paying people back for what they spent."],
-              ["Assets","What the organisation owns, tracked in the same system."],
-              ["Financial activity","The running record of all of it."]]},
-      {h:"Every screen answers four questions, in the same order.",
-       p:["Rather than designing nine products, I gave every screen the same structure, whichever role is looking at it."],
-       layers:[["Context","What is this, and where did it come from?"],
-               ["Status","Where does it stand, and who is it waiting on?"],
-               ["Decision","What do I need to decide?"],
-               ["Action","What can I do next, right here?"]]},
-      {h:"Make the state of things obvious.",
-       p:["Complex workflows get easier when you can see where everything stands. I focused on information hierarchy, clear workflow states and dashboard visibility, and on keeping context, status and action together, so nobody has to go looking for what to do next."],
-       chain:["One product","9 roles","Different hierarchies","Different workflows"]},
-      {h:"Same request, nine views.",
-       p:["One request moves through the product. Choose a role to see it from their side."],
-       explore:{items:["Role 1","Role 2","Role 3","Role 4","Role 5","Role 6","Role 7","Role 8","Role 9"],          // REPLACE: the 9 real role names
-                label:x=>"The request, as "+x+" sees it",cap:x=>`The request from <b>${x}</b>'s side.`}},
-      {h:"The work.",
-       screens:{list:[{type:"image",ratio:"16:10",label:"Dashboard"},{type:"gif",ratio:"16:10",label:"Request and approval flow"},   // REPLACE: src + caption
-                      {type:"image",ratio:"16:10",label:"Expenses and reimbursements"},{type:"image",ratio:"16:10",label:"Assets"}]},
-       phones:[{type:"image",ratio:"9:19",label:"Mobile · 1"},{type:"image",ratio:"9:19",label:"Mobile · 2"},
-               {type:"image",ratio:"9:19",label:"Mobile · 3"},{type:"image",ratio:"9:19",label:"Mobile · 4"}]}],
-    end:["Billcostro is a fully functional platform on web and mobile, bringing nine roles and their financial workflows into one structured system.",
-         "I was its only designer, working closely with the founder, the frontend and backend developers, and marketing. Alongside the screens, I owned a reusable design system and guidelines so every enterprise module stayed consistent."],
-    reflection:"In enterprise products, the number of screens isn't the hard part. Keeping nine different workflows feeling like one product is.",   // REPLACE: in your own words
-    testimonial:null,
+    title:"One product, nine responsibilities.",
+    line:"I designed Billcostro from an idea into an enterprise cost platform where every role sees what it is responsible for.",
+    // the 30-second view: the only place the numbers appear
+    impact:[["9","role experiences"],["6+","request categories"],["2","platforms, web and mobile"]],
+    meta:[["Role","Product Designer, research to UI"],["Team","Founder, product, developers, marketing"],
+          ["Timeline","Dec 2024 to Mar 2025"],["Platforms","Web app, employee mobile app"],["Status","Fully functional, in client pilots"]],
+    cover:{live:"billcostro"},
+    // images load from here when the files exist; until then each one stays a placeholder
+    dir:"images/work/billcostro/",
+    blocks:[
+      {type:"pains",nav:"Departure",eyebrow:"Departure",h:"An idea, and a hierarchy to design around.",
+       line:"No product, no design system. Only the idea and the problems it had to solve.",
+       items:[["Finance","chased expenses by hand"],["Leaders","couldn't see the history"],["Employees","didn't know where a request should go"]],
+       q:"How do we make complex cost workflows simple for people with different responsibilities?"},
+
+      {type:"sources",nav:"Terrain",eyebrow:"Learning the terrain",h:"I designed around responsibilities, not users.",
+       line:"A manager is still an employee. What changes is what they're responsible for.",
+       items:[["Founder","Vision and direction"],["Product","Priorities"],["Developers","What's feasible"],
+              ["Employees","Real-world friction"],["Finance","How approvals work"],["Marketing","Positioning"]],
+       chain:["Role","Responsibility","Actions","Information","Experience"]},
+
+      {type:"scope",nav:"Scope",eyebrow:"The scope",h:"Twelve modules, four groups.",
+       line:"Built from scratch across web and mobile.",
+       items:[["arrows-clockwise","Requests and approvals","Raising, reviewing and acting on requests"],
+              ["wallet","Money","Expenses, reimbursements and travel"],
+              ["package","Things","Assigned assets and work files"],
+              ["buildings","Organization","Admin, roles and hierarchy, profiles, notifications"]]},
+
+      {type:"roles",nav:"Roles",eyebrow:"Ways in",h:"Act, control, oversee.",
+       line:"Three very different needs set the range for nine roles.",
+       types:[["Employee","Acts","Raises requests and manages their own work"],
+              ["Finance","Controls","Needs visibility into expenses and approvals"],
+              ["CEO","Oversees","Needs the big picture, not the detail"]],
+       items:[
+        {name:"Employee",job:"Raise and track requests",img:"role-employee.png"},
+        {name:"Travel and expense manager",job:"Review travel and expense work",img:"role-travel-expense-manager.png"},
+        {name:"System administrator",job:"Set up users and configuration",img:"role-system-admin.png"},
+        {name:"Finance manager",job:"Review expenses and reimbursements",img:"role-finance-manager.png"},
+        {name:"Department head",job:"Approve requests in their department",img:"role-department-head.png"},
+        {name:"Admin manager",job:"Run admin operations and assets",img:"role-admin-manager.png"},
+        {name:"Super administrator",job:"Configure the organization",img:"role-super-admin.png"},
+        {name:"CEO / executive",job:"See the organization at a glance",img:"role-ceo.png"},
+        {name:"Finance auditor",job:"Access records for financial oversight",img:"role-finance-auditor.png"}]},
+
+      {type:"decisions",nav:"Decisions",eyebrow:"Turns I took",h:"Four calls that kept it simple.",items:[
+        {name:"Responsibility first",problem:"One dashboard couldn't serve employees, finance and leadership equally.",
+         choice:"Role-based dashboards, flexible per organization and plan.",
+         why:"A clear default for every role, without a fixed set of widgets.",considered:"one dashboard for everyone; full customization for everyone",diagram:"dash"},
+        {name:"Category first",problem:"Showing every request form at once made raising a request confusing.",
+         choice:"Pick a category first, then get the right form.",
+         why:"The system guides people, instead of them learning the system.",considered:"one large form; a separate entry for every request",diagram:"category"},
+        {name:"Mobile as a companion",problem:"Shrinking the full enterprise web app onto a phone would carry all its complexity.",
+         choice:"A focused employee app built around six everyday actions.",
+         why:"An extension of the product, not a smaller copy.",considered:"replicate the web app; a responsive web version",diagram:"companion"},
+        {name:"A workspace for files",problem:"Documents felt like scattered attachments across workflows.",
+         choice:"Collections, folders and files, still linked to their requests.",
+         why:"A familiar mental model for something people use every day.",considered:"files only inside requests; a plain file manager",diagram:"files"}]},
+
+      {type:"system",nav:"System",eyebrow:"One system",h:"Different responsibilities, one product language.",
+       line:"Established patterns, adapted for Billcostro, shared across every role.",
+       img:"design-system.png",imgLabel:"Components and patterns",
+       pair:{web:"pattern-web.png",mobile:"pattern-mobile.png"}},
+
+      {type:"product",nav:"Product",eyebrow:"The product today",h:"What Billcostro became.",
+       video:{src:"walkthrough.mp4",label:"Raise a request, from category to status · 8–12 s"},
+       web:[{name:"Dashboard",cap:"Shaped by the viewer's responsibility",img:"screen-1.png"},
+            {name:"Requests",cap:"Many request types, one clear list",img:"screen-2.png"},
+            {name:"Approvals",cap:"Deciding with the right context",img:"screen-3.png"},
+            {name:"Organization",cap:"The system beyond the employee",img:"screen-4.png"}],
+       phones:[{label:"Employee home",cap:"Everything the employee needs today",img:"mobile-1.png"},
+               {label:"Raise a request",cap:"Category first",img:"mobile-2.png"},
+               {label:"Request status",cap:"Where a request stands",img:"mobile-3.png"},
+               {label:"My files and assets",cap:"Files and assigned assets",img:"mobile-4.png"}]},
+
+      {type:"closing",nav:"Arrival",eyebrow:"Arrival",h:"Design for the relationships between people.",
+       text:"Enterprise design is less about single screens and more about clarity across roles, permissions and workflows.",
+       again:"Next time, I'd test the riskiest flows, roles and approvals, with users earlier."}
+    ],
     next:"moolago"},
+
 
   moolago:{
     name:"Moolago",minute:216,kick:"Moolago · Fintech · Mobile · AI",
@@ -3291,6 +3427,21 @@ function renderBlocks(c,galleries){
 
   // small live diagrams for the decisions; no screenshots needed
   const DIAG={
+    // one dashboard frame; the tiles inside change with the viewer
+    dash:()=>`<div class="dg dg-dash" aria-hidden="true"><div class="dd-tabs"><span class="on">Employee</span><span>Finance</span><span>CEO</span></div>
+      <div class="dd-frame">${["e","f","x"].map(k=>`<div class="dd-set dd-${k}">${k==="e"?`<i class="w2">My requests</i><i>Assets</i><i>Files</i><i class="w2 act">+ Raise request</i>`
+        :k==="f"?`<i class="w2">Pending approvals</i><i>Expenses</i><i>Reimbursements</i><i class="w2">Audit trail</i>`
+        :`<i class="w3">Organization at a glance</i><i>Departments</i><i class="w2">Trends</i>`}</div>`).join("")}</div></div>`,
+    // pick a category, the right form appears
+    category:()=>`<div class="dg dg-cat" aria-hidden="true"><div class="ct-grid">${["Travel","Accommodation","Cab","Software","Reimbursement","Advance"].map((x,k)=>`<span style="--i:${k}"${k===0?' class="on"':""}>${x}</span>`).join("")}</div>
+      <span class="ct-arrow"></span><div class="ct-form"><b>Travel request</b><i></i><i></i><i class="half"></i><em>Submit</em></div></div>`,
+    // web holds the whole system; mobile holds the employee's six actions
+    companion:()=>`<div class="dg dg-comp" aria-hidden="true"><div class="cp-web"><b>Web</b><div>${["Requests","Approvals","Expenses","Reimbursements","Travel","Assets","Files","Admin","Roles","Reports","Profiles","Notifications"].map(x=>`<span${["Requests","Files","Assets","Notifications","Profiles"].includes(x)?' class="m"':""}>${x}</span>`).join("")}</div></div>
+      <span class="cp-arrow"></span><div class="cp-phone"><b>Mobile</b>${["Raise request","Request status","My files","My assets","Notifications","My profile"].map((x,k)=>`<span style="--i:${k}">${x}</span>`).join("")}</div></div>`,
+    // collections hold folders hold files; a file still points to its request
+    files:()=>`<div class="dg dg-files" aria-hidden="true"><div class="fl-col"><b>Collection</b><span>Travel 2025</span></div><i class="fl-ln"></i>
+      <div class="fl-col"><b>Folder</b><span>Client visit</span></div><i class="fl-ln"></i>
+      <div class="fl-col"><b>File</b><span>Hotel invoice.pdf</span><em>Linked to request</em></div></div>`,
     layers:()=>`<div class="dg dg-layers" aria-hidden="true">${[["The finding","first view"],["What it means","next layer"],["The detail behind it","on demand"]].map(([a,b],i)=>
       `<div class="ly" style="--i:${i}"><span>${i+1}</span><b>${a}</b><em>${b}</em></div>`).join("")}</div>`,
     handoff:()=>`<div class="dg dg-hand" aria-hidden="true">
@@ -3308,24 +3459,29 @@ function renderBlocks(c,galleries){
   };
 
   const R={
+    pains:(b,i)=>sec(b,i,`<ul class="pains">${b.items.map(([who,what],k)=>`<li style="--i:${k}"><b>${esc(who)}</b><span>${esc(what)}</span></li>`).join("")}</ul>
+      <blockquote class="bk-q"><span aria-hidden="true">“</span>${esc(b.q)}</blockquote>`),
+
     intro:(b,i)=>sec(b,i,one(M(b.img,b.imgLabel),b.cap)+`<blockquote class="bk-q"><span aria-hidden="true">“</span>${esc(b.q)}</blockquote>`),
 
     sources:(b,i)=>sec(b,i,`<div class="src" style="--n:${b.items.length}">
         <ul class="src-list">${b.items.map(([a,w],k)=>`<li style="--i:${k}"><b>${esc(a)}</b><span>${esc(w)}</span></li>`).join("")}</ul>
         <svg class="src-lines" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true">${b.items.map((_,k)=>{
           const x=(k+.5)*100/b.items.length; return `<path style="--i:${k}" d="M${x.toFixed(2)} 0 C ${x.toFixed(2)} 22, 50 18, 50 40"/>`; }).join("")}</svg>
-        <p class="src-result">${esc(b.result)}</p></div>`),
+        ${b.chain?`<ol class="chain-x" aria-label="${esc(b.chain.join(", then "))}">${b.chain.map((x,k)=>`<li style="--i:${k}">${esc(x)}</li>`).join("")}</ol>`
+          :`<p class="src-result">${esc(b.result)}</p>`}</div>`),
 
-    scope:(b,i)=>sec(b,i,`<ul class="scope">${b.items.map(([ic,n,t],k)=>
+    scope:(b,i)=>sec(b,i,`<ul class="scope" style="--n:${b.items.length}">${b.items.map(([ic,n,t],k)=>
         `<li style="--i:${k}"><i class="ph ph-${ic}" aria-hidden="true"></i><b>${esc(n)}</b><span>${esc(t)}</span></li>`).join("")}</ul>`),
 
     roles:(b,i)=>{
-      const list=b.items.map(r=>M(r.img,"Genix · "+r.name+" view")),g=gal(list);
+      const list=b.items.map(r=>M(r.img,c.name+" · "+r.name+" view")),g=gal(list);
       const card=(r,k,copy)=>`<li class="rcard"${copy?' aria-hidden="true"':""}>
           ${copy?phHTML(list[k]):zoomFig(list[k],g,k)}
           <b>${esc(r.name)}</b><span>${esc(r.job)}</span></li>`;
       // the row is drawn twice so the loop never shows a gap
-      return sec(b,i,`<div class="marq" tabindex="0" aria-label="Roles, scrolling. Hover or focus to pause.">
+      const types=b.types?`<div class="types">${b.types.map(([r,v,t],k)=>`<div style="--i:${k}"><span>${esc(r)}</span><b>${esc(v)}</b><p>${esc(t)}</p></div>`).join("")}</div>`:"";
+      return sec(b,i,types+`<div class="marq" tabindex="0" aria-label="Roles, scrolling. Hover or focus to pause.">
         <ul class="marq-row">${b.items.map((r,k)=>card(r,k,false)).join("")}${b.items.map((r,k)=>card(r,k,true)).join("")}</ul></div>`);
     },
 
@@ -3355,7 +3511,7 @@ function renderBlocks(c,galleries){
 
     closing:(b,i)=>{
       const nx=CASES[c.next];
-      return sec(b,i,`<p class="bk-q bk-learn">${esc(b.text)}</p>
+      return sec(b,i,`<p class="bk-q bk-learn">${esc(b.text)}</p>${b.again?`<p class="bk-again">${esc(b.again)}</p>`:""}
         <div class="rc-nextwrap"><p class="bk-eye">Next stop · ${esc(fmtTime(nx.minute).join(" "))}</p>
         <a class="rc-next" href="#/work/${esc(c.next)}" style="--next-acc:${CASE_ACC[c.next]}">${esc(nx.name)} <i aria-hidden="true">→</i></a></div>`);
     }
@@ -3407,8 +3563,17 @@ function initBlocks(root,c,galleries){
     })(performance.now());
   });
 
+  // the dashboard diagram: the same frame, filled for Employee, then Finance, then CEO
+  root.querySelectorAll(".dg-dash").forEach(dg=>{
+    const tabs=[...dg.querySelectorAll(".dd-tabs span")],sets=[...dg.querySelectorAll(".dd-set")];
+    let k=0,vis=false; const show=n=>{ tabs.forEach((t,j)=>t.classList.toggle("on",j===n)); sets.forEach((x,j)=>x.classList.toggle("on",j===n)); };
+    show(0); if(RM) return;
+    new IntersectionObserver(es=>{ vis=es[0].isIntersecting; },{root:caseEl}).observe(dg);
+    const t=setInterval(()=>{ if(!dg.isConnected) return clearInterval(t); if(vis){ k=(k+1)%3; show(k); } },2400);
+  });
+
   // decision rows: each plays when it scrolls in
-  root.querySelectorAll(".drow,.flow").forEach(el=>seen(el,()=>{
+  root.querySelectorAll(".drow,.flow,.src,.pains,.types").forEach(el=>seen(el,()=>{
     el.classList.add("go");
     const dg=el.querySelector(".dg"); if(dg) setTimeout(()=>dg.classList.add("go"),RM?0:400);
     if(dg&&dg.classList.contains("dg-entry")){
