@@ -1197,6 +1197,119 @@ main{position:relative;z-index:2}
   .ct-form{width:110px}
 }
 @media (prefers-reduced-motion:reduce){ .pains li,.types>div,.chain-x li,.ct-form,.cp-phone span,.fl-col{transition:none} }
+/* ---------- Moolago: the moment, the ask, the route, three decision diagrams ---------- */
+/* departure: messages on the left, the questions they leave on the right */
+.moment{display:grid;grid-template-columns:minmax(0,1fr) 56px minmax(0,1fr);align-items:center;margin-bottom:48px;text-align:left}
+.sms-stack,.mo-qs{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.sms-stack li{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;font-size:var(--fs-small);color:var(--text-2);
+  background:#0F141E;border:1px solid rgba(255,255,255,.08);opacity:0;transform:translateX(-10px);
+  transition:opacity .5s var(--ease) calc(var(--i)*.15s),transform .5s var(--ease) calc(var(--i)*.15s)}
+.sms-stack i{color:var(--muted)}
+.mo-arrow{height:1px;margin:0 10px;background:rgba(var(--case-rgb),.5);position:relative}
+.mo-arrow::after{content:"";position:absolute;right:0;top:-3px;border:3.5px solid transparent;border-left:6px solid var(--case-accent);border-right:0}
+.mo-qs li{padding:12px 14px;border-radius:14px;font-size:var(--fs-body);font-weight:500;color:var(--text);border:1px dashed rgba(var(--case-rgb),.45);
+  opacity:0;transform:translateX(10px);transition:opacity .5s var(--ease) calc(.8s + var(--i)*.15s),transform .5s var(--ease) calc(.8s + var(--i)*.15s)}
+.moment.go li{opacity:1;transform:none}
+
+/* the ask: two orders compared, then four screens */
+.order{display:grid;gap:10px;justify-items:center;margin-bottom:40px}
+.ord{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 8px;margin:0}
+.ord em{min-width:96px;font-style:normal;font-size:var(--fs-label);font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:right}
+.ord span{padding:5px 12px;border-radius:999px;font-size:var(--fs-small);border:1px solid rgba(255,255,255,.1);color:var(--muted)}
+.ord i{font-style:normal;color:var(--muted)}
+.ord-old span{text-decoration:line-through;text-decoration-color:rgba(255,255,255,.25)}
+.ord-new span{color:var(--text);border-color:rgba(var(--case-rgb),.5);background:rgba(var(--case-rgb),.1)}
+.ord-new i{color:var(--case-accent)}
+.ord-new{opacity:0;transform:translateY(6px);transition:opacity .6s var(--ease) .5s,transform .6s var(--ease) .5s}
+.order.go .ord-new{opacity:1;transform:none}
+.asks{list-style:none;margin:0 auto;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;max-width:760px;text-align:left}
+.asks li{opacity:0;transform:translateY(12px);transition:opacity .6s var(--ease) calc(var(--i)*.15s),transform .6s var(--ease) calc(var(--i)*.15s)}
+.asks.go li{opacity:1;transform:none}
+.ch .as-n{margin:14px 0 0;font-size:var(--fs-label);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--case-accent)}
+.as-n span{margin-right:8px;color:var(--muted)}
+.asks b{display:block;margin-top:6px;font-size:var(--fs-body);font-weight:500;line-height:1.4;color:var(--text)}
+.as-why{display:block;margin-top:4px;font-size:var(--fs-small);line-height:1.5;color:var(--muted)}
+.ch .ask-no{display:flex;align-items:center;justify-content:center;gap:10px;margin:40px auto 0;font-size:var(--fs-body);color:var(--text-2)}
+.ask-no i{font-size:1.1rem;color:var(--case-accent)}
+
+/* the route: one transaction becomes a plan */
+.tx{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;text-align:left;position:relative}
+.tx li{position:relative;display:flex;flex-direction:column;gap:8px;padding:16px 14px;border-radius:14px;background:#0F141E;border:1px solid rgba(255,255,255,.08);
+  opacity:0;transform:translateY(10px);transition:opacity .5s var(--ease) calc(var(--i)*.25s),transform .5s var(--ease) calc(var(--i)*.25s),border-color .5s,box-shadow .5s}
+.tx.go li{opacity:1;transform:none}
+.tx li.on{border-color:rgba(var(--case-rgb),.6);box-shadow:0 0 0 4px rgba(var(--case-rgb),.08),0 12px 30px -16px rgba(var(--case-rgb),.7)}
+.tx li:not(:last-child)::after{content:"";position:absolute;right:-9px;top:50%;width:8px;height:1px;background:rgba(var(--case-rgb),.5)}
+.tx-k{font-size:var(--fs-label);font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--case-accent)}
+.tx-t{font-size:var(--fs-small);line-height:1.45;color:var(--text)}
+.tx-raw .tx-t{font-family:ui-monospace,Consolas,monospace;font-size:.75rem;color:var(--muted)}
+.tx-bar{display:block;height:6px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden}
+.tx-bar i{display:block;height:100%;width:0;border-radius:3px;background:var(--case-accent);transition:width 1.2s var(--ease) 1.8s}
+.tx.go .tx-bar i{width:62%}
+
+/* decision diagram: an auto-detected card, corrected by the person */
+.fx-card{width:240px;margin:0 auto;padding:16px;border-radius:14px;background:#0F141E;border:1px solid rgba(255,255,255,.1);text-align:left;display:grid;gap:8px}
+.fx-top{display:flex;align-items:center;justify-content:space-between}
+.fx-top b{font-size:1.125rem;font-weight:600;color:var(--text)}
+.fx-top em{font-style:normal;font-size:.625rem;font-weight:600;padding:3px 8px;border-radius:999px;color:var(--muted);border:1px solid rgba(255,255,255,.12)}
+.fx-m{font-size:.75rem;color:var(--muted)}
+.fx-cat{display:flex;gap:6px;align-items:center}
+.fx-cat s,.fx-cat span{padding:4px 10px;border-radius:999px;font-size:.6875rem;font-weight:500}
+.fx-cat s{color:var(--muted);border:1px solid rgba(255,255,255,.1);text-decoration-color:transparent;transition:text-decoration-color .4s .6s,opacity .4s .6s}
+.fx-cat span{color:#0A0E14;background:var(--case-accent);opacity:0;transform:scale(.9);transition:opacity .4s var(--ease) 1.1s,transform .4s var(--ease) 1.1s}
+.dg-fix.go .fx-cat s{text-decoration-color:#FF9A8A;opacity:.5}
+.dg-fix.go .fx-cat span{opacity:1;transform:none}
+.fx-card small{font-size:.625rem;color:var(--case-accent);opacity:0;transition:opacity .4s 1.4s}
+.dg-fix.go .fx-card small{opacity:1}
+
+/* decision diagram: one job for AI per stage */
+.dg-jobs{width:100%;max-width:340px;display:grid;gap:6px;text-align:left}
+.dg-jobs p{display:flex;justify-content:space-between;gap:12px;margin:0;padding:8px 12px;border-radius:10px;background:#0F141E;border:1px solid rgba(255,255,255,.07);
+  opacity:0;transform:translateX(-6px);transition:opacity .4s var(--ease) calc(var(--i)*.12s),transform .4s var(--ease) calc(var(--i)*.12s)}
+.dg-jobs.go p{opacity:1;transform:none}
+.dg-jobs b{font-size:.75rem;font-weight:600;color:var(--text)}
+.dg-jobs span{font-size:.75rem;color:var(--muted)}
+.jb-msg{display:flex;gap:8px;margin-top:6px;padding:12px;border-radius:14px 14px 14px 4px;font-size:.75rem;line-height:1.5;color:var(--text);
+  background:rgba(var(--case-rgb),.1);border:1px solid rgba(var(--case-rgb),.4);opacity:0;transition:opacity .5s .9s}
+.jb-msg i{color:var(--case-accent);margin-top:2px}
+.dg-jobs.go .jb-msg{opacity:1}
+
+/* decision diagram: looking back, looking forward */
+.dg-look{position:relative;max-width:380px;display:grid;grid-template-columns:1fr 1fr;gap:16px;padding-top:34px}
+.lk-line{position:absolute;left:0;right:0;top:12px;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.15),rgba(var(--case-rgb),.8))}
+.lk-today{position:absolute;left:50%;top:-10px;transform:translateX(-50%);padding:2px 10px;border-radius:999px;font-size:.625rem;font-weight:600;background:var(--case-accent);color:#0A0E14}
+.lk-side{display:grid;gap:6px;opacity:0;transition:opacity .5s .3s,transform .5s .3s}
+.lk-back{transform:translateX(6px);text-align:right}
+.lk-fwd{transform:translateX(-6px);transition-delay:.7s}
+.dg-look.go .lk-side{opacity:1;transform:none}
+.lk-side em{font-style:normal;font-size:.625rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.lk-side b{padding:8px 12px;border-radius:10px;font-size:.75rem;font-weight:500;color:var(--text-2);background:#0F141E;border:1px solid rgba(255,255,255,.08)}
+.lk-fwd b{color:var(--text);border-color:rgba(var(--case-rgb),.5)}
+
+/* product: a portrait walkthrough, six phones in two rows */
+.vid-tall{max-width:300px!important}
+.bk .phones.p6{grid-template-columns:repeat(3,minmax(0,1fr));max-width:520px;gap:20px 16px}
+
+/* closing: the three stops in one line */
+.ch .trio{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 28px;margin:32px auto 0}
+.trio span{font-size:var(--fs-body);color:var(--muted)}
+.trio b{margin-right:6px;font-weight:500;color:var(--text)}
+
+@media(max-width:820px){
+  .moment{grid-template-columns:1fr;gap:12px}
+  .mo-arrow{width:1px;height:28px;margin:0 auto}
+  .mo-arrow::after{right:-3px;top:auto;bottom:0;border:3.5px solid transparent;border-top:6px solid var(--case-accent);border-bottom:0}
+  .ord em{min-width:0;width:100%;text-align:center}
+  .asks{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;max-width:none;scrollbar-width:none;
+    margin:0 calc(-1*clamp(18px,5vw,40px));padding:0 clamp(18px,5vw,40px) 8px}
+  .asks::-webkit-scrollbar{display:none}
+  .asks li{flex:0 0 min(56%,220px);scroll-snap-align:center}
+  .tx{grid-template-columns:1fr;gap:12px}
+  .tx li:not(:last-child)::after{right:auto;left:24px;top:auto;bottom:-13px;width:1px;height:12px}
+  .dg-look{grid-template-columns:1fr 1fr;gap:10px}
+}
+@media (prefers-reduced-motion:reduce){
+  .sms-stack li,.mo-qs li,.ord-new,.asks li,.tx li,.tx-bar i,.fx-cat span,.dg-jobs p,.jb-msg,.lk-side{transition:none}
+}
 /* lightbox */
 .lightbox{position:fixed;inset:0;z-index:70;background:rgba(4,6,10,.92);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
   display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;
@@ -1423,8 +1536,8 @@ main{position:relative;z-index:2}
         <div class="mile-body">
           <p class="mile-meta">Fintech · Mobile · AI</p>
           <h3 class="mile-title">Moolago</h3>
-          <p class="mile-line">From an SMS to a saving plan, as one connected journey.</p>
-          <p class="mile-status"><i aria-hidden="true"></i>Mobile application</p>
+          <p class="mile-line">Earning trust to read SMS, then turning one message into a saving plan.</p>
+          <p class="mile-status"><i aria-hidden="true"></i>Android · Handed over to the client</p>
           <span class="mile-cta">Read the case <i aria-hidden="true">→</i></span>
         </div>
       </a>
@@ -3412,44 +3525,83 @@ const CASES={
 
   moolago:{
     name:"Moolago",minute:216,kick:"Moolago · Fintech · Mobile · AI",
-    title:"Asking for trust before asking for data.",
-    line:"A personal-finance app that reads the transaction messages your bank already sends, and turns them into one journey from spending to saving.",
-    meta:[["Role","Product designer, mobile app"],["Team","Product and development team"],
-          ["Platform","Mobile app"],["Timeline","Mar 2025 - Aug 2025"],["Status","Mobile application"]],
-    cover:{live:"moolago"},                                       // REPLACE: src
-    chapters:[
-      {h:"The whole product depends on one permission.",
-       p:["Moolago tracks spending automatically by reading transaction SMS messages. That's what makes it effortless, and it's also exactly the kind of access people are most careful about.",
-          "If that first permission moment fails, nothing after it gets a chance."],
-       q:"How do you ask for access to sensitive financial information without breaking the user's trust?"},
-      {h:"Why SMS, and why it's hard.",
-       p:["Banks already send a message for every transaction, so the information Moolago needs is already on the phone. Reading it means people don't have to type in every expense by hand.",
-          "But an app asking to read your messages sounds alarming, before it has done anything for you. The design had to earn that permission, not just request it."],
-       areas:[["Already there","Every transaction arrives as an SMS the bank sends anyway."],
-              ["No manual entry","Expenses are captured without typing them in."],
-              ["Sensitive by nature","Messages are personal, and financial ones even more so."]]},
-      {h:"The permission flow.",
-       p:["The first real conversation the app has with a new user."],
-       phones:[{type:"gif",ratio:"9:19",label:"Permission · step 1",cap:"<b>Step 1</b>Add the decision behind this step."},   // REPLACE: src + decision
-               {type:"image",ratio:"9:19",label:"Permission · step 2",cap:"<b>Step 2</b>Add the decision behind this step."},
-               {type:"image",ratio:"9:19",label:"Permission · step 3",cap:"<b>Step 3</b>Add the decision behind this step."},
-               {type:"image",ratio:"9:19",label:"Permission · step 4",cap:"<b>Step 4</b>Add the decision behind this step."}]},
-      {h:"One journey, not four features.",
-       p:["Expense tracking, budgeting, AI guidance and saving could easily have been four separate tabs. I structured them as one path instead, where each stage builds on the one before."],
-       layers:[["Transaction","Captured from the SMS the bank already sends."],
-               ["Expense","The transaction becomes an expense you can see."],
-               ["Pattern","Expenses add up to a picture of how money is spent."],
-               ["Budget","That picture helps set and track a budget."],
-               ["AI guidance","AI helps explain the spending, and what to do about it."],
-               ["Saving plan","The journey ends in a plan for saving."]]},
-      {h:"The work.",
-       screens:{tall:true,list:[{type:"image",ratio:"9:19",label:"Home"},{type:"image",ratio:"9:19",label:"Spending patterns"},   // REPLACE: src + caption
-                                {type:"image",ratio:"9:19",label:"Budget"},{type:"gif",ratio:"9:19",label:"AI guidance"}]}}],
-    end:["Moolago's mobile experience follows one connected journey: from capturing a transaction through SMS, to understanding spending, tracking a budget, getting AI guidance and planning savings.",
-         "I designed it as the product designer for the mobile app, with the product and development team, and validated the budgeting and expense flows through usability testing in Maze before developer handoff."],
-    reflection:"In finance, trust is part of the interface. The permission screen is as much a design problem as any dashboard.",   // REPLACE: in your own words
-    testimonial:null,
+    title:"Trust before intelligence.",
+    line:"I designed Moolago, an Android fintech app that turns financial SMS into spending insights, AI guidance and money goals.",
+    // the 30-second view: the only place the numbers appear
+    impact:[["4","steps to earn permission"],["5","jobs in one money loop"],["1","SMS becomes a saving plan"]],
+    meta:[["Role","Sole product designer"],["Team","Founder, app and backend developers"],
+          ["Timeline","Mar 2025 to Aug 2025"],["Platform","Android"],["Status","Handed over to the client · usability tested"]],
+    cover:{live:"moolago"},
+    // images load from here when the files exist; until then each one stays a placeholder
+    dir:"images/work/moolago/",
+    blocks:[
+      {type:"moment",nav:"Departure",eyebrow:"Departure",h:"Transactions don't explain themselves.",
+       line:"End of the month. Salary in, bills paid, food ordered, subscriptions charged.",
+       sms:["₹18,500 debited · Rent","₹1,249 spent · Food delivery","₹649 charged · Streaming","₹320 paid · Cab ride"],
+       qs:["Where did the salary go?","Is this more than usual?","What caused the increase?","What can I still spend?"],
+       q:"How might we turn data people already have into guidance, without making them feel watched or judged?"},
+
+      {type:"sources",nav:"Terrain",eyebrow:"Learning the terrain",h:"Trust is built with clarity and control.",
+       line:"Before the AI could help anyone, the product had to earn the data it runs on.",
+       items:[["Interviews","How people feel about money"],["Surveys","Habits at scale"],["Finance apps","Patterns that work"],
+              ["Founder","The product direction"],["Developers","What Android allows"]],
+       chain:["Trust","Permission","Data","Intelligence"]},
+
+      {type:"scope",nav:"Scope",eyebrow:"The scope",h:"Five jobs, one money loop.",
+       line:"Each one feeds the next, so a single transaction can reach a goal.",
+       items:[["chat-text","Capture","Transactions tracked from SMS"],
+              ["chart-line-up","Understand","Spending, trends and insights"],
+              ["target","Plan","Budgets and spending limits"],
+              ["sparkle","Ask","AI chat and personal insights"],
+              ["trophy","Improve","Goals, progress and streaks"]]},
+
+      {type:"ask",nav:"The ask",eyebrow:"The ask",h:"Earn the permission, then ask.",
+       line:"Reading SMS is a lot to ask. So the request comes last, not first.",
+       before:["Permission","Explanation","Value"],after:["Value","Transparency","Permission","Payoff"],
+       steps:[{tag:"Value",head:"Your money, tracked automatically.",why:"The benefit comes before any request.",img:"permission-1.png"},
+              {tag:"Transparency",head:"Only financial messages are used.",why:"The boundary is clear before the decision.",img:"permission-2.png"},
+              {tag:"Permission",head:"The Android prompt, last.",why:"No surprise: the user already knows why.",img:"permission-3.png"},
+              {tag:"Payoff",head:"Your first transactions appear.",why:"Proof that saying yes was worth it.",img:"permission-4.png"}],
+       no:"Said no? Moolago still works. Add transactions by hand, or try again later."},
+
+      {type:"transform",nav:"Route",eyebrow:"The route",h:"One message becomes a plan.",
+       line:"The same transaction, followed through the app.",
+       stages:[["Capture","₹1,249 spent at a food delivery app via debit card","raw"],
+               ["Track","₹1,249 · Food delivery · Food",""],
+               ["Understand","Food spending is trending higher than usual",""],
+               ["Plan","Food budget · ₹5,000 a month",""],
+               ["Act","You have ₹750 left in your Food budget",""],
+               ["Improve","Emergency fund · 62%","goal"]]},
+
+      {type:"decisions",nav:"Decisions",eyebrow:"Turns I took",h:"Three calls that kept people in control.",items:[
+        {name:"Automate, then let people correct",problem:"Automatic categories save effort, but they're sometimes wrong.",
+         choice:"Detect automatically, and make every category easy to edit.",
+         why:"Automation saves effort. Manual control keeps agency.",considered:"fully automatic; fully manual",diagram:"correct"},
+        {name:"One job for AI at each stage",problem:"AI on every screen makes a product feel like a demo.",
+         choice:"Give AI a clear job at each stage of the journey.",
+         why:"AI recommends. The user decides.",considered:"AI everywhere; AI kept in a separate corner",diagram:"aijobs"},
+        {name:"Budget after tracking",problem:"If spending is already tracked, why would anyone need a budget?",
+         choice:"Tracking looks back. Budgeting looks forward.",
+         why:"The budget becomes the next step, not a separate feature.",diagram:"lookback"}]},
+
+      {type:"product",nav:"Product",eyebrow:"The product today",h:"What Moolago became.",
+       line:"Calm, readable money screens, built on one set of patterns.",
+       video:{src:"walkthrough.mp4",label:"From an SMS to a goal · 8–12 s",ratio:"9:19"},
+       phones:[{label:"Home",cap:"Your money at a glance",img:"screen-1.png"},
+               {label:"Tracker",cap:"Transactions from SMS",img:"screen-2.png"},
+               {label:"Insights",cap:"Patterns and trends",img:"screen-3.png"},
+               {label:"Budget",cap:"Planned against actual",img:"screen-4.png"},
+               {label:"AI coach",cap:"Ask, understand, decide",img:"screen-5.png"},
+               {label:"Goals",cap:"Progress and streaks",img:"screen-6.png"}]},
+
+      {type:"closing",nav:"Arrival",eyebrow:"Arrival",h:"Design the trust, then the intelligence.",
+       text:"In fintech, trust isn't a layer added after the UI. It's part of the product.",
+       again:"Next time, I'd validate the trust model before the AI that depends on it.",
+       trio:[["Genix","complexity"],["Billcostro","systems"],["Moolago","trust"]],
+       end:{href:"#home",eyebrow:"End of the road",label:"Say hello"}}
+    ],
     next:"genix"}
+
 };
 const CASE_ACC={genix:"#8BDFFF",billcostro:"#9C8CFF",moolago:"#FFC98B"};
 const caseEl=document.getElementById("case"),caseBody=document.getElementById("casebody"),
@@ -3463,6 +3615,7 @@ const pad2=i=>String(i+1).padStart(2,"0");
 function blockMedia(c,file,label,ratio,type){ return {type:type||"image",ratio:ratio||"16:10",label,src:file?c.dir+file:""}; }
 function zoomFig(m,g,i){ return phHTML(m).replace('<figure class="ph"',`<figure class="ph" tabindex="0" role="button" data-g="${g}" data-i="${i}"`); }
 function renderBlocks(c,galleries){
+  const k=Object.keys(CASES).find(x=>CASES[x]===c);
   const M=(f,l,r,t)=>blockMedia(c,f,l,r,t);
   const gal=list=>{ galleries.push(list); return galleries.length-1; };
   const one=(m,cap)=>{ const g=gal([m]); return zoomFig(Object.assign({},m),g,0)+(cap?`<p class="bk-cap">${esc(cap)}</p>`:""); };
@@ -3473,6 +3626,18 @@ function renderBlocks(c,galleries){
 
   // small live diagrams for the decisions; no screenshots needed
   const DIAG={
+    // automatic first: the guess is wrong, the person fixes it in one tap
+    correct:()=>`<div class="dg dg-fix" aria-hidden="true"><div class="fx-card">
+        <div class="fx-top"><b>₹1,249</b><em>Auto-detected</em></div><span class="fx-m">Food delivery app · Debit card</span>
+        <div class="fx-cat"><s>Shopping</s><span>Food</span></div><small>Edited by you</small></div></div>`,
+    // each stage gets one question for AI to help with
+    aijobs:()=>`<div class="dg dg-jobs" aria-hidden="true">${[["Tracker","What happened"],["Insights","Why it happened"],["Budget","What I planned"],["AI coach","What I could do next"],["Goals","What I'm working toward"]].map(([a,q],k)=>
+        `<p style="--i:${k}"><b>${a}</b><span>${q}</span></p>`).join("")}
+      <div class="jb-msg"><i class="ph ph-sparkle"></i>Your food delivery spending is higher than usual this week. Want to set a ₹4,000 monthly limit?</div></div>`,
+    // tracking looks back, budgeting looks forward
+    lookback:()=>`<div class="dg dg-look" aria-hidden="true"><div class="lk-line"><span class="lk-today">Today</span></div>
+      <div class="lk-side lk-back"><em>← Looking back</em><b>Tracker</b><b>Insights</b></div>
+      <div class="lk-side lk-fwd"><em>Looking forward →</em><b>Budget</b><b>Goals</b></div></div>`,
     // one dashboard frame; the tiles inside change with the viewer
     dash:()=>`<div class="dg dg-dash" aria-hidden="true"><div class="dd-tabs"><span class="on">Employee</span><span>Finance</span><span>CEO</span></div>
       <div class="dd-frame">${["e","f","x"].map(k=>`<div class="dd-set dd-${k}">${k==="e"?`<i class="w2">My requests</i><i>Assets</i><i>Files</i><i class="w2 act">+ Raise request</i>`
@@ -3505,6 +3670,28 @@ function renderBlocks(c,galleries){
   };
 
   const R={
+    // the end-of-month moment: messages pile up, questions stay unanswered
+    moment:(b,i)=>sec(b,i,`<div class="moment">
+        <ul class="sms-stack" aria-label="Messages">${b.sms.map((x,k)=>`<li style="--i:${k}"><i class="ph ph-chat-text" aria-hidden="true"></i>${esc(x)}</li>`).join("")}</ul>
+        <span class="mo-arrow" aria-hidden="true"></span>
+        <ul class="mo-qs" aria-label="Questions left unanswered">${b.qs.map((x,k)=>`<li style="--i:${k}">${esc(x)}</li>`).join("")}</ul></div>
+      <blockquote class="bk-q"><span aria-hidden="true">“</span>${esc(b.q)}</blockquote>`),
+
+    // the permission journey: first order vs final order, then the four screens
+    ask:(b,i)=>{
+      const list=b.steps.map((x,n)=>M(x.img,"Step "+(n+1)+" · "+x.tag,"9:19")),g=gal(list);
+      const pills=a=>a.map((x,k)=>(k?`<i aria-hidden="true">→</i>`:"")+`<span>${esc(x)}</span>`).join("");
+      return sec(b,i,`<div class="order"><p class="ord ord-old"><em>First version</em>${pills(b.before)}</p>
+          <p class="ord ord-new"><em>Final</em>${pills(b.after)}</p></div>
+        <ol class="asks">${b.steps.map((x,k)=>`<li style="--i:${k}">${zoomFig(list[k],g,k)}
+          <p class="as-n"><span>${pad2(k)}</span>${esc(x.tag)}</p><b>${esc(x.head)}</b><span class="as-why">${esc(x.why)}</span></li>`).join("")}</ol>
+        <p class="ask-no"><i class="ph ph-hand-palm" aria-hidden="true"></i>${esc(b.no)}</p>`);
+    },
+
+    // one transaction, followed from the SMS to a goal
+    transform:(b,i)=>sec(b,i,`<ol class="tx">${b.stages.map(([k,t,kind],n)=>`<li class="tx-${kind||"card"}" style="--i:${n}">
+        <span class="tx-k">${esc(k)}</span><span class="tx-t">${esc(t)}</span>${kind==="goal"?`<span class="tx-bar"><i></i></span>`:""}</li>`).join("")}</ol>`),
+
     pains:(b,i)=>sec(b,i,`<ul class="pains">${b.items.map(([who,what],k)=>`<li style="--i:${k}"><b>${esc(who)}</b><span>${esc(what)}</span></li>`).join("")}</ul>
       <blockquote class="bk-q"><span aria-hidden="true">“</span>${esc(b.q)}</blockquote>`),
 
@@ -3548,18 +3735,22 @@ function renderBlocks(c,galleries){
     },
 
     product:(b,i)=>{
-      const web=b.web.map(x=>M(x.img,x.name+": "+x.cap,"16:10",x.type)),gw=gal(web);
+      const web=(b.web||[]).map(x=>M(x.img,x.name+": "+x.cap,"16:10",x.type)),gw=web.length?gal(web):-1;
       const ph=b.phones.map(x=>M(x.img,x.label,"9:19")),gp=gal(ph);
-      return sec(b,i,`<div class="vid">${phHTML(M(b.video.src,b.video.label,"16:10","video"))}</div>
-        <div class="grid4">${b.web.map((x,k)=>`<div>${zoomFig(web[k],gw,k)}<p class="bk-cap"><b>${esc(x.name)}</b> ${esc(x.cap)}</p></div>`).join("")}</div>
-        <div class="phones ph-focus">${b.phones.map((x,k)=>zoomFig(Object.assign({},ph[k],{cap:esc(x.cap)}),gp,k)).join("")}</div>`);
+      const vr=b.video.ratio||"16:10";
+      return sec(b,i,`<div class="vid${vr==="9:19"?" vid-tall":""}">${phHTML(M(b.video.src,b.video.label,vr,"video"))}</div>
+        ${web.length?`<div class="grid4">${b.web.map((x,k)=>`<div>${zoomFig(web[k],gw,k)}<p class="bk-cap"><b>${esc(x.name)}</b> ${esc(x.cap)}</p></div>`).join("")}</div>`:""}
+        <div class="phones ph-focus${b.phones.length>4?" p6":""}">${b.phones.map((x,k)=>zoomFig(Object.assign({},ph[k],{cap:esc(x.cap)}),gp,k)).join("")}</div>`);
     },
 
     closing:(b,i)=>{
       const nx=CASES[c.next];
-      return sec(b,i,`<p class="bk-q bk-learn">${esc(b.text)}</p>${b.again?`<p class="bk-again">${esc(b.again)}</p>`:""}
-        <div class="rc-nextwrap"><p class="bk-eye">Next stop · ${esc(fmtTime(nx.minute).join(" "))}</p>
-        <a class="rc-next" href="#/work/${esc(c.next)}" style="--next-acc:${CASE_ACC[c.next]}">${esc(nx.name)} <i aria-hidden="true">→</i></a></div>`);
+      const trio=b.trio?`<p class="trio">${b.trio.map(([p,w])=>`<span><b>${esc(p)}</b>${esc(w)}</span>`).join("")}</p>`:"";
+      const next=b.end?`<div class="rc-nextwrap"><p class="bk-eye">${esc(b.end.eyebrow)}</p>
+          <a class="rc-next rc-end" href="${esc(b.end.href)}" style="--next-acc:${CASE_ACC[k]||"#FFC98B"}">${esc(b.end.label)} <i aria-hidden="true">→</i></a></div>`
+        :`<div class="rc-nextwrap"><p class="bk-eye">Next stop · ${esc(fmtTime(nx.minute).join(" "))}</p>
+          <a class="rc-next" href="#/work/${esc(c.next)}" style="--next-acc:${CASE_ACC[c.next]}">${esc(nx.name)} <i aria-hidden="true">→</i></a></div>`;
+      return sec(b,i,`<p class="bk-q bk-learn">${esc(b.text)}</p>${b.again?`<p class="bk-again">${esc(b.again)}</p>`:""}${trio}${next}`);
     }
   };
   return c.blocks.map((b,i)=>(R[b.type]||(()=>""))(b,i));
@@ -3619,7 +3810,17 @@ function initBlocks(root,c,galleries){
   });
 
   // decision rows: each plays when it scrolls in
-  root.querySelectorAll(".drow,.flow,.src,.pains,.types").forEach(el=>seen(el,()=>{
+  root.querySelectorAll(".tx").forEach(tx=>seen(tx,()=>{
+    tx.classList.add("go"); if(RM) return;
+    const items=[...tx.children]; let n=-1,vis=true;
+    new IntersectionObserver(es=>{ vis=es[0].isIntersecting; },{root:caseEl}).observe(tx);
+    setTimeout(()=>{ const t=setInterval(()=>{ if(!tx.isConnected) return clearInterval(t); if(!vis) return;
+      n=(n+1)%items.length; items.forEach((x,j)=>x.classList.toggle("on",j===n)); },1500); },items.length*250+600);
+  },.3));
+  root.querySelectorAll(".rc-end").forEach(a=>a.addEventListener("click",e=>{ e.preventDefault(); closeCase(false);
+    const t=document.querySelector(a.getAttribute("href")); if(t) setTimeout(()=>t.scrollIntoView({behavior:RM?"auto":"smooth"}),60); }));
+
+  root.querySelectorAll(".drow,.flow,.src,.pains,.types,.moment,.order,.asks").forEach(el=>seen(el,()=>{
     el.classList.add("go");
     const dg=el.querySelector(".dg"); if(dg) setTimeout(()=>dg.classList.add("go"),RM?0:400);
     if(dg&&dg.classList.contains("dg-entry")){
