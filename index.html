@@ -186,14 +186,14 @@ main{position:relative;z-index:2}
 .hero-hi:hover{background:rgba(255,255,255,.04);border-color:var(--line)}
 .hi-hand{font-size:1.15em;color:var(--warm);transform-origin:70% 80%;animation:wave 1.1s var(--ease) .2s}
 .hi-name{font-weight:600;color:var(--text);letter-spacing:.01em}
-.hi-name .hl{display:inline-block;color:#3A4352;animation:lampOn 1.1s var(--ease) forwards;animation-delay:calc(.25s + var(--li)*85ms)}
+.hi-name .nl{display:inline-block;color:#3A4352;animation:lampOn 1.1s var(--ease) forwards;animation-delay:calc(.25s + var(--li)*85ms)}
 @keyframes lampOn{
   0%{color:#3A4352;text-shadow:none}
   18%{color:#FFE3BD;text-shadow:0 0 10px rgba(255,201,139,.95),0 0 22px rgba(255,201,139,.5)}
   26%{color:#5A5048;text-shadow:none}
   40%{color:#FFD9A0;text-shadow:0 0 12px rgba(255,201,139,.9),0 0 26px rgba(255,201,139,.45)}
   100%{color:var(--text);text-shadow:0 0 14px rgba(255,227,189,.28)}}
-.hero-hi.relight .hl{animation-name:lampOn2}
+.hero-hi.relight .nl{animation-name:lampOn2}
 @keyframes lampOn2{
   0%{color:var(--text)}
   30%{color:#FFE3BD;text-shadow:0 0 12px rgba(255,201,139,.9),0 0 24px rgba(255,201,139,.45)}
@@ -846,7 +846,7 @@ main{position:relative;z-index:2}
   .bk .phones{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding:0 clamp(18px,5vw,40px) 8px;
     margin:0 calc(-1*clamp(18px,5vw,40px));scrollbar-width:none;max-width:none}
   .bk .phones::-webkit-scrollbar{display:none}
-  .bk .phones .ph{flex:0 0 56%;scroll-snap-align:center}
+  .bk .phones .ph{flex:0 0 min(44%,200px);scroll-snap-align:center}
   .ph-focus:hover .ph:not(:hover){opacity:1}
   .dcard{margin-top:48px;padding:32px 18px}
   .dg-layers{height:170px}
@@ -979,10 +979,10 @@ main{position:relative;z-index:2}
 .ccase .bk-body>figure.ph,.ccase .st-view,.ccase .ex-view,.ccase .gal-view,.ccase .vid{max-width:720px;margin-left:auto;margin-right:auto}
 .bk-intro .bk-body>figure.ph,.bk-route .bk-body>figure.ph{max-width:600px}
 /* system: components and the web/mobile pair share one row */
-.bk-system .bk-body{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,.48fr);gap:16px;align-items:end}
-.bk-system .bk-body>figure.ph{max-width:none;margin:0}
-.bk-system .bk-body .ph-frame{aspect-ratio:auto;height:clamp(200px,22vw,280px)}
-.bk-system .pair{display:contents}
+.bk-system .bk-body{display:block}
+.bk-system .bk-body>figure.ph{max-width:720px;margin:0 auto}
+/* a 16:10 frame and a 9:19 frame are the same height when their widths are 1 : 0.296 */
+.bk-system .pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.296fr);gap:16px;align-items:start;max-width:720px;margin:24px auto 0}
 .bk-system .bk-cap{grid-column:1/-1}
 .bk-system .bk-body>.bk-cap:first-of-type{display:none}
 /* phones: a compact row */
@@ -993,12 +993,9 @@ main{position:relative;z-index:2}
   .ccase .bk-body{margin-top:24px}
   .bk-intro .bk-q,.bk-route .flow+figure,.pair,.bk-product .phones{margin-top:40px}
   .rc-cover{aspect-ratio:16/10}
-  .bk-system .bk-body{grid-template-columns:minmax(0,1fr) minmax(0,.42fr)}
-  .bk-system .bk-body>figure.ph{grid-column:1/-1}
-  .bk-system .bk-body .ph-frame{height:180px}
-  .bk-system .pair .ph-frame{height:200px}
+  .bk-system .pair{gap:10px;margin-top:16px}
   .ccase .bk .phones{max-width:none}
-  .ccase .bk .phones .ph{flex-basis:44%}
+  .ccase .bk .phones .ph{flex-basis:min(44%,200px)}
 }
 /* ---------- no chip rows: role groups, stacked decisions, the route fix, a 2×2 screen grid ---------- */
 /* route: the step that lost its manual handoff */
@@ -1140,7 +1137,7 @@ main{position:relative;z-index:2}
   .clock{height:40px;padding:0 12px 0 10px;font-size:.74rem}
   .sec{padding-left:clamp(18px,5vw,56px);padding-right:clamp(18px,5vw,56px)}
   .sec{min-height:auto;padding-top:92px;padding-bottom:92px}
-  #start{min-height:100svh;padding-top:0;padding-bottom:max(120px,26vh)}
+  #start{min-height:100svh;padding-top:72px;padding-bottom:24px}
   .lane{grid-template-columns:1fr;padding:16px 4px 6px}
   .lane-s{justify-content:flex-start;padding:6px 0 10px;gap:6px 16px}
   .sky{aspect-ratio:1000/480}
@@ -1183,7 +1180,7 @@ main{position:relative;z-index:2}
   *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
   .lane+.lane::before{animation:none}
 
-  .hi-name .hl,.hi-hand{animation:none;color:var(--text)}
+  .hi-name .nl,.hi-hand{animation:none;color:var(--text)}
   .hi-hand{color:var(--warm)}
   .hero-title>span{animation:none;opacity:1;transform:none}
   .hero-lede,.hero-cta{animation:none;opacity:1;transform:none}
@@ -2116,7 +2113,7 @@ mountCovers(document);
   const hi=document.getElementById("heroHi");
   if(hi){
     const nm=hi.querySelector(".hi-name");
-    nm.innerHTML=[...nm.textContent].map((c,i)=>`<span class="hl" style="--li:${i}">${esc(c)}</span>`).join("");
+    nm.innerHTML=[...nm.textContent].map((c,i)=>`<span class="nl" style="--li:${i}">${esc(c)}</span>`).join("");
     let ready=false;
     nm.lastElementChild.addEventListener("animationend",()=>{ ready=true; });
     hi.addEventListener("mouseenter",()=>{
