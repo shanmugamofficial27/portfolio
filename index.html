@@ -1284,6 +1284,52 @@ main{position:relative;z-index:2}
   .rv-on .rv,.rv-on .sec.out-up .rv{opacity:1!important;transform:none!important}
   .dawn{transition:none}.avail i,.hero-hello .ph{animation:none}
 }
+
+/* ════════ TYPE SYSTEM — one scale, three tones, three weights, used everywhere ════════
+   sizes:  display 56/40 · heading 36/28 · title 20/18 · lead 18/16 · body 16/15 · small 14/13 · label 12
+   tones:  primary (headings, the key line, active things) · secondary (reading text) · muted (captions, labels)
+   weights: 600 display and headings only · 500 titles, names, buttons · 400 everything else
+   (the mock screens inside the decision diagrams keep their own tiny sizes: they're drawings, not text) */
+:root{
+  --text:#EBEEF2;
+  --fs-display:clamp(2.5rem,4.6vw,3.5rem);
+  --fs-heading:clamp(1.75rem,2.8vw,2.25rem);
+  --fs-title:clamp(1.125rem,1.5vw,1.25rem);
+  --fs-lead:clamp(1rem,1.3vw,1.125rem);
+  --fs-body:clamp(.9375rem,1.1vw,1rem);
+  --fs-small:clamp(.8125rem,1vw,.875rem);
+  --fs-label:.75rem;
+}
+/* display */
+:root :is(.hero-title,.rc-hero h1,.cs-hero h1,.home-title){font-size:var(--fs-display);font-weight:600;letter-spacing:-.03em;line-height:1.06}
+/* headings */
+:root :is(.h-sec,.ccase .bk h2,.mile-title,.hook-q,.dest-i,.rc-next){font-size:var(--fs-heading);font-weight:600;letter-spacing:-.025em;line-height:1.15}
+/* figures (accent numbers and the three archetype words) share the heading size */
+:root :is(.impact b,.types b,.gr-m b,.stat b){font-size:var(--fs-heading);font-weight:600;letter-spacing:-.03em}
+/* titles */
+:root :is(.trip-cap h3,.finale-title,.ch .dr-prob,.ccase .bk-q,.ccase .bk-learn,.pains span){font-size:var(--fs-title);font-weight:500;line-height:1.45;letter-spacing:-.01em;color:var(--text)}
+/* lead: the one line under a heading */
+:root :is(.hero-lede,.cs-line,.ch .bk-line,.sub,.home-sub,.dest-d){font-size:var(--fs-lead);font-weight:400;line-height:1.6;color:var(--text-2)}
+/* body */
+:root :is(.mile-line,.trip-cap p,.hook-s,.ch .dr-why,.ch .fx-prob,.gr-t,.anno-list button,.ch .types p,.ch .dc-prob,.rg li b){font-size:var(--fs-body);font-weight:400;line-height:1.6}
+:root :is(.mile-line,.trip-cap p,.hook-s,.ch .dr-why,.ch .fx-prob,.ch .types p){color:var(--text-2)}
+:root .ch .fx-choice{font-size:var(--fs-body);font-weight:500;color:var(--text)}
+/* small */
+:root :is(.ch .bk-cap,.mile-status,.jr-note,.ch .dc-also,.rcard span,.scope span,.src-list span,.fl-t,.ex-cap,.cs-meta dd,.chips button,.st-tabs b,
+  .nav-links a,.nav-cv,.ccase figure.ph figcaption,.rg li span,.ch .bk-again,.hero-hi,.avail,.again,.ph-label){font-size:var(--fs-small);line-height:1.5}
+:root :is(.rcard b,.scope b,.src-list b,.ly b,.chain-x li,.dc-opts li,.mile-cta){font-size:var(--fs-small);font-weight:500}
+:root :is(.rcard b,.scope b,.src-list b){font-size:var(--fs-body)}
+/* labels: small capitals, never below 12px */
+:root :is(.bk-eye,.ch .bk-eye,.cs-kick,.mile-meta,.mile-mark,.cs-meta dt,.ch .dc-k,.ch .rg-n,.pains b,.ph-tag,.eyebrow,.ch .dr-n,.cx-index a,
+  .callout-t,.callout-s,.meta,.fc-n){font-size:var(--fs-label);line-height:1.4}
+:root :is(.bk-eye,.ch .bk-eye,.cs-kick,.mile-meta,.mile-mark,.ch .rg-n,.pains b,.ch .dr-n){font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+/* weights: names, buttons and emphasis are medium, not semi-bold */
+:root :is(.hero-btn,.hero-hello,.desk-btn,.back,.lane-l,.ccase .bk-cap b,.ex-cap b,.ccase .impact span,.nl){font-weight:500}
+:root :is(.ccase .impact span,.ccase .cs-meta dt){color:var(--muted)}
+:root :is(.hero-btn,.hero-hello,.lane-l,.lane-s li){font-size:var(--fs-body)}
+:root :is(.star-t,.trip-cap small,.jr-count,.jr-count b){font-size:var(--fs-small)}
+/* bright white is for headings and for whatever is active or chosen */
+:root :is(.chips button[aria-pressed="true"],.nav-links a[aria-current="true"],.dc-opts.done li.pick){font-weight:600}
 </style>
 </head>
 <body>
