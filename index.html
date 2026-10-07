@@ -2263,7 +2263,10 @@ function mountMedia(root){
       addPlay(f,()=>{ img.src=f.dataset.src; f.classList.add("playing"); });
     }else{
       const img=new Image();img.alt=alt;img.decoding="async";
-      img.onerror=()=>{ img.remove(); f.classList.remove("has-media"); };
+      // the file can be .png or .jpg: try the other one before falling back to the placeholder
+      img.onerror=()=>{ const alt=img.src.replace(/\.png$/i,".jpg")!==img.src?img.src.replace(/\.png$/i,".jpg"):img.src.replace(/\.jpe?g$/i,".png");
+        if(!img.dataset.alt&&alt!==img.src){ img.dataset.alt="1"; img.src=alt; return; }
+        img.remove(); f.classList.remove("has-media"); };
       img.src=f.dataset.src;frame.prepend(img);
     }
     f.classList.add("has-media");
