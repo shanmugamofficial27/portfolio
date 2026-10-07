@@ -1318,6 +1318,36 @@ main{position:relative;z-index:2}
   :root .ccase .bk .phones .ph,:root .asks li{flex:0 0 82%}
   :root .bk-system .pair{grid-template-columns:1fr}
 }
+/* ---------- product tour: a pinned stage on the left, steps scrolling on the right ---------- */
+.tour{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:48px;align-items:start;text-align:left}
+.tour-stage{position:sticky;top:calc(50vh - 220px);display:grid;gap:16px}
+.tour-frame{position:relative;aspect-ratio:16/10;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.08);
+  background:radial-gradient(ellipse 70% 60% at 50% 40%,rgba(var(--case-rgb),.1),transparent 70%),#0A0E14;
+  box-shadow:0 40px 80px -40px rgba(0,0,0,.9),0 0 0 6px rgba(255,255,255,.02)}
+.tour-shot{position:absolute;inset:0;opacity:0;transform:scale(.985);transition:opacity .6s var(--ease),transform .8s var(--ease);pointer-events:none}
+.tour-shot.on{opacity:1;transform:none;pointer-events:auto}
+.tour-shot .ph,.tour-shot .ph-frame{height:100%;border:0;border-radius:0}
+.tour-dots{display:flex;justify-content:center;gap:8px}
+.tour-dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);transition:width .4s var(--ease),background .4s}
+.tour-dots i.on{width:22px;border-radius:3px;background:var(--case-accent)}
+.tour-steps{list-style:none;margin:0;padding:0}
+.tour-steps li{min-height:52vh;display:flex;flex-direction:column;justify-content:center;opacity:.3;transition:opacity .5s var(--ease)}
+.tour-steps li:first-child{min-height:36vh;justify-content:flex-start;padding-top:40px}
+.tour-steps li:last-child{min-height:44vh}
+.tour-steps li.on{opacity:1}
+.tour-m{display:none}
+.tour-steps li{text-align:left;align-items:flex-start}
+:root .ccase .tour-steps p{margin-left:0;margin-right:0;text-align:left}
+.ch .ts-n{margin:0;font-size:var(--fs-label);font-weight:600;letter-spacing:.14em;color:var(--case-accent);font-variant-numeric:tabular-nums}
+.tour-steps b{display:block;margin-top:8px;font-size:var(--fs-title);font-weight:500;color:var(--text)}
+.ch .ts-l{margin:8px 0 0;font-size:var(--fs-body);line-height:1.6;color:var(--text-2);max-width:30ch}
+@media(max-width:820px){
+  .tour{grid-template-columns:1fr;gap:0}
+  .tour-stage{display:none}
+  .tour-steps li,.tour-steps li:first-child,.tour-steps li:last-child{min-height:0;padding:0 0 40px;opacity:1}
+  .tour-m{display:block;order:4;width:100%;margin-top:16px}
+}
+@media (prefers-reduced-motion:reduce){ .tour-shot,.tour-steps li{transition:none} }
 /* lightbox */
 .lightbox{position:fixed;inset:0;z-index:70;background:rgba(4,6,10,.92);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
   display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;
@@ -3436,15 +3466,13 @@ const CASES={
        pair:{web:"pattern-web.png",mobile:"pattern-mobile.png"}},
 
       {type:"product",nav:"Product",eyebrow:"The product today",h:"What Genix became.",
-       video:{src:"walkthrough.mp4",label:"Walkthrough · 8–12 s"},
-       web:[{name:"Report",cap:"The final report",img:"screen-1.png"},
-            {name:"Clinical",cap:"Prescribing and monitoring patients.",img:"screen-2.png"},
-            {name:"Bioinformatics",cap:"Uploading and working with genomic data.",img:"screen-3.png"},
-            {name:"Operations",cap:"Kits, clinicians, patients, inventory and payments.",img:"screen-4.png"}],
-       phones:[{label:"Wellness tracking",cap:"Everyday wellness tracking",img:"mobile-1.png"},
-               {label:"Report on mobile",cap:"The DNA report on mobile",img:"mobile-2.png"},
-               {label:"Wellness data",cap:"Wellness data to respond to",img:"mobile-3.png"},
-               {label:"AI nudge",cap:"An insight to act on today",img:"ai-1.png"}]},
+       tour:[{name:"Walkthrough",line:"The whole product in ten seconds.",img:"walkthrough.mp4",type:"video"},
+             {name:"Report",line:"The finding comes first. Detail waits one tap away.",img:"screen-1.png"},
+             {name:"Clinical",line:"Prescribe and monitor patients in one place.",img:"screen-2.png"},
+             {name:"Bioinformatics",line:"Upload data and follow every analysis.",img:"screen-3.png"},
+             {name:"Operations",line:"Kits, inventory and payments, run from one view.",img:"screen-4.png"},
+             {name:"Wellness",line:"Everyday tracking for every user.",img:"mobile-1.png"},
+             {name:"AI nudge",line:"Report context becomes one small action today.",img:"ai-1.png"}]},
 
       {type:"closing",nav:"Arrival",eyebrow:"Arrival",h:"Design what surrounds the screen.",
        text:"A report depends on data, lab work, people, permissions and handoffs. Understanding them changed the decisions I made on the screen."}
@@ -3517,15 +3545,13 @@ const CASES={
        pair:{web:"pattern-web.png",mobile:"pattern-mobile.png"}},
 
       {type:"product",nav:"Product",eyebrow:"The product today",h:"What Billcostro became.",
-       video:{src:"walkthrough.mp4",label:"Raise a request, from category to status · 8–12 s"},
-       web:[{name:"Dashboard",cap:"Shaped by the viewer's responsibility",img:"screen-1.png"},
-            {name:"Requests",cap:"Many request types, one clear list",img:"screen-2.png"},
-            {name:"Approvals",cap:"Deciding with the right context",img:"screen-3.png"},
-            {name:"Organization",cap:"The system beyond the employee",img:"screen-4.png"}],
-       phones:[{label:"Employee home",cap:"Everything the employee needs today",img:"mobile-1.png"},
-               {label:"Raise a request",cap:"Category first",img:"mobile-2.png"},
-               {label:"Request status",cap:"Where a request stands",img:"mobile-3.png"},
-               {label:"My files and assets",cap:"Files and assigned assets",img:"mobile-4.png"}]},
+       tour:[{name:"Walkthrough",line:"Raising a request, from category to status.",img:"walkthrough.mp4",type:"video"},
+             {name:"Dashboard",line:"Shaped by what the viewer is responsible for.",img:"screen-1.png"},
+             {name:"Requests",line:"Many request types, one clear list.",img:"screen-2.png"},
+             {name:"Approvals",line:"Decide with the context right there.",img:"screen-3.png"},
+             {name:"Organization",line:"The system behind every employee.",img:"screen-4.png"},
+             {name:"Employee app",line:"Everything an employee needs today.",img:"mobile-1.png"},
+             {name:"Raise a request",line:"Pick a category, get the right form.",img:"mobile-2.png"}]},
 
       {type:"closing",nav:"Arrival",eyebrow:"Arrival",h:"Design for the relationships between people.",
        text:"Enterprise design is less about single screens and more about clarity across roles, permissions and workflows.",
@@ -3597,13 +3623,13 @@ const CASES={
 
       {type:"product",nav:"Product",eyebrow:"The product today",h:"What Moolago became.",
        line:"Calm, readable money screens, built on one set of patterns.",
-       video:{src:"walkthrough.mp4",label:"From an SMS to a goal · 8–12 s",ratio:"9:19"},
-       phones:[{label:"Home",cap:"Your money at a glance",img:"screen-1.png"},
-               {label:"Tracker",cap:"Transactions from SMS",img:"screen-2.png"},
-               {label:"Insights",cap:"Patterns and trends",img:"screen-3.png"},
-               {label:"Budget",cap:"Planned against actual",img:"screen-4.png"},
-               {label:"AI coach",cap:"Ask, understand, decide",img:"screen-5.png"},
-               {label:"Goals",cap:"Progress and streaks",img:"screen-6.png"}]},
+       tour:[{name:"Walkthrough",line:"From one SMS to a goal.",img:"walkthrough.mp4",type:"video"},
+             {name:"Home",line:"Your money at a glance.",img:"screen-1.png"},
+             {name:"Tracker",line:"Transactions from SMS, easy to correct.",img:"screen-2.png"},
+             {name:"Insights",line:"Patterns explained in plain words.",img:"screen-3.png"},
+             {name:"Budget",line:"Planned against actual, calmly.",img:"screen-4.png"},
+             {name:"AI coach",line:"Ask, understand, then decide.",img:"screen-5.png"},
+             {name:"Goals",line:"Progress and streaks, without pressure.",img:"screen-6.png"}]},
 
       {type:"closing",nav:"Arrival",eyebrow:"Arrival",h:"Design the trust, then the intelligence.",
        text:"In fintech, trust isn't a layer added after the UI. It's part of the product.",
@@ -3745,13 +3771,15 @@ function renderBlocks(c,galleries){
       return sec(b,i,one(M(b.img,b.imgLabel))+`<div class="pair">${zoomFig(pair[0],g,0)}${zoomFig(pair[1],g,1)}</div>`);
     },
 
+    // the product tour: the stage stays pinned while the steps scroll; each step swaps the screen
     product:(b,i)=>{
-      const web=(b.web||[]).map(x=>M(x.img,x.name+": "+x.cap,"16:10",x.type)),gw=web.length?gal(web):-1;
-      const ph=b.phones.map(x=>M(x.img,x.label,"9:19")),gp=gal(ph);
-      const vr="16:10";
-      return sec(b,i,`<div class="vid${vr==="9:19"?" vid-tall":""}">${phHTML(M(b.video.src,b.video.label,vr,"video"))}</div>
-        ${web.length?`<div class="grid4">${b.web.map((x,k)=>`<div>${zoomFig(web[k],gw,k)}<p class="bk-cap"><b>${esc(x.name)}</b> ${esc(x.cap)}</p></div>`).join("")}</div>`:""}
-        <div class="phones ph-focus${b.phones.length>4?" p6":""}">${b.phones.map((x,k)=>zoomFig(Object.assign({},ph[k],{cap:esc(x.cap)}),gp,k)).join("")}</div>`);
+      const list=b.tour.map(x=>M(x.img,x.name+": "+x.line,"16:10",x.type)),g=gal(list);
+      return sec(b,i,`<div class="tour">
+        <div class="tour-stage" aria-hidden="true"><div class="tour-frame">${list.map((m,k)=>`<div class="tour-shot${k?"":" on"}">${zoomFig(m,g,k)}</div>`).join("")}</div>
+          <div class="tour-dots">${b.tour.map((_,k)=>`<i class="${k?"":"on"}"></i>`).join("")}</div></div>
+        <ol class="tour-steps">${b.tour.map((x,k)=>`<li class="${k?"":"on"}" data-k="${k}">
+          <div class="tour-m">${zoomFig(list[k],g,k)}</div>
+          <p class="ts-n">${pad2(k)}</p><b>${esc(x.name)}</b><p class="ts-l">${esc(x.line)}</p></li>`).join("")}</ol></div>`);
     },
 
     closing:(b,i)=>{
@@ -3818,6 +3846,15 @@ function initBlocks(root,c,galleries){
     show(0); if(RM) return;
     new IntersectionObserver(es=>{ vis=es[0].isIntersecting; },{root:caseEl}).observe(dg);
     const t=setInterval(()=>{ if(!dg.isConnected) return clearInterval(t); if(vis){ k=(k+1)%3; show(k); } },2400);
+  });
+
+  // product tour: whichever step crosses the middle of the screen is shown on the stage
+  root.querySelectorAll(".tour").forEach(tr=>{
+    const steps=[...tr.querySelectorAll(".tour-steps li")],shots=[...tr.querySelectorAll(".tour-shot")],dots=[...tr.querySelectorAll(".tour-dots i")];
+    const show=k=>{ steps.forEach((x,j)=>x.classList.toggle("on",j===k)); shots.forEach((x,j)=>x.classList.toggle("on",j===k)); dots.forEach((x,j)=>x.classList.toggle("on",j===k)); };
+    if(!("IntersectionObserver" in window)) return;
+    const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) show(+e.target.dataset.k); }),{root:caseEl,rootMargin:"-45% 0px -45% 0px"});
+    steps.forEach(x=>io.observe(x));
   });
 
   // decision rows: each plays when it scrolls in

@@ -5,7 +5,7 @@ Run from anywhere:  python C:/Users/shanmugam/portfolio/tools/prep_images.py
 For every file in images/work/<project>/ it:
   - fixes doubled extensions (name.png.png -> name.png)
   - converts PNG/JPEG to a compressed JPG (quality 86), shrinking anything wider than 1600 px
-  - checks the shape is 16:10
+  - extends the canvas to 16:10 when the shape is off (fills with the image's corner colour, never crops)
   - checks the name matches a placeholder in index.html
 and prints one short line per file, plus what is still missing.
 """
@@ -60,8 +60,14 @@ for project in sorted(os.listdir(WORK)):
         im = Image.open(path)
         w, h = im.size
         note = []
-        if abs(w / h - 1.6) > 0.03:
-            note.append(f"shape {w}x{h} is not 16:10, edges will be cropped")
+        if abs(w / h - 1.6) > 0.01:
+            # extend the canvas (never crop): fill the new edges with the image's own corner colour
+            fill = im.convert("RGB").getpixel((2, 2))
+            nw, nh = (round(h * 1.6), h) if w / h < 1.6 else (w, round(w / 1.6))
+            canvas = Image.new("RGB", (nw, nh), fill)
+            canvas.paste(im.convert("RGB"), ((nw - w) // 2, (nh - h) // 2))
+            im, (w, h) = canvas, canvas.size
+            ext = ".changed"
         if w > 1600:
             im = im.resize((1600, round(1600 * h / w)), Image.LANCZOS)
         out = os.path.join(folder, base + ".jpg")
