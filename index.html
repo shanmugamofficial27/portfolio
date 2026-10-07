@@ -1310,6 +1310,14 @@ main{position:relative;z-index:2}
 @media (prefers-reduced-motion:reduce){
   .sms-stack li,.mo-qs li,.ord-new,.asks li,.tx li,.tx-bar i,.fx-cat span,.dg-jobs p,.jb-msg,.lk-side{transition:none}
 }
+/* one image size: every case image is 16:10, so the phone rows become calm two-column grids */
+:root .ccase .bk .phones,:root .ccase .bk .phones.p6{grid-template-columns:repeat(2,minmax(0,1fr));max-width:720px;gap:28px 20px}
+:root .asks{grid-template-columns:repeat(2,minmax(0,1fr));max-width:720px;gap:32px 20px}
+:root .bk-system .pair{grid-template-columns:1fr 1fr;max-width:720px}
+@media(max-width:820px){
+  :root .ccase .bk .phones .ph,:root .asks li{flex:0 0 82%}
+  :root .bk-system .pair{grid-template-columns:1fr}
+}
 /* lightbox */
 .lightbox{position:fixed;inset:0;z-index:70;background:rgba(4,6,10,.92);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
   display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;
@@ -3612,7 +3620,7 @@ const MOON='<svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor
 /* ═══════ CASE STUDIES — chapters. Each one is a leg of the report's journey: a centred title
    (label, headline, at most one line), then its visual. Facts appear once; numbers live in the header. ═══════ */
 const pad2=i=>String(i+1).padStart(2,"0");
-function blockMedia(c,file,label,ratio,type){ return {type:type||"image",ratio:ratio||"16:10",label,src:file?c.dir+file:""}; }
+function blockMedia(c,file,label,ratio,type){ return {type:type||"image",ratio:"16:10",label,src:file?c.dir+file:""}; }   // one size for every image: 1600 x 1000
 function zoomFig(m,g,i){ return phHTML(m).replace('<figure class="ph"',`<figure class="ph" tabindex="0" role="button" data-g="${g}" data-i="${i}"`); }
 function renderBlocks(c,galleries){
   const k=Object.keys(CASES).find(x=>CASES[x]===c);
@@ -3737,7 +3745,7 @@ function renderBlocks(c,galleries){
     product:(b,i)=>{
       const web=(b.web||[]).map(x=>M(x.img,x.name+": "+x.cap,"16:10",x.type)),gw=web.length?gal(web):-1;
       const ph=b.phones.map(x=>M(x.img,x.label,"9:19")),gp=gal(ph);
-      const vr=b.video.ratio||"16:10";
+      const vr="16:10";
       return sec(b,i,`<div class="vid${vr==="9:19"?" vid-tall":""}">${phHTML(M(b.video.src,b.video.label,vr,"video"))}</div>
         ${web.length?`<div class="grid4">${b.web.map((x,k)=>`<div>${zoomFig(web[k],gw,k)}<p class="bk-cap"><b>${esc(x.name)}</b> ${esc(x.cap)}</p></div>`).join("")}</div>`:""}
         <div class="phones ph-focus${b.phones.length>4?" p6":""}">${b.phones.map((x,k)=>zoomFig(Object.assign({},ph[k],{cap:esc(x.cap)}),gp,k)).join("")}</div>`);
