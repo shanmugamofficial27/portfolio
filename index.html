@@ -3963,7 +3963,6 @@ function renderCasePage(c,galleries){
   const parts=renderBlocks(c,galleries);
   const num=v=>{ const m=/^(.*?)(\d+)$/.exec(v); return m?`<b data-pre="${esc(m[1])}" data-n="${m[2]}">${esc(v)}</b>`:`<b>${esc(v)}</b>`; };
   return `<div class="ccase">
-    <nav class="cx-index" aria-label="Chapters">${c.blocks.map((b,i)=>`<a href="#cx-${i}"><span>${pad2(i)}</span>${esc(b.nav||b.eyebrow)}</a>`).join("")}</nav>
     <header class="cs-hero rc-hero">
       <p class="cs-kick">${esc(c.kick)}</p>
       <h1 id="casetitle">${esc(c.title)}</h1>
