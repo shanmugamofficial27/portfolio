@@ -17,6 +17,24 @@ execSync(
   { stdio: "inherit", cwd: root }
 );
 
+// move the inline CSS and JS into separate hashed files, so View source shows only a short HTML page
+import crypto from "node:crypto";
+{
+  const f = path.join(dist, "index.html");
+  let html = fs.readFileSync(f, "utf8");
+  fs.mkdirSync(path.join(dist, "assets"));
+  const save = (body, ext) => {
+    const name = `${ext === "css" ? "style" : "app"}.${crypto.createHash("md5").update(body).digest("hex").slice(0, 8)}.${ext}`;
+    fs.writeFileSync(path.join(dist, "assets", name), body);
+    return "assets/" + name;
+  };
+  let css = "";
+  html = html.replace(/<style>([\s\S]*?)<\/style>/g, (_, body) => { css += body; return "<!--css-->"; });
+  html = html.replace("<!--css-->", `<link rel="stylesheet" href="${save(css, "css")}">`).replace(/<!--css-->/g, "");
+  html = html.replace(/<script>([\s\S]*?)<\/script>/g, (_, body) => `<script src="${save(body, "js")}"></script>`);
+  fs.writeFileSync(f, html);
+}
+
 // copy everything the page loads; nothing from tools/ or the git history goes out
 for (const item of ["images", "resume.pdf", "LICENSE"]) {
   const from = path.join(root, item);
