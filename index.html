@@ -1232,7 +1232,7 @@ main{position:relative;z-index:2}
 .as-n span{margin-right:8px;color:var(--muted)}
 .asks b{display:block;margin-top:6px;font-size:var(--fs-body);font-weight:500;line-height:1.4;color:var(--text)}
 .as-why{display:block;margin-top:4px;font-size:var(--fs-small);line-height:1.5;color:var(--muted)}
-.ch .ask-no{display:flex;align-items:center;justify-content:center;gap:10px;margin:40px auto 0;font-size:var(--fs-body);color:var(--text-2)}
+.ch .ask-no{display:flex;align-items:center;justify-content:center;gap:10px;margin:32px auto 0;font-size:var(--fs-body);color:var(--text-2)}
 .ask-no i{font-size:1.1rem;color:var(--case-accent)}
 
 /* the route: one transaction becomes a plan */
@@ -3749,13 +3749,11 @@ function renderBlocks(c,galleries){
     ask:(b,i)=>{
       const list=b.steps.map((x,n)=>M(x.img,"Step "+(n+1)+" · "+x.tag,"9:19")),g=gal(list);
       const pills=a=>a.map((x,k)=>(k?`<i aria-hidden="true">→</i>`:"")+`<span>${esc(x)}</span>`).join("");
-      return sec(b,i,`<div class="order"><p class="ord ord-old"><em>First version</em>${pills(b.before)}</p>
-          <p class="ord ord-new"><em>Final</em>${pills(b.after)}</p></div>
+      return sec(b,i,`
         <div class="ax">
           <div class="ax-stage">${list.map((m,k)=>`<div class="ax-shot${k?"":" on"}">${zoomFig(m,g,k)}</div>`).join("")}</div>
           <div class="ax-road" style="--n:${b.steps.length}"><span class="ax-fill"></span><span class="ax-car" aria-hidden="true"></span>
             ${b.steps.map((x,k)=>`<button type="button" class="ax-stop${k?"":" on"}" data-k="${k}" aria-pressed="${k===0}"><i></i><span>${esc(x.tag)}</span></button>`).join("")}</div>
-          <div class="ax-cap" aria-live="polite">${b.steps.map((x,k)=>`<div class="ax-c${k?"":" on"}"><p class="as-n"><span>${pad2(k)}</span>${esc(x.tag)}</p><b>${esc(x.head)}</b><span class="as-why">${esc(x.why)}</span></div>`).join("")}</div>
         </div>
         <p class="ask-no"><i class="ph ph-hand-palm" aria-hidden="true"></i>${esc(b.no)}</p>`);
     },
@@ -3885,7 +3883,7 @@ function initBlocks(root,c,galleries){
 
   // the ask: a light drives the short road; each stop shows its phone screen. Plays by itself until a stop is picked.
   root.querySelectorAll(".ax").forEach(ax=>{
-    const stops=[...ax.querySelectorAll(".ax-stop")],shots=[...ax.querySelectorAll(".ax-shot")],caps=[...ax.querySelectorAll(".ax-c")],n=stops.length;
+    const stops=[...ax.querySelectorAll(".ax-stop")],shots=[...ax.querySelectorAll(".ax-shot")],caps=[],n=stops.length;
     let cur=0,timer=0,vis=false;
     const show=k=>{ cur=k; ax.style.setProperty("--p",n>1?k/(n-1):0);
       [stops,shots,caps].forEach(set=>set.forEach((x,j)=>x.classList.toggle("on",j===k)));
