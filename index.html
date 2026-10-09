@@ -1518,6 +1518,13 @@ main{position:relative;z-index:2}
 :root :is(.star-t,.trip-cap small,.jr-count,.jr-count b){font-size:var(--fs-small)}
 /* bright white is for headings and for whatever is active or chosen */
 :root :is(.chips button[aria-pressed="true"],.nav-links a[aria-current="true"],.dc-opts.done li.pick){font-weight:600}
+
+/* review fixes: calmer scenery behind case text, readable secondary lines, balanced line breaks, contact fits phones */
+#case.cpage .case-glow{background:radial-gradient(ellipse 70% 40% at 50% 0%,rgba(var(--case-rgb),.12),transparent 70%),rgba(4,6,12,.8)}
+:root :is(.ch .dc-also,.ch .bk-again,.scope span,.rg li span,.rcard span,.src-list span,.pains span,.as-why,.ccase .bk-cap){color:var(--text-2)}
+:root .ch .bk-again{font-size:var(--fs-body)}
+:root :is(.ch .bk-line,.cs-line,.ch .dr-prob,.ch .dr-why,.ch .fx-prob,.ccase .bk-cap,.sub,.hero-lede,.ccase .bk-q,.ch .bk-again,.ccase h2){text-wrap:balance}
+@media(max-width:820px){ :root .dest{flex-wrap:wrap;gap:8px 20px} :root .dest-i{font-size:1.125rem} }
 </style>
 </head>
 <body>
@@ -1634,9 +1641,11 @@ main{position:relative;z-index:2}
       <div class="lane"><p class="lane-l">Design</p>
         <ul class="lane-s"><li>Wireframing</li><li>Interaction design</li><li>Visual design</li><li>Typography</li><li>Prototyping</li><li>Design systems</li></ul></div>
       <div class="lane"><p class="lane-l">Collaborate</p>
-        <ul class="lane-s"><li>Cross-functional teams</li><li>Stakeholder communication</li><li>AI design tools</li></ul></div>
+        <ul class="lane-s"><li>Founders and developers</li><li>Stakeholder communication</li><li>Developer handoff</li><li>AI design tools</li></ul></div>
+      <div class="lane"><p class="lane-l">Specialise</p>
+        <ul class="lane-s"><li>Role-based products</li><li>Data-dense dashboards</li><li>AI UX patterns</li><li>Trust and permission flows</li><li>Health data readability</li></ul></div>
       <div class="lane lane-tools"><p class="lane-l">Tools</p>
-        <ul class="lane-s"><li>Figma</li><li>FigJam</li><li>Miro</li><li>Maze</li><li>Illustrator</li><li>Adobe XD</li></ul></div>
+        <ul class="lane-s"><li>Figma</li><li>FigJam</li><li>Miro</li><li>Maze</li><li>Illustrator</li></ul></div>
     </div>
   </div>
 </section>
@@ -2622,7 +2631,7 @@ function depth(){}
     {x:235,y:115,l:"College",y2:"2020 - 2024",h:"Drawn to the human side.",d:"More curious about how people use technology than how the circuit works."},
     {x:415,y:190,l:"Self-taught",y2:"Along the way",h:"Taught myself design.",d:"UX and product design, learned on my own: research, flows, hierarchy and systems."},
     {x:585,y:58,l:"2024",y2:"2024",h:"Graduated.",d:"B.E. Electronics and Communication Engineering, 2020 - 2024."},
-    {x:770,y:175,l:"Sep 2024",y2:"Sep 2024 - now",h:"Product Designer, Chadura Tech.",d:"The only designer on the team, working directly with the founder, product managers and developers."},
+    {x:770,y:175,l:"Chadura Tech",y2:"Sep 2024 - now",h:"Product Designer, Chadura Tech.",d:"The only designer on the team, working directly with the founder, product managers and developers."},
     {x:935,y:48, l:"Next",y2:"Next",h:"The next road.",d:"Looking for Product Designer roles in AI, healthcare, SaaS and data.",link:true}
   ];
   const NOW=4;                                   // the brightest star: today
@@ -3522,7 +3531,7 @@ const CASES={
     title:"One product, nine responsibilities.",
     line:"I designed Billcostro from an idea into an enterprise cost platform where every role sees what it is responsible for.",
     // the 30-second view: the only place the numbers appear
-    impact:[["9","role experiences"],["6+","request categories"],["2","platforms, web and mobile"]],
+    impact:[["12","modules, built from scratch"],["6+","request categories"],["2","platforms, web and mobile"]],
     meta:[["Role","Product Designer, research to UI"],["Team","Founder, product, developers, marketing"],
           ["Timeline","Dec 2024 to Mar 2025"],["Platforms","Web app, employee mobile app"],["Status","Fully functional, in client pilots"]],
     cover:{live:"billcostro"},
@@ -3603,7 +3612,7 @@ const CASES={
     title:"Trust before intelligence.",
     line:"I designed Moolago, an Android fintech app that turns financial SMS into spending insights, AI guidance and money goals.",
     // the 30-second view: the only place the numbers appear
-    impact:[["4","steps to earn permission"],["5","jobs in one money loop"],["1","SMS becomes a saving plan"]],
+    impact:[["Sole","designer, research to handoff"],["5","jobs in one money loop"],["4","steps to earn permission"]],
     meta:[["Role","Sole product designer"],["Team","Founder, app and backend developers"],
           ["Timeline","Mar 2025 to Aug 2025"],["Platform","Android"],["Status","Handed over to the client · usability tested"]],
     cover:{live:"moolago"},
@@ -3823,7 +3832,8 @@ function renderBlocks(c,galleries){
 
     // the product tour: the stage stays pinned while the steps scroll; each step swaps the screen
     product:(b,i)=>{
-      const list=b.tour.map(x=>M(x.img,x.name+": "+x.line,"16:10",x.type)),g=gal(list);
+      const first=b.tour.find(x=>!x.type);
+      const list=b.tour.map(x=>Object.assign(M(x.img,x.name+": "+x.line,"16:10",x.type),x.type&&first?{poster:c.dir+first.img.replace(/\.png$/,".jpg")}:{})),g=gal(list);
       return sec(b,i,`<div class="tour">
         <div class="tour-stage" aria-hidden="true"><div class="tour-frame">${list.map((m,k)=>`<div class="tour-shot${k?"":" on"}">${zoomFig(m,g,k)}</div>`).join("")}</div>
           <div class="tour-dots">${b.tour.map((_,k)=>`<i class="${k?"":"on"}"></i>`).join("")}</div></div>
