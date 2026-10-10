@@ -40,6 +40,13 @@ for (const item of ["images", "resume.pdf", "LICENSE"]) {
   const from = path.join(root, item);
   if (fs.existsSync(from)) fs.cpSync(from, path.join(dist, item), { recursive: true });
 }
+// whatever PDF sits in images/resume (newest wins) is published at the fixed link the site uses
+{
+  const dir = path.join(root, "images", "resume");
+  const pdf = fs.existsSync(dir) && fs.readdirSync(dir).filter(n => n.toLowerCase().endsWith(".pdf"))
+    .map(n => path.join(dir, n)).sort((a, b) => fs.statSync(b).mtimeMs - fs.statSync(a).mtimeMs)[0];
+  if (pdf) fs.copyFileSync(pdf, path.join(dist, "images", "resume", "resume-shanmugam.pdf"));
+}
 fs.writeFileSync(path.join(dist, "robots.txt"), "User-agent: *\nAllow: /\n");
 
 const kb = f => Math.round(fs.statSync(f).size / 1024);
