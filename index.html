@@ -1085,6 +1085,21 @@ main{position:relative;z-index:2}
 .edge b{margin-top:2px;font-size:.875rem;font-weight:500;line-height:1.4;color:var(--text)}
 .dr-view.on .edge li{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){ .dr-view,.fork path,.fk-r,.edge li{transition:none} }
+/* case hero: the numbers as milestones on one lit line, then one line of facts */
+.ccase .impact{position:relative;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:640px;margin:56px auto 0;padding-top:28px;text-align:center}
+.ccase .impact::before{content:"";position:absolute;top:5px;left:16.66%;right:16.66%;height:1px;
+  background:linear-gradient(90deg,rgba(var(--case-rgb),.15),rgba(var(--case-rgb),.7),rgba(var(--case-rgb),.15));transform-origin:left;animation:roadIn 1.2s var(--ease) .3s both}
+.ccase .impact>div{position:relative}
+.ccase .impact>div::before{content:"";position:absolute;top:-28px;left:50%;width:11px;height:11px;margin-left:-5.5px;border-radius:50%;
+  background:var(--case-accent);box-shadow:0 0 0 5px rgba(var(--case-rgb),.14),0 0 18px rgba(var(--case-rgb),.55);animation:pinIn .5s var(--ease) both}
+.ccase .impact>div:nth-child(1)::before{animation-delay:.4s}.ccase .impact>div:nth-child(2)::before{animation-delay:.8s}.ccase .impact>div:nth-child(3)::before{animation-delay:1.2s}
+.ccase .impact span{max-width:16ch;margin-left:auto;margin-right:auto;line-height:1.4}
+@keyframes roadIn{from{transform:scaleX(0)}}
+@keyframes pinIn{from{opacity:0;transform:scale(.3)}}
+.ccase .cs-facts{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 0;margin:40px auto 0;max-width:640px;font-size:.875rem;line-height:1.5;color:var(--muted)}
+.cs-facts span+span::before{content:"·";margin:0 10px;color:rgba(255,255,255,.25)}
+@media(max-width:820px){ .ccase .impact{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:40px} .ccase .impact span{font-size:.8125rem} }
+@media (prefers-reduced-motion:reduce){ .ccase .impact::before,.ccase .impact>div::before{animation:none} }
 .ccase .cs-own{margin:24px auto 0;max-width:56ch;font-size:.875rem;line-height:1.55;color:var(--text-2);text-align:center}
 /* diagram · templates: two families share one page, oncology has twelve; the brand colour cycles, the layout holds */
 .dg-tpl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:440px;align-items:end;text-align:center}
@@ -3535,6 +3550,7 @@ const CASES={
     line:"I designed Genix end to end as it grew into a platform for labs, clinicians, partners and mobile users.",
     // the 30-second view: the only place the numbers appear
     impact:[["1 → 32","report experiences"],["9","roles, one platform"],["5","product areas"]],
+    facts:["Product Designer, on MUI","Apr 2025 – now","Web, admin, mobile","Live"],
     meta:[["Role","Product Designer"],["Team","Founder, developers and bioinformaticians"],
           ["Timeline","Apr 2025 to present"],["Platforms","Web, admin, mobile app"],["Status","Live and in use"]],
     cover:{live:"genix"},
@@ -3611,6 +3627,7 @@ const CASES={
     line:"I designed Billcostro from an idea into an enterprise cost platform where every role sees what it is responsible for.",
     // the 30-second view: the only place the numbers appear
     impact:[["12","modules, built from scratch"],["6+","request categories"],["2","platforms, web and mobile"]],
+    facts:["Product Designer, on MUI","Dec 2024 – Mar 2025","In client pilots"],
     meta:[["Role","Product Designer, research to UI"],["Team","Founder, product, developers, marketing"],
           ["Timeline","Dec 2024 to Mar 2025"],["Platforms","Web app, employee mobile app"],["Status","Fully functional, in client pilots"]],
     cover:{live:"billcostro"},
@@ -3693,6 +3710,7 @@ const CASES={
     line:"I designed Moolago, an Android fintech app that turns financial SMS into spending insights, AI guidance and money goals.",
     // the 30-second view: the only place the numbers appear
     impact:[["Sole","designer, research to handoff"],["5","jobs in one money loop"],["4","steps to earn permission"]],
+    facts:["Custom design system","Mar – Aug 2025","Android","Handed to the client"],
     meta:[["Role","Sole product designer"],["Team","Founder, app and backend developers"],
           ["Timeline","Mar 2025 to Aug 2025"],["Platform","Android"],["Status","Handed over to the client"]],
     cover:{live:"moolago"},
@@ -4089,8 +4107,7 @@ function renderCasePage(c,galleries){
       <h1 id="casetitle">${esc(c.title)}</h1>
       <p class="cs-line">${esc(c.line)}</p>
       ${c.impact?`<div class="impact">${c.impact.map(([v,l])=>`<div>${num(v)}<span>${esc(l)}</span></div>`).join("")}</div>`:""}
-      <dl class="cs-meta">${c.meta.map(([a,b])=>`<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join("")}</dl>
-      ${c.own?`<p class="cs-own">${esc(c.own)}</p>`:""}
+      ${c.facts?`<p class="cs-facts">${c.facts.map(f=>`<span>${esc(f)}</span>`).join("")}</p>`:`<dl class="cs-meta">${c.meta.map(([a,b])=>`<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join("")}</dl>`}
     </header>
     <div class="cover-live rc-cover cs-cover" data-p="${c.cover.live}" role="img" aria-label="${esc(c.name)} cover artwork"><canvas></canvas></div>
     ${parts.join("")}
