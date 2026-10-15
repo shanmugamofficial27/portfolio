@@ -1045,6 +1045,67 @@ main{position:relative;z-index:2}
 .dg-nudge .ng-card{width:150px;padding:14px}
 .ng-l{display:none}
 
+/* decision stage: one visual panel, a small switch on top, views stacked in one cell and crossfaded */
+.dr-vis.dr-stage{display:grid;place-items:stretch;align-content:center;gap:20px}
+.dr-tabs{justify-self:center;display:flex;gap:2px;padding:4px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+.dr-tabs button{appearance:none;border:0;background:none;font:inherit;font-size:.75rem;font-weight:500;color:var(--muted);padding:6px 12px;border-radius:999px;cursor:pointer;
+  transition:color .3s var(--ease),background .3s var(--ease)}
+.dr-tabs button:hover{color:var(--text)}
+.dr-tabs button[aria-selected="true"]{color:#0A0E14;background:var(--case-accent)}
+.dr-tabs button:focus-visible{outline:2px solid var(--case-accent);outline-offset:2px}
+.dr-views{display:grid}
+.dr-view{grid-area:1/1;display:grid;place-items:center;opacity:0;visibility:hidden;transform:translateY(8px);
+  transition:opacity .45s var(--ease),transform .45s var(--ease),visibility 0s .45s}
+.dr-view.on{opacity:1;visibility:visible;transform:none;transition:opacity .45s var(--ease) .1s,transform .45s var(--ease) .1s,visibility 0s}
+
+/* view · the road fork */
+.fork{position:relative;width:100%;max-width:380px;display:grid;grid-template-columns:44px minmax(0,1fr);grid-template-rows:repeat(var(--n),1fr);row-gap:8px}
+.fork::before{content:"";position:absolute;left:-4px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:var(--case-accent);box-shadow:0 0 0 4px rgba(var(--case-rgb),.18)}
+.fork svg{grid-column:1;grid-row:1/-1;width:100%;height:100%;overflow:visible}
+.fork path{fill:none;vector-effect:non-scaling-stroke;opacity:0;transition:opacity .5s var(--ease) calc(.15s + var(--j)*.15s)}
+.fork .fk-off{stroke:rgba(255,255,255,.22);stroke-width:1;stroke-dasharray:3 4}
+.fork .fk-on{stroke:var(--case-accent);stroke-width:2}
+.fk-r{grid-column:2;display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:12px;align-content:center;padding:10px 14px;border-radius:12px;border:1px solid transparent;
+  opacity:0;transform:translateX(-6px);transition:opacity .5s var(--ease) calc(.25s + var(--j)*.15s),transform .5s var(--ease) calc(.25s + var(--j)*.15s)}
+.dr-view.on .fork path,.dr-view.on .fk-r{opacity:1;transform:none}
+.fk-r b{font-size:.875rem;font-weight:500;line-height:1.35;color:var(--text-2);text-decoration:line-through;text-decoration-color:rgba(255,138,138,.6)}
+.fk-r span{grid-column:1;margin-top:3px;font-size:.75rem;line-height:1.4;color:var(--muted)}
+.fk-r em{grid-column:2;grid-row:1/3;align-self:center;font-style:normal;font-size:.8125rem;color:rgba(255,138,138,.8)}
+.fk-r.on{border-color:rgba(var(--case-rgb),.35);background:rgba(var(--case-rgb),.08)}
+.fk-r.on b{color:var(--text);text-decoration:none}
+.fk-r.on span{color:var(--text-2)}
+.fk-r.on em{color:var(--case-accent)}
+
+/* view · edge cases as small product notifications */
+.edge{list-style:none;margin:0;padding:0;width:100%;max-width:340px;display:grid;gap:10px}
+.edge li{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:12px;padding:12px 14px;border-radius:14px;background:#0C111B;border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 14px 30px -20px rgba(0,0,0,.9);opacity:0;transform:translateY(8px);transition:opacity .5s var(--ease) calc(.15s + var(--j)*.18s),transform .5s var(--ease) calc(.15s + var(--j)*.18s)}
+.edge li::before{content:"";grid-row:1/3;width:8px;height:8px;margin-top:5px;border-radius:50%;background:var(--case-accent);box-shadow:0 0 0 4px rgba(var(--case-rgb),.15)}
+.edge span{font-size:.75rem;line-height:1.4;color:var(--muted)}
+.edge b{margin-top:2px;font-size:.875rem;font-weight:500;line-height:1.4;color:var(--text)}
+.dr-view.on .edge li{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){ .dr-view,.fork path,.fk-r,.edge li{transition:none} }
+.ccase .cs-own{margin:24px auto 0;max-width:56ch;font-size:.875rem;line-height:1.55;color:var(--text-2);text-align:center}
+/* diagram · templates: two families share one page, oncology has twelve; the brand colour cycles, the layout holds */
+.dg-tpl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:440px;align-items:end;text-align:center}
+.tp-col{opacity:0;transform:translateY(6px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.tp-col:nth-child(2){transition-delay:.25s}.tp-col:nth-child(3){transition-delay:.5s}
+.dg-tpl.go .tp-col{opacity:1;transform:none}
+.tp-page{width:62px;height:82px;margin:0 auto;padding:8px;display:grid;align-content:start;gap:6px;border-radius:6px;background:#0C111B;border:1px solid rgba(255,255,255,.14);
+  box-shadow:4px 4px 0 -1px #0C111B,4px 4px 0 0 rgba(255,255,255,.1),8px 8px 0 -1px #0C111B,8px 8px 0 0 rgba(255,255,255,.06)}
+.tp-page i{height:8px;border-radius:2px;background:var(--case-accent)}
+.tp-page u{height:3px;border-radius:2px;background:rgba(255,255,255,.18)}
+.tp-page u:nth-of-type(2){width:70%}.tp-page u:nth-of-type(4){width:55%}
+.tp-grid{height:90px;display:grid;grid-template-columns:repeat(4,15px);gap:4px;justify-content:center;align-content:center}
+.tp-grid em{height:20px;padding:2px;border-radius:2px;background:#0C111B;border:1px solid rgba(255,255,255,.14);
+  background-image:linear-gradient(rgba(255,255,255,.16),rgba(255,255,255,.16));background-repeat:no-repeat;background-size:70% 1px;background-position:2px calc(var(--h) + 2px + var(--g))}
+.tp-grid em i{display:block;height:var(--h);border-radius:1px;background:var(--case-accent)}
+.dg-tpl.go .tp-page i,.dg-tpl.go .tp-grid i{animation:brand 7.5s steps(1) 1.4s infinite}
+@keyframes brand{0%{background:var(--case-accent)}33.3%{background:#FFC98B}66.6%{background:#B49CFF}}
+.tp-col b{display:block;margin-top:16px;font-size:.625rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.tp-col span{display:block;margin-top:4px;font-size:.75rem;line-height:1.4;color:var(--text)}
+@media (prefers-reduced-motion:reduce){ .hw-alt s::after,.tp-col{transition:none} .dg-tpl .tp-page i,.dg-tpl .tp-grid i{animation:none} }
+
 /* product: the walkthrough leads, then four screens in a grid */
 .bk-product .vid{max-width:720px;margin:0 auto}
 .grid4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 20px;max-width:720px;margin:48px auto 0}
@@ -3470,6 +3531,7 @@ const CASES={
   genix:{
     name:"Genix.ai",minute:184,kick:"Genix.ai · Healthcare · Genomics · AI",
     title:"From one report to a product ecosystem",
+    own:"Built on MUI. Mine: the report structure, the role experiences and the components MUI didn't have.",
     line:"I designed Genix end to end as it grew into a platform for labs, clinicians, partners and mobile users.",
     // the 30-second view: the only place the numbers appear
     impact:[["1 → 32","report experiences"],["9","roles, one platform"],["5","product areas"]],
@@ -3513,13 +3575,15 @@ const CASES={
       {type:"decisions",nav:"Decisions",eyebrow:"Turns I took",h:"Three calls that shaped the experience.",items:[
         {name:"Reading order",problem:"The report had the information, but no clear place to start.",
          choice:"Lead with the finding, then reveal the meaning and the detail.",
-         why:"The first view doesn't have to do everything.",considered:"more on the first page; clearer sections",diagram:"layers"},
-        {name:"Signup first",problem:"The app opened with sign in, but Genix was new and needed new users.",
-         choice:"Open on sign up.",
-         why:"The product stage called for account creation, not returning users.",considered:"sign in first; explore before an account",diagram:"entry"},
+         why:"The first view doesn't have to do everything.",considered:"more on the first page; clearer sections",diagram:"layers",alt:[["Everything on page one","Normal readers got lost"]],edge:[["Anyone reads it","Wellness report, plain words"],["A doctor reads it","Summary report"],["A counsellor reads it","Counselling report"]]},
+        {name:"One layout, many brands",problem:"32 reports in three categories, and partners who wanted their own brand on them.",
+         choice:"Share a template where reports are alike. Lock the layout, open the brand.",
+         why:"Medical data stays clear and in order, whatever the logo. And it stays easy to build.",diagram:"brands",
+         alt:[["One template for all","Oncology data didn't fit"],["A design per report","32 layouts to maintain"]],
+         edge:[["A partner adds its brand","Logo and colours change, layout stays"]]},
         {name:"AI that nudges",problem:"A report says a lot, but its value drops once it sits in a document.",
          choice:"Insights and nudges that bring report context into daily wellness.",
-         why:"Something to notice and act on, not a diagnosis.",diagram:"nudge"}]},
+         why:"Something to notice and act on, not a diagnosis.",diagram:"nudge",alt:[["Report ends as a PDF","Its value stops at the document"]],edge:[["New user, no history","Goals, tracking, general tips"],["Has a DNA report","Evidence-based insights"]]}]},
 
       {type:"system",nav:"System",eyebrow:"One system",h:"New workflows extend it, not repeat it.",
        line:"Reusable patterns across web, admin and mobile. Density adapts to the device.",
@@ -3543,6 +3607,7 @@ const CASES={
   billcostro:{
     name:"Billcostro",minute:200,kick:"Billcostro · Enterprise SaaS · Cost management",
     title:"One product, nine responsibilities.",
+    own:"Built on MUI. Mine: the role logic, the request flows, and custom approval, dashboard and category components.",
     line:"I designed Billcostro from an idea into an enterprise cost platform where every role sees what it is responsible for.",
     // the 30-second view: the only place the numbers appear
     impact:[["12","modules, built from scratch"],["6+","request categories"],["2","platforms, web and mobile"]],
@@ -3589,16 +3654,16 @@ const CASES={
       {type:"decisions",nav:"Decisions",eyebrow:"Turns I took",h:"Four calls that kept it simple.",items:[
         {name:"Responsibility first",problem:"One dashboard couldn't serve employees, finance and leadership equally.",
          choice:"Role-based dashboards, flexible per organization and plan.",
-         why:"A clear default for every role, without a fixed set of widgets.",considered:"one dashboard for everyone; full customization for everyone",diagram:"dash"},
+         why:"A clear default for every role, without a fixed set of widgets.",considered:"one dashboard for everyone; full customization for everyone",diagram:"dash",alt:[["One dashboard for all","Roles need opposite things first"],["Full customisation","Few set it up; heavy to build"]],edge:[["A new company, no data","Guided first steps, not empty charts"]]},
         {name:"Category first",problem:"Showing every request form at once made raising a request confusing.",
          choice:"Pick a category first, then get the right form.",
-         why:"The system guides people, instead of them learning the system.",considered:"one large form; a separate entry for every request",diagram:"category"},
+         why:"The system guides people, instead of them learning the system.",considered:"one large form; a separate entry for every request",diagram:"category",alt:[["One large form","Wrong fields, wrong approvers"]],edge:[["Request rejected","Reason shown, edit and resend"]]},
         {name:"Mobile as a companion",problem:"Shrinking the full enterprise web app onto a phone would carry all its complexity.",
          choice:"A focused employee app built around six everyday actions.",
-         why:"An extension of the product, not a smaller copy.",considered:"replicate the web app; a responsive web version",diagram:"companion"},
+         why:"An extension of the product, not a smaller copy.",considered:"replicate the web app; a responsive web version",diagram:"companion",alt:[["Copy of the web app","Admin complexity on a phone"],["Responsive website","No camera, push or speed"]],edge:[["A receipt to submit","Snap it with the camera"],["An approval waiting","Push notification"]]},
         {name:"A workspace for files",problem:"Documents felt like scattered attachments across workflows.",
          choice:"Collections, folders and files, still linked to their requests.",
-         why:"A familiar mental model for something people use every day.",considered:"files only inside requests; a plain file manager",diagram:"files"}]},
+         why:"A familiar mental model for something people use every day.",considered:"files only inside requests; a plain file manager",diagram:"files",alt:[["Files only in requests","Reused files, hard to find"],["Plain file manager","Files lose their request"]]}]},
 
       {type:"system",nav:"System",eyebrow:"One system",h:"Different responsibilities, one product language.",
        line:"Established patterns, adapted for Billcostro, shared across every role.",
@@ -3624,11 +3689,12 @@ const CASES={
   moolago:{
     name:"Moolago",minute:216,kick:"Moolago · Fintech · Mobile · AI",
     title:"Trust before intelligence.",
+    own:"Sole designer, research to handoff, on a custom design system.",
     line:"I designed Moolago, an Android fintech app that turns financial SMS into spending insights, AI guidance and money goals.",
     // the 30-second view: the only place the numbers appear
     impact:[["Sole","designer, research to handoff"],["5","jobs in one money loop"],["4","steps to earn permission"]],
     meta:[["Role","Sole product designer"],["Team","Founder, app and backend developers"],
-          ["Timeline","Mar 2025 to Aug 2025"],["Platform","Android"],["Status","Handed over to the client · usability tested"]],
+          ["Timeline","Mar 2025 to Aug 2025"],["Platform","Android"],["Status","Handed over to the client"]],
     cover:{live:"moolago"},
     // images load from here when the files exist; until then each one stays a placeholder
     dir:"images/work/moolago/",
@@ -3674,13 +3740,13 @@ const CASES={
       {type:"decisions",nav:"Decisions",eyebrow:"Turns I took",h:"Three calls that kept people in control.",items:[
         {name:"Automate, then let people correct",problem:"Automatic categories save effort, but they're sometimes wrong.",
          choice:"Detect automatically, and make every category easy to edit.",
-         why:"Automation saves effort. Manual control keeps agency.",considered:"fully automatic; fully manual",diagram:"correct"},
+         why:"Automation saves effort. Manual control keeps agency.",considered:"fully automatic; fully manual",diagram:"correct",alt:[["Fully manual","SMS tracking is the core idea"],["Automatic, no editing","Parsing is sometimes wrong"]],edge:[["SMS can't be placed","Goes to Others, push to sort"],["Wrong category","The user edits it"]]},
         {name:"One job for AI at each stage",problem:"AI on every screen makes a product feel like a demo.",
          choice:"Give AI a clear job at each stage of the journey.",
-         why:"AI recommends. The user decides.",considered:"AI everywhere; AI kept in a separate corner",diagram:"aijobs"},
+         why:"AI recommends. The user decides.",considered:"AI everywhere; AI kept in a separate corner",diagram:"aijobs",alt:[["AI on every screen","Noisy, felt like a demo"]],edge:[["A direct question","The chat tab"],["Little history","Starter tips"]]},
         {name:"Budget after tracking",problem:"If spending is already tracked, why would anyone need a budget?",
          choice:"Tracking looks back. Budgeting looks forward.",
-         why:"The budget becomes the next step, not a separate feature.",diagram:"lookback"}]},
+         why:"The budget becomes the next step, not a separate feature.",diagram:"lookback",edge:[["Over budget","Alert with the spending breakdown"]]}]},
 
       {type:"system",nav:"System",eyebrow:"One system",h:"Money, shown calmly.",
        line:"One set of components across every screen, tuned so money informs without alarming.",
@@ -3755,6 +3821,13 @@ function renderBlocks(c,galleries){
     companion:()=>`<div class="dg dg-comp" aria-hidden="true"><div class="cp-web"><b>Web</b><div>${["Requests","Approvals","Expenses","Reimbursements","Travel","Assets","Files","Admin","Roles","Reports","Profiles","Notifications"].map(x=>`<span${["Requests","Files","Assets","Notifications","Profiles"].includes(x)?' class="m"':""}>${x}</span>`).join("")}</div></div>
       <span class="cp-arrow"></span><div class="cp-phone"><b>Mobile</b>${["Raise request","Request status","My files","My assets","Notifications","My profile"].map((x,k)=>`<span style="--i:${k}">${x}</span>`).join("")}</div></div>`,
     // collections hold folders hold files; a file still points to its request
+    // three report families: two share one template, oncology has twelve; the brand colour changes, the layout doesn't
+    brands:()=>{ const page=`<div class="tp-page"><i></i><u></u><u></u><u></u><u></u></div>`;
+      const onc=Array.from({length:12},(_,k)=>`<em style="--h:${[3,6,4,8,5,3,7,4,6,3,5,8][k]}px;--g:${[2,4,3,2,5,3,2,4,3,5,2,3][k]}px"><i></i></em>`).join("");
+      return `<div class="dg dg-tpl" aria-hidden="true">
+        <div class="tp-col">${page}<b>Wellness</b><span>12 reports · 1 template</span></div>
+        <div class="tp-col">${page}<b>Diagnostic</b><span>8 reports · 1 template</span></div>
+        <div class="tp-col"><div class="tp-grid">${onc}</div><b>Oncology</b><span>12 reports · 12 templates</span></div></div>`; },
     files:()=>`<div class="dg dg-files" aria-hidden="true"><div class="fl-col"><b>Collection</b><span>Travel 2025</span></div><i class="fl-ln"></i>
       <div class="fl-col"><b>Folder</b><span>Client visit</span></div><i class="fl-ln"></i>
       <div class="fl-col"><b>File</b><span>Hotel invoice.pdf</span><em>Linked to request</em></div></div>`,
@@ -3825,16 +3898,28 @@ function renderBlocks(c,galleries){
         <ul class="marq-row">${b.items.map((r,k)=>card(r,k,false)).join("")}${b.items.map((r,k)=>card(r,k,true)).join("")}</ul></div>`);
     },
 
-    decisions:(b,i)=>sec(b,i,`<ol class="dlist">${b.items.map((d,k)=>`<li class="drow" style="--i:${k}">
+    // each decision: three short lines on the left, one visual stage on the right with up to three views
+    decisions:(b,i)=>sec(b,i,`<ol class="dlist">${b.items.map((d,k)=>{
+      const views=[["Choice",(DIAG[d.diagram]||(()=>""))()]];
+      if(d.alt){
+        // the road fork: rejected paths branch off dashed and end in ✕, the chosen one runs lit through the middle
+        const rows=d.alt.map(([o,r])=>({o,r})); rows.splice(Math.min(1,rows.length),0,{o:d.name,r:d.why,pick:1});
+        const n=rows.length,y=j=>((j+.5)/n*100).toFixed(1);
+        views.push(["Not taken",`<div class="fork" style="--n:${n}">
+          <svg viewBox="0 0 60 100" preserveAspectRatio="none" aria-hidden="true">${rows.map((r,j)=>`<path class="${r.pick?"fk-on":"fk-off"}" style="--j:${j}" d="M0 50 C30 50 30 ${y(j)} 60 ${y(j)}"/>`).join("")}</svg>
+          ${rows.map((r,j)=>`<div class="fk-r${r.pick?" on":""}" style="grid-row:${j+1};--j:${j}"><b>${esc(r.o)}</b>${r.r?`<span>${esc(r.r)}</span>`:""}<em aria-hidden="true">${r.pick?"✓":"✕"}</em></div>`).join("")}
+        </div>`]);
+      }
+      if(d.edge) views.push(["Edge cases",`<ul class="edge">${d.edge.map(([a,c],j)=>`<li style="--j:${j}"><span>${esc(a)}</span><b>${esc(c)}</b></li>`).join("")}</ul>`]);
+      const tabs=views.length>1?`<div class="dr-tabs" role="tablist">${views.map(([t],j)=>`<button type="button" role="tab" aria-selected="${!j}">${t}</button>`).join("")}</div>`:"";
+      return `<li class="drow" style="--i:${k}">
         <div class="dr-text">
           <p class="dr-n"><span>${pad2(k)}</span>${esc(d.name)}</p>
           <p class="dr-prob">${esc(d.problem)}</p>
           <p class="fx-choice"><i aria-hidden="true">✓</i>${esc(d.choice)}</p>
-          <p class="dr-why">${esc(d.why)}</p>
-          ${d.considered?`<p class="dc-also">Also considered: ${esc(d.considered)}</p>`:""}
         </div>
-        <div class="dr-vis">${(DIAG[d.diagram]||(()=>""))()}</div>
-      </li>`).join("")}</ol>`),
+        <div class="dr-vis dr-stage">${tabs}<div class="dr-views">${views.map(([,h],j)=>`<div class="dr-view${j?"":" on"}">${h}</div>`).join("")}</div></div>
+      </li>`; }).join("")}</ol>`),
 
     system:(b,i)=>{
       // optional: a web/mobile pair (Genix, Billcostro) or three short principles (Moolago)
@@ -3967,6 +4052,18 @@ function initBlocks(root,c,galleries){
     }
   },.35));
 
+  // decision stage: choice → not taken → edge cases; advances on its own while on screen, until someone taps
+  root.querySelectorAll(".dr-stage").forEach(st=>{
+    const tabs=[...st.querySelectorAll(".dr-tabs button")],views=[...st.querySelectorAll(".dr-view")];
+    if(tabs.length<2) return;
+    let cur=0,auto=!RM,vis=false;
+    const show=j=>{ cur=j; tabs.forEach((b,x)=>b.setAttribute("aria-selected",x===j)); views.forEach((v,x)=>v.classList.toggle("on",x===j)); };
+    tabs.forEach((b,j)=>b.addEventListener("click",()=>{ auto=false; show(j); }));
+    new IntersectionObserver(es=>{ vis=es[0].isIntersecting; },{root:caseEl,threshold:.5}).observe(st);
+    const loop=()=>{ if(!alive(st)) return; if(auto&&vis) show((cur+1)%views.length); setTimeout(loop,5000); };
+    setTimeout(loop,5500);
+  });
+
   // chapter index: marks the chapter on screen; a click glides to it
   const idx=root.querySelector(".cx-index");
   if(idx){
@@ -3993,6 +4090,7 @@ function renderCasePage(c,galleries){
       <p class="cs-line">${esc(c.line)}</p>
       ${c.impact?`<div class="impact">${c.impact.map(([v,l])=>`<div>${num(v)}<span>${esc(l)}</span></div>`).join("")}</div>`:""}
       <dl class="cs-meta">${c.meta.map(([a,b])=>`<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join("")}</dl>
+      ${c.own?`<p class="cs-own">${esc(c.own)}</p>`:""}
     </header>
     <div class="cover-live rc-cover cs-cover" data-p="${c.cover.live}" role="img" aria-label="${esc(c.name)} cover artwork"><canvas></canvas></div>
     ${parts.join("")}
