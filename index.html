@@ -249,34 +249,54 @@ main{position:relative;z-index:2}
 .mile-cta i{font-style:normal;color:var(--acc);transition:transform .35s var(--ease)}
 .mile:hover .mile-cta i{transform:translateX(5px)}
 
-/* ---------- 03 skills — lanes of road, skills as reflectors, headlights passing through ---------- */
-.lanes{position:relative;max-width:1040px;margin:0 auto}
-/* solid road edges above and below, fading into the scene at both ends */
-.lanes::before,.lanes::after{content:"";position:absolute;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.22) 12%,rgba(255,255,255,.22) 88%,transparent)}
-.lanes::before{top:0}.lanes::after{bottom:0}
-.lane{position:relative;display:grid;grid-template-columns:150px minmax(0,1fr);align-items:center;min-height:76px;padding:0 clamp(18px,4vw,56px)}
-/* dashed lane markings between lanes, scrolling slowly like the road is moving */
-.lane+.lane::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;
-  background:repeating-linear-gradient(90deg,rgba(255,255,255,.18) 0 26px,transparent 26px 52px);
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
-  animation:laneDash 2.4s linear infinite}
-@keyframes laneDash{to{background-position:52px 0}}
-.lane-l{margin:0;display:flex;align-items:center;gap:10px;font-size:.95rem;font-weight:600;letter-spacing:-.01em;color:var(--text);position:relative;z-index:2}
-.lane-l::before{content:"";width:3px;height:16px;border-radius:2px;background:var(--cyan);box-shadow:0 0 10px rgba(139,223,255,.55)}
-.lane-tools .lane-l::before{background:var(--warm);box-shadow:0 0 10px rgba(255,201,139,.5)}
-.lane-s{list-style:none;margin:0;padding:12px 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 18px;position:relative;z-index:2;isolation:isolate;overflow:hidden}
-.lane-s li{--g:0;font-size:clamp(.9rem,1.4vw,1rem);font-weight:500;letter-spacing:-.005em;white-space:nowrap;cursor:default;
-  color:color-mix(in srgb,#FFF4E2 calc(var(--g)*100%),rgba(201,214,255,.56));
-  text-shadow:0 0 calc(var(--g)*16px) rgba(255,214,160,calc(var(--g)*.6));transition:transform .3s var(--ease)}
-.lane-s li:hover{--g:1 !important;transform:translateY(-1px)}
-.lane-tools{min-height:60px}
-.lane-tools .lane-s li{font-size:clamp(.86rem,1.3vw,.95rem);font-weight:500}
-/* a headlight: a bright point with a soft beam ahead of it */
-.car{position:absolute;z-index:-1;top:50%;left:0;width:150px;height:44px;margin:-22px 0 0 -150px;pointer-events:none;will-change:transform;
-  background:radial-gradient(ellipse 60% 50% at 100% 50%,rgba(255,236,204,.2),transparent 70%)}
-.car::after{content:"";position:absolute;right:-3px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:#FFF3E0;
-  box-shadow:0 0 10px 3px rgba(255,214,160,.7)}
+/* ---------- 03 skills — five glowing hubs on a dashed road; the lit one shows its skills as icon circles ---------- */
+.orbit{--hub:64px;--sk:76px;max-width:880px;margin:0 auto;text-align:center}
+.orb-hubs{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;margin:0 auto;max-width:640px}
+/* the road joining the hubs, its dashes drifting slowly */
+.orb-hubs::before{content:"";position:absolute;left:10%;right:10%;top:calc(var(--hub)/2);height:2px;margin-top:-1px;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.16) 0 10px,transparent 10px 20px);animation:orbDash 1.6s linear infinite}
+@keyframes orbDash{to{background-position:20px 0}}
+.hub{position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;padding:0;border:0;background:none;color:var(--muted);
+  font:inherit;font-size:var(--fs-small);font-weight:500;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color .3s var(--ease)}
+.hub-c{position:relative;display:grid;place-items:center;width:var(--hub);height:var(--hub);border-radius:50%;
+  background:var(--bg-2);border:1px solid var(--line-2);font-size:calc(var(--hub)*.4);color:var(--text-2);
+  transition:transform .4s var(--ease),background .4s var(--ease),border-color .4s,color .4s,box-shadow .4s}
+.hub-c svg{position:absolute;inset:-7px;width:calc(100% + 14px);height:calc(100% + 14px);transform:rotate(-90deg);overflow:visible;pointer-events:none}
+.hub-c .rg-t{fill:none;stroke:rgba(255,255,255,.07);stroke-width:2}
+.hub-c .rg-p{fill:none;stroke:var(--hc);stroke-width:2;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:0;opacity:0}
+.hub:hover .hub-c{transform:translateY(-2px);color:var(--text)}
+.hub:focus-visible{outline:none}.hub:focus-visible .hub-c{outline:2px solid var(--hc);outline-offset:9px}
+.hub[aria-selected="true"]{color:var(--text)}
+.hub[aria-selected="true"] .hub-c{transform:scale(1.08);color:#0A0E14;border-color:transparent;
+  background:radial-gradient(circle at 35% 30%,#fff,var(--hc) 62%);box-shadow:0 0 0 6px rgba(var(--hrgb),.12),0 0 34px rgba(var(--hrgb),.55)}
+.hub[aria-selected="true"] .rg-p{opacity:1}
+/* autoplay: the ring fills while this group is on screen, then the next one lights */
+.orbit.auto .hub[aria-selected="true"] .rg-p{animation:orbFill var(--dur,5s) linear forwards}
+@keyframes orbFill{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+.orb-panels{position:relative;margin-top:44px;min-height:calc(var(--sk)*2 + 104px)}
+.orb-sk{list-style:none;margin:0 auto;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:28px 18px}
+.orb-sk[hidden]{display:none}
+.orb-sk li{width:calc(var(--sk) + 44px);display:flex;flex-direction:column;align-items:center;gap:12px;
+  font-size:var(--fs-small);line-height:1.35;color:var(--text-2);text-wrap:balance;
+  opacity:0;transform:translateY(14px) scale(.7);animation:skIn .6s var(--ease) forwards;animation-delay:calc(var(--i)*70ms)}
+@keyframes skIn{to{opacity:1;transform:none}}
+.sk-c{position:relative;display:grid;place-items:center;width:var(--sk);height:var(--sk);border-radius:50%;font-size:calc(var(--sk)*.38);color:var(--hc);
+  background:radial-gradient(circle at 50% 0%,rgba(var(--hrgb),.16),rgba(255,255,255,.02) 70%);border:1px solid rgba(var(--hrgb),.28);
+  animation:skFloat 4.5s ease-in-out infinite;animation-delay:calc(var(--i)*-.7s)}
+/* a light arc circling each icon, then a reflector glow that passes from circle to circle */
+.sk-c::before{content:"";position:absolute;inset:-5px;border-radius:50%;
+  background:conic-gradient(from 0deg,rgba(var(--hrgb),.9),rgba(var(--hrgb),0) 35%,transparent);
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 1.5px),#000 calc(100% - 1px));mask:radial-gradient(farthest-side,transparent calc(100% - 1.5px),#000 calc(100% - 1px));
+  animation:skSpin 3.2s linear infinite;animation-delay:calc(var(--i)*-.45s)}
+.sk-c::after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:0 0 26px rgba(var(--hrgb),.5);opacity:0;
+  animation:skGlow 3.6s ease-in-out infinite;animation-delay:calc(var(--i)*.6s + .6s)}
+@keyframes skFloat{50%{transform:translateY(-5px)}}
+@keyframes skSpin{to{transform:rotate(360deg)}}
+@keyframes skGlow{0%,70%,100%{opacity:0}35%{opacity:1}}
+.orb-sk li:hover .sk-c{border-color:rgba(var(--hrgb),.7)}
+.orb-sk li:hover{color:var(--text)}
+.orb-hint{margin:28px 0 0;font-size:var(--fs-label);color:var(--muted);letter-spacing:.04em}
+@media(max-width:400px){ .orbit{--hub:46px} .orbit .orb-hubs{gap:0} .orbit .hub{font-size:.64rem;letter-spacing:-.01em} }
 
 /* ---------- 04 journey — milestones as a constellation; lines join them one by one ---------- */
 .sky{position:relative;max-width:980px;margin:0 auto;aspect-ratio:1000/290}
@@ -1501,8 +1521,11 @@ main{position:relative;z-index:2}
   .sec{padding-left:clamp(18px,5vw,56px);padding-right:clamp(18px,5vw,56px)}
   .sec{min-height:auto;padding-top:92px;padding-bottom:92px}
   #start{min-height:100svh;padding-top:72px;padding-bottom:24px}
-  .lane{grid-template-columns:1fr;padding:16px 4px 6px}
-  .lane-s{justify-content:flex-start;padding:6px 0 10px;gap:6px 16px}
+  .orbit{--hub:52px;--sk:58px}
+  .hub{font-size:.72rem;gap:9px}
+  .orb-panels{margin-top:36px;min-height:calc(var(--sk)*2 + 96px)}
+  .orb-sk{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px 8px}
+  .orb-sk li{width:auto;font-size:.8rem;gap:10px}
   .sky{aspect-ratio:1000/480}
   .star-t{font-size:.7rem}
   .gap{height:34vh}
@@ -1536,12 +1559,12 @@ main{position:relative;z-index:2}
   .desk-tools{top:auto;bottom:10px;right:10px}
   .hook-s{font-size:.85rem}
   .desk-toast{bottom:54px;font-size:.66rem;padding:8px 12px;max-width:86%}
-  .car{height:34px;margin-top:-17px}
   .screens{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
-  .lane+.lane::before{animation:none}
+  .orb-hubs::before,.sk-c,.sk-c::before,.sk-c::after{animation:none}
+  .orb-sk li{animation:none;opacity:1;transform:none}
 
   .hi-name .nl,.hi-hand{animation:none;color:var(--text)}
   .hi-hand{color:var(--warm)}
@@ -1590,9 +1613,9 @@ main{position:relative;z-index:2}
   .callout-t,.callout-s,.meta,.fc-n){font-size:var(--fs-label);line-height:1.4}
 :root :is(.bk-eye,.ch .bk-eye,.cs-kick,.mile-meta,.mile-mark,.ch .rg-n,.pains b,.ch .dr-n){font-weight:600;letter-spacing:.14em;text-transform:uppercase}
 /* weights: names, buttons and emphasis are medium, not semi-bold */
-:root :is(.hero-btn,.hero-hello,.desk-btn,.back,.lane-l,.ccase .bk-cap b,.ex-cap b,.ccase .impact span,.nl){font-weight:500}
+:root :is(.hero-btn,.hero-hello,.desk-btn,.back,.ccase .bk-cap b,.ex-cap b,.ccase .impact span,.nl){font-weight:500}
 :root :is(.ccase .impact span,.ccase .cs-meta dt){color:var(--muted)}
-:root :is(.hero-btn,.hero-hello,.lane-l,.lane-s li){font-size:var(--fs-body)}
+:root :is(.hero-btn,.hero-hello){font-size:var(--fs-body)}
 :root :is(.star-t,.trip-cap small,.jr-count,.jr-count b){font-size:var(--fs-small)}
 /* bright white is for headings and for whatever is active or chosen */
 :root :is(.chips button[aria-pressed="true"],.nav-links a[aria-current="true"],.dc-opts.done li.pick){font-weight:600}
@@ -1706,28 +1729,31 @@ main{position:relative;z-index:2}
   </div>
 </section>
 
-<!-- ═════════ 03 SKILLS — a stretch of road seen from above: one lane per group,
-     headlights drive through and each skill lights up like a road reflector as they pass ═════════ -->
+<!-- ═════════ 03 SKILLS — five glowing hubs; the lit one shows its skills as icon circles ═════════ -->
 <section class="sec" id="skills">
   <div class="wrap">
     <div class="sec-head">
       <h2 class="display h-sec">What I carry into every project</h2>
     </div>
-    <div class="lanes" id="lanes">
-      <div class="lane"><p class="lane-l">Understand</p>
-        <ul class="lane-s"><li>User research</li><li>Usability testing</li><li>Information architecture</li><li>User flows</li></ul></div>
-      <div class="lane"><p class="lane-l">Design</p>
-        <ul class="lane-s"><li>Wireframing</li><li>Interaction design</li><li>Visual design</li><li>Typography</li><li>Prototyping</li><li>Design systems</li></ul></div>
-      <div class="lane"><p class="lane-l">Collaborate</p>
-        <ul class="lane-s"><li>Founders and developers</li><li>Stakeholder communication</li><li>Developer handoff</li><li>AI design tools</li></ul></div>
-      <div class="lane"><p class="lane-l">Specialise</p>
-        <ul class="lane-s"><li>Role-based products</li><li>Data-dense dashboards</li><li>AI UX patterns</li><li>Trust and permission flows</li><li>Health data readability</li></ul></div>
-      <div class="lane lane-tools"><p class="lane-l">Tools</p>
-        <ul class="lane-s"><li>Figma</li><li>FigJam</li><li>Miro</li><li>Maze</li><li>Illustrator</li></ul></div>
+    <div class="orbit" id="orbit">
+      <div class="orb-hubs" role="tablist" aria-label="Skill groups">
+        <button class="hub" type="button" role="tab" id="hub-0" aria-controls="sk-0" aria-selected="true" tabindex="0" style="--hc:#8BDFFF;--hrgb:139,223,255"><span class="hub-c"><svg viewBox="0 0 36 36" aria-hidden="true"><circle class="rg-t" cx="18" cy="18" r="16"/><circle class="rg-p" cx="18" cy="18" r="16" pathLength="100"/></svg><i class="ph ph-magnifying-glass" aria-hidden="true"></i></span>Understand</button>
+        <button class="hub" type="button" role="tab" id="hub-1" aria-controls="sk-1" aria-selected="false" tabindex="-1" style="--hc:#B3A8FF;--hrgb:179,168,255"><span class="hub-c"><svg viewBox="0 0 36 36" aria-hidden="true"><circle class="rg-t" cx="18" cy="18" r="16"/><circle class="rg-p" cx="18" cy="18" r="16" pathLength="100"/></svg><i class="ph ph-paint-brush" aria-hidden="true"></i></span>Design</button>
+        <button class="hub" type="button" role="tab" id="hub-2" aria-controls="sk-2" aria-selected="false" tabindex="-1" style="--hc:#8CF0C6;--hrgb:140,240,198"><span class="hub-c"><svg viewBox="0 0 36 36" aria-hidden="true"><circle class="rg-t" cx="18" cy="18" r="16"/><circle class="rg-p" cx="18" cy="18" r="16" pathLength="100"/></svg><i class="ph ph-users-three" aria-hidden="true"></i></span>Collaborate</button>
+        <button class="hub" type="button" role="tab" id="hub-3" aria-controls="sk-3" aria-selected="false" tabindex="-1" style="--hc:#FF9EC4;--hrgb:255,158,196"><span class="hub-c"><svg viewBox="0 0 36 36" aria-hidden="true"><circle class="rg-t" cx="18" cy="18" r="16"/><circle class="rg-p" cx="18" cy="18" r="16" pathLength="100"/></svg><i class="ph ph-target" aria-hidden="true"></i></span>Specialise</button>
+        <button class="hub" type="button" role="tab" id="hub-4" aria-controls="sk-4" aria-selected="false" tabindex="-1" style="--hc:#FFC98B;--hrgb:255,201,139"><span class="hub-c"><svg viewBox="0 0 36 36" aria-hidden="true"><circle class="rg-t" cx="18" cy="18" r="16"/><circle class="rg-p" cx="18" cy="18" r="16" pathLength="100"/></svg><i class="ph ph-wrench" aria-hidden="true"></i></span>Tools</button>
+      </div>
+      <div class="orb-panels">
+        <ul class="orb-sk" id="sk-0" role="tabpanel" aria-labelledby="hub-0" style="--hc:#8BDFFF;--hrgb:139,223,255"><li style="--i:0"><span class="sk-c"><i class="ph ph-user-focus" aria-hidden="true"></i></span>User research</li><li style="--i:1"><span class="sk-c"><i class="ph ph-cursor-click" aria-hidden="true"></i></span>Usability testing</li><li style="--i:2"><span class="sk-c"><i class="ph ph-tree-structure" aria-hidden="true"></i></span>Information architecture</li><li style="--i:3"><span class="sk-c"><i class="ph ph-flow-arrow" aria-hidden="true"></i></span>User flows</li></ul>
+        <ul class="orb-sk" id="sk-1" role="tabpanel" aria-labelledby="hub-1" style="--hc:#B3A8FF;--hrgb:179,168,255" hidden><li style="--i:0"><span class="sk-c"><i class="ph ph-layout" aria-hidden="true"></i></span>Wireframing</li><li style="--i:1"><span class="sk-c"><i class="ph ph-hand-tap" aria-hidden="true"></i></span>Interaction design</li><li style="--i:2"><span class="sk-c"><i class="ph ph-palette" aria-hidden="true"></i></span>Visual design</li><li style="--i:3"><span class="sk-c"><i class="ph ph-text-aa" aria-hidden="true"></i></span>Typography</li><li style="--i:4"><span class="sk-c"><i class="ph ph-play" aria-hidden="true"></i></span>Prototyping</li><li style="--i:5"><span class="sk-c"><i class="ph ph-stack" aria-hidden="true"></i></span>Design systems</li></ul>
+        <ul class="orb-sk" id="sk-2" role="tabpanel" aria-labelledby="hub-2" style="--hc:#8CF0C6;--hrgb:140,240,198" hidden><li style="--i:0"><span class="sk-c"><i class="ph ph-handshake" aria-hidden="true"></i></span>Founders and developers</li><li style="--i:1"><span class="sk-c"><i class="ph ph-chats-circle" aria-hidden="true"></i></span>Stakeholder communication</li><li style="--i:2"><span class="sk-c"><i class="ph ph-code" aria-hidden="true"></i></span>Developer handoff</li><li style="--i:3"><span class="sk-c"><i class="ph ph-sparkle" aria-hidden="true"></i></span>AI design tools</li></ul>
+        <ul class="orb-sk" id="sk-3" role="tabpanel" aria-labelledby="hub-3" style="--hc:#FF9EC4;--hrgb:255,158,196" hidden><li style="--i:0"><span class="sk-c"><i class="ph ph-identification-badge" aria-hidden="true"></i></span>Role-based products</li><li style="--i:1"><span class="sk-c"><i class="ph ph-chart-bar" aria-hidden="true"></i></span>Data-dense dashboards</li><li style="--i:2"><span class="sk-c"><i class="ph ph-brain" aria-hidden="true"></i></span>AI UX patterns</li><li style="--i:3"><span class="sk-c"><i class="ph ph-shield-check" aria-hidden="true"></i></span>Trust and permission flows</li><li style="--i:4"><span class="sk-c"><i class="ph ph-heartbeat" aria-hidden="true"></i></span>Health data readability</li></ul>
+        <ul class="orb-sk" id="sk-4" role="tabpanel" aria-labelledby="hub-4" style="--hc:#FFC98B;--hrgb:255,201,139" hidden><li style="--i:0"><span class="sk-c"><i class="ph ph-figma-logo" aria-hidden="true"></i></span>Figma</li><li style="--i:1"><span class="sk-c"><i class="ph ph-sticker" aria-hidden="true"></i></span>FigJam</li><li style="--i:2"><span class="sk-c"><i class="ph ph-squares-four" aria-hidden="true"></i></span>Miro</li><li style="--i:3"><span class="sk-c"><i class="ph ph-path" aria-hidden="true"></i></span>Maze</li><li style="--i:4"><span class="sk-c"><i class="ph ph-pen-nib" aria-hidden="true"></i></span>Illustrator</li></ul>
+      </div>
+      <p class="orb-hint">Tap a circle to explore</p>
     </div>
   </div>
 </section>
-
 <!-- ═════════ 04 JOURNEY — the milestones are stars; lines join them in order, up to today ═════════ -->
 <section class="sec" id="journey">
   <div class="wrap">
@@ -2650,51 +2676,41 @@ document.querySelectorAll("#navlinks a").forEach(a=>a.addEventListener("click",(
 
 function depth(){}
 
-/* ═══════ SKILLS — headlights drive through each lane on a loop, at their own speed.
-   A skill lights up as a headlight reaches it, then fades, like a road reflector. Runs only on screen. ═══════ */
+/* ═══════ SKILLS — one hub lit at a time. While on screen it moves to the next group every few seconds
+   (the ring around the hub fills as the timer); any tap, key or swipe takes over and stops the autoplay. ═══════ */
 (function(){
-  const lanesEl=document.getElementById("lanes");if(!lanesEl) return;
-  const lanes=[...lanesEl.querySelectorAll(".lane")];
-  if(RM){ lanesEl.querySelectorAll(".lane-s li").forEach(li=>li.style.setProperty("--g",.5)); return; }
-  const SPEED=[150,120,170,135];                     // px per second, one per lane
-  const cars=lanes.map((ln,i)=>{
-    // the car drives only through the skills area, never over the lane label
-    const road=ln.querySelector(".lane-s"),c=document.createElement("span");c.className="car";c.setAttribute("aria-hidden","true");road.appendChild(c);
-    return {el:c,lane:road,items:[...ln.querySelectorAll(".lane-s li")],x:-200-i*260,v:SPEED[i%SPEED.length],pos:[],w:0};
+  const orbit=document.getElementById("orbit");if(!orbit) return;
+  const hubs=[...orbit.querySelectorAll(".hub")],panels=[...orbit.querySelectorAll(".orb-sk")];
+  const DUR=5000;let cur=0,timer=0,auto=!RM,seen=false;
+  orbit.style.setProperty("--dur",DUR+"ms");
+  function show(i,focus){
+    cur=(i+hubs.length)%hubs.length;
+    hubs.forEach((h,k)=>{const on=k===cur;h.setAttribute("aria-selected",on);h.tabIndex=on?0:-1;panels[k].hidden=!on;});
+    // restart the ring timer for the newly lit hub
+    const rg=hubs[cur].querySelector(".rg-p");rg.style.animation="none";void rg.getBoundingClientRect();rg.style.animation="";
+    if(focus) hubs[cur].focus();
+    clearTimeout(timer);
+    if(auto&&seen) timer=setTimeout(()=>show(cur+1),DUR);
+  }
+  function stop(){auto=false;clearTimeout(timer);orbit.classList.remove("auto");}
+  hubs.forEach((h,i)=>h.addEventListener("click",()=>{stop();show(i);}));
+  orbit.querySelector(".orb-hubs").addEventListener("keydown",e=>{
+    const d={ArrowRight:1,ArrowLeft:-1}[e.key];
+    if(d){e.preventDefault();stop();show(cur+d,true);}
+    else if(e.key==="Home"||e.key==="End"){e.preventDefault();stop();show(e.key==="Home"?0:hubs.length-1,true);}
   });
-  function measure(){
-    cars.forEach(c=>{
-      const r=c.lane.getBoundingClientRect();c.w=r.width;
-      c.pos=c.items.map(li=>{const b=li.getBoundingClientRect();return [b.left-r.left,b.right-r.left,(b.top+b.bottom)/2-r.top];});
-      c.h=r.height;
-    });
+  // swipe across the skills to move between groups
+  let sx=0,sy=0;const pp=orbit.querySelector(".orb-panels");
+  pp.addEventListener("touchstart",e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+  pp.addEventListener("touchend",e=>{const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.4){stop();show(cur+(dx<0?1:-1));}},{passive:true});
+  // autoplay only while visible, and it waits while the pointer rests on it
+  if(auto){
+    orbit.classList.add("auto");
+    new IntersectionObserver(es=>{seen=es[0].isIntersecting;if(auto) show(cur);},{threshold:.4}).observe(orbit);
+    orbit.addEventListener("mouseenter",()=>{if(auto){clearTimeout(timer);orbit.classList.remove("auto");}});
+    orbit.addEventListener("mouseleave",()=>{if(auto&&seen){orbit.classList.add("auto");show(cur);}});
   }
-  let on=false,raf=0,last=0;
-  const glow=new WeakMap();
-  function frame(now){
-    const dt=Math.min(.05,(now-last)/1000);last=now;
-    cars.forEach(c=>{
-      c.x+=c.v*dt;
-      if(c.x>c.w+150) c.x=-40-Math.random()*260;             // loop back with a little gap
-      c.el.style.transform=`translateX(${c.x.toFixed(1)}px)`;
-      c.items.forEach((li,j)=>{
-        const [l,r]=c.pos[j];
-        let g=glow.get(li)||0;
-        if(c.x>=l-6&&c.x<=r+24) g=1;                            // headlight is on the word
-        else g=Math.max(0,g-dt*1.1);                             // then it fades like a reflector
-        glow.set(li,g);
-        li.style.setProperty("--g",g.toFixed(3));
-      });
-    });
-    raf=on?requestAnimationFrame(frame):0;
-  }
-  measure();
-  window.addEventListener("resize",measure);
-  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(measure);
-  new IntersectionObserver(es=>{
-    on=es[0].isIntersecting;
-    if(on&&!raf){ measure(); last=performance.now(); raf=requestAnimationFrame(frame); }
-  }).observe(lanesEl);
 })();
 
 /* ═══════ JOURNEY — a constellation. When it comes into view, lines join the stars in order up to today,
